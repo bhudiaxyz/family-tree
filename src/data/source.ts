@@ -15,7 +15,9 @@ export const listSagas = () => getJson<SagaIndexEntry[]>("sagas.json");
 export const loadSaga = async (id: string) => toTree(await getJson<SagaRecord>(`${encodeURIComponent(id)}.json`));
 
 export function toTree(s: SagaRecord): Tree {
-    const families = new Map(s.families.map((f) => [f.id, { parents: [] as string[], children: [] as string[], adoptive: f.adoptive }]));
+    const families = new Map(
+        s.families.map((f) => [f.id, { parents: [] as string[], children: [] as string[], adoptive: f.adoptive }])
+    );
     for (const m of s.members) {
         const f = families.get(m.family);
         if (!f) throw new Error(`${s.id}: member row references unknown family "${m.family}"`);

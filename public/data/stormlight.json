@@ -1,362 +1,362 @@
 {
-  "id": "stormlight",
-  "title": "The Stormlight Archive",
-  "source": {
-    "work": "The Stormlight Archive",
-    "medium": "Novel series (2010–), set in the Cosmere",
-    "author": "Brandon Sanderson",
-    "canon": "Novels (up to Wind and Truth)",
-    "genre": "Epic fantasy",
-    "covers": "House Kholin and its marriages, House Davar (Shallan's family), and Kaladin's family."
-  },
-  "notes": [
-    "Unnamed parents: Gavilar & Dalinar, and Evi & Toh, are parentless sibling groups.",
-    "Navani marries Gavilar, then after his death Dalinar."
-  ],
-  "houses": [
-    {
-      "name": "Kholin",
-      "color": "#2f5fb0"
+    "id": "stormlight",
+    "title": "The Stormlight Archive",
+    "source": {
+        "work": "The Stormlight Archive",
+        "medium": "Novel series (2010–), set in the Cosmere",
+        "author": "Brandon Sanderson",
+        "canon": "Novels (up to Wind and Truth)",
+        "genre": "Epic fantasy",
+        "covers": "House Kholin and its marriages, House Davar (Shallan's family), and Kaladin's family."
     },
-    {
-      "name": "Riran",
-      "color": "#d8c8a8"
-    },
-    {
-      "name": "Alethi",
-      "color": "#8a6a4a"
-    },
-    {
-      "name": "Davar",
-      "color": "#c44a3a"
-    },
-    {
-      "name": "Khinar",
-      "color": "#6a9a7a"
-    }
-  ],
-  "people": [
-    {
-      "id": "gavilar",
-      "name": "Gavilar Kholin",
-      "house": "Kholin",
-      "sex": "m"
-    },
-    {
-      "id": "navani",
-      "name": "Navani Kholin",
-      "house": "Kholin",
-      "sex": "f"
-    },
-    {
-      "id": "dalinar",
-      "name": "Dalinar Kholin",
-      "house": "Kholin",
-      "sex": "m"
-    },
-    {
-      "id": "evi",
-      "name": "Evi",
-      "house": "Riran",
-      "sex": "f"
-    },
-    {
-      "id": "toh",
-      "name": "Toh",
-      "house": "Riran",
-      "sex": "m"
-    },
-    {
-      "id": "elhokar",
-      "name": "Elhokar",
-      "house": "Kholin",
-      "sex": "m"
-    },
-    {
-      "id": "aesudan",
-      "name": "Aesudan",
-      "house": "Alethi",
-      "sex": "f"
-    },
-    {
-      "id": "gavinor",
-      "name": "Gavinor",
-      "house": "Kholin",
-      "sex": "m"
-    },
-    {
-      "id": "jasnah",
-      "name": "Jasnah Kholin",
-      "house": "Kholin",
-      "sex": "f"
-    },
-    {
-      "id": "adolin",
-      "name": "Adolin Kholin",
-      "house": "Kholin",
-      "sex": "m"
-    },
-    {
-      "id": "renarin",
-      "name": "Renarin Kholin",
-      "house": "Kholin",
-      "sex": "m"
-    },
-    {
-      "id": "shallan",
-      "name": "Shallan Davar",
-      "house": "Davar",
-      "sex": "f"
-    },
-    {
-      "id": "lin",
-      "name": "Lin Davar",
-      "house": "Davar",
-      "sex": "m"
-    },
-    {
-      "id": "helaran",
-      "name": "Helaran Davar",
-      "house": "Davar",
-      "sex": "m"
-    },
-    {
-      "id": "balat",
-      "name": "Balat Davar",
-      "house": "Davar",
-      "sex": "m"
-    },
-    {
-      "id": "wikim",
-      "name": "Wikim Davar",
-      "house": "Davar",
-      "sex": "m"
-    },
-    {
-      "id": "jushu",
-      "name": "Jushu Davar",
-      "house": "Davar",
-      "sex": "m"
-    },
-    {
-      "id": "lirin",
-      "name": "Lirin",
-      "house": "Khinar",
-      "sex": "m"
-    },
-    {
-      "id": "hesina",
-      "name": "Hesina",
-      "house": "Khinar",
-      "sex": "f"
-    },
-    {
-      "id": "kaladin",
-      "name": "Kaladin",
-      "house": "Khinar",
-      "sex": "m"
-    },
-    {
-      "id": "tien",
-      "name": "Tien",
-      "house": "Khinar",
-      "sex": "m"
-    },
-    {
-      "id": "oroden",
-      "name": "Oroden",
-      "house": "Khinar",
-      "sex": "m"
-    }
-  ],
-  "families": [
-    {
-      "id": "stormlight-f1",
-      "adoptive": false
-    },
-    {
-      "id": "stormlight-f2",
-      "adoptive": false
-    },
-    {
-      "id": "stormlight-f3",
-      "adoptive": false
-    },
-    {
-      "id": "stormlight-f4",
-      "adoptive": false
-    },
-    {
-      "id": "stormlight-f5",
-      "adoptive": false
-    },
-    {
-      "id": "stormlight-f6",
-      "adoptive": false
-    },
-    {
-      "id": "stormlight-f7",
-      "adoptive": false
-    },
-    {
-      "id": "stormlight-f8",
-      "adoptive": false
-    },
-    {
-      "id": "stormlight-f9",
-      "adoptive": false
-    }
-  ],
-  "members": [
-    {
-      "family": "stormlight-f1",
-      "person": "gavilar",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f1",
-      "person": "dalinar",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f2",
-      "person": "gavilar",
-      "role": "parent"
-    },
-    {
-      "family": "stormlight-f2",
-      "person": "navani",
-      "role": "parent"
-    },
-    {
-      "family": "stormlight-f2",
-      "person": "elhokar",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f2",
-      "person": "jasnah",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f3",
-      "person": "elhokar",
-      "role": "parent"
-    },
-    {
-      "family": "stormlight-f3",
-      "person": "aesudan",
-      "role": "parent"
-    },
-    {
-      "family": "stormlight-f3",
-      "person": "gavinor",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f4",
-      "person": "evi",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f4",
-      "person": "toh",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f5",
-      "person": "dalinar",
-      "role": "parent"
-    },
-    {
-      "family": "stormlight-f5",
-      "person": "evi",
-      "role": "parent"
-    },
-    {
-      "family": "stormlight-f5",
-      "person": "adolin",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f5",
-      "person": "renarin",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f6",
-      "person": "dalinar",
-      "role": "parent"
-    },
-    {
-      "family": "stormlight-f6",
-      "person": "navani",
-      "role": "parent"
-    },
-    {
-      "family": "stormlight-f7",
-      "person": "lin",
-      "role": "parent"
-    },
-    {
-      "family": "stormlight-f7",
-      "person": "helaran",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f7",
-      "person": "balat",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f7",
-      "person": "wikim",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f7",
-      "person": "jushu",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f7",
-      "person": "shallan",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f8",
-      "person": "adolin",
-      "role": "parent"
-    },
-    {
-      "family": "stormlight-f8",
-      "person": "shallan",
-      "role": "parent"
-    },
-    {
-      "family": "stormlight-f9",
-      "person": "lirin",
-      "role": "parent"
-    },
-    {
-      "family": "stormlight-f9",
-      "person": "hesina",
-      "role": "parent"
-    },
-    {
-      "family": "stormlight-f9",
-      "person": "kaladin",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f9",
-      "person": "tien",
-      "role": "child"
-    },
-    {
-      "family": "stormlight-f9",
-      "person": "oroden",
-      "role": "child"
-    }
-  ]
+    "notes": [
+        "Unnamed parents: Gavilar & Dalinar, and Evi & Toh, are parentless sibling groups.",
+        "Navani marries Gavilar, then after his death Dalinar."
+    ],
+    "houses": [
+        {
+            "name": "Kholin",
+            "color": "#2f5fb0"
+        },
+        {
+            "name": "Riran",
+            "color": "#d8c8a8"
+        },
+        {
+            "name": "Alethi",
+            "color": "#8a6a4a"
+        },
+        {
+            "name": "Davar",
+            "color": "#c44a3a"
+        },
+        {
+            "name": "Khinar",
+            "color": "#6a9a7a"
+        }
+    ],
+    "people": [
+        {
+            "id": "gavilar",
+            "name": "Gavilar Kholin",
+            "house": "Kholin",
+            "sex": "m"
+        },
+        {
+            "id": "navani",
+            "name": "Navani Kholin",
+            "house": "Kholin",
+            "sex": "f"
+        },
+        {
+            "id": "dalinar",
+            "name": "Dalinar Kholin",
+            "house": "Kholin",
+            "sex": "m"
+        },
+        {
+            "id": "evi",
+            "name": "Evi",
+            "house": "Riran",
+            "sex": "f"
+        },
+        {
+            "id": "toh",
+            "name": "Toh",
+            "house": "Riran",
+            "sex": "m"
+        },
+        {
+            "id": "elhokar",
+            "name": "Elhokar",
+            "house": "Kholin",
+            "sex": "m"
+        },
+        {
+            "id": "aesudan",
+            "name": "Aesudan",
+            "house": "Alethi",
+            "sex": "f"
+        },
+        {
+            "id": "gavinor",
+            "name": "Gavinor",
+            "house": "Kholin",
+            "sex": "m"
+        },
+        {
+            "id": "jasnah",
+            "name": "Jasnah Kholin",
+            "house": "Kholin",
+            "sex": "f"
+        },
+        {
+            "id": "adolin",
+            "name": "Adolin Kholin",
+            "house": "Kholin",
+            "sex": "m"
+        },
+        {
+            "id": "renarin",
+            "name": "Renarin Kholin",
+            "house": "Kholin",
+            "sex": "m"
+        },
+        {
+            "id": "shallan",
+            "name": "Shallan Davar",
+            "house": "Davar",
+            "sex": "f"
+        },
+        {
+            "id": "lin",
+            "name": "Lin Davar",
+            "house": "Davar",
+            "sex": "m"
+        },
+        {
+            "id": "helaran",
+            "name": "Helaran Davar",
+            "house": "Davar",
+            "sex": "m"
+        },
+        {
+            "id": "balat",
+            "name": "Balat Davar",
+            "house": "Davar",
+            "sex": "m"
+        },
+        {
+            "id": "wikim",
+            "name": "Wikim Davar",
+            "house": "Davar",
+            "sex": "m"
+        },
+        {
+            "id": "jushu",
+            "name": "Jushu Davar",
+            "house": "Davar",
+            "sex": "m"
+        },
+        {
+            "id": "lirin",
+            "name": "Lirin",
+            "house": "Khinar",
+            "sex": "m"
+        },
+        {
+            "id": "hesina",
+            "name": "Hesina",
+            "house": "Khinar",
+            "sex": "f"
+        },
+        {
+            "id": "kaladin",
+            "name": "Kaladin",
+            "house": "Khinar",
+            "sex": "m"
+        },
+        {
+            "id": "tien",
+            "name": "Tien",
+            "house": "Khinar",
+            "sex": "m"
+        },
+        {
+            "id": "oroden",
+            "name": "Oroden",
+            "house": "Khinar",
+            "sex": "m"
+        }
+    ],
+    "families": [
+        {
+            "id": "stormlight-f1",
+            "adoptive": false
+        },
+        {
+            "id": "stormlight-f2",
+            "adoptive": false
+        },
+        {
+            "id": "stormlight-f3",
+            "adoptive": false
+        },
+        {
+            "id": "stormlight-f4",
+            "adoptive": false
+        },
+        {
+            "id": "stormlight-f5",
+            "adoptive": false
+        },
+        {
+            "id": "stormlight-f6",
+            "adoptive": false
+        },
+        {
+            "id": "stormlight-f7",
+            "adoptive": false
+        },
+        {
+            "id": "stormlight-f8",
+            "adoptive": false
+        },
+        {
+            "id": "stormlight-f9",
+            "adoptive": false
+        }
+    ],
+    "members": [
+        {
+            "family": "stormlight-f1",
+            "person": "gavilar",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f1",
+            "person": "dalinar",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f2",
+            "person": "gavilar",
+            "role": "parent"
+        },
+        {
+            "family": "stormlight-f2",
+            "person": "navani",
+            "role": "parent"
+        },
+        {
+            "family": "stormlight-f2",
+            "person": "elhokar",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f2",
+            "person": "jasnah",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f3",
+            "person": "elhokar",
+            "role": "parent"
+        },
+        {
+            "family": "stormlight-f3",
+            "person": "aesudan",
+            "role": "parent"
+        },
+        {
+            "family": "stormlight-f3",
+            "person": "gavinor",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f4",
+            "person": "evi",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f4",
+            "person": "toh",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f5",
+            "person": "dalinar",
+            "role": "parent"
+        },
+        {
+            "family": "stormlight-f5",
+            "person": "evi",
+            "role": "parent"
+        },
+        {
+            "family": "stormlight-f5",
+            "person": "adolin",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f5",
+            "person": "renarin",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f6",
+            "person": "dalinar",
+            "role": "parent"
+        },
+        {
+            "family": "stormlight-f6",
+            "person": "navani",
+            "role": "parent"
+        },
+        {
+            "family": "stormlight-f7",
+            "person": "lin",
+            "role": "parent"
+        },
+        {
+            "family": "stormlight-f7",
+            "person": "helaran",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f7",
+            "person": "balat",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f7",
+            "person": "wikim",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f7",
+            "person": "jushu",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f7",
+            "person": "shallan",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f8",
+            "person": "adolin",
+            "role": "parent"
+        },
+        {
+            "family": "stormlight-f8",
+            "person": "shallan",
+            "role": "parent"
+        },
+        {
+            "family": "stormlight-f9",
+            "person": "lirin",
+            "role": "parent"
+        },
+        {
+            "family": "stormlight-f9",
+            "person": "hesina",
+            "role": "parent"
+        },
+        {
+            "family": "stormlight-f9",
+            "person": "kaladin",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f9",
+            "person": "tien",
+            "role": "child"
+        },
+        {
+            "family": "stormlight-f9",
+            "person": "oroden",
+            "role": "child"
+        }
+    ]
 }

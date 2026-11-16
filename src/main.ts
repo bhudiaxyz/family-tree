@@ -135,7 +135,7 @@ function fitCamera() {
     const center = new THREE.Vector3((x[0] + x[1]) / 2, (y[0] + y[1]) / 2, (z[0] + z[1]) / 2);
     const radius = Math.hypot(x[1] - x[0], y[1] - y[0], z[1] - z[0]) / 2;
     const fov = THREE.MathUtils.degToRad(camera.fov) / 2;
-    const dist = radius / Math.sin(Math.min(fov, Math.atan(Math.tan(fov) * camera.aspect))) * 0.85;
+    const dist = (radius / Math.sin(Math.min(fov, Math.atan(Math.tan(fov) * camera.aspect)))) * 0.85;
     controls.target.lerp(center, 0.1);
     camera.position.lerp(center.clone().add(new THREE.Vector3(0, 0, dist)), 0.1);
 }

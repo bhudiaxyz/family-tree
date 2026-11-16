@@ -9,7 +9,11 @@ const dir = new URL("../public/data/", import.meta.url);
 const read = <T,>(f: string): T => JSON.parse(fs.readFileSync(new URL(f, dir), "utf8"));
 const index = read<SagaIndexEntry[]>("sagas.json");
 const files = fs.readdirSync(dir).filter((f) => f !== "sagas.json");
-assert.deepEqual(files.map((f) => f.replace(/\.json$/, "")).sort(), index.map((s) => s.id).sort(), "sagas.json out of sync with files");
+assert.deepEqual(
+    files.map((f) => f.replace(/\.json$/, "")).sort(),
+    index.map((s) => s.id).sort(),
+    "sagas.json out of sync with files"
+);
 
 for (const entry of index) {
     const s = read<SagaRecord>(`${entry.id}.json`);

@@ -1,404 +1,402 @@
 {
-  "id": "dune",
-  "title": "Dune",
-  "source": {
-    "work": "Dune",
-    "medium": "Novel series (1965–1985); Dune, Dune Messiah, Children of Dune",
-    "author": "Frank Herbert; Dmitri and Abulurd from the prequels by Brian Herbert & Kevin J. Anderson",
-    "canon": "Novels",
-    "genre": "Science fiction",
-    "covers": "Houses Atreides, Harkonnen and Corrino, the Fremen, and the Bene Gesserit, through Leto II and Ghanima."
-  },
-  "notes": [
-    "Jessica is the Baron's daughter by Mohiam (revealed in the novels), so Paul is Harkonnen by blood."
-  ],
-  "houses": [
-    {
-      "name": "Atreides",
-      "color": "#2e8b57"
-    },
-    {
-      "name": "Harkonnen",
-      "color": "#8a1c1c"
-    },
-    {
-      "name": "Corrino",
-      "color": "#d4a72c"
-    },
-    {
-      "name": "Bene Gesserit",
-      "color": "#6b4c9a"
-    },
-    {
-      "name": "Fremen",
-      "color": "#c98b4a"
-    }
-  ],
-  "people": [
-    {
-      "id": "paulus",
-      "name": "Paulus Atreides",
-      "house": "Atreides",
-      "sex": "m"
-    },
-    {
-      "id": "leto",
-      "name": "Duke Leto Atreides",
-      "house": "Atreides",
-      "sex": "m"
-    },
-    {
-      "id": "jessica",
-      "name": "Lady Jessica",
-      "house": "Bene Gesserit",
-      "sex": "f"
-    },
-    {
-      "id": "paul",
-      "name": "Paul Atreides (Muad'Dib)",
-      "house": "Atreides",
-      "sex": "m"
-    },
-    {
-      "id": "alia",
-      "name": "Alia Atreides",
-      "house": "Atreides",
-      "sex": "f"
-    },
-    {
-      "id": "chani",
-      "name": "Chani",
-      "house": "Fremen",
-      "sex": "f"
-    },
-    {
-      "id": "liet",
-      "name": "Liet-Kynes",
-      "house": "Fremen",
-      "sex": "m"
-    },
-    {
-      "id": "faroula",
-      "name": "Faroula",
-      "house": "Fremen",
-      "sex": "f"
-    },
-    {
-      "id": "letoFirst",
-      "name": "Leto (first son)",
-      "house": "Atreides",
-      "sex": "m"
-    },
-    {
-      "id": "leto2",
-      "name": "Leto II",
-      "house": "Atreides",
-      "sex": "m"
-    },
-    {
-      "id": "ghanima",
-      "name": "Ghanima",
-      "house": "Atreides",
-      "sex": "f"
-    },
-    {
-      "id": "duncan",
-      "name": "Duncan Idaho (ghola)",
-      "house": "Atreides",
-      "sex": "m"
-    },
-    {
-      "id": "dmitri",
-      "name": "Dmitri Harkonnen",
-      "house": "Harkonnen",
-      "sex": "m"
-    },
-    {
-      "id": "vladimir",
-      "name": "Baron Vladimir Harkonnen",
-      "house": "Harkonnen",
-      "sex": "m"
-    },
-    {
-      "id": "abulurd",
-      "name": "Abulurd Rabban",
-      "house": "Harkonnen",
-      "sex": "m"
-    },
-    {
-      "id": "rabban",
-      "name": "Glossu Rabban",
-      "house": "Harkonnen",
-      "sex": "m"
-    },
-    {
-      "id": "feyd",
-      "name": "Feyd-Rautha",
-      "house": "Harkonnen",
-      "sex": "m"
-    },
-    {
-      "id": "gaius",
-      "name": "Gaius Helen Mohiam",
-      "house": "Bene Gesserit",
-      "sex": "f"
-    },
-    {
-      "id": "shaddam",
-      "name": "Shaddam IV",
-      "house": "Corrino",
-      "sex": "m"
-    },
-    {
-      "id": "anirul",
-      "name": "Anirul",
-      "house": "Bene Gesserit",
-      "sex": "f"
-    },
-    {
-      "id": "irulan",
-      "name": "Princess Irulan",
-      "house": "Corrino",
-      "sex": "f"
-    },
-    {
-      "id": "wensicia",
-      "name": "Wensicia",
-      "house": "Corrino",
-      "sex": "f"
-    },
-    {
-      "id": "farad",
-      "name": "Farad'n Corrino",
-      "house": "Corrino",
-      "sex": "m"
-    }
-  ],
-  "families": [
-    {
-      "id": "dune-f1",
-      "adoptive": false
-    },
-    {
-      "id": "dune-f2",
-      "adoptive": false
-    },
-    {
-      "id": "dune-f3",
-      "adoptive": false
-    },
-    {
-      "id": "dune-f4",
-      "adoptive": false
-    },
-    {
-      "id": "dune-f5",
-      "adoptive": false
-    },
-    {
-      "id": "dune-f6",
-      "adoptive": false
-    },
-    {
-      "id": "dune-f7",
-      "adoptive": false
-    },
-    {
-      "id": "dune-f8",
-      "adoptive": false
-    },
-    {
-      "id": "dune-f9",
-      "adoptive": false
-    },
-    {
-      "id": "dune-f10",
-      "adoptive": false
-    },
-    {
-      "id": "dune-f11",
-      "adoptive": false
-    },
-    {
-      "id": "dune-f12",
-      "adoptive": false
-    }
-  ],
-  "members": [
-    {
-      "family": "dune-f1",
-      "person": "paulus",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f1",
-      "person": "leto",
-      "role": "child"
-    },
-    {
-      "family": "dune-f2",
-      "person": "dmitri",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f2",
-      "person": "vladimir",
-      "role": "child"
-    },
-    {
-      "family": "dune-f2",
-      "person": "abulurd",
-      "role": "child"
-    },
-    {
-      "family": "dune-f3",
-      "person": "vladimir",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f3",
-      "person": "gaius",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f3",
-      "person": "jessica",
-      "role": "child"
-    },
-    {
-      "family": "dune-f4",
-      "person": "abulurd",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f4",
-      "person": "rabban",
-      "role": "child"
-    },
-    {
-      "family": "dune-f4",
-      "person": "feyd",
-      "role": "child"
-    },
-    {
-      "family": "dune-f5",
-      "person": "leto",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f5",
-      "person": "jessica",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f5",
-      "person": "paul",
-      "role": "child"
-    },
-    {
-      "family": "dune-f5",
-      "person": "alia",
-      "role": "child"
-    },
-    {
-      "family": "dune-f6",
-      "person": "liet",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f6",
-      "person": "faroula",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f6",
-      "person": "chani",
-      "role": "child"
-    },
-    {
-      "family": "dune-f7",
-      "person": "paul",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f7",
-      "person": "chani",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f7",
-      "person": "letoFirst",
-      "role": "child"
-    },
-    {
-      "family": "dune-f7",
-      "person": "leto2",
-      "role": "child"
-    },
-    {
-      "family": "dune-f7",
-      "person": "ghanima",
-      "role": "child"
-    },
-    {
-      "family": "dune-f8",
-      "person": "shaddam",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f8",
-      "person": "anirul",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f8",
-      "person": "irulan",
-      "role": "child"
-    },
-    {
-      "family": "dune-f8",
-      "person": "wensicia",
-      "role": "child"
-    },
-    {
-      "family": "dune-f9",
-      "person": "paul",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f9",
-      "person": "irulan",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f10",
-      "person": "wensicia",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f10",
-      "person": "farad",
-      "role": "child"
-    },
-    {
-      "family": "dune-f11",
-      "person": "duncan",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f11",
-      "person": "alia",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f12",
-      "person": "farad",
-      "role": "parent"
-    },
-    {
-      "family": "dune-f12",
-      "person": "ghanima",
-      "role": "parent"
-    }
-  ]
+    "id": "dune",
+    "title": "Dune",
+    "source": {
+        "work": "Dune",
+        "medium": "Novel series (1965–1985); Dune, Dune Messiah, Children of Dune",
+        "author": "Frank Herbert; Dmitri and Abulurd from the prequels by Brian Herbert & Kevin J. Anderson",
+        "canon": "Novels",
+        "genre": "Science fiction",
+        "covers": "Houses Atreides, Harkonnen and Corrino, the Fremen, and the Bene Gesserit, through Leto II and Ghanima."
+    },
+    "notes": ["Jessica is the Baron's daughter by Mohiam (revealed in the novels), so Paul is Harkonnen by blood."],
+    "houses": [
+        {
+            "name": "Atreides",
+            "color": "#2e8b57"
+        },
+        {
+            "name": "Harkonnen",
+            "color": "#8a1c1c"
+        },
+        {
+            "name": "Corrino",
+            "color": "#d4a72c"
+        },
+        {
+            "name": "Bene Gesserit",
+            "color": "#6b4c9a"
+        },
+        {
+            "name": "Fremen",
+            "color": "#c98b4a"
+        }
+    ],
+    "people": [
+        {
+            "id": "paulus",
+            "name": "Paulus Atreides",
+            "house": "Atreides",
+            "sex": "m"
+        },
+        {
+            "id": "leto",
+            "name": "Duke Leto Atreides",
+            "house": "Atreides",
+            "sex": "m"
+        },
+        {
+            "id": "jessica",
+            "name": "Lady Jessica",
+            "house": "Bene Gesserit",
+            "sex": "f"
+        },
+        {
+            "id": "paul",
+            "name": "Paul Atreides (Muad'Dib)",
+            "house": "Atreides",
+            "sex": "m"
+        },
+        {
+            "id": "alia",
+            "name": "Alia Atreides",
+            "house": "Atreides",
+            "sex": "f"
+        },
+        {
+            "id": "chani",
+            "name": "Chani",
+            "house": "Fremen",
+            "sex": "f"
+        },
+        {
+            "id": "liet",
+            "name": "Liet-Kynes",
+            "house": "Fremen",
+            "sex": "m"
+        },
+        {
+            "id": "faroula",
+            "name": "Faroula",
+            "house": "Fremen",
+            "sex": "f"
+        },
+        {
+            "id": "letoFirst",
+            "name": "Leto (first son)",
+            "house": "Atreides",
+            "sex": "m"
+        },
+        {
+            "id": "leto2",
+            "name": "Leto II",
+            "house": "Atreides",
+            "sex": "m"
+        },
+        {
+            "id": "ghanima",
+            "name": "Ghanima",
+            "house": "Atreides",
+            "sex": "f"
+        },
+        {
+            "id": "duncan",
+            "name": "Duncan Idaho (ghola)",
+            "house": "Atreides",
+            "sex": "m"
+        },
+        {
+            "id": "dmitri",
+            "name": "Dmitri Harkonnen",
+            "house": "Harkonnen",
+            "sex": "m"
+        },
+        {
+            "id": "vladimir",
+            "name": "Baron Vladimir Harkonnen",
+            "house": "Harkonnen",
+            "sex": "m"
+        },
+        {
+            "id": "abulurd",
+            "name": "Abulurd Rabban",
+            "house": "Harkonnen",
+            "sex": "m"
+        },
+        {
+            "id": "rabban",
+            "name": "Glossu Rabban",
+            "house": "Harkonnen",
+            "sex": "m"
+        },
+        {
+            "id": "feyd",
+            "name": "Feyd-Rautha",
+            "house": "Harkonnen",
+            "sex": "m"
+        },
+        {
+            "id": "gaius",
+            "name": "Gaius Helen Mohiam",
+            "house": "Bene Gesserit",
+            "sex": "f"
+        },
+        {
+            "id": "shaddam",
+            "name": "Shaddam IV",
+            "house": "Corrino",
+            "sex": "m"
+        },
+        {
+            "id": "anirul",
+            "name": "Anirul",
+            "house": "Bene Gesserit",
+            "sex": "f"
+        },
+        {
+            "id": "irulan",
+            "name": "Princess Irulan",
+            "house": "Corrino",
+            "sex": "f"
+        },
+        {
+            "id": "wensicia",
+            "name": "Wensicia",
+            "house": "Corrino",
+            "sex": "f"
+        },
+        {
+            "id": "farad",
+            "name": "Farad'n Corrino",
+            "house": "Corrino",
+            "sex": "m"
+        }
+    ],
+    "families": [
+        {
+            "id": "dune-f1",
+            "adoptive": false
+        },
+        {
+            "id": "dune-f2",
+            "adoptive": false
+        },
+        {
+            "id": "dune-f3",
+            "adoptive": false
+        },
+        {
+            "id": "dune-f4",
+            "adoptive": false
+        },
+        {
+            "id": "dune-f5",
+            "adoptive": false
+        },
+        {
+            "id": "dune-f6",
+            "adoptive": false
+        },
+        {
+            "id": "dune-f7",
+            "adoptive": false
+        },
+        {
+            "id": "dune-f8",
+            "adoptive": false
+        },
+        {
+            "id": "dune-f9",
+            "adoptive": false
+        },
+        {
+            "id": "dune-f10",
+            "adoptive": false
+        },
+        {
+            "id": "dune-f11",
+            "adoptive": false
+        },
+        {
+            "id": "dune-f12",
+            "adoptive": false
+        }
+    ],
+    "members": [
+        {
+            "family": "dune-f1",
+            "person": "paulus",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f1",
+            "person": "leto",
+            "role": "child"
+        },
+        {
+            "family": "dune-f2",
+            "person": "dmitri",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f2",
+            "person": "vladimir",
+            "role": "child"
+        },
+        {
+            "family": "dune-f2",
+            "person": "abulurd",
+            "role": "child"
+        },
+        {
+            "family": "dune-f3",
+            "person": "vladimir",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f3",
+            "person": "gaius",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f3",
+            "person": "jessica",
+            "role": "child"
+        },
+        {
+            "family": "dune-f4",
+            "person": "abulurd",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f4",
+            "person": "rabban",
+            "role": "child"
+        },
+        {
+            "family": "dune-f4",
+            "person": "feyd",
+            "role": "child"
+        },
+        {
+            "family": "dune-f5",
+            "person": "leto",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f5",
+            "person": "jessica",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f5",
+            "person": "paul",
+            "role": "child"
+        },
+        {
+            "family": "dune-f5",
+            "person": "alia",
+            "role": "child"
+        },
+        {
+            "family": "dune-f6",
+            "person": "liet",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f6",
+            "person": "faroula",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f6",
+            "person": "chani",
+            "role": "child"
+        },
+        {
+            "family": "dune-f7",
+            "person": "paul",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f7",
+            "person": "chani",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f7",
+            "person": "letoFirst",
+            "role": "child"
+        },
+        {
+            "family": "dune-f7",
+            "person": "leto2",
+            "role": "child"
+        },
+        {
+            "family": "dune-f7",
+            "person": "ghanima",
+            "role": "child"
+        },
+        {
+            "family": "dune-f8",
+            "person": "shaddam",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f8",
+            "person": "anirul",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f8",
+            "person": "irulan",
+            "role": "child"
+        },
+        {
+            "family": "dune-f8",
+            "person": "wensicia",
+            "role": "child"
+        },
+        {
+            "family": "dune-f9",
+            "person": "paul",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f9",
+            "person": "irulan",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f10",
+            "person": "wensicia",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f10",
+            "person": "farad",
+            "role": "child"
+        },
+        {
+            "family": "dune-f11",
+            "person": "duncan",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f11",
+            "person": "alia",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f12",
+            "person": "farad",
+            "role": "parent"
+        },
+        {
+            "family": "dune-f12",
+            "person": "ghanima",
+            "role": "parent"
+        }
+    ]
 }

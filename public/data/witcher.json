@@ -1,352 +1,352 @@
 {
-  "id": "witcher",
-  "title": "The Witcher",
-  "source": {
-    "work": "The Witcher",
-    "medium": "Novel and short-story series (1986–2013), the Witcher saga",
-    "author": "Andrzej Sapkowski",
-    "canon": "Books (not the games or the Netflix series)",
-    "genre": "Fantasy (Slavic-inspired)",
-    "covers": "The royal line of Cintra and the Elder Blood from Lara Dorren to Ciri, and her guardians Geralt and Yennefer."
-  },
-  "notes": [
-    "Ciri's names trace the Elder Blood: Cirilla, Fiona, Elen, Riannon.",
-    "Geralt and Yennefer are Ciri's guardians by destiny, not adoption; modelled as adoptive parents."
-  ],
-  "houses": [
-    {
-      "name": "Aen Seidhe",
-      "color": "#9ad8b0"
+    "id": "witcher",
+    "title": "The Witcher",
+    "source": {
+        "work": "The Witcher",
+        "medium": "Novel and short-story series (1986–2013), the Witcher saga",
+        "author": "Andrzej Sapkowski",
+        "canon": "Books (not the games or the Netflix series)",
+        "genre": "Fantasy (Slavic-inspired)",
+        "covers": "The royal line of Cintra and the Elder Blood from Lara Dorren to Ciri, and her guardians Geralt and Yennefer."
     },
-    {
-      "name": "Lod",
-      "color": "#b0a8d8"
-    },
-    {
-      "name": "Cintra",
-      "color": "#d4a72c"
-    },
-    {
-      "name": "Temeria",
-      "color": "#3b6fb6"
-    },
-    {
-      "name": "Kovir",
-      "color": "#7fa8c8"
-    },
-    {
-      "name": "Ebbing",
-      "color": "#a87a4a"
-    },
-    {
-      "name": "Skellige",
-      "color": "#4a8a9a"
-    },
-    {
-      "name": "Nilfgaard",
-      "color": "#2a2a3a"
-    },
-    {
-      "name": "Witchers",
-      "color": "#a8a8b0"
-    },
-    {
-      "name": "Sorceresses",
-      "color": "#6a3a8a"
-    }
-  ],
-  "people": [
-    {
-      "id": "lara",
-      "name": "Lara Dorren",
-      "house": "Aen Seidhe",
-      "sex": "f"
-    },
-    {
-      "id": "cregennan",
-      "name": "Cregennan of Lod",
-      "house": "Lod",
-      "sex": "m"
-    },
-    {
-      "id": "riannon",
-      "name": "Riannon",
-      "house": "Cintra",
-      "sex": "f"
-    },
-    {
-      "id": "goidemar",
-      "name": "Goidemar",
-      "house": "Temeria",
-      "sex": "m"
-    },
-    {
-      "id": "fiona",
-      "name": "Fiona",
-      "house": "Cintra",
-      "sex": "f"
-    },
-    {
-      "id": "corbett",
-      "name": "Corbett",
-      "house": "Cintra",
-      "sex": "m"
-    },
-    {
-      "id": "elen",
-      "name": "Elen of Kovir",
-      "house": "Kovir",
-      "sex": "f"
-    },
-    {
-      "id": "dagorad",
-      "name": "Dagorad",
-      "house": "Cintra",
-      "sex": "m"
-    },
-    {
-      "id": "adalia",
-      "name": "Adalia the Leech",
-      "house": "Cintra",
-      "sex": "f"
-    },
-    {
-      "id": "roegner",
-      "name": "Roegner of Ebbing",
-      "house": "Ebbing",
-      "sex": "m"
-    },
-    {
-      "id": "calanthe",
-      "name": "Calanthe",
-      "house": "Cintra",
-      "sex": "f"
-    },
-    {
-      "id": "eist",
-      "name": "Eist Tuirseach",
-      "house": "Skellige",
-      "sex": "m"
-    },
-    {
-      "id": "pavetta",
-      "name": "Pavetta",
-      "house": "Cintra",
-      "sex": "f"
-    },
-    {
-      "id": "duny",
-      "name": "Duny (Emhyr var Emreis)",
-      "house": "Nilfgaard",
-      "sex": "m"
-    },
-    {
-      "id": "fergus",
-      "name": "Fergus var Emreis",
-      "house": "Nilfgaard",
-      "sex": "m"
-    },
-    {
-      "id": "ciri",
-      "name": "Cirilla Fiona Elen Riannon",
-      "house": "Cintra",
-      "sex": "f"
-    },
-    {
-      "id": "geralt",
-      "name": "Geralt of Rivia",
-      "house": "Witchers",
-      "sex": "m"
-    },
-    {
-      "id": "yennefer",
-      "name": "Yennefer of Vengerberg",
-      "house": "Sorceresses",
-      "sex": "f"
-    }
-  ],
-  "families": [
-    {
-      "id": "witcher-f1",
-      "adoptive": false
-    },
-    {
-      "id": "witcher-f2",
-      "adoptive": false
-    },
-    {
-      "id": "witcher-f3",
-      "adoptive": false
-    },
-    {
-      "id": "witcher-f4",
-      "adoptive": false
-    },
-    {
-      "id": "witcher-f5",
-      "adoptive": false
-    },
-    {
-      "id": "witcher-f6",
-      "adoptive": false
-    },
-    {
-      "id": "witcher-f7",
-      "adoptive": false
-    },
-    {
-      "id": "witcher-f8",
-      "adoptive": false
-    },
-    {
-      "id": "witcher-f9",
-      "adoptive": false
-    },
-    {
-      "id": "witcher-f10",
-      "adoptive": true
-    }
-  ],
-  "members": [
-    {
-      "family": "witcher-f1",
-      "person": "cregennan",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f1",
-      "person": "lara",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f1",
-      "person": "riannon",
-      "role": "child"
-    },
-    {
-      "family": "witcher-f2",
-      "person": "goidemar",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f2",
-      "person": "riannon",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f2",
-      "person": "fiona",
-      "role": "child"
-    },
-    {
-      "family": "witcher-f3",
-      "person": "fiona",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f3",
-      "person": "corbett",
-      "role": "child"
-    },
-    {
-      "family": "witcher-f4",
-      "person": "corbett",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f4",
-      "person": "elen",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f4",
-      "person": "dagorad",
-      "role": "child"
-    },
-    {
-      "family": "witcher-f4",
-      "person": "adalia",
-      "role": "child"
-    },
-    {
-      "family": "witcher-f5",
-      "person": "dagorad",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f5",
-      "person": "adalia",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f5",
-      "person": "calanthe",
-      "role": "child"
-    },
-    {
-      "family": "witcher-f6",
-      "person": "roegner",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f6",
-      "person": "calanthe",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f6",
-      "person": "pavetta",
-      "role": "child"
-    },
-    {
-      "family": "witcher-f7",
-      "person": "eist",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f7",
-      "person": "calanthe",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f8",
-      "person": "fergus",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f8",
-      "person": "duny",
-      "role": "child"
-    },
-    {
-      "family": "witcher-f9",
-      "person": "duny",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f9",
-      "person": "pavetta",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f9",
-      "person": "ciri",
-      "role": "child"
-    },
-    {
-      "family": "witcher-f10",
-      "person": "geralt",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f10",
-      "person": "yennefer",
-      "role": "parent"
-    },
-    {
-      "family": "witcher-f10",
-      "person": "ciri",
-      "role": "child"
-    }
-  ]
+    "notes": [
+        "Ciri's names trace the Elder Blood: Cirilla, Fiona, Elen, Riannon.",
+        "Geralt and Yennefer are Ciri's guardians by destiny, not adoption; modelled as adoptive parents."
+    ],
+    "houses": [
+        {
+            "name": "Aen Seidhe",
+            "color": "#9ad8b0"
+        },
+        {
+            "name": "Lod",
+            "color": "#b0a8d8"
+        },
+        {
+            "name": "Cintra",
+            "color": "#d4a72c"
+        },
+        {
+            "name": "Temeria",
+            "color": "#3b6fb6"
+        },
+        {
+            "name": "Kovir",
+            "color": "#7fa8c8"
+        },
+        {
+            "name": "Ebbing",
+            "color": "#a87a4a"
+        },
+        {
+            "name": "Skellige",
+            "color": "#4a8a9a"
+        },
+        {
+            "name": "Nilfgaard",
+            "color": "#2a2a3a"
+        },
+        {
+            "name": "Witchers",
+            "color": "#a8a8b0"
+        },
+        {
+            "name": "Sorceresses",
+            "color": "#6a3a8a"
+        }
+    ],
+    "people": [
+        {
+            "id": "lara",
+            "name": "Lara Dorren",
+            "house": "Aen Seidhe",
+            "sex": "f"
+        },
+        {
+            "id": "cregennan",
+            "name": "Cregennan of Lod",
+            "house": "Lod",
+            "sex": "m"
+        },
+        {
+            "id": "riannon",
+            "name": "Riannon",
+            "house": "Cintra",
+            "sex": "f"
+        },
+        {
+            "id": "goidemar",
+            "name": "Goidemar",
+            "house": "Temeria",
+            "sex": "m"
+        },
+        {
+            "id": "fiona",
+            "name": "Fiona",
+            "house": "Cintra",
+            "sex": "f"
+        },
+        {
+            "id": "corbett",
+            "name": "Corbett",
+            "house": "Cintra",
+            "sex": "m"
+        },
+        {
+            "id": "elen",
+            "name": "Elen of Kovir",
+            "house": "Kovir",
+            "sex": "f"
+        },
+        {
+            "id": "dagorad",
+            "name": "Dagorad",
+            "house": "Cintra",
+            "sex": "m"
+        },
+        {
+            "id": "adalia",
+            "name": "Adalia the Leech",
+            "house": "Cintra",
+            "sex": "f"
+        },
+        {
+            "id": "roegner",
+            "name": "Roegner of Ebbing",
+            "house": "Ebbing",
+            "sex": "m"
+        },
+        {
+            "id": "calanthe",
+            "name": "Calanthe",
+            "house": "Cintra",
+            "sex": "f"
+        },
+        {
+            "id": "eist",
+            "name": "Eist Tuirseach",
+            "house": "Skellige",
+            "sex": "m"
+        },
+        {
+            "id": "pavetta",
+            "name": "Pavetta",
+            "house": "Cintra",
+            "sex": "f"
+        },
+        {
+            "id": "duny",
+            "name": "Duny (Emhyr var Emreis)",
+            "house": "Nilfgaard",
+            "sex": "m"
+        },
+        {
+            "id": "fergus",
+            "name": "Fergus var Emreis",
+            "house": "Nilfgaard",
+            "sex": "m"
+        },
+        {
+            "id": "ciri",
+            "name": "Cirilla Fiona Elen Riannon",
+            "house": "Cintra",
+            "sex": "f"
+        },
+        {
+            "id": "geralt",
+            "name": "Geralt of Rivia",
+            "house": "Witchers",
+            "sex": "m"
+        },
+        {
+            "id": "yennefer",
+            "name": "Yennefer of Vengerberg",
+            "house": "Sorceresses",
+            "sex": "f"
+        }
+    ],
+    "families": [
+        {
+            "id": "witcher-f1",
+            "adoptive": false
+        },
+        {
+            "id": "witcher-f2",
+            "adoptive": false
+        },
+        {
+            "id": "witcher-f3",
+            "adoptive": false
+        },
+        {
+            "id": "witcher-f4",
+            "adoptive": false
+        },
+        {
+            "id": "witcher-f5",
+            "adoptive": false
+        },
+        {
+            "id": "witcher-f6",
+            "adoptive": false
+        },
+        {
+            "id": "witcher-f7",
+            "adoptive": false
+        },
+        {
+            "id": "witcher-f8",
+            "adoptive": false
+        },
+        {
+            "id": "witcher-f9",
+            "adoptive": false
+        },
+        {
+            "id": "witcher-f10",
+            "adoptive": true
+        }
+    ],
+    "members": [
+        {
+            "family": "witcher-f1",
+            "person": "cregennan",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f1",
+            "person": "lara",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f1",
+            "person": "riannon",
+            "role": "child"
+        },
+        {
+            "family": "witcher-f2",
+            "person": "goidemar",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f2",
+            "person": "riannon",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f2",
+            "person": "fiona",
+            "role": "child"
+        },
+        {
+            "family": "witcher-f3",
+            "person": "fiona",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f3",
+            "person": "corbett",
+            "role": "child"
+        },
+        {
+            "family": "witcher-f4",
+            "person": "corbett",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f4",
+            "person": "elen",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f4",
+            "person": "dagorad",
+            "role": "child"
+        },
+        {
+            "family": "witcher-f4",
+            "person": "adalia",
+            "role": "child"
+        },
+        {
+            "family": "witcher-f5",
+            "person": "dagorad",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f5",
+            "person": "adalia",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f5",
+            "person": "calanthe",
+            "role": "child"
+        },
+        {
+            "family": "witcher-f6",
+            "person": "roegner",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f6",
+            "person": "calanthe",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f6",
+            "person": "pavetta",
+            "role": "child"
+        },
+        {
+            "family": "witcher-f7",
+            "person": "eist",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f7",
+            "person": "calanthe",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f8",
+            "person": "fergus",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f8",
+            "person": "duny",
+            "role": "child"
+        },
+        {
+            "family": "witcher-f9",
+            "person": "duny",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f9",
+            "person": "pavetta",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f9",
+            "person": "ciri",
+            "role": "child"
+        },
+        {
+            "family": "witcher-f10",
+            "person": "geralt",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f10",
+            "person": "yennefer",
+            "role": "parent"
+        },
+        {
+            "family": "witcher-f10",
+            "person": "ciri",
+            "role": "child"
+        }
+    ]
 }

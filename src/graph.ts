@@ -1,11 +1,11 @@
 // The family tree as a three.js object: build nodes/links from a Tree, the sibling overlay, highlight and label fade.
 import * as THREE from "three";
+import { forceZ } from "d3-force-3d";
 import ThreeForceGraph from "three-forcegraph";
 import SpriteText from "three-spritetext";
-import { forceZ } from "d3-force-3d";
 import type { Tree } from "./data/schema.ts";
-import { generations } from "./generations.ts";
 import { childLabel, houseDepths, parentLabel, siblingLabel } from "./family.ts";
+import { generations } from "./generations.ts";
 import { disposeLabel, houseBadge, nameLabel, relationLabel } from "./labels.ts";
 import { palette } from "./palettes.ts";
 

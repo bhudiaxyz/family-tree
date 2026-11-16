@@ -1,8 +1,8 @@
 // Unit tests for src/family.ts against real saga data, so the expectations are facts about the stories.
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { toTree } from "../src/data/source.ts";
 import type { SagaRecord, Tree } from "../src/data/schema.ts";
+import { toTree } from "../src/data/source.ts";
 import { childLabel, findByName, houseDepths, lineage, parentLabel, relatives, siblingLabel } from "../src/family.ts";
 
 const saga = (id: string): Tree =>

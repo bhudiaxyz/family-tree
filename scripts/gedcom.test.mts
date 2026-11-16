@@ -1,8 +1,8 @@
 // GEDCOM import: the formats real exporters produce (5.5.1 and 7), adoption markers, and messy input.
 import assert from "node:assert/strict";
 import { parseGedcom } from "../src/data/gedcom.ts";
-import { relate } from "../src/relationship.ts";
 import { generations } from "../src/generations.ts";
+import { relate } from "../src/relationship.ts";
 
 // A small three-generation family in GEDCOM 5.5.1, with CRLF line endings and a BOM as many exporters write it.
 const ged551 = [

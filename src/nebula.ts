@@ -14,8 +14,8 @@
 //    original). It is baked once per saga, so even a slow phone only pays a few hundred ms, once.
 //  - Deterministic per saga: the seed comes from the saga id, so each family has its own sky, the same every visit.
 import * as THREE from "three";
-import { type Palette, palette } from "./palettes.ts";
 import { quality } from "./device.ts";
+import { type Palette, palette } from "./palettes.ts";
 
 // --- Seeded random (mulberry32), so a saga id always gives the same palette and noise offsets ---------------------
 function hashString(s: string): number {

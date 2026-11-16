@@ -1,9 +1,9 @@
 // Relationship finder against facts from the stories (and the standard cousin table).
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { toTree } from "../src/data/source.ts";
 import type { SagaRecord, Tree } from "../src/data/schema.ts";
-import { relate } from "../src/relationship.ts";
+import { toTree } from "../src/data/source.ts";
+import { labelAll, relate } from "../src/relationship.ts";
 
 const saga = (id: string): Tree =>
     toTree(JSON.parse(fs.readFileSync(new URL(`../public/data/${id}.json`, import.meta.url), "utf8")) as SagaRecord);
@@ -127,7 +127,6 @@ assert.equal(c("a4", "r1"), "great-great-grandson");
 console.log("ok  relationship finder: cousin chart (degree and removal) on a synthetic tree");
 
 // --- In-laws, step-relations, half-aunt/uncle, common ancestors, every route, labelAll -------------------------
-import { labelAll } from "../src/relationship.ts";
 
 // In-laws (the gap the user saw: Catelyn → Benjen was only "connected by marriage").
 assert.equal(label(got, "catelyn", "benjen"), "sister-in-law", "Catelyn married Benjen's brother Ned");

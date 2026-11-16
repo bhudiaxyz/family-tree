@@ -2,9 +2,9 @@
 // row, and the people who used to float to the top row (married-in spouses) now line up with their partner.
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import type { SagaIndexEntry, SagaRecord } from "../src/data/schema.ts";
 import { toTree } from "../src/data/source.ts";
 import { generations } from "../src/generations.ts";
-import type { SagaIndexEntry, SagaRecord } from "../src/data/schema.ts";
 
 const dir = new URL("../public/data/", import.meta.url);
 const read = <T,>(f: string): T => JSON.parse(fs.readFileSync(new URL(f, dir), "utf8"));

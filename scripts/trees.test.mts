@@ -2,8 +2,8 @@
 // every person is in a family, and toTree() produces a usable tree.
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { toTree } from "../src/data/source.ts";
 import type { SagaIndexEntry, SagaRecord } from "../src/data/schema.ts";
+import { toTree } from "../src/data/source.ts";
 
 const dir = new URL("../public/data/", import.meta.url);
 const read = <T,>(f: string): T => JSON.parse(fs.readFileSync(new URL(f, dir), "utf8"));

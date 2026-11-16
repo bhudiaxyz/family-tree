@@ -4,12 +4,36 @@
 // relationship.ts and data/gedcom.ts.
 import * as THREE from "three";
 import GUI from "lil-gui";
+import { quality } from "./device.ts";
+import { parseGedcom } from "./data/gedcom.ts";
 import type { SagaIndexEntry, Tree } from "./data/schema.ts";
 import { listSagas, loadSaga } from "./data/source.ts";
-import { parseGedcom } from "./data/gedcom.ts";
 import { findByName, lineage, relatives } from "./family.ts";
 import { labelAll, relate } from "./relationship.ts";
 import { fontsReady, resetBadges } from "./labels.ts";
+import { palette, paletteFor, usePalette } from "./palettes.ts";
+import {
+    type Dir,
+    fitTree,
+    flyTo,
+    holdPan,
+    nudgeRotate,
+    releaseAllPans,
+    releasePan,
+    setReducedMotion,
+    stepCamera,
+} from "./camera.ts";
+import {
+    graph,
+    highlight,
+    nodeById,
+    peopleBbox,
+    setGuidesVisible,
+    setRelativeTags,
+    showTree,
+    stepGraph,
+} from "./graph.ts";
+import { bakeNebula } from "./nebula.ts";
 import {
     applyScenePalette,
     camera,
@@ -23,30 +47,6 @@ import {
     setSky,
     updateFog,
 } from "./scene.ts";
-import { bakeNebula } from "./nebula.ts";
-import { quality } from "./device.ts";
-import {
-    graph,
-    highlight,
-    nodeById,
-    peopleBbox,
-    setGuidesVisible,
-    setRelativeTags,
-    showTree,
-    stepGraph,
-} from "./graph.ts";
-import {
-    type Dir,
-    fitTree,
-    flyTo,
-    holdPan,
-    nudgeRotate,
-    releaseAllPans,
-    releasePan,
-    setReducedMotion,
-    stepCamera,
-} from "./camera.ts";
-import { palette, paletteFor, usePalette } from "./palettes.ts";
 
 scene.add(graph);
 

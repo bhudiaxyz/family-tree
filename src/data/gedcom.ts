@@ -5,8 +5,8 @@
 //   INDI  a person:  NAME "Given /Surname/", SEX M|F|U, FAMC (family as child), FAMS (family as spouse)
 //   FAM   a family:  HUSB, WIFE, CHIL pointers; a CHIL's PEDI (or _FREL/_MREL) = "adopted"/"foster" marks adoption
 // Houses are surnames (the app colours by house), coloured from a fixed palette.
-import type { Tree } from "./schema.ts";
 import { palette } from "../palettes.ts";
+import type { Tree } from "./schema.ts";
 
 type Line = { level: number; xref?: string; tag: string; value: string };
 type Rec = { line: Line; children: Rec[] };

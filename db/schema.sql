@@ -3,8 +3,9 @@
 -- can replace the static files: set VITE_DATA_URL to its base URL.
 
 CREATE TABLE saga (
-    id      TEXT PRIMARY KEY,
-    title   TEXT NOT NULL,
+    id       TEXT PRIMARY KEY,
+    position INTEGER NOT NULL UNIQUE,  -- drop-down order (sagas.json order); lowest loads first
+    title    TEXT NOT NULL,
     work    TEXT NOT NULL,
     medium  TEXT NOT NULL,
     author  TEXT NOT NULL,
@@ -35,6 +36,7 @@ CREATE TABLE person (
     house   TEXT NOT NULL,
     sex     TEXT NOT NULL CHECK (sex IN ('m', 'f')),
     PRIMARY KEY (saga_id, id),
+    FOREIGN KEY (saga_id) REFERENCES saga(id) ON DELETE CASCADE,
     FOREIGN KEY (saga_id, house) REFERENCES house(saga_id, name)
 );
 
@@ -52,5 +54,5 @@ CREATE TABLE family_member (
     role      TEXT NOT NULL CHECK (role IN ('parent', 'child')),
     PRIMARY KEY (saga_id, family_id, person_id, role),
     FOREIGN KEY (saga_id, family_id) REFERENCES family(saga_id, id) ON DELETE CASCADE,
-    FOREIGN KEY (saga_id, person_id) REFERENCES person(saga_id, id)
+    FOREIGN KEY (saga_id, person_id) REFERENCES person(saga_id, id) ON DELETE CASCADE
 );

@@ -30,7 +30,8 @@ npm install
 npm run dev        # development server on http://localhost:5173/family-tree/
 npm run build      # type-check + production bundle in dist/
 npm run preview    # serve the production bundle
-npm test           # check every saga's data, and that every generation is laid out in the right row
+npm test           # check saga data, generation layout, and that db/seed.sql loads and matches the JSON
+npm run db:seed    # regenerate db/seed.sql from public/data/*.json
 npm run format     # format everything with Prettier (format:check to verify only)
 ```
 
@@ -44,7 +45,22 @@ To load data from somewhere else, such as an object store bucket (S3, Azure Blob
 VITE_DATA_URL=https://my-bucket.example.com/sagas npm run build
 ```
 
-That base URL must serve `sagas.json` and `<id>.json` in the same shape, with CORS allowing the site's origin. [db/schema.sql](db/schema.sql) has matching relational tables.
+That base URL must serve `sagas.json` and `<id>.json` in the same shape, with CORS allowing the site's origin.
+
+### Loading the data into a database
+
+[db/schema.sql](db/schema.sql) creates the tables, and [db/seed.sql](db/seed.sql) fills them with every saga in `public/data/`. Both work in PostgreSQL and SQLite:
+
+```sh
+# PostgreSQL
+createdb family_tree
+psql -d family_tree -f db/schema.sql -f db/seed.sql
+
+# SQLite (foreign keys are checked only with the pragma on)
+sqlite3 family_tree.db "PRAGMA foreign_keys = ON;" ".read db/schema.sql" ".read db/seed.sql"
+```
+
+The seed runs in one transaction and can be re-run: each saga is deleted first, and the schema's `ON DELETE CASCADE` rules remove its rows from every table. `seed.sql` is generated, so edit the JSON and run `npm run db:seed` rather than editing it by hand. `npm test` fails if it is out of date.
 
 ## Controls
 

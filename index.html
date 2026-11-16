@@ -1,168 +1,47 @@
 <!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <link rel="icon" href="data:,">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Family Tree</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,400&family=Roboto+Condensed:wght@500;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --fd: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
-      --fb: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-    }
-    html, body { margin: 0; height: 100%; overflow: hidden; background: #07070a; font-family: var(--fb) }
-    canvas { display: block }
-    header {
-      position: fixed;
-      top: 16px;
-      left: 20px;
-      pointer-events: none;
-      text-shadow: 0 1px 4px #000;
-    }
-    #title {
-      margin: 0;
-      font-family: var(--fd);
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: #e6cf95;
-    }
-    #author {
-      margin: 4px 0 0;
-      font-size: 13px;
-      font-style: italic;
-      letter-spacing: .04em;
-      color: rgba(232,220,193,.7);
-    }
-    #search {
-      pointer-events: auto;
-      margin-top: 12px;
-      width: 240px;
-      max-width: calc(100vw - 40px);
-      box-sizing: border-box;
-      padding: 7px 10px;
-      font: 14px var(--fb);
-      color: #e8dcc1;
-      background: rgba(20,19,24,.85);
-      border: 1px solid rgba(201,173,115,.3);
-      border-radius: 4px;
-      color-scheme: dark;
-    }
-    #search:focus { outline: none; border-color: #c9ad73 }
-    #search::placeholder { color: rgba(232,220,193,.45) }
-    /* Details panel for the selected person. */
-    #panel {
-      position: fixed;
-      left: 20px;
-      bottom: 20px;
-      width: 300px;
-      max-width: calc(100vw - 40px);
-      max-height: 55vh;
-      overflow: auto;
-      box-sizing: border-box;
-      padding: 14px 16px;
-      background: rgba(20,19,24,.92);
-      border: 1px solid rgba(201,173,115,.25);
-      border-radius: 6px;
-      color: #e8dcc1;
-      font-size: 13px;
-      line-height: 1.45;
-    }
-    #panel[hidden] { display: none }
-    #panel h2 { margin: 0 24px 2px 0; font: 700 20px var(--fd); letter-spacing: .03em; color: #e6cf95 }
-    #panel-house { margin: 0 0 10px; font-weight: 500; font-size: 12px; letter-spacing: .1em; text-transform: uppercase }
-    #panel dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px }
-    #panel dt { color: rgba(232,220,193,.55) }
-    #panel dd { margin: 0 }
-    #panel a { color: #e8dcc1; text-decoration: underline dotted rgba(201,173,115,.6); text-underline-offset: 3px }
-    #panel a:hover { color: #e6cf95 }
-    #panel-close {
-      position: absolute; top: 8px; right: 10px;
-      background: none; border: 0; padding: 4px;
-      font-size: 18px; line-height: 1; color: rgba(232,220,193,.6); cursor: pointer;
-    }
-    #panel-close:hover { color: #e6cf95 }
-    /* Narrow screens: keep the header clear of the GUI and let the panel span the width. */
-    @media (max-width: 600px) {
-      header { right: 20px }
-      #title { font-size: 19px; max-width: calc(100vw - 150px) }
-      #author { max-width: calc(100vw - 150px) }
-      #panel { left: 10px; right: 10px; bottom: 10px; width: auto; max-width: none; max-height: 45vh }
-    }
-    /* Dark lil-gui theme; color-scheme also makes the native <select> option list dark. */
-    .lil-gui {
-      color-scheme: dark;
-      --font-family: var(--fb);
-      --background-color: #141318;
-      --title-background-color: #0c0b0f;
-      --title-text-color: #c9ad73;
-      --text-color: #e8dcc1;
-      --widget-color: #1e1c23;
-      --hover-color: #2a2730;
-      --focus-color: #35303e;
-    }
-    /* Phones: lil-gui sets an inline width, so override it; closed it shrinks to its title bar, top-right. */
-    @media (max-width: 600px) {
-      .lil-gui.lil-root, .lil-gui.root { width: min(245px, calc(100vw - 20px)) !important }
-      .lil-gui.lil-root.lil-closed, .lil-gui.root.closed { width: auto !important }
-    }
-    /* On-screen arrow pad: shown on touch screens (coarse pointer), where there is no keyboard. */
-    #pad {
-      position: fixed;
-      right: 16px;
-      bottom: 16px;
-      display: none;
-      grid-template-columns: repeat(3, 44px);
-      grid-template-rows: repeat(3, 44px);
-      gap: 4px;
-      touch-action: none;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-    @media (pointer: coarse) { #pad { display: grid } }
-    #pad button {
-      font-size: 18px;
-      color: #e8dcc1;
-      background: rgba(20,19,24,.8);
-      border: 1px solid rgba(201,173,115,.3);
-      border-radius: 6px;
-      touch-action: none;
-    }
-    #pad button:active { background: rgba(53,48,62,.95); border-color: #c9ad73 }
-    #pad [data-dir=up] { grid-area: 1 / 2 }
-    #pad [data-dir=left] { grid-area: 2 / 1 }
-    #pad [data-action=fit] { grid-area: 2 / 2; font-size: 15px }
-    #pad [data-dir=right] { grid-area: 2 / 3 }
-    #pad [data-dir=down] { grid-area: 3 / 2 }
-    /* When the details panel is open on a phone it spans the width; lift the pad above it. */
-    @media (max-width: 600px) { #panel:not([hidden]) ~ #pad { bottom: calc(45vh + 20px) } }
-    .lil-gui select, .lil-gui select option { background-color: #141318; color: #e8dcc1 }
-  </style>
-</head>
-<body>
-  <header>
-    <h1 id="title"></h1>
-    <p id="author"></p>
-    <input id="search" type="search" list="names" placeholder="Find a person…  ( / )" aria-label="Find a person" autocomplete="off">
-    <datalist id="names"></datalist>
-  </header>
-  <aside id="panel" hidden aria-live="polite">
-    <button id="panel-close" aria-label="Close">&times;</button>
-    <h2 id="panel-name"></h2>
-    <p id="panel-house"></p>
-    <dl id="panel-list"></dl>
-  </aside>
-  <nav id="pad" aria-label="Pan the view">
-    <button data-dir="up" aria-label="Pan up">&#9650;</button>
-    <button data-dir="left" aria-label="Pan left">&#9664;</button>
-    <button data-action="fit" aria-label="Fit whole tree">&#9711;</button>
-    <button data-dir="right" aria-label="Pan right">&#9654;</button>
-    <button data-dir="down" aria-label="Pan down">&#9660;</button>
-  </nav>
-  <script type="module" src="/src/main.ts"></script>
-</body>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="data:," />
+        <title>Family Tree</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,400&family=Roboto+Condensed:wght@500;700&display=swap"
+        />
+    </head>
+    <body>
+        <header>
+            <h1 id="title"></h1>
+            <p id="author"></p>
+            <input
+                id="search"
+                type="search"
+                list="names"
+                placeholder="Find a person…  ( / )"
+                aria-label="Find a person"
+                autocomplete="off"
+            />
+            <datalist id="names"></datalist>
+        </header>
+
+        <aside id="panel" hidden aria-live="polite">
+            <button id="panel-close" aria-label="Close">&times;</button>
+            <h2 id="panel-name"></h2>
+            <p id="panel-house"></p>
+            <dl id="panel-list"></dl>
+        </aside>
+
+        <nav id="pad" aria-label="Pan the view">
+            <button data-dir="up" aria-label="Pan up">&#9650;</button>
+            <button data-dir="left" aria-label="Pan left">&#9664;</button>
+            <button data-action="fit" aria-label="Fit whole tree">&#9711;</button>
+            <button data-dir="right" aria-label="Pan right">&#9654;</button>
+            <button data-dir="down" aria-label="Pan down">&#9660;</button>
+        </nav>
+
+        <script type="module" src="/src/main.ts"></script>
+    </body>
 </html>

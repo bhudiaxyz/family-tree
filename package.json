@@ -10,7 +10,7 @@
         "db:seed": "node --experimental-strip-types --no-warnings scripts/seed-sql.mts",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
-        "test": "node --experimental-strip-types --no-warnings scripts/trees.test.mts && node --experimental-strip-types --no-warnings scripts/generations.test.mts && node --experimental-strip-types --no-warnings scripts/seed-sql.mts --check && node --experimental-strip-types --no-warnings scripts/seed-sql.test.mts"
+        "test": "node --experimental-strip-types --no-warnings scripts/trees.test.mts && node --experimental-strip-types --no-warnings scripts/family.test.mts && node --experimental-strip-types --no-warnings scripts/generations.test.mts && node --experimental-strip-types --no-warnings scripts/seed-sql.mts --check && node --experimental-strip-types --no-warnings scripts/seed-sql.test.mts"
     },
     "dependencies": {
         "d3-force-3d": "^3.0.6",

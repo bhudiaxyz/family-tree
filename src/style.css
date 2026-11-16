@@ -1,0 +1,242 @@
+/* Family Tree UI: header, search, details panel, touch pad and the lil-gui theme. The 3D scene is the canvas. */
+
+:root {
+    /* Fonts: loaded from Google Fonts in index.html; must match DISPLAY_FONT / BODY_FONT in src/labels.ts. */
+    --fd: "Roboto Condensed", "Arial Narrow", Arial, sans-serif;
+    --fb: "Roboto", "Helvetica Neue", Arial, sans-serif;
+
+    /* Palette */
+    --bg: #07070a;
+    --surface: rgba(20, 19, 24, 0.92);
+    --surface-solid: #141318;
+    --ink: #e8dcc1;
+    --ink-soft: rgba(232, 220, 193, 0.7);
+    --ink-faint: rgba(232, 220, 193, 0.55);
+    --gold: #c9ad73;
+    --gold-bright: #e6cf95;
+    --line: rgba(201, 173, 115, 0.3);
+
+    --narrow: 600px; /* documentation only: media queries can't read custom properties */
+}
+
+html,
+body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    font-family: var(--fb);
+}
+canvas {
+    display: block;
+}
+
+/* ── Header: title, author, search ──────────────────────────────────────────────────────────────────────────── */
+header {
+    position: fixed;
+    top: 16px;
+    left: 20px;
+    pointer-events: none; /* clicks fall through to the canvas, except on the search box */
+    text-shadow: 0 1px 4px #000;
+}
+#title {
+    margin: 0;
+    font: 700 24px var(--fd);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+}
+#author {
+    margin: 4px 0 0;
+    font-size: 13px;
+    font-style: italic;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+}
+#search {
+    pointer-events: auto;
+    box-sizing: border-box;
+    width: 240px;
+    max-width: calc(100vw - 40px);
+    margin-top: 12px;
+    padding: 7px 10px;
+    font: 14px var(--fb);
+    color: var(--ink);
+    background: rgba(20, 19, 24, 0.85);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    color-scheme: dark;
+}
+#search:focus {
+    outline: none;
+    border-color: var(--gold);
+}
+#search::placeholder {
+    color: rgba(232, 220, 193, 0.45);
+}
+
+/* ── Details panel for the selected person ───────────────────────────────────────────────────────────────────── */
+#panel {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    box-sizing: border-box;
+    width: 300px;
+    max-width: calc(100vw - 40px);
+    max-height: 55vh;
+    overflow: auto;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid rgba(201, 173, 115, 0.25);
+    border-radius: 6px;
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.45;
+}
+#panel[hidden] {
+    display: none;
+}
+#panel h2 {
+    margin: 0 24px 2px 0;
+    font: 700 20px var(--fd);
+    letter-spacing: 0.03em;
+    color: var(--gold-bright);
+}
+#panel-house {
+    margin: 0 0 10px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+#panel dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 4px 12px;
+    margin: 0;
+}
+#panel dt {
+    color: var(--ink-faint);
+}
+#panel dd {
+    margin: 0;
+}
+#panel a {
+    color: var(--ink);
+    text-decoration: underline dotted rgba(201, 173, 115, 0.6);
+    text-underline-offset: 3px;
+}
+#panel a:hover {
+    color: var(--gold-bright);
+}
+#panel-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    padding: 4px;
+    background: none;
+    border: 0;
+    font-size: 18px;
+    line-height: 1;
+    color: rgba(232, 220, 193, 0.6);
+    cursor: pointer;
+}
+#panel-close:hover {
+    color: var(--gold-bright);
+}
+
+/* ── On-screen arrow pad: touch screens only (coarse pointer), where there is no keyboard ──────────────────── */
+#pad {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    display: none;
+    grid-template: repeat(3, 44px) / repeat(3, 44px);
+    gap: 4px;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+@media (pointer: coarse) {
+    #pad {
+        display: grid;
+    }
+}
+#pad button {
+    font-size: 18px;
+    color: var(--ink);
+    background: rgba(20, 19, 24, 0.8);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    touch-action: none;
+}
+#pad button:active {
+    background: rgba(53, 48, 62, 0.95);
+    border-color: var(--gold);
+}
+#pad [data-dir="up"] {
+    grid-area: 1 / 2;
+}
+#pad [data-dir="left"] {
+    grid-area: 2 / 1;
+}
+#pad [data-action="fit"] {
+    grid-area: 2 / 2;
+    font-size: 15px;
+}
+#pad [data-dir="right"] {
+    grid-area: 2 / 3;
+}
+#pad [data-dir="down"] {
+    grid-area: 3 / 2;
+}
+
+/* ── lil-gui theme; color-scheme also makes the native <select> option list dark ─────────────────────────── */
+.lil-gui {
+    color-scheme: dark;
+    --font-family: var(--fb);
+    --background-color: var(--surface-solid);
+    --title-background-color: #0c0b0f;
+    --title-text-color: var(--gold);
+    --text-color: var(--ink);
+    --widget-color: #1e1c23;
+    --hover-color: #2a2730;
+    --focus-color: #35303e;
+}
+.lil-gui select,
+.lil-gui select option {
+    background-color: var(--surface-solid);
+    color: var(--ink);
+}
+
+/* ── Narrow screens (phones): keep the header clear of the menu, panel full width, pad above the panel ─────── */
+@media (max-width: 600px) {
+    header {
+        right: 20px;
+    }
+    #title {
+        font-size: 19px;
+        max-width: calc(100vw - 150px);
+    }
+    #author {
+        max-width: calc(100vw - 150px);
+    }
+    #panel {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        width: auto;
+        max-width: none;
+        max-height: 45vh;
+    }
+    #panel:not([hidden]) ~ #pad {
+        bottom: calc(45vh + 20px);
+    }
+    /* lil-gui sets an inline width, so override it; closed, it shrinks to its title bar (top right). */
+    .lil-gui.lil-root {
+        width: min(245px, calc(100vw - 20px)) !important;
+    }
+    .lil-gui.lil-root.lil-closed {
+        width: auto !important;
+    }
+}

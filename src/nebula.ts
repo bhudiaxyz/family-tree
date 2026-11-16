@@ -15,6 +15,7 @@
 //  - Deterministic per saga: the seed comes from the saga id, so each family has its own sky, the same every visit.
 import * as THREE from "three";
 import { type Palette, palette } from "./palettes.ts";
+import { quality } from "./device.ts";
 
 // --- Seeded random (mulberry32), so a saga id always gives the same palette and noise offsets ---------------------
 function hashString(s: string): number {
@@ -293,13 +294,18 @@ const fragmentShader = /* glsl */ `
     }
 `;
 
-export type NebulaOptions = { resolution: number; octaves: number; maxLuma: number };
+/**
+ * Bake settings. Defaults come from the device tier (device.ts / tier.ts QUALITY). Memory per sky: 6 faces × size² ×
+ * 4 bytes, ×4/3 with mipmaps: 256 px ≈ 1.6 MB (low), 512 ≈ 8 MB (medium), 1024 ≈ 34 MB (high).
+ */
+export type NebulaOptions = { resolution: number; octaves: number; mipmaps: boolean; maxLuma: number };
 
-/** Sensible defaults: lighter on phones and tablets, where the bake runs on a mobile GPU. */
-export function defaultNebulaOptions(): NebulaOptions {
-    const touch = matchMedia("(pointer: coarse)").matches;
-    return { resolution: touch ? 512 : 1024, octaves: touch ? 7 : 10, maxLuma: palette().nebula.maxLuma };
-}
+export const defaultNebulaOptions = (): NebulaOptions => ({
+    resolution: quality.nebulaSize,
+    octaves: quality.nebulaOctaves,
+    mipmaps: quality.nebulaMipmaps,
+    maxLuma: palette().nebula.maxLuma,
+});
 
 /**
  * Bake a nebula cube texture for `id` (a saga id or file name). Returns the cube texture; the caller sets it as
@@ -339,8 +345,10 @@ export function bakeNebula(
     const sky = new THREE.Mesh(new THREE.SphereGeometry(10, 64, 32), material);
     const bakeScene = new THREE.Scene().add(sky);
     const target = new THREE.WebGLCubeRenderTarget(opts.resolution, {
-        generateMipmaps: true,
-        minFilter: THREE.LinearMipmapLinearFilter,
+        // Mipmaps avoid shimmer when the sky is minified, but cost a third more memory and a generation pass; the
+        // low tier skips them (its 256 px faces are barely minified on a phone screen anyway).
+        generateMipmaps: opts.mipmaps,
+        minFilter: opts.mipmaps ? THREE.LinearMipmapLinearFilter : THREE.LinearFilter,
         colorSpace: THREE.SRGBColorSpace,
     });
     const cubeCamera = new THREE.CubeCamera(0.1, 100, target);

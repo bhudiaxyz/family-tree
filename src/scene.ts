@@ -8,6 +8,7 @@ import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js"
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { palette } from "./palettes.ts";
 import { disposeNebula } from "./nebula.ts";
+import { device, quality } from "./device.ts";
 
 /** True if this browser can create a WebGL2 context (three.js r163+ requires WebGL2). */
 export function hasWebGL(): boolean {
@@ -25,14 +26,24 @@ export class NoWebGLError extends Error {
 
 if (!hasWebGL()) throw new NoWebGLError("WebGL 2 is not available");
 
+// The device tier and its quality settings (device.ts) were detected on import, before the renderer: antialiasing
+// can only be chosen at context creation. Re-exported for modules that already import scene.ts.
+export { device, quality };
+
 export const renderer = (() => {
     try {
-        return new THREE.WebGLRenderer({ antialias: true });
+        return new THREE.WebGLRenderer({
+            antialias: quality.antialias,
+            // "high-performance" asks dual-GPU laptops for the discrete GPU; harmless elsewhere.
+            powerPreference: device.tier === "low" ? "default" : "high-performance",
+            // No stencil buffer: nothing here uses one, and skipping it saves memory on every frame buffer.
+            stencil: false,
+        });
     } catch (e) {
         throw new NoWebGLError((e as Error).message); // e.g. GPU blocklisted, or the context limit was reached
     }
 })();
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setPixelRatio(Math.min(devicePixelRatio, quality.pixelRatio));
 renderer.setSize(innerWidth, innerHeight);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 document.body.appendChild(renderer.domElement);
@@ -99,22 +110,47 @@ controls.enableDamping = true;
 controls.saveState();
 
 // --- Glow (bloom) ---------------------------------------------------------------------------------------------------
-// A soft bloom so the gold relationship path and lit spheres glow. It's a few full-screen passes per frame, so it is
-// optional: on by default on desktops, off on phones/tablets (coarse pointer) where GPU and battery matter more.
-const composer = new EffectComposer(renderer);
-composer.addPass(new RenderPass(scene, camera));
-const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.55, 0.6, 0.78); // strength, radius, threshold
-composer.addPass(bloom);
-composer.addPass(new OutputPass()); // tone mapping + sRGB, which the composer otherwise skips
-export let glow = !matchMedia("(pointer: coarse)").matches;
-export const setGlow = (on: boolean) => (glow = on);
+// A soft bloom so the gold relationship path and lit spheres glow. It's several full-screen passes per frame, so:
+//  - it's on by default only on the "high" tier (the user can still toggle it from the menu on any tier);
+//  - the composer is built lazily, the first time glow is turned on, so low-tier devices never allocate its
+//    render targets (several full-screen float buffers, ~30 MB at 1080p);
+//  - its buffers are rendered at quality.bloomScale of the screen: it's a blur, so a third to half resolution
+//    looks the same and costs a quarter or less (the main render keeps full resolution and MSAA).
+// UnrealBloomPass needs half-float render targets; classify() already puts GPUs without them in "low", and
+// setGlow() refuses to enable bloom there, so it can't render black on an unsupported GPU.
+let composer: EffectComposer | null = null;
+// The composer resizes every pass to the full device-pixel size, and UnrealBloomPass then always uses half of
+// that, so a size given to its constructor is overwritten on the first resize. This subclass applies the tier's
+// bloomScale instead (its internal /2 included), so the blur buffers really are a third or half of the screen.
+class ScaledBloomPass extends UnrealBloomPass {
+    override setSize(width: number, height: number) {
+        const k = quality.bloomScale * 2; // UnrealBloomPass halves again internally
+        super.setSize(Math.max(2, Math.round(width * k)), Math.max(2, Math.round(height * k)));
+    }
+}
+function buildComposer(): EffectComposer {
+    const c = new EffectComposer(renderer);
+    c.addPass(new RenderPass(scene, camera));
+    c.addPass(new ScaledBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.55, 0.6, 0.78)); // strength, radius, threshold
+    c.addPass(new OutputPass()); // tone mapping + sRGB, which the composer otherwise skips
+    c.setPixelRatio(renderer.getPixelRatio());
+    c.setSize(innerWidth, innerHeight);
+    return c;
+}
+export const glowSupported = !!device.gpu?.halfFloatTargets;
+export let glow = quality.bloom && glowSupported;
+export const setGlow = (on: boolean) => {
+    glow = on && glowSupported;
+    if (glow && !composer) composer = buildComposer();
+};
+setGlow(glow);
 
 /**
  * Draw one frame, with or without the glow pass. OutputPass applies tone mapping itself, so the renderer's own tone
  * mapping is switched off while the composer runs (otherwise the image is tone-mapped twice and looks washed out).
  */
 export function draw(): void {
-    if (glow) {
+    if (glow && composer) {
         renderer.toneMapping = THREE.NoToneMapping;
         composer.render();
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -125,11 +161,12 @@ export function draw(): void {
 function setRenderSize(ratio: number, updateStyle = true) {
     renderer.setPixelRatio(ratio);
     renderer.setSize(innerWidth, innerHeight, updateStyle);
-    composer.setPixelRatio(ratio);
-    composer.setSize(innerWidth, innerHeight);
+    composer?.setPixelRatio(ratio);
+    composer?.setSize(innerWidth, innerHeight);
 }
-// Phones have dense screens; 2× is plenty and keeps the fill rate manageable.
-const screenRatio = () => Math.min(devicePixelRatio, 2);
+// Dense phone screens (3×) cost 9× the pixels of 1×. The tier caps it: 2× looks sharp on high/medium, and low
+// renders at 1.25×, which on a 7-year-old phone is the difference between smooth and stuttering.
+const screenRatio = () => Math.min(devicePixelRatio, quality.pixelRatio);
 
 function resize() {
     camera.aspect = innerWidth / innerHeight;
@@ -174,8 +211,10 @@ function vignette(inner: string, outer: string): THREE.Texture {
  */
 export async function captureView(scale = 2, overlay?: (g: CanvasRenderingContext2D, width: number) => void) {
     const ratio = renderer.getPixelRatio();
-    // Phones cap lower: a 4× buffer on a high-DPI phone can exceed the GPU's maximum texture size.
-    const target = Math.min(ratio * scale, matchMedia("(pointer: coarse)").matches ? 3 : 4);
+    // Cap by what the GPU can actually allocate (its max texture size), not a guess about phones: a 2019 iPad can
+    // export larger than an old laptop. Keep a 10% margin, and at most 4× the screen.
+    const maxPx = Math.min(device.gpu?.maxTextureSize ?? 4096, 8192) * 0.9;
+    const target = Math.min(ratio * scale, 4, maxPx / Math.max(innerWidth, innerHeight));
     const copy = document.createElement("canvas");
     try {
         setRenderSize(target, false); // don't change the on-screen CSS size, only the buffer

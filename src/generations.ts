@@ -49,5 +49,35 @@ export function generations(t: Tree): Map<string, number> {
         if (kids.length) level.set(g, Math.min(...kids.map((k) => level.get(k)!)) - 1);
     }
     const min = Math.min(...level.values());
-    return new Map(ids.map((id) => [id, level.get(find(id))! - min]));
+    const gen = new Map(ids.map((id) => [id, level.get(find(id))! - min]));
+
+    // Descent repair. Merging co-parents into one group is right for ordinary families (it's what puts married-in
+    // spouses on their partner's row), but in a densely intermarried pantheon it chains generations together:
+    // Jupiter partners Venus, Venus partners Mars, Mars is Jupiter's son, so a father and son end up in one group, or
+    // in groups the layering can't order, and the Roman gods had 55 parents on or below their own child. Walk parents
+    // before children and push any child that isn't below every parent down to one row below the deepest.
+    //
+    // Only those children move, so a tree that was already valid (every saga except the Roman gods, measured) gets
+    // exactly the same layout as before. A cycle in bad data (someone their own ancestor) can't be ordered; the walk
+    // is bounded so it ends rather than looping.
+    const kidsOf = new Map<string, string[]>(ids.map((id) => [id, []]));
+    const parentCount = new Map(ids.map((id) => [id, 0]));
+    for (const f of t.families)
+        for (const p of f.parents)
+            for (const c of f.children)
+                if (p !== c && kidsOf.has(p) && parentCount.has(c)) {
+                    kidsOf.get(p)!.push(c);
+                    parentCount.set(c, parentCount.get(c)! + 1);
+                }
+    const remaining = new Map(parentCount);
+    const ready = ids.filter((id) => remaining.get(id) === 0);
+    for (let i = 0; i < ready.length; i++) {
+        const p = ready[i];
+        for (const c of kidsOf.get(p)!) {
+            if (gen.get(c)! <= gen.get(p)!) gen.set(c, gen.get(p)! + 1);
+            remaining.set(c, remaining.get(c)! - 1);
+            if (remaining.get(c) === 0) ready.push(c);
+        }
+    }
+    return gen;
 }

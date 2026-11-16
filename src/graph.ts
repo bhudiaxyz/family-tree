@@ -7,6 +7,7 @@ import type { Tree } from "./data/schema.ts";
 import { generations } from "./generations.ts";
 import { childLabel, houseDepths, parentLabel, siblingLabel } from "./family.ts";
 import { disposeLabel, houseBadge, nameLabel, relationLabel } from "./labels.ts";
+import { palette } from "./palettes.ts";
 
 export type Node = { id: string; name?: string; house?: string; x?: number; y?: number; z?: number; fy?: number };
 // The library swaps link source/target ids for node objects once the simulation starts.
@@ -30,8 +31,13 @@ const LABEL_FAR = 240; // …and hidden beyond this one
 
 const personGeo = new THREE.SphereGeometry(4, 48, 24);
 const unionGeo = new THREE.SphereGeometry(1.2, 12, 6);
-const unionMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-const siblingMat = new THREE.LineDashedMaterial({ color: 0x5f8f7a, dashSize: 2, gapSize: 1.5, transparent: true });
+const unionMat = new THREE.MeshBasicMaterial({ color: palette().union });
+const siblingMat = new THREE.LineDashedMaterial({
+    color: palette().siblingLine,
+    dashSize: 2,
+    gapSize: 1.5,
+    transparent: true,
+});
 
 let tree: Tree;
 let houseZ = new Map<string, number>();
@@ -42,7 +48,7 @@ export const graph = new ThreeForceGraph<Node, Link>()
         // Matte, satin-like surface: high roughness spreads the highlight wide and soft, so the form reads from the
         // light-to-shadow gradient (see the key/fill balance in scene.ts) rather than from a glossy hotspot.
         const mat = new THREE.MeshStandardMaterial({
-            color: tree.houseColors[n.house!] ?? "#888",
+            color: tree.houseColors[n.house!] ?? palette().unknownHouse,
             roughness: 0.78,
             metalness: 0,
         });
@@ -52,9 +58,9 @@ export const graph = new ThreeForceGraph<Node, Link>()
         label.position.y = 8;
         label.userData.isName = true;
         // House badge just below the sphere, and a "relative to" tag above the name (filled in by setRelativeTags).
-        const badge = houseBadge(n.house!, tree.houseColors[n.house!] ?? "#888");
+        const badge = houseBadge(n.house!, tree.houseColors[n.house!] ?? palette().unknownHouse);
         badge.position.set(0, -6.2, 0);
-        const tag = relationLabel(" ", "#8fd0b6");
+        const tag = relationLabel(" ", palette().labels.tag);
         tag.position.y = 12;
         tag.visible = false;
         tag.userData.isTag = true;
@@ -65,7 +71,7 @@ export const graph = new ThreeForceGraph<Node, Link>()
     .linkMaterial(
         (l) =>
             new THREE.MeshLambertMaterial({
-                color: l.kind === "spouse" ? "#c9ad73" : "#667",
+                color: l.kind === "spouse" ? palette().links.spouse : palette().links.child,
                 transparent: true,
                 opacity: LINK_OPACITY,
                 depthWrite: false,
@@ -75,7 +81,9 @@ export const graph = new ThreeForceGraph<Node, Link>()
     .linkDirectionalParticles((l) => (l.kind === "child" ? 2 : 0))
     .linkDirectionalParticleWidth(1.2)
     .linkThreeObjectExtend(true)
-    .linkThreeObject((l) => relationLabel(l.label, l.kind === "spouse" ? "#e6cf95" : "#b8b8c8"))
+    .linkThreeObject((l) =>
+        relationLabel(l.label, l.kind === "spouse" ? palette().labels.spouse : palette().labels.child)
+    )
     .linkPositionUpdate((label, { start, end }) => {
         midpoint(label, start, end);
         return false; // still let the library position the default line
@@ -104,7 +112,7 @@ function setSiblings(t: Tree, byId: Map<string, Node>, pairs: [string, string][]
     siblingLabels.forEach(disposeLabel);
     siblings.remove(...siblingLabels);
     siblingPairs = pairs.map(([a, b]) => [byId.get(a)!, byId.get(b)!]);
-    siblingLabels = pairs.map(([a, b]) => relationLabel(siblingLabel(t, a, b), "#8fc4ab"));
+    siblingLabels = pairs.map(([a, b]) => relationLabel(siblingLabel(t, a, b), palette().labels.sibling));
     if (siblingLabels.length) siblings.add(...siblingLabels);
     siblingLines.geometry.dispose();
     siblingLines.geometry = new THREE.BufferGeometry();
@@ -174,7 +182,12 @@ function disposeObject(obj: THREE.Object3D | undefined) {
 // --- Generation guides: a faint band and a "Generation n" label at each row, so you can tell where you are --------
 const guides = new THREE.Group();
 graph.add(guides);
-const guideMat = new THREE.LineBasicMaterial({ color: 0xc9ad73, transparent: true, opacity: 0.07, depthWrite: false });
+const guideMat = new THREE.LineBasicMaterial({
+    color: palette().guideLine,
+    transparent: true,
+    opacity: 0.07,
+    depthWrite: false,
+});
 function setGuides(rows: number, y: (g: number) => number) {
     guides.traverse((o) => o instanceof SpriteText && disposeLabel(o));
     for (const c of guides.children) if (c instanceof THREE.LineSegments) c.geometry.dispose();
@@ -190,7 +203,7 @@ function setGuides(rows: number, y: (g: number) => number) {
         ]);
         const line = new THREE.LineSegments(geo, guideMat);
         line.userData.guideRow = g;
-        const label = relationLabel(`Generation ${g + 1}`, "rgba(201,173,115,.55)");
+        const label = relationLabel(`Generation ${g + 1}`, palette().labels.guide);
         label.backgroundColor = false as unknown as string; // no backing box for these
         label.userData.guideLabel = true;
         label.position.set(0, y(g) + 3, 0);
@@ -212,7 +225,10 @@ export function peopleBbox(): { x: [number, number]; y: [number, number]; z: [nu
         const at = (q: number) => v[Math.min(v.length - 1, Math.max(0, Math.round(q * (v.length - 1))))];
         return [at(lo), at(hi)];
     };
-    const x = range("x");
+    // Width: trim the 5% stragglers on wide screens, where it tightens the view. On a portrait phone, though, width is
+    // the binding constraint, so trimming it pushes those people off the sides (measured: 39 of 42 visible); keep all.
+    const portrait = innerWidth < innerHeight;
+    const x = portrait ? range("x", 0, 1) : range("x");
     const z = range("z");
     // Vertical extent uses every person: generations are few and pinned, so there are no stray rows to ignore, and
     // cutting the top/bottom row would hide a whole generation. Pad for the name label above and badge below.
@@ -314,7 +330,7 @@ function stepFades(dt: number) {
         const p = approach((line.userData.pathNow ?? 0) as number, (l.__lineObj!.userData.path ?? 0) as number, k);
         line.userData.pathNow = p;
         line.material.opacity = (line.userData.dim ?? 1) * (LINK_OPACITY + (1 - LINK_OPACITY) * p);
-        line.material.emissive.set(0xc9ad73).multiplyScalar(0.6 * p);
+        line.material.emissive.set(palette().links.pathGlow).multiplyScalar(0.6 * p);
         line.scale.x = line.scale.y = 1 + 1.6 * p;
     }
     siblingLabels.forEach(fadeObject);

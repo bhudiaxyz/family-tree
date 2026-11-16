@@ -1,6 +1,7 @@
 // Text labels (three-spritetext) and the fonts they use.
 import * as THREE from "three";
 import SpriteText from "three-spritetext";
+import { palette } from "./palettes.ts";
 
 // Must match the Google Fonts families loaded in index.html and --fd / --fb in style.css.
 const DISPLAY_FONT = '"Roboto Condensed", "Arial Narrow", Arial, sans-serif';
@@ -17,7 +18,7 @@ export const fontsReady: Promise<unknown> = Promise.race([
 
 /** Person name, shown above their sphere. */
 export function nameLabel(text: string): SpriteText {
-    const s = new SpriteText(text, 4, "#e8dcc1");
+    const s = new SpriteText(text, 4, palette().labels.name);
     s.fontFace = DISPLAY_FONT;
     s.fontWeight = "700";
     return s;
@@ -28,7 +29,7 @@ export function relationLabel(text: string, color: string): SpriteText {
     const s = new SpriteText(text, 2, color);
     s.fontFace = BODY_FONT;
     s.fontWeight = "500";
-    s.backgroundColor = "rgba(7,7,10,.7)";
+    s.backgroundColor = palette().labels.backing;
     s.padding = 0.6;
     return s;
 }
@@ -50,11 +51,12 @@ export function houseBadge(house: string, color: string): THREE.Sprite {
         g.fillStyle = color;
         g.fill();
         g.lineWidth = 3;
-        g.strokeStyle = "rgba(7,7,10,.85)";
+        g.strokeStyle = palette().badge.outline;
         g.stroke();
         // Ink colour that reads on the disc: dark on light houses, light on dark ones.
         const [r, gg, b] = new THREE.Color(color).toArray();
-        g.fillStyle = 0.299 * r + 0.587 * gg + 0.114 * b > 0.55 ? "#141318" : "#f4ead2";
+        g.fillStyle =
+            0.299 * r + 0.587 * gg + 0.114 * b > 0.55 ? palette().badge.inkOnLight : palette().badge.inkOnDark;
         g.font = `700 34px ${DISPLAY_FONT}`;
         g.textAlign = "center";
         g.textBaseline = "middle";

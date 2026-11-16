@@ -9,8 +9,21 @@ import { listSagas, loadSaga } from "./data/source.ts";
 import { parseGedcom } from "./data/gedcom.ts";
 import { findByName, lineage, relatives } from "./family.ts";
 import { labelAll, relate } from "./relationship.ts";
-import { fontsReady } from "./labels.ts";
-import { camera, captureView, controls, draw, glow, renderer, scene, setGlow, updateFog } from "./scene.ts";
+import { fontsReady, resetBadges } from "./labels.ts";
+import {
+    applyScenePalette,
+    camera,
+    captureView,
+    controls,
+    draw,
+    glow,
+    renderer,
+    scene,
+    setGlow,
+    setSky,
+    updateFog,
+} from "./scene.ts";
+import { bakeNebula } from "./nebula.ts";
 import {
     graph,
     highlight,
@@ -32,6 +45,7 @@ import {
     setReducedMotion,
     stepCamera,
 } from "./camera.ts";
+import { palette, paletteFor, usePalette } from "./palettes.ts";
 
 scene.add(graph);
 
@@ -268,12 +282,12 @@ async function savePng() {
             // Stamp the saga title and author in the corner so a saved image is self-explanatory.
             const s = w / innerWidth;
             g.textBaseline = "top";
-            g.shadowColor = "#000";
+            g.shadowColor = palette().png.shadow;
             g.shadowBlur = 6 * s;
-            g.fillStyle = "#e6cf95";
+            g.fillStyle = palette().png.title;
             g.font = `700 ${24 * s}px "Roboto Condensed", "Arial Narrow", Arial, sans-serif`;
             g.fillText((tree?.title ?? "Family tree").toUpperCase(), 20 * s, 16 * s);
-            g.fillStyle = "rgba(232,220,193,.75)";
+            g.fillStyle = palette().png.author;
             g.font = `italic ${13 * s}px Roboto, Arial, sans-serif`;
             g.fillText(tree?.author ?? "", 20 * s, 46 * s);
         });
@@ -536,7 +550,15 @@ function show(t: Tree) {
     search.value = relA.value = relB.value = relResult.textContent = "";
     relSteps.replaceChildren();
     relNotes.replaceChildren();
+    setRelativeTo(null);
+    // Theme first: materials, labels and badges pick up their colours when built, so the palette must be active
+    // before showTree() creates them. An imported file uses the default theme (keyed by its own name for the sky).
+    const themeId = sagaId === IMPORTED ? "" : sagaId;
+    usePalette(paletteFor(themeId));
+    resetBadges(); // badge textures are cached per house; drop them so they redraw in the new theme's ink/outline
+    applyScenePalette();
     showTree(t);
+    scheduleSky(sagaId === IMPORTED ? `import:${t.title}` : sagaId);
     names.replaceChildren(
         ...Object.values(t.people)
             .map((p) => p.name)
@@ -548,6 +570,27 @@ function show(t: Tree) {
     controls.reset();
     fitTree();
     writeUrl();
+}
+
+// --- Nebula sky: baked per saga, a frame after the tree appears -------------------------------------------------
+// Baking takes a few hundred ms on a phone. Doing it in the next frame lets the new tree draw first (against the flat
+// vignette), then the sky fades in instead of the saga switch feeling stuck. A newer request supersedes an older one.
+let skyRequest = 0;
+let nebulaOn = true;
+function scheduleSky(id: string) {
+    const mine = ++skyRequest;
+    if (!nebulaOn) return setSky(null);
+    requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+            if (mine !== skyRequest || !nebulaOn) return;
+            try {
+                setSky(bakeNebula(renderer, id));
+            } catch (e) {
+                console.warn("Nebula bake failed; using the plain background.", e); // e.g. float targets unsupported
+                setSky(null);
+            }
+        })
+    );
 }
 
 const prefersReduced = matchMedia("(prefers-reduced-motion: reduce)");
@@ -574,6 +617,15 @@ Promise.all([listSagas(), fontsReady])
         gui.add(view, "guides")
             .name("Generation guides")
             .onChange((on: boolean) => (setGuidesVisible(on), localStorage.setItem("ft.guides", String(on))));
+        const sky = { nebula: stored("ft.nebula", true) };
+        nebulaOn = sky.nebula;
+        gui.add(sky, "nebula")
+            .name("Nebula sky")
+            .onChange((on: boolean) => {
+                nebulaOn = on;
+                localStorage.setItem("ft.nebula", String(on));
+                scheduleSky(sagaId === IMPORTED ? `import:${tree?.title ?? ""}` : sagaId);
+            });
         if (matchMedia("(max-width: 600px)").matches) gui.close(); // on phones the open menu covers the title
         return openSaga(state.saga, params.get("person"), params.get("with"));
     })
@@ -590,7 +642,13 @@ addEventListener("ft:contextlost", () => {
 });
 addEventListener("ft:contextrestored", () => {
     paused = false;
-    if (tree) showTree(tree); // textures and materials must be rebuilt on the new context
+    // Every GPU resource died with the context: textures, materials, the cached badges and the baked sky. Rebuild.
+    resetBadges();
+    applyScenePalette();
+    if (tree) {
+        showTree(tree);
+        scheduleSky(sagaId === IMPORTED ? `import:${tree.title}` : sagaId);
+    }
     notify("Graphics restored.");
 });
 

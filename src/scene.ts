@@ -6,6 +6,8 @@ import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+import { palette } from "./palettes.ts";
+import { disposeNebula } from "./nebula.ts";
 
 /** True if this browser can create a WebGL2 context (three.js r163+ requires WebGL2). */
 export function hasWebGL(): boolean {
@@ -40,18 +42,47 @@ export const scene = new THREE.Scene();
 // side. The fill is kept low so the shadow side stays dark (but not black), the environment adds only a faint
 // ambient tint (more would flatten the gradient), and a cool rim from behind separates the spheres from the background.
 scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment()).texture;
-scene.environmentIntensity = 0.12;
-const key = new THREE.DirectionalLight(0xfff1d6, 3.4);
+const key = new THREE.DirectionalLight();
 key.position.set(-2, 3, 2.5);
-const rim = new THREE.DirectionalLight(0x8fb4ff, 1.2);
+const rim = new THREE.DirectionalLight();
 rim.position.set(2, 1, -3);
-scene.add(new THREE.HemisphereLight(0xfff4e0, 0x0a0a12, 0.22), key, rim);
-// A faint radial vignette behind the tree: depth cue and a less flat black. Drawn as the scene background.
-scene.background = vignette();
+const fill = new THREE.HemisphereLight();
+scene.add(fill, key, rim);
 // Depth fog towards the background colour: far people fade back, near ones stay crisp. Its range follows the camera
 // (see updateFog), so it works the same for the whole-tree view and close-ups.
-const fog = new THREE.Fog(0x0b0a10, 200, 900);
+const fog = new THREE.Fog(0x000000, 200, 900);
 scene.fog = fog;
+
+let fallbackBackground: THREE.Texture | null = null;
+let nebulaBackground: THREE.Texture | null = null;
+
+/**
+ * Apply the active palette's lights, fog and fallback background (palettes.ts). Called at start-up and whenever a
+ * saga with a different palette is shown. The nebula background, if any, is kept; it is re-baked separately.
+ */
+export function applyScenePalette(): void {
+    const p = palette();
+    key.color.set(p.lights.key);
+    key.intensity = p.lights.keyIntensity;
+    rim.color.set(p.lights.rim);
+    rim.intensity = p.lights.rimIntensity;
+    fill.color.set(p.lights.skyFill);
+    fill.groundColor.set(p.lights.groundFill);
+    fill.intensity = p.lights.fillIntensity;
+    scene.environmentIntensity = p.lights.environment;
+    fog.color.set(p.fog);
+    fallbackBackground?.dispose();
+    fallbackBackground = vignette(p.vignette.inner, p.vignette.outer);
+    scene.background = nebulaBackground ?? fallbackBackground;
+}
+applyScenePalette();
+
+/** Use `tex` (a baked nebula cube texture) as the sky, or null to show the flat vignette. Disposes the previous sky. */
+export function setSky(tex: THREE.Texture | null): void {
+    if (nebulaBackground && nebulaBackground !== tex) disposeNebula(nebulaBackground);
+    nebulaBackground = tex;
+    scene.background = tex ?? fallbackBackground;
+}
 /** Keep the fog band just behind what you're looking at: starts a little past the orbit target. */
 export function updateFog(): void {
     const d = camera.position.distanceTo(controls.target);
@@ -119,13 +150,13 @@ renderer.domElement.addEventListener("webglcontextrestored", () =>
     dispatchEvent(new CustomEvent("ft:contextrestored"))
 );
 
-function vignette(): THREE.Texture {
+function vignette(inner: string, outer: string): THREE.Texture {
     const c = document.createElement("canvas");
     c.width = c.height = 256;
     const g = c.getContext("2d")!;
     const grad = g.createRadialGradient(128, 110, 10, 128, 128, 180);
-    grad.addColorStop(0, "#15141b");
-    grad.addColorStop(1, "#050507");
+    grad.addColorStop(0, inner);
+    grad.addColorStop(1, outer);
     g.fillStyle = grad;
     g.fillRect(0, 0, 256, 256);
     const t = new THREE.CanvasTexture(c);

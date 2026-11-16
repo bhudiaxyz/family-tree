@@ -6,6 +6,7 @@
 //   FAM   a family:  HUSB, WIFE, CHIL pointers; a CHIL's PEDI (or _FREL/_MREL) = "adopted"/"foster" marks adoption
 // Houses are surnames (the app colours by house), coloured from a fixed palette.
 import type { Tree } from "./schema.ts";
+import { palette } from "../palettes.ts";
 
 type Line = { level: number; xref?: string; tag: string; value: string };
 type Rec = { line: Line; children: Rec[] };
@@ -55,30 +56,6 @@ function parseName(indi: Rec): { name: string; surname: string } {
     const name = [given, raw.includes("/") ? surname : ""].filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
     return { name: name || surname || "Unknown", surname };
 }
-
-// Distinct, readable colours for up to ~20 surnames, then repeated with a hue shift.
-const PALETTE = [
-    "#c0262d",
-    "#3b6fb6",
-    "#e0b23a",
-    "#3f9a4b",
-    "#8a5fd0",
-    "#e07a2e",
-    "#4aa8c8",
-    "#d24fa8",
-    "#9aa9b8",
-    "#a87a4a",
-    "#5b7a5a",
-    "#c8a8e8",
-    "#b3202a",
-    "#7fc4ff",
-    "#d77fb0",
-    "#6a9a7a",
-    "#e6cf6a",
-    "#8a8f6a",
-    "#4b4f6b",
-    "#e58fa8",
-];
 
 export type GedcomResult = { tree: Tree; warnings: string[] };
 
@@ -147,7 +124,8 @@ export function parseGedcom(text: string, title = "Imported family"): GedcomResu
 
     const kept = families.filter((f) => !emptied.has(f) && (f.parents.length || f.children.length));
     const surnames = [...new Set(Object.values(people).map((p) => p.house))].sort();
-    const houseColors = Object.fromEntries(surnames.map((s, i) => [s, PALETTE[i % PALETTE.length]]));
+    const colours = palette().importHouses; // palettes.ts: the colour set handed out to imported surnames
+    const houseColors = Object.fromEntries(surnames.map((s, i) => [s, colours[i % colours.length]]));
     return { tree: { title, author: "Imported from GEDCOM", people, families: kept, houseColors }, warnings };
 }
 

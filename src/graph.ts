@@ -37,13 +37,12 @@ let houseZ = new Map<string, number>();
 export const graph = new ThreeForceGraph<Node, Link>()
     .nodeThreeObject((n) => {
         if (!n.name) return new THREE.Mesh(unionGeo, unionMat);
-        // Clearcoat gives a sharp highlight over a softer base, which reads as a rounded, glossy surface.
-        const mat = new THREE.MeshPhysicalMaterial({
+        // Matte, satin-like surface: high roughness spreads the highlight wide and soft, so the form reads from the
+        // light-to-shadow gradient (see the key/fill balance in scene.ts) rather than from a glossy hotspot.
+        const mat = new THREE.MeshStandardMaterial({
             color: tree.houseColors[n.house!] ?? "#888",
-            roughness: 0.45,
-            metalness: 0.1,
-            clearcoat: 1,
-            clearcoatRoughness: 0.15,
+            roughness: 0.78,
+            metalness: 0,
         });
         const sphere = new THREE.Mesh(personGeo, mat);
         sphere.userData.personId = n.id; // picked by the raycaster for hover/click

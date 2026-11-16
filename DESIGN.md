@@ -15,6 +15,7 @@
 - [5a. Interaction (src/app.ts, src/family.ts)](#5a-interaction-srcappts-srcfamilyts)
 - [5b. Relationship finder (src/relationship.ts)](#5b-relationship-finder-srcrelationshipts)
 - [5c. GEDCOM import (src/data/gedcom.ts)](#5c-gedcom-import-srcdatagedcomts)
+    - [Importing a GEDCOM file as a saga (scripts/gedcom-to-saga.mts)](#importing-a-gedcom-file-as-a-saga-scriptsgedcom-to-sagamts)
 - [5d. PNG export and no-WebGL](#5d-png-export-and-no-webgl)
 - [6. Rendering](#6-rendering)
     - [6a. Palettes (src/palettes.ts)](#6a-palettes-srcpalettests)
@@ -98,7 +99,7 @@ The schema has `ON DELETE CASCADE` on every table's link to `saga` (and from `fa
 - `seed-sql.mts --check` fails if `seed.sql` differs from what the JSON would generate now, so the two can't drift apart.
 - `seed-sql.test.mts` loads `schema.sql` and `seed.sql` into an in-memory SQLite database (Node's built-in `node:sqlite`, so no database install) with `PRAGMA foreign_keys = ON`. It loads the seed twice, rebuilds every saga from the tables, and asserts each is identical to its JSON file and to the `sagas.json` order. Finally it deletes a saga and asserts nothing is left in any table.
 
-**Categories and paths.** Each manifest entry has a `category`, one of `CATEGORIES` in `schema.ts` (`fiction`, `history`), which is also the sub-folder its data file lives in. `sagaPath(entry)` builds `<category>/<id>.json`, and it is the only place that path is built: the app's loader and every script and test (through `scripts/data.mts`) use it, so they can't disagree about where files live. It throws on an unknown category instead of building a path from it, so a bad manifest entry can't make the loader request something like `../x`. The list is closed on purpose: adding a category means adding it to `CATEGORIES`, to the `CHECK` constraint on `saga.category` in `db/schema.sql`, and creating the folder. `trees.test.mts` checks that every file is in its category's folder, that the manifest and folders match exactly, and that no saga file is left in the data root. `seed-sql.test.mts` checks that the database rejects an unknown category.
+**Categories and paths.** Each manifest entry has a `category`, one of `CATEGORIES` in `schema.ts` (`fiction`, `history`, `mythology`), which is also the sub-folder its data file lives in. `sagaPath(entry)` builds `<category>/<id>.json`, and it is the only place that path is built: the app's loader and every script and test (through `scripts/data.mts`) use it, so they can't disagree about where files live. It throws on an unknown category instead of building a path from it, so a bad manifest entry can't make the loader request something like `../x`. The list is closed on purpose: adding a category means adding it to `CATEGORIES`, to the `CHECK` constraint on `saga.category` in `db/schema.sql`, and creating the folder. `trees.test.mts` checks that every file is in its category's folder, that the manifest and folders match exactly, and that no saga file is left in the data root. `seed-sql.test.mts` checks that the database rejects an unknown category.
 
 Because the URL and the menu carry only a saga id, `app.ts` keeps the manifest as a map from id to entry, and `loadSaga(entry)` takes the entry, which includes the category.
 
@@ -162,6 +163,11 @@ The algorithm:
 2. **Longest-path layering.** Kahn's algorithm runs over the parent-group → child-group edges, giving every group a level below all of its ancestors.
 3. **Pull down.** Groups are then pushed down as far as their children allow, so an in-law's parents sit just above their child, not in the oldest row.
 4. **Fallbacks.** Families with no parents add no edges. A child who married into their own parents' group, or any cycle, can't be layered and falls back gracefully rather than throwing.
+5. **Descent repair.** Merging co-parents (step 1) is right for ordinary families, but in a densely intermarried pantheon it chains generations together: Jupiter partners Venus, Venus partners Mars, and Mars is Jupiter's son, so father and son can land in groups the layering can't order. The Roman gods had 55 parents on or below their own child. A final pass walks parents before children and pushes any child that isn't below _every_ parent to one row below the deepest one. Only those children move, so every other saga's layout is unchanged; this was measured against the previous algorithm on all 14 sagas, with identical results for the 13 that were already valid.
+
+Descent always holds; marriage is the rule that gives way. In the Roman gods, 32 couples are split across rows because no layout could keep them together and also keep parents above children. The repaired tree is 31 generations deep, so it draws as a tall, narrow column. `generations.test.mts` checks descent against _every_ parent (it used to check only the first, which is how this went unnoticed), and allows split couples only in sagas listed in `INTERMARRIED`.
+
+An attempt to replace step 1 with "descent first, align spouses softly" was measured and rejected: it fixed the Roman tree but split couples and lengthened links in sagas that had been correct. The Tudors went from 16 long parent-to-child links to 82, with 7 split couples where there had been none.
 
 `scripts/generations.test.mts` (part of `npm test`) checks on every saga that co-parents share a row, that children sit below their parents, and that the three GoT spouses above now line up with their partners.
 
@@ -252,7 +258,20 @@ GEDCOM is line based: `LEVEL [@XREF@] TAG [VALUE]`. `parseGedcom()` builds the r
 | `CHIL` + `PEDI adopted`/`foster`, or `_FREL`/`_MREL`           | a separate `adoptive` family with the same parents                                       |
 | `INDI` → `FAMC` + `PEDI adopted`                               | the same, when the marker is on the person's side                                        |
 
-It tolerates a BOM, CRLF line endings, lower-case tags, indentation and malformed lines. A pointer to a missing person is dropped with a warning, and a birth family left empty only because its children were all adopted is dropped too. It throws only if there are no `INDI` records at all. The 20 MB size check happens before parsing, in `app.ts`.
+It tolerates a BOM, CRLF line endings, lower-case tags, indentation and malformed lines. Only the first `NAME` of a record is read: later ones are alternate names (the Norse file gives Sibil a second `NAME Sibil /(Sif)/`). A pointer to a missing person is dropped with a warning, and a birth family left empty only because its children were all adopted is dropped too. It throws only if there are no `INDI` records at all. The 20 MB size check happens before parsing, in `app.ts`.
+
+### Importing a GEDCOM file as a saga (`scripts/gedcom-to-saga.mts`)
+
+The in-browser parser builds the family structure. The importer reuses it and adds what a stored saga needs:
+
+- **Encoding:** strict UTF-8 first, then Windows-1252 (many GEDCOM 5.5 files say `CHAR ANSI`). Decoding those as UTF-8 would corrupt names such as Old Norse _Auðr_ and _Þrúðr_.
+- **Display names** come from `scripts/gedcom-names.mts`, which is pure and tested in `gedcom-names.test.mts` against the real name patterns in the sample files. Names are kept clean: no peerage titles, title dates or life years. A monarch is shown by regnal name, taken from a `TITL` of the form King/Queen + name + Roman numeral ("King Ferdinand V of Castile and Aragon" becomes "Ferdinand V"; "Queen Consort" is a role and doesn't match). Only the person's own `TITL` lines are read; `SOUR` records also have `TITL`, which are book titles.
+- **Mythology mode** (`--names mythology`): the name is the `/…/` part. A description in front is dropped. That covers lower-case text, a leading article, two or more words, or a role word ("queen of the Gods /Hera/", "Trojan Hero /Aeneas/", "Cyclops /Polyphemus/"). A real one-word given name is kept ("Numa /Pompilius/"). A placeholder ("A /Giantess/", "Gilling's /Wife/") is the only name the file gives, so it's kept whole. The Wikipedia links in the Norse file were checked as a possible source of names and rejected: most point to a related figure's page (Bára to Ægir), so using them would rename people.
+- **Unnamed people:** a placeholder given name ("... /Tudor/") becomes "(unnamed son) Tudor".
+- **Ids** are slugs of the display name (`henry-viii`, `unnamed-son-tudor`), numbered in file order where they repeat, so re-importing gives the same ids.
+- **Houses:** one per surname, with only the 12 largest coloured individually and the rest grouped as "Other families"; or one house for everyone with `--house` (pantheons have no real surnames).
+- **People with no relatives** get a one-person family, so they stay visible and "everyone is in a family" holds. These are listed in the notes. In the Norse file, 13 figures (Skuld, Gefjun, Sága and others) are only linked to 19 people the file never defines, which is a defect in the source. A repair of those broken ids was tried and found no matches, so the links are dropped rather than guessed.
+- **Source details:** the compiler (`SUBM`), the file's software and date, and the titles of its `SOUR` records go into `source` and `notes`.
 
 ## 5d. PNG export and no-WebGL
 
@@ -362,7 +381,8 @@ The app targets devices up to about seven years old (2018+): for example iPhone 
 
 ## 9. Extension points
 
-- **Data loading:** a GEDCOM importer that writes `SagaRecord` JSON, or an API over `db/schema.sql` (see §3).
+- **Data loading:** an API over `db/schema.sql` (see §3). Committed GEDCOM imports already go through `scripts/gedcom-to-saga.mts` (§5c).
+- **Tall trees:** a tree as deep as the Roman gods (31 generations) fits the screen as a narrow column; the camera fit could weight width over height, or the generation gap could shrink with depth.
 - **Stronger parallax:** a stronger depth pull, a closer camera, or a narrower FOV with the camera moved in to compensate (see §5).
 - **Per-saga themes:** add entries to `SAGA_PALETTES` in `palettes.ts` (e.g. warmer dust for Dune).
 - **Relationship finder:** more in-law and step names (step-grandparents, co-parents-in-law).

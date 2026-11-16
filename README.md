@@ -2,24 +2,28 @@
 
 An interactive 3D family tree visualizer that runs in the browser. Each person is a sphere coloured by house, marriages and parentage are links, and every generation sits on its own layer. You can orbit around the tree, zoom in and pan.
 
-Ten sample trees from science fiction and fantasy are included. Use the **Saga** drop-down at the top right to switch between them:
+Fourteen sample trees are included: ten from science fiction and fantasy, a historical royal family, and three pantheons. Use the **Saga** drop-down at the top right to switch between them:
 
-| Saga                   | Author                                                 | Families                                                                            |
-| ---------------------- | ------------------------------------------------------ | ----------------------------------------------------------------------------------- |
-| Game of Thrones (TV)   | David Benioff & D. B. Weiss, after George R. R. Martin | Stark, Tully, Arryn, Targaryen, Lannister, Baratheon                                |
-| Fire & Blood           | George R. R. Martin                                    | Targaryen from Aegon the Conqueror to the Dance of the Dragons; Velaryon, Hightower |
-| The Lord of the Rings  | J. R. R. Tolkien                                       | Half-elven, Elendil and the Dúnedain, Rohan, Gondor                                 |
-| The Silmarillion       | J. R. R. Tolkien                                       | House of Finwë, Thingol and Lúthien, down to Elrond and Elros                       |
-| Dune                   | Frank Herbert                                          | Atreides, Harkonnen, Corrino, Fremen                                                |
-| Harry Potter           | J. K. Rowling                                          | Potter, Weasley, Black, Malfoy                                                      |
-| Star Wars (films)      | George Lucas                                           | Skywalker, Lars, Naberrie, Organa, Solo, Palpatine                                  |
-| The Wheel of Time      | Robert Jordan                                          | Mantear, Trakand, Damodred, al'Thor                                                 |
-| The Stormlight Archive | Brandon Sanderson                                      | Kholin, Davar, Kaladin's family                                                     |
-| The Witcher            | Andrzej Sapkowski                                      | Cintra's royal line from Lara Dorren to Ciri                                        |
+| Saga                          | Author                                                 | Families                                                                            |
+| ----------------------------- | ------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| Game of Thrones (TV)          | David Benioff & D. B. Weiss, after George R. R. Martin | Stark, Tully, Arryn, Targaryen, Lannister, Baratheon                                |
+| Fire & Blood                  | George R. R. Martin                                    | Targaryen from Aegon the Conqueror to the Dance of the Dragons; Velaryon, Hightower |
+| The Lord of the Rings         | J. R. R. Tolkien                                       | Half-elven, Elendil and the Dúnedain, Rohan, Gondor                                 |
+| The Silmarillion              | J. R. R. Tolkien                                       | House of Finwë, Thingol and Lúthien, down to Elrond and Elros                       |
+| Dune                          | Frank Herbert                                          | Atreides, Harkonnen, Corrino, Fremen                                                |
+| Harry Potter                  | J. K. Rowling                                          | Potter, Weasley, Black, Malfoy                                                      |
+| Star Wars (films)             | George Lucas                                           | Skywalker, Lars, Naberrie, Organa, Solo, Palpatine                                  |
+| The Wheel of Time             | Robert Jordan                                          | Mantear, Trakand, Damodred, al'Thor                                                 |
+| The Stormlight Archive        | Brandon Sanderson                                      | Kholin, Davar, Kaladin's family                                                     |
+| The Witcher                   | Andrzej Sapkowski                                      | Cintra's royal line from Lara Dorren to Ciri                                        |
+| English Royal Family (Tudors) | Chris Phillips (GEDCOM)                                | Tudors, Plantagenets, Stewarts and the families they married into: 268 people       |
+| Greek Gods                    | GEDCOM sample                                          | Olympians, Titans and heroes: 69 figures                                            |
+| Norse Gods                    | GEDCOM sample                                          | Æsir, Vanir and giants: 117 figures                                                 |
+| Roman Gods                    | GEDCOM sample                                          | Gods, heroes and the line of Aeneas: 322 figures                                    |
 
 Each saga's `source` field gives the work, medium, author, which canon it follows, genre and what it covers. `notes` records modelling choices, such as where the sources disagree or where generations were skipped.
 
-The family data was written from memory and then reviewed saga by saga against fan wikis that cite the books (A Wiki of Ice and Fire, Tolkien Gateway, Coppermind and others). Most of those sites block automated access, so only Coppermind could actually be fetched; the rest of the review was also done from memory. One real error was found and fixed: Taringail and Moiraine Damodred are cousins, not siblings. Several house labels were corrected too. Treat the data as carefully reviewed rather than authoritative.
+The last four were imported from public GEDCOM sample files by D-Jeffrey (see [Importing a GEDCOM file as a saga](#importing-a-gedcom-file-as-a-saga)); they reproduce those files, including their gaps. The ten fiction sagas were written from memory and then reviewed saga by saga against fan wikis that cite the books (A Wiki of Ice and Fire, Tolkien Gateway, Coppermind and others). Most of those sites block automated access, so only Coppermind could actually be fetched; the rest of the review was also done from memory. One real error was found and fixed: Taringail and Moiraine Damodred are cousins, not siblings. Several house labels were corrected too. Treat the data as carefully reviewed rather than authoritative.
 
 Built with [three.js](https://threejs.org/), [three-forcegraph](https://github.com/vasturiano/three-forcegraph), [three-spritetext](https://github.com/vasturiano/three-spritetext), TypeScript and Vite.
 
@@ -32,6 +36,7 @@ npm run build      # type-check + production bundle in dist/
 npm run preview    # serve the production bundle
 npm test           # check saga data, generation layout, and that db/seed.sql loads and matches the JSON
 npm run db:seed    # regenerate db/seed.sql from the saga files in public/data/
+npm run import:gedcom -- <file.ged> --id <id> --category <c> --title "…"   # add a GEDCOM file as a saga
 npm run format     # format everything with Prettier (format:check to verify only)
 ```
 
@@ -42,13 +47,14 @@ The saga data is static JSON in [public/data/](public/data/):
 ```
 public/data/
 ├── sagas.json            the manifest: every saga, in drop-down order
-├── fiction/              one folder per category
+├── fiction/              one folder per category: fiction, history, mythology
 │   ├── got.json
 │   └── …
-└── history/              (for historical families)
+├── history/              historical families
+└── mythology/            pantheons
 ```
 
-Each saga's `category` in `sagas.json`, `fiction` or `history`, says which folder its file is in. Vite copies the whole folder to `dist/data/`, so GitHub Pages or any static host serves it alongside the app with no extra setup.
+Each saga's `category` in `sagas.json` (`fiction`, `history` or `mythology`) says which folder its file is in. Vite copies the whole folder to `dist/data/`, so GitHub Pages or any static host serves it alongside the app with no extra setup.
 
 To load data from somewhere else, such as an object store bucket (S3, Azure Blob, GCS) or an API in front of a database, set `VITE_DATA_URL` at build time:
 
@@ -172,6 +178,26 @@ Copy one of the saga files, for example [fiction/got.json](public/data/fiction/g
 Run `npm test` afterwards to catch typos in ids.
 
 See [DESIGN.md](DESIGN.md) for how the data becomes a 3D graph.
+
+### Importing a GEDCOM file as a saga
+
+The in-app **Import GEDCOM** button shows a file for the current visit only. To add a GEDCOM file to the app permanently, as a saga in the menu, run the importer. It writes `public/data/<category>/<id>.json` and adds the saga to `sagas.json`, and re-running it replaces both:
+
+```sh
+npm run import:gedcom -- "English+Tudor+Royal+Family.ged" --id english-royal --category history --title "English Royal Family (Tudors)"
+npm run import:gedcom -- "Greek+Gods.ged" --id greek-gods --category mythology --title "Greek Gods" --names mythology --house "Greek pantheon" --genre Mythology
+npm run db:seed    # then refresh the database seed
+```
+
+| Option                          | Meaning                                                                                                                                                                                                |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `--id`, `--title`, `--category` | The saga's id (lower-case letters, digits, hyphens), its menu title, and its folder.                                                                                                                   |
+| `--names person` (default)      | Names are "Given Surname". Monarchs are shown by regnal name, e.g. `Henry VIII` rather than `Henry Tudor`. Titles and dates are left out to keep names clean.                                          |
+| `--names mythology`             | For deity files, which put the god's name in the surname slot and a description in front ("queen of the Gods /Hera/"): the description is dropped and real two-part names ("Numa Pompilius") are kept. |
+| `--house`                       | Put everyone in one house (e.g. a pantheon), instead of one house per surname.                                                                                                                         |
+| `--genre`                       | The saga's genre (default `History`).                                                                                                                                                                  |
+
+The importer handles GEDCOM 5.5 to 7 and both UTF-8 and older "ANSI" (Windows-1252) files. Unrecorded first names ("... Tudor") become "(unnamed son) Tudor". People with no recorded relatives are kept, on their own. Anything it couldn't resolve, such as a link to someone the file never defines, is listed in the saga's notes.
 
 ## Licence
 

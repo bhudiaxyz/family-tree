@@ -6,7 +6,7 @@
  * the same value is stored in the `saga.category` column. Add a value here to add a category; the list is closed so
  * a bad manifest entry can't make the loader request an arbitrary path.
  */
-export const CATEGORIES = ["fiction", "history"] as const;
+export const CATEGORIES = ["fiction", "history", "mythology"] as const;
 export type Category = (typeof CATEGORIES)[number];
 
 export type SagaIndexEntry = { id: string; category: Category; title: string; work: string; author: string };

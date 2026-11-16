@@ -68,5 +68,33 @@
         "title": "The Witcher",
         "work": "The Witcher",
         "author": "Andrzej Sapkowski"
+    },
+    {
+        "id": "english-royal",
+        "category": "history",
+        "title": "English Royal Family (Tudors)",
+        "work": "English Royal Family (Tudors)",
+        "author": "Compiled by Chris Phillips"
+    },
+    {
+        "id": "greek-gods",
+        "category": "mythology",
+        "title": "Greek Gods",
+        "work": "Greek Gods",
+        "author": "Unknown"
+    },
+    {
+        "id": "norse-gods",
+        "category": "mythology",
+        "title": "Norse Gods",
+        "work": "Norse Gods",
+        "author": "Unknown"
+    },
+    {
+        "id": "roman-gods",
+        "category": "mythology",
+        "title": "Roman Gods",
+        "work": "Roman Gods",
+        "author": "Unknown"
     }
 ]

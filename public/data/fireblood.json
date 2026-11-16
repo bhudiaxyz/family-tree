@@ -1,0 +1,686 @@
+{
+  "id": "fireblood",
+  "title": "Fire & Blood",
+  "source": {
+    "work": "Fire & Blood",
+    "medium": "Novel (2018), a fictional history; adapted as HBO's House of the Dragon (2022–)",
+    "author": "George R. R. Martin",
+    "canon": "Book (where it differs from the show, the book is followed)",
+    "genre": "Fantasy",
+    "covers": "House Targaryen from Aegon the Conqueror to the Dance of the Dragons and its aftermath: seven generations, with heavy intermarriage."
+  },
+  "notes": [
+    "Rhaenyra's three eldest are officially Laenor's; the books strongly imply Harwin Strong. Shown as Laenor's.",
+    "only the main royal line; Jaehaerys I had 13 children, add the rest if wanted."
+  ],
+  "houses": [
+    {
+      "name": "Targaryen",
+      "color": "#c0262d"
+    },
+    {
+      "name": "Velaryon",
+      "color": "#3c8fa8"
+    },
+    {
+      "name": "Baratheon",
+      "color": "#f2d64b"
+    },
+    {
+      "name": "Arryn",
+      "color": "#7fc4ff"
+    },
+    {
+      "name": "Hightower",
+      "color": "#3f9a4b"
+    }
+  ],
+  "people": [
+    {
+      "id": "aegonI",
+      "name": "Aegon I the Conqueror",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "visenya",
+      "name": "Visenya",
+      "house": "Targaryen",
+      "sex": "f"
+    },
+    {
+      "id": "rhaenysQ",
+      "name": "Rhaenys (queen)",
+      "house": "Targaryen",
+      "sex": "f"
+    },
+    {
+      "id": "aenys",
+      "name": "Aenys I",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "maegor",
+      "name": "Maegor the Cruel",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "alyssa",
+      "name": "Alyssa Velaryon",
+      "house": "Velaryon",
+      "sex": "f"
+    },
+    {
+      "id": "aegonU",
+      "name": "Aegon the Uncrowned",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "rhaenaA",
+      "name": "Rhaena",
+      "house": "Targaryen",
+      "sex": "f"
+    },
+    {
+      "id": "viserysA",
+      "name": "Viserys (son of Aenys)",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "jaehaerys",
+      "name": "Jaehaerys I",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "alysanne",
+      "name": "Alysanne",
+      "house": "Targaryen",
+      "sex": "f"
+    },
+    {
+      "id": "aemon",
+      "name": "Aemon (Prince of Dragonstone)",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "baelon",
+      "name": "Baelon the Brave",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "alyssaT",
+      "name": "Alyssa Targaryen",
+      "house": "Targaryen",
+      "sex": "f"
+    },
+    {
+      "id": "jocelyn",
+      "name": "Jocelyn Baratheon",
+      "house": "Baratheon",
+      "sex": "f"
+    },
+    {
+      "id": "rhaenys",
+      "name": "Rhaenys (Queen Who Never Was)",
+      "house": "Targaryen",
+      "sex": "f"
+    },
+    {
+      "id": "corlys",
+      "name": "Corlys Velaryon",
+      "house": "Velaryon",
+      "sex": "m"
+    },
+    {
+      "id": "laena",
+      "name": "Laena Velaryon",
+      "house": "Velaryon",
+      "sex": "f"
+    },
+    {
+      "id": "laenor",
+      "name": "Laenor Velaryon",
+      "house": "Velaryon",
+      "sex": "m"
+    },
+    {
+      "id": "viserysI",
+      "name": "Viserys I",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "daemon",
+      "name": "Daemon Targaryen",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "aemma",
+      "name": "Aemma Arryn",
+      "house": "Arryn",
+      "sex": "f"
+    },
+    {
+      "id": "alicent",
+      "name": "Alicent Hightower",
+      "house": "Hightower",
+      "sex": "f"
+    },
+    {
+      "id": "otto",
+      "name": "Otto Hightower",
+      "house": "Hightower",
+      "sex": "m"
+    },
+    {
+      "id": "rhaenyra",
+      "name": "Rhaenyra Targaryen",
+      "house": "Targaryen",
+      "sex": "f"
+    },
+    {
+      "id": "aegonII",
+      "name": "Aegon II",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "helaena",
+      "name": "Helaena",
+      "house": "Targaryen",
+      "sex": "f"
+    },
+    {
+      "id": "aemond",
+      "name": "Aemond One-Eye",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "daeron",
+      "name": "Daeron the Daring",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "jacaerys",
+      "name": "Jacaerys Velaryon",
+      "house": "Velaryon",
+      "sex": "m"
+    },
+    {
+      "id": "lucerys",
+      "name": "Lucerys Velaryon",
+      "house": "Velaryon",
+      "sex": "m"
+    },
+    {
+      "id": "joffreyV",
+      "name": "Joffrey Velaryon",
+      "house": "Velaryon",
+      "sex": "m"
+    },
+    {
+      "id": "baela",
+      "name": "Baela Targaryen",
+      "house": "Targaryen",
+      "sex": "f"
+    },
+    {
+      "id": "rhaenaD",
+      "name": "Rhaena Targaryen",
+      "house": "Targaryen",
+      "sex": "f"
+    },
+    {
+      "id": "aegonIII",
+      "name": "Aegon III",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "viserysII",
+      "name": "Viserys II",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "jaehaerysH",
+      "name": "Jaehaerys (son of Aegon II)",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "jaehaera",
+      "name": "Jaehaera",
+      "house": "Targaryen",
+      "sex": "f"
+    },
+    {
+      "id": "maelor",
+      "name": "Maelor",
+      "house": "Targaryen",
+      "sex": "m"
+    },
+    {
+      "id": "daenaera",
+      "name": "Daenaera Velaryon",
+      "house": "Velaryon",
+      "sex": "f"
+    }
+  ],
+  "families": [
+    {
+      "id": "fireblood-f1",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f2",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f3",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f4",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f5",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f6",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f7",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f8",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f9",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f10",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f11",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f12",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f13",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f14",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f15",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f16",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f17",
+      "adoptive": false
+    },
+    {
+      "id": "fireblood-f18",
+      "adoptive": false
+    }
+  ],
+  "members": [
+    {
+      "family": "fireblood-f1",
+      "person": "aegonI",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f1",
+      "person": "rhaenysQ",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f1",
+      "person": "aenys",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f2",
+      "person": "aegonI",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f2",
+      "person": "visenya",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f2",
+      "person": "maegor",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f3",
+      "person": "aenys",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f3",
+      "person": "alyssa",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f3",
+      "person": "aegonU",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f3",
+      "person": "rhaenaA",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f3",
+      "person": "viserysA",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f3",
+      "person": "jaehaerys",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f3",
+      "person": "alysanne",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f4",
+      "person": "aegonU",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f4",
+      "person": "rhaenaA",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f5",
+      "person": "maegor",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f5",
+      "person": "rhaenaA",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f6",
+      "person": "jaehaerys",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f6",
+      "person": "alysanne",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f6",
+      "person": "aemon",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f6",
+      "person": "baelon",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f6",
+      "person": "alyssaT",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f7",
+      "person": "aemon",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f7",
+      "person": "jocelyn",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f7",
+      "person": "rhaenys",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f8",
+      "person": "baelon",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f8",
+      "person": "alyssaT",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f8",
+      "person": "viserysI",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f8",
+      "person": "daemon",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f9",
+      "person": "corlys",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f9",
+      "person": "rhaenys",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f9",
+      "person": "laena",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f9",
+      "person": "laenor",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f10",
+      "person": "viserysI",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f10",
+      "person": "aemma",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f10",
+      "person": "rhaenyra",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f11",
+      "person": "otto",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f11",
+      "person": "alicent",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f12",
+      "person": "viserysI",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f12",
+      "person": "alicent",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f12",
+      "person": "aegonII",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f12",
+      "person": "helaena",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f12",
+      "person": "aemond",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f12",
+      "person": "daeron",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f13",
+      "person": "laenor",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f13",
+      "person": "rhaenyra",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f13",
+      "person": "jacaerys",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f13",
+      "person": "lucerys",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f13",
+      "person": "joffreyV",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f14",
+      "person": "daemon",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f14",
+      "person": "laena",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f14",
+      "person": "baela",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f14",
+      "person": "rhaenaD",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f15",
+      "person": "daemon",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f15",
+      "person": "rhaenyra",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f15",
+      "person": "aegonIII",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f15",
+      "person": "viserysII",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f16",
+      "person": "aegonII",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f16",
+      "person": "helaena",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f16",
+      "person": "jaehaerysH",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f16",
+      "person": "jaehaera",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f16",
+      "person": "maelor",
+      "role": "child"
+    },
+    {
+      "family": "fireblood-f17",
+      "person": "aegonIII",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f17",
+      "person": "jaehaera",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f18",
+      "person": "aegonIII",
+      "role": "parent"
+    },
+    {
+      "family": "fireblood-f18",
+      "person": "daenaera",
+      "role": "parent"
+    }
+  ]
+}

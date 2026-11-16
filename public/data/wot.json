@@ -1,0 +1,332 @@
+{
+  "id": "wot",
+  "title": "The Wheel of Time",
+  "source": {
+    "work": "The Wheel of Time",
+    "medium": "Novel series (1990–2013), 14 books",
+    "author": "Robert Jordan; final three books completed by Brandon Sanderson",
+    "canon": "Novels",
+    "genre": "Epic fantasy",
+    "covers": "Rand al'Thor's Aiel and Andoran royal ancestry, and the Trakand/Damodred half-siblings linked through his mother Tigraine."
+  },
+  "notes": [
+    "Tigraine is both Galad's mother (by Taringail) and Rand's (by Janduin), which links the two halves."
+  ],
+  "houses": [
+    {
+      "name": "Andor",
+      "color": "#c8202a"
+    },
+    {
+      "name": "Mantear",
+      "color": "#d77f3a"
+    },
+    {
+      "name": "Trakand",
+      "color": "#e0b23a"
+    },
+    {
+      "name": "Damodred",
+      "color": "#3f9a4b"
+    },
+    {
+      "name": "Aiel",
+      "color": "#b08a5a"
+    },
+    {
+      "name": "al'Thor",
+      "color": "#5a7fa8"
+    },
+    {
+      "name": "al'Vere",
+      "color": "#8a6ac8"
+    },
+    {
+      "name": "Farshaw",
+      "color": "#c8a8d8"
+    }
+  ],
+  "people": [
+    {
+      "id": "mordrellen",
+      "name": "Mordrellen",
+      "house": "Andor",
+      "sex": "f"
+    },
+    {
+      "id": "tigraine",
+      "name": "Tigraine Mantear",
+      "house": "Mantear",
+      "sex": "f"
+    },
+    {
+      "id": "luc",
+      "name": "Luc Mantear",
+      "house": "Mantear",
+      "sex": "m"
+    },
+    {
+      "id": "janduin",
+      "name": "Janduin",
+      "house": "Aiel",
+      "sex": "m"
+    },
+    {
+      "id": "tam",
+      "name": "Tam al'Thor",
+      "house": "al'Thor",
+      "sex": "m"
+    },
+    {
+      "id": "kari",
+      "name": "Kari al'Thor",
+      "house": "al'Thor",
+      "sex": "f"
+    },
+    {
+      "id": "rand",
+      "name": "Rand al'Thor",
+      "house": "al'Thor",
+      "sex": "m"
+    },
+    {
+      "id": "taringail",
+      "name": "Taringail Damodred",
+      "house": "Damodred",
+      "sex": "m"
+    },
+    {
+      "id": "morgase",
+      "name": "Morgase Trakand",
+      "house": "Trakand",
+      "sex": "f"
+    },
+    {
+      "id": "galad",
+      "name": "Galad Damodred",
+      "house": "Damodred",
+      "sex": "m"
+    },
+    {
+      "id": "elayne",
+      "name": "Elayne Trakand",
+      "house": "Trakand",
+      "sex": "f"
+    },
+    {
+      "id": "gawyn",
+      "name": "Gawyn Trakand",
+      "house": "Trakand",
+      "sex": "m"
+    },
+    {
+      "id": "egwene",
+      "name": "Egwene al'Vere",
+      "house": "al'Vere",
+      "sex": "f"
+    },
+    {
+      "id": "min",
+      "name": "Min Farshaw",
+      "house": "Farshaw",
+      "sex": "f"
+    },
+    {
+      "id": "aviendha",
+      "name": "Aviendha",
+      "house": "Aiel",
+      "sex": "f"
+    },
+    {
+      "id": "moiraine",
+      "name": "Moiraine Damodred",
+      "house": "Damodred",
+      "sex": "f"
+    },
+    {
+      "id": "dalresin",
+      "name": "Dalresin Damodred",
+      "house": "Damodred",
+      "sex": "m"
+    }
+  ],
+  "families": [
+    {
+      "id": "wot-f1",
+      "adoptive": false
+    },
+    {
+      "id": "wot-f2",
+      "adoptive": false
+    },
+    {
+      "id": "wot-f3",
+      "adoptive": false
+    },
+    {
+      "id": "wot-f4",
+      "adoptive": false
+    },
+    {
+      "id": "wot-f5",
+      "adoptive": true
+    },
+    {
+      "id": "wot-f6",
+      "adoptive": false
+    },
+    {
+      "id": "wot-f7",
+      "adoptive": false
+    },
+    {
+      "id": "wot-f8",
+      "adoptive": false
+    },
+    {
+      "id": "wot-f9",
+      "adoptive": false
+    },
+    {
+      "id": "wot-f10",
+      "adoptive": false
+    }
+  ],
+  "members": [
+    {
+      "family": "wot-f1",
+      "person": "mordrellen",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f1",
+      "person": "tigraine",
+      "role": "child"
+    },
+    {
+      "family": "wot-f1",
+      "person": "luc",
+      "role": "child"
+    },
+    {
+      "family": "wot-f2",
+      "person": "dalresin",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f2",
+      "person": "taringail",
+      "role": "child"
+    },
+    {
+      "family": "wot-f2",
+      "person": "moiraine",
+      "role": "child"
+    },
+    {
+      "family": "wot-f3",
+      "person": "taringail",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f3",
+      "person": "tigraine",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f3",
+      "person": "galad",
+      "role": "child"
+    },
+    {
+      "family": "wot-f4",
+      "person": "janduin",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f4",
+      "person": "tigraine",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f4",
+      "person": "rand",
+      "role": "child"
+    },
+    {
+      "family": "wot-f5",
+      "person": "tam",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f5",
+      "person": "kari",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f5",
+      "person": "rand",
+      "role": "child"
+    },
+    {
+      "family": "wot-f6",
+      "person": "taringail",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f6",
+      "person": "morgase",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f6",
+      "person": "elayne",
+      "role": "child"
+    },
+    {
+      "family": "wot-f6",
+      "person": "gawyn",
+      "role": "child"
+    },
+    {
+      "family": "wot-f7",
+      "person": "rand",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f7",
+      "person": "elayne",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f8",
+      "person": "rand",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f8",
+      "person": "min",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f9",
+      "person": "rand",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f9",
+      "person": "aviendha",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f10",
+      "person": "gawyn",
+      "role": "parent"
+    },
+    {
+      "family": "wot-f10",
+      "person": "egwene",
+      "role": "parent"
+    }
+  ]
+}

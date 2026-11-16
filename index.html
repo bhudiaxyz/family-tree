@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="data:,">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Family Tree</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,400&family=Roboto+Condensed:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --fd: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+      --fb: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    }
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #07070a; font-family: var(--fb) }
+    canvas { display: block }
+    header {
+      position: fixed;
+      top: 16px;
+      left: 20px;
+      pointer-events: none;
+      text-shadow: 0 1px 4px #000;
+    }
+    #title {
+      margin: 0;
+      font-family: var(--fd);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #e6cf95;
+    }
+    #author {
+      margin: 4px 0 0;
+      font-size: 13px;
+      font-style: italic;
+      letter-spacing: .04em;
+      color: rgba(232,220,193,.7);
+    }
+    /* Dark lil-gui theme; color-scheme also makes the native <select> option list dark. */
+    .lil-gui {
+      color-scheme: dark;
+      --font-family: var(--fb);
+      --background-color: #141318;
+      --title-background-color: #0c0b0f;
+      --title-text-color: #c9ad73;
+      --text-color: #e8dcc1;
+      --widget-color: #1e1c23;
+      --hover-color: #2a2730;
+      --focus-color: #35303e;
+    }
+    .lil-gui select, .lil-gui select option { background-color: #141318; color: #e8dcc1 }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="title"></h1>
+    <p id="author"></p>
+  </header>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

@@ -3683,7 +3683,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 -- =================================================================================================
 -- SAGA 13 of 14: NORSE GODS   [id: norse-gods, category: mythology]
--- Author:  Compiled by unknown
+-- Author:  Unknown compiler
 -- Medium:  GEDCOM genealogy (Norse+Gods.ged)
 -- Canon:   Sources cited: RCKarnes; World Family Tree Vol. 5; Aderholt Hillman Hughes Solomon
 -- Dunn Funderburg; Guy Allen Sims
@@ -3696,7 +3696,7 @@ DELETE FROM saga WHERE id = 'norse-gods';
 
 -- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
 INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
-    ('norse-gods', 'mythology', 12, 'Norse Gods', 'Norse Gods', 'GEDCOM genealogy (Norse+Gods.ged)', 'Compiled by unknown', 'Sources cited: RCKarnes; World Family Tree Vol. 5; Aderholt Hillman Hughes Solomon Dunn Funderburg; Guy Allen Sims', 'Mythology', '117 people and 59 families, imported from a public GEDCOM sample.');
+    ('norse-gods', 'mythology', 12, 'Norse Gods', 'Norse Gods', 'GEDCOM genealogy (Norse+Gods.ged)', 'Unknown compiler', 'Sources cited: RCKarnes; World Family Tree Vol. 5; Aderholt Hillman Hughes Solomon Dunn Funderburg; Guy Allen Sims', 'Mythology', '117 people and 59 families, imported from a public GEDCOM sample.');
 
 -- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
 INSERT INTO saga_note (saga_id, position, note) VALUES
@@ -4230,7 +4230,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 -- =================================================================================================
 -- SAGA 14 of 14: ROMAN GODS   [id: roman-gods, category: mythology]
--- Author:  Compiled by unknown
+-- Author:  Unknown compiler
 -- Medium:  GEDCOM genealogy (Roman+Gods.ged)
 -- Canon:   As recorded in the GEDCOM file
 -- Covers:  322 people and 165 families, imported from a public GEDCOM sample.
@@ -4242,7 +4242,7 @@ DELETE FROM saga WHERE id = 'roman-gods';
 
 -- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
 INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
-    ('roman-gods', 'mythology', 13, 'Roman Gods', 'Roman Gods', 'GEDCOM genealogy (Roman+Gods.ged)', 'Compiled by unknown', 'As recorded in the GEDCOM file', 'Mythology', '322 people and 165 families, imported from a public GEDCOM sample.');
+    ('roman-gods', 'mythology', 13, 'Roman Gods', 'Roman Gods', 'GEDCOM genealogy (Roman+Gods.ged)', 'Unknown compiler', 'As recorded in the GEDCOM file', 'Mythology', '322 people and 165 families, imported from a public GEDCOM sample.');
 
 -- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
 INSERT INTO saga_note (saga_id, position, note) VALUES

@@ -193,7 +193,11 @@ const saga: SagaRecord = {
     source: {
         work: title,
         medium: `GEDCOM genealogy (${path.basename(file)})`,
-        author: submitter ? `Compiled by ${child(submitter, "NAME")?.value ?? "unknown"}` : "Unknown compiler",
+        // A SUBM record without a NAME (the Roman gods file) would read "Compiled by unknown"; say it plainly instead.
+        author:
+            submitter && child(submitter, "NAME")?.value
+                ? `Compiled by ${child(submitter, "NAME")!.value}`
+                : "Unknown compiler",
         canon: sourceTitles.length ? `Sources cited: ${sourceTitles.join("; ")}` : "As recorded in the GEDCOM file",
         genre,
         covers: `${people.length} people and ${families.length} families, imported from a public GEDCOM sample.`,

@@ -372,7 +372,17 @@ document.querySelector<HTMLButtonElement>("#pad [data-action=fit]")!.onclick = f
 // --- Picking: hover highlights (mouse only), click/tap selects -----------------------------------------------------
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
+// Who is under the pointer?
+//  - Mouse/pen: an exact raycast, nearest sphere wins. A cursor is precise, so "the one in front" is what you meant.
+//  - Touch: a fingertip covers ~7 mm and hides what's beneath it, so a raycast often hits a sphere in FRONT of the
+//    intended one when people overlap (measured: 2 of 14 taps picked the wrong person on a phone). Instead, pick the
+//    person whose on-screen centre is closest to the tap, within a finger-sized radius. Fall back to the raycast.
+const FINGER_PX = 28;
 function pick(e: PointerEvent | MouseEvent): string | null {
+    if ((e as PointerEvent).pointerType === "touch") {
+        const id = nearestOnScreen(e.clientX, e.clientY, FINGER_PX);
+        if (id) return id;
+    }
     pointer.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
     raycaster.setFromCamera(pointer, camera);
     for (const hit of raycaster.intersectObject(graph, true)) {
@@ -380,6 +390,23 @@ function pick(e: PointerEvent | MouseEvent): string | null {
         if (id) return id;
     }
     return null;
+}
+
+const projected = new THREE.Vector3();
+function nearestOnScreen(x: number, y: number, radius: number): string | null {
+    let best: string | null = null;
+    let bestD = radius;
+    for (const n of graph.graphData().nodes) {
+        if (!n.name || n.x === undefined) continue;
+        projected.set(n.x, n.y!, n.z!).project(camera);
+        if (projected.z > 1) continue; // behind the camera
+        const d = Math.hypot(((projected.x + 1) / 2) * innerWidth - x, ((1 - projected.y) / 2) * innerHeight - y);
+        if (d < bestD) {
+            bestD = d;
+            best = n.id;
+        }
+    }
+    return best;
 }
 
 // Tap/click handling that works the same for mouse, pen and touch:

@@ -74,11 +74,42 @@ The seed runs in one transaction and can be re-run: each saga is deleted first, 
 | On-screen arrow pad (touch screens only)  | Hold to pan; the centre button refits the whole tree                 |
 | Hover a person (mouse)                    | Highlight their line: ancestors, descendants and spouses; others dim |
 | Click / tap a person                      | Select them and open a details panel; click empty space to deselect  |
+| Double-click a person                     | Select them and fly to them                                          |
 | Click a name in the details panel         | Jump to that relative                                                |
 | Type in **Find a person…** (or press `/`) | Search by name; choosing a result selects and flies to them          |
 | Clear the search (✕) or press `Esc`       | Deselect, and ease back to the whole tree                            |
+| **How are they related?** (or press `R`)  | Open the relationship finder (see below)                             |
+| **Import GEDCOM**, or drop a `.ged` file  | Load your own family tree (see below)                                |
+| **Save PNG** (or press `P`)               | Download the current view as a high-resolution image                 |
+| `F`                                       | Fit the whole tree in view                                           |
 
-Any drag, zoom or pan takes the camera back from auto-framing or a fly-to straight away.
+Any drag, zoom or pan takes the camera back from auto-framing or a fly-to straight away. If your system is set to reduce motion, camera moves jump straight to their end instead of animating.
+
+### Relationship finder
+
+Pick two people, by typing their names or by clicking them in the 3D view while the finder is open. It tells you how the first person is related to the second, e.g. _"Jon Snow is the nephew of Daenerys Targaryen"_, lists each step of the connection, and highlights the path in gold. It names:
+
+- direct lines: son, grandmother, great-great-grandson…
+- siblings and half-siblings;
+- aunts, uncles, nieces and nephews, including grand- and great-grand-;
+- cousins by degree and removal, e.g. _second cousin once removed_;
+- spouses, and connections only by marriage, which it describes step by step;
+- adoption, flagged as _(by adoption)_.
+
+When two people are related in more than one way, which is common among the Targaryens, it reports the closest relationship. ⇅ swaps the two people, and the link `?saga=got&person=jon&with=daenerys` opens straight to a relationship.
+
+### Importing your own family (GEDCOM)
+
+GEDCOM (`.ged`) is the standard export format of genealogy software and sites: Ancestry, FamilySearch, MyHeritage, Gramps, Family Tree Maker and others. Use **Import GEDCOM**, or drag a file onto the page. Everything happens in your browser, and nothing is uploaded.
+
+- **Supported:** GEDCOM 5.5, 5.5.1 and 7. People, marriages and children are imported, and adoptions are recognised whether they're marked on the child's family link or with Ancestry/FTM's `_FREL`/`_MREL` tags.
+- **Houses:** people are grouped and coloured by surname.
+- **Problems are reported, not fatal:** a missing sex (shown as male, because the labels need one), or a link to a person who isn't in the file, is listed in the browser console after import.
+- An imported tree isn't saved and can't be shared by link. Choosing a saga from the menu replaces it.
+
+### When 3D isn't available
+
+The app needs WebGL 2. Without it, for example with hardware acceleration turned off, an old browser or a blocklisted GPU, it shows an explanation and what to try instead of a blank page. If the graphics context is lost mid-session (a driver reset or too many tabs), it pauses and resumes once the browser restores it.
 
 Relationship labels (mother, son, sisters…) fade out with distance so the view doesn't clutter; zoom in to read them. Labels on a highlighted line stay readable at any distance.
 
@@ -88,6 +119,7 @@ The address bar tracks what you're looking at, so any view can be shared or book
 
 - `?saga=dune` opens a saga.
 - `?saga=starwars&person=leia` opens a saga with a person selected.
+- `?saga=got&person=jon&with=daenerys` opens the relationship finder for two people.
 
 Unknown sagas fall back to the first one, and unknown people are ignored.
 

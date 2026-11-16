@@ -25,13 +25,54 @@
                 autocomplete="off"
             />
             <datalist id="names"></datalist>
+            <div id="toolbar" role="toolbar" aria-label="Tools">
+                <button id="btn-relate" aria-pressed="false" title="How are two people related? (R)">
+                    How are they related?
+                </button>
+                <button id="btn-import" title="Load a family from a GEDCOM file (.ged)">Import GEDCOM</button>
+                <button id="btn-png" title="Save the current view as a PNG image (P)">Save PNG</button>
+                <input id="file" type="file" accept=".ged,.gedcom,text/plain" hidden />
+            </div>
         </header>
 
+        <section id="relate" hidden aria-label="Relationship finder">
+            <button class="close" id="relate-close" aria-label="Close">&times;</button>
+            <h2>How are they related?</h2>
+            <label>
+                <span>From</span>
+                <input id="rel-a" type="search" list="names" placeholder="First person" autocomplete="off" />
+            </label>
+            <button id="rel-swap" aria-label="Swap the two people" title="Swap">&#8645;</button>
+            <label>
+                <span>To</span>
+                <input id="rel-b" type="search" list="names" placeholder="Second person" autocomplete="off" />
+            </label>
+            <p id="rel-result" aria-live="polite"></p>
+            <ol id="rel-steps"></ol>
+        </section>
+
+        <div id="toast" role="status" aria-live="polite" hidden></div>
+
+        <div id="no-webgl" hidden>
+            <h2>3D view unavailable</h2>
+            <p>
+                This family tree draws in 3D with WebGL, which this browser or device can't provide right now (<span
+                    id="no-webgl-reason"
+                ></span
+                >).
+            </p>
+            <p>
+                Try another browser, turn on hardware acceleration in your browser settings, or update your graphics
+                drivers. The family data itself is in <a href="data/sagas.json">data/sagas.json</a>.
+            </p>
+        </div>
+
         <aside id="panel" hidden aria-live="polite">
-            <button id="panel-close" aria-label="Close">&times;</button>
+            <button class="close" id="panel-close" aria-label="Close">&times;</button>
             <h2 id="panel-name"></h2>
             <p id="panel-house"></p>
             <dl id="panel-list"></dl>
+            <p class="panel-actions"><button id="panel-relate">Find how they're related to…</button></p>
         </aside>
 
         <nav id="pad" aria-label="Pan the view">

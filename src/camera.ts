@@ -10,7 +10,14 @@ type Pos = { x?: number; y?: number; z?: number };
 type Bbox = { x: [number, number]; y: [number, number]; z: [number, number] };
 
 /** Fraction to close per frame so a lerp converges at `rate` per second regardless of frame time. */
-const ease = (rate: number, dt: number) => 1 - Math.exp(-rate * dt);
+const ease = (rate: number, dt: number) => (reducedMotion ? 1 : 1 - Math.exp(-rate * dt));
+
+// prefers-reduced-motion: camera moves (fit, fly-to) jump straight to their end instead of animating.
+let reducedMotion = false;
+export const setReducedMotion = (on: boolean) => {
+    reducedMotion = on;
+    controls.enableDamping = !on;
+};
 
 let autoFit = true;
 let flight: { node: Pos; dir: THREE.Vector3; t: number } | null = null;

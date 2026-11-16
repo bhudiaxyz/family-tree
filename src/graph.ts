@@ -23,6 +23,8 @@ const midpoint = (obj: THREE.Object3D, a: Pos, b: Pos) =>
 const GEN_GAP = 80; // vertical gap between generations (world units)
 const DEPTH = 240; // front-to-back spread of the house planes (world units)
 const DIM = 0.12; // opacity of everything outside a highlighted line
+const LINK_OPACITY = 0.45; // resting opacity of family links (the library default, 0.2, is too faint at a distance)
+const FADE_RATE = 10; // highlight fades converge at this rate per second (≈ 0.3 s to settle)
 const LABEL_NEAR = 110; // relationship labels are fully visible within this distance of the camera…
 const LABEL_FAR = 240; // …and hidden beyond this one
 
@@ -50,7 +52,17 @@ export const graph = new ThreeForceGraph<Node, Link>()
         label.position.y = 8;
         return new THREE.Group().add(sphere, label);
     })
-    .linkColor((l) => (l.kind === "spouse" ? "#c9ad73" : "#667"))
+    // One material per link. The library otherwise shares one material per colour, so dimming one link dimmed every
+    // link of that colour and the last one processed decided them all.
+    .linkMaterial(
+        (l) =>
+            new THREE.MeshLambertMaterial({
+                color: l.kind === "spouse" ? "#c9ad73" : "#667",
+                transparent: true,
+                opacity: LINK_OPACITY,
+                depthWrite: false,
+            })
+    )
     .linkWidth(0.6)
     .linkDirectionalParticles((l) => (l.kind === "child" ? 2 : 0))
     .linkDirectionalParticleWidth(1.2)
@@ -152,10 +164,13 @@ function disposeObject(obj: THREE.Object3D | undefined) {
 export const nodeById = (id: string): Node | undefined => graph.graphData().nodes.find((n) => n.id === id);
 
 // --- Highlight ------------------------------------------------------------------------------------------------------
+// highlight() only sets a target "dim" per object (1 = lit, DIM = faded); stepFades() eases every object towards its
+// target each frame, so highlights fade in and out instead of snapping. A relationship path additionally glows.
 let focus: Set<string> | null = null; // people in the highlighted line, or null to show everything
+let pathLinks = new Set<Link>(); // links on a relationship path, drawn brighter and thicker
 
-/** Dim everything outside `people` (null clears the highlight). Union nodes stay lit when any member is in it. */
-export function highlight(people: Set<string> | null): void {
+/** Dim everything outside `people` (null clears it). `path` (a relationship chain) is emphasised on top. */
+export function highlight(people: Set<string> | null, path: string[] = []): void {
     focus = people;
     const { nodes, links } = graph.graphData();
     const unionsLit = new Set<string>();
@@ -165,22 +180,86 @@ export function highlight(people: Set<string> | null): void {
             if (l.kind === "child" && people.has(endId(l.target))) unionsLit.add(endId(l.source));
         }
     const lit = (id: string) => !people || people.has(id) || unionsLit.has(id);
-    for (const n of nodes as (Node & Bound)[]) setOpacity(n.__threeObj, lit(n.id) ? 1 : DIM);
-    for (const l of links as (Link & Bound)[])
-        setOpacity(l.__lineObj, lit(endId(l.source)) && lit(endId(l.target)) ? 1 : DIM);
-    siblingPairs.forEach(([a, b], i) => setOpacity(siblingLabels[i], lit(a.id) && lit(b.id) ? 1 : DIM));
-    siblingMat.opacity = people ? DIM : 1;
+
+    // A path step between two people goes through their family's union node: parent→union→child, or
+    // spouse→union←spouse. Mark both halves of each step.
+    pathLinks = new Set();
+    const onPath = new Set(path);
+    for (let i = 0; i + 1 < path.length; i++) {
+        const [a, b] = [path[i], path[i + 1]];
+        const touching = (p: string) => links.filter((l) => endId(l.source) === p || endId(l.target) === p);
+        for (const la of touching(a)) {
+            const ua = la.kind === "spouse" ? endId(la.target) : endId(la.source);
+            const lb = touching(b).find((l) => (l.kind === "spouse" ? endId(l.target) : endId(l.source)) === ua);
+            if (lb) {
+                pathLinks.add(la);
+                pathLinks.add(lb);
+                break;
+            }
+        }
+    }
+
+    for (const n of nodes as (Node & Bound)[]) {
+        setTarget(n.__threeObj, lit(n.id) ? 1 : DIM);
+        const sphere = n.__threeObj?.children[0] as
+            THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial> | undefined;
+        if (sphere?.material.emissive) sphere.userData.glow = onPath.has(n.id) && path.length > 1 ? 1 : 0;
+    }
+    for (const l of links as (Link & Bound)[]) {
+        const on = pathLinks.has(l) || (lit(endId(l.source)) && lit(endId(l.target)));
+        setTarget(l.__lineObj, on ? 1 : DIM);
+        if (l.__lineObj) l.__lineObj.userData.path = pathLinks.has(l) ? 1 : 0;
+    }
+    siblingPairs.forEach(([a, b], i) => setTarget(siblingLabels[i], lit(a.id) && lit(b.id) ? 1 : DIM));
+    siblings.userData.dimTarget = people ? DIM : 1;
 }
 
-// Labels are faded every frame by fadeLabels(), so for them only record the factor; meshes and lines get it directly.
-function setOpacity(obj: THREE.Object3D | undefined, opacity: number) {
-    obj?.traverse((o) => {
-        if (o instanceof SpriteText) return void (o.userData.dim = opacity);
-        const m = (o as THREE.Mesh).material as THREE.Material | undefined;
-        if (!m || m === unionMat) return;
-        m.transparent = true;
-        m.opacity = opacity * ((m.userData.baseOpacity ??= m.opacity) as number);
-    });
+function setTarget(obj: THREE.Object3D | undefined, dim: number) {
+    obj?.traverse((o) => (o.userData.dimTarget = dim));
+}
+
+const approach = (cur: number, target: number, k: number) => cur + (target - cur) * k;
+
+// Ease every object's dim (and path glow) towards its target. Meshes and lines get opacity directly; labels keep
+// the factor in userData.dim, which fadeLabels() combines with the distance fade.
+function stepFades(dt: number) {
+    const k = 1 - Math.exp(-FADE_RATE * dt);
+    const fadeObject = (root: THREE.Object3D | undefined) =>
+        root?.traverse((o) => {
+            const target = (o.userData.dimTarget ?? 1) as number;
+            const dim = approach((o.userData.dim ?? 1) as number, target, k);
+            o.userData.dim = dim;
+            if (o instanceof SpriteText || o.userData.isLinkLine) return; // labels: fadeLabels(); links: below
+            const m = (o as THREE.Mesh).material as THREE.Material | undefined;
+            if (!m || m === (unionMat as THREE.Material)) return;
+            m.transparent = true;
+            m.userData.baseOpacity ??= m.opacity;
+            m.opacity = dim * (m.userData.baseOpacity as number);
+            if (m instanceof THREE.MeshStandardMaterial) {
+                const glow = approach((o.userData.glowNow ?? 0) as number, (o.userData.glow ?? 0) as number, k);
+                o.userData.glowNow = glow;
+                m.emissive.copy(m.color).multiplyScalar(0.45 * glow); // the path's people light up in their colour
+            }
+        });
+    const { nodes, links } = graph.graphData();
+    for (const n of nodes as (Node & Bound)[]) fadeObject(n.__threeObj);
+    for (const l of links as (Link & Bound)[]) {
+        fadeObject(l.__lineObj);
+        // Path links: brighter (full opacity, gold) and thicker than resting links.
+        const line = l.__lineObj?.children[0] as
+            THREE.Mesh<THREE.BufferGeometry, THREE.MeshLambertMaterial> | undefined;
+        if (!line) continue;
+        line.userData.isLinkLine = true;
+        const p = approach((line.userData.pathNow ?? 0) as number, (l.__lineObj!.userData.path ?? 0) as number, k);
+        line.userData.pathNow = p;
+        line.material.opacity = (line.userData.dim ?? 1) * (LINK_OPACITY + (1 - LINK_OPACITY) * p);
+        line.material.emissive.set(0xc9ad73).multiplyScalar(0.6 * p);
+        line.scale.x = line.scale.y = 1 + 1.6 * p;
+    }
+    siblingLabels.forEach(fadeObject);
+    const sd = approach((siblings.userData.dim ?? 1) as number, (siblings.userData.dimTarget ?? 1) as number, k);
+    siblings.userData.dim = sd;
+    siblingMat.opacity = sd;
 }
 
 // --- Label fade -----------------------------------------------------------------------------------------------------
@@ -202,9 +281,10 @@ function fadeLabels(camera: THREE.Camera) {
     siblingLabels.forEach(fade);
 }
 
-/** Advance the simulation and the overlays by one frame. */
-export function stepGraph(camera: THREE.Camera): void {
+/** Advance the simulation, highlight fades and overlays by one frame. */
+export function stepGraph(camera: THREE.Camera, dt: number): void {
     graph.tickFrame();
     updateSiblings();
+    stepFades(dt);
     fadeLabels(camera);
 }

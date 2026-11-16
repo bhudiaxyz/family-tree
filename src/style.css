@@ -121,15 +121,17 @@ header {
 #panel dd {
     margin: 0;
 }
-#panel a {
+#panel a,
+#relate a {
     color: var(--ink);
     text-decoration: underline dotted rgba(201, 173, 115, 0.6);
     text-underline-offset: 3px;
 }
-#panel a:hover {
+#panel a:hover,
+#relate a:hover {
     color: var(--gold-bright);
 }
-#panel-close {
+.close {
     position: absolute;
     top: 8px;
     right: 10px;
@@ -141,8 +143,174 @@ header {
     color: rgba(232, 220, 193, 0.6);
     cursor: pointer;
 }
-#panel-close:hover {
+.close:hover {
     color: var(--gold-bright);
+}
+.panel-actions {
+    margin: 12px 0 0;
+}
+
+/* ── Buttons (toolbar, panel actions) ─────────────────────────────────────────────────────────────────────── */
+#toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    pointer-events: auto;
+}
+#toolbar button,
+.panel-actions button,
+#rel-swap {
+    padding: 5px 10px;
+    font: 500 12px var(--fb);
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    background: rgba(20, 19, 24, 0.85);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    cursor: pointer;
+    transition:
+        border-color 0.15s,
+        color 0.15s;
+}
+#toolbar button:hover,
+.panel-actions button:hover,
+#rel-swap:hover,
+#toolbar button[aria-pressed="true"] {
+    color: var(--gold-bright);
+    border-color: var(--gold);
+}
+:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+}
+
+/* ── Relationship finder ───────────────────────────────────────────────────────────────────────────────────── */
+#relate {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    box-sizing: border-box;
+    width: 340px;
+    max-width: calc(100vw - 40px);
+    max-height: 60vh;
+    overflow: auto;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid rgba(201, 173, 115, 0.25);
+    border-radius: 6px;
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.45;
+}
+#relate[hidden] {
+    display: none;
+}
+#relate h2 {
+    margin: 0 24px 10px 0;
+    font: 700 18px var(--fd);
+    letter-spacing: 0.03em;
+    color: var(--gold-bright);
+}
+#relate label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0;
+}
+#relate label span {
+    width: 36px;
+    color: var(--ink-faint);
+}
+#relate input {
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 6px 8px;
+    font: 13px var(--fb);
+    color: var(--ink);
+    background: rgba(7, 7, 10, 0.6);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    color-scheme: dark;
+}
+#rel-swap {
+    margin: 0 0 0 44px;
+    padding: 1px 8px;
+    font-size: 14px;
+}
+#rel-result {
+    margin: 12px 0 6px;
+    font-size: 14px;
+    color: var(--gold-bright);
+}
+#rel-result:empty {
+    display: none;
+}
+#rel-steps {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--ink-soft);
+}
+
+/* ── Toast (short confirmations and errors) ────────────────────────────────────────────────────────────────── */
+#toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    max-width: calc(100vw - 40px);
+    padding: 8px 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    color: var(--ink);
+    font-size: 13px;
+}
+#toast[hidden] {
+    display: none;
+}
+#toast.error {
+    border-color: #c0262d;
+}
+
+/* ── No-WebGL notice ───────────────────────────────────────────────────────────────────────────────────────── */
+#no-webgl {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    padding: 24px;
+    text-align: center;
+    color: var(--ink);
+    line-height: 1.6;
+}
+#no-webgl[hidden] {
+    display: none;
+}
+#no-webgl h2 {
+    font: 700 22px var(--fd);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+}
+#no-webgl p {
+    max-width: 480px;
+    margin: 0 auto 10px;
+}
+#no-webgl a {
+    color: var(--gold);
+}
+body.no-3d header,
+body.no-3d #pad {
+    display: none;
+}
+
+/* Respect reduced-motion: no CSS transitions (the 3D camera also skips its fly-to animation, see app.ts). */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
 }
 
 /* ── On-screen arrow pad: touch screens only (coarse pointer), where there is no keyboard ──────────────────── */
@@ -221,7 +389,8 @@ header {
     #author {
         max-width: calc(100vw - 150px);
     }
-    #panel {
+    #panel,
+    #relate {
         left: 10px;
         right: 10px;
         bottom: 10px;
@@ -229,8 +398,17 @@ header {
         max-width: none;
         max-height: 45vh;
     }
-    #panel:not([hidden]) ~ #pad {
+    /* The relationship finder takes the panel's place on a phone rather than stacking on top of it. */
+    #relate:not([hidden]) ~ #panel {
+        display: none;
+    }
+    #panel:not([hidden]) ~ #pad,
+    #relate:not([hidden]) ~ #pad {
         bottom: calc(45vh + 20px);
+    }
+    /* Toolbar labels are long; let the buttons wrap under the search box. */
+    #toolbar button {
+        padding: 5px 8px;
     }
     /* lil-gui sets an inline width, so override it; closed, it shrinks to its title bar (top right). */
     .lil-gui.lil-root {

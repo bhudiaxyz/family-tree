@@ -4,12 +4,15 @@
     "source": {
         "work": "Dune",
         "medium": "Novel series (1965–1985); Dune, Dune Messiah, Children of Dune",
-        "author": "Frank Herbert; Dmitri and Abulurd from the prequels by Brian Herbert & Kevin J. Anderson",
+        "author": "Frank Herbert; Dmitri, Abulurd and Anirul from the prequels by Brian Herbert & Kevin J. Anderson",
         "canon": "Novels",
         "genre": "Science fiction",
         "covers": "Houses Atreides, Harkonnen and Corrino, the Fremen, and the Bene Gesserit, through Leto II and Ghanima."
     },
-    "notes": ["Jessica is the Baron's daughter by Mohiam (revealed in the novels), so Paul is Harkonnen by blood."],
+    "notes": [
+        "Jessica is the Baron's daughter by Mohiam (revealed in the novels), so Paul is Harkonnen by blood.",
+        "Anirul (Shaddam IV's wife, mother of Irulan and Wensicia) is named in the prequels, not Frank Herbert's novels."
+    ],
     "houses": [
         {
             "name": "Atreides",

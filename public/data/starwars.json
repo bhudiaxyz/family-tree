@@ -36,6 +36,14 @@
         {
             "name": "Palpatine",
             "color": "#b3202a"
+        },
+        {
+            "name": "Unknown",
+            "color": "#8a8a96"
+        },
+        {
+            "name": "Whitesun",
+            "color": "#d8c89a"
         }
     ],
     "people": [
@@ -60,7 +68,7 @@
         {
             "id": "beru",
             "name": "Beru Whitesun Lars",
-            "house": "Lars",
+            "house": "Whitesun",
             "sex": "f"
         },
         {
@@ -144,7 +152,7 @@
         {
             "id": "miramir",
             "name": "Miramir",
-            "house": "Palpatine",
+            "house": "Unknown",
             "sex": "f"
         },
         {

@@ -58,6 +58,10 @@
         {
             "name": "Greengrass",
             "color": "#a3c96a"
+        },
+        {
+            "name": "Rosier",
+            "color": "#8a8f6a"
         }
     ],
     "people": [
@@ -220,7 +224,7 @@
         {
             "id": "druella",
             "name": "Druella Rosier",
-            "house": "Black",
+            "house": "Rosier",
             "sex": "f"
         },
         {

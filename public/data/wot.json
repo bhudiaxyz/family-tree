@@ -9,12 +9,11 @@
         "genre": "Epic fantasy",
         "covers": "Rand al'Thor's Aiel and Andoran royal ancestry, and the Trakand/Damodred half-siblings linked through his mother Tigraine."
     },
-    "notes": ["Tigraine is both Galad's mother (by Taringail) and Rand's (by Janduin), which links the two halves."],
+    "notes": [
+        "Tigraine is both Galad's mother (by Taringail) and Rand's (by Janduin), which links the two halves.",
+        "Taringail and Moiraine are cousins, not siblings; Taringail's parents are not named, so he has a parentless entry."
+    ],
     "houses": [
-        {
-            "name": "Andor",
-            "color": "#c8202a"
-        },
         {
             "name": "Mantear",
             "color": "#d77f3a"
@@ -48,7 +47,7 @@
         {
             "id": "mordrellen",
             "name": "Mordrellen",
-            "house": "Andor",
+            "house": "Mantear",
             "sex": "f"
         },
         {
@@ -188,6 +187,10 @@
         {
             "id": "wot-f10",
             "adoptive": false
+        },
+        {
+            "id": "wot-f11",
+            "adoptive": false
         }
     ],
     "members": [
@@ -210,11 +213,6 @@
             "family": "wot-f2",
             "person": "dalresin",
             "role": "parent"
-        },
-        {
-            "family": "wot-f2",
-            "person": "taringail",
-            "role": "child"
         },
         {
             "family": "wot-f2",
@@ -325,6 +323,11 @@
             "family": "wot-f10",
             "person": "egwene",
             "role": "parent"
+        },
+        {
+            "family": "wot-f11",
+            "person": "taringail",
+            "role": "child"
         }
     ]
 }

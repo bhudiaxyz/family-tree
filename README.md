@@ -1,6 +1,6 @@
 # Family Tree
 
-An interactive 3D family tree that runs in the browser. Each person is a sphere coloured by house, marriages and parentage are links, and every generation sits on its own layer. You can orbit around the tree, zoom in and pan.
+An interactive 3D family tree visualizer that runs in the browser. Each person is a sphere coloured by house, marriages and parentage are links, and every generation sits on its own layer. You can orbit around the tree, zoom in and pan.
 
 Ten sample trees from science fiction and fantasy are included. Use the **Saga** drop-down at the top right to switch between them:
 
@@ -17,7 +17,9 @@ Ten sample trees from science fiction and fantasy are included. Use the **Saga**
 | The Stormlight Archive | Brandon Sanderson                                      | Kholin, Davar, Kaladin's family                                                     |
 | The Witcher            | Andrzej Sapkowski                                      | Cintra's royal line from Lara Dorren to Ciri                                        |
 
-Each saga's `source` field gives the work, medium, author, which canon it follows, genre and what it covers. `notes` records modelling choices, such as where the sources disagree or where generations were skipped. The family data was written from memory, so check it against the source before relying on it.
+Each saga's `source` field gives the work, medium, author, which canon it follows, genre and what it covers. `notes` records modelling choices, such as where the sources disagree or where generations were skipped.
+
+The family data was written from memory and then reviewed saga by saga against fan wikis that cite the books (A Wiki of Ice and Fire, Tolkien Gateway, Coppermind and others). Most of those sites block automated access, so only Coppermind could actually be fetched; the rest of the review was also done from memory. One real error was found and fixed: Taringail and Moiraine Damodred are cousins, not siblings. Several house labels were corrected too. Treat the data as carefully reviewed rather than authoritative.
 
 Built with [three.js](https://threejs.org/), [three-forcegraph](https://github.com/vasturiano/three-forcegraph), [three-spritetext](https://github.com/vasturiano/three-spritetext), TypeScript and Vite.
 
@@ -28,7 +30,8 @@ npm install
 npm run dev        # development server on http://localhost:5173/family-tree/
 npm run build      # type-check + production bundle in dist/
 npm run preview    # serve the production bundle
-npm test           # check every saga in public/data (references resolve, everyone is in a family, manifest in sync)
+npm test           # check every saga's data, and that every generation is laid out in the right row
+npm run format     # format everything with Prettier (format:check to verify only)
 ```
 
 ### Deploying and data location
@@ -45,11 +48,32 @@ That base URL must serve `sagas.json` and `<id>.json` in the same shape, with CO
 
 ## Controls
 
-| Input                   | Action |
-| ----------------------- | ------ |
-| Left-drag / one-finger  | Orbit  |
-| Scroll / pinch          | Zoom   |
-| Right-drag / two-finger | Pan    |
+| Input                                     | Action                                                               |
+| ----------------------------------------- | -------------------------------------------------------------------- |
+| Left-drag / one-finger drag               | Orbit                                                                |
+| Scroll / pinch                            | Zoom                                                                 |
+| Right-drag / two-finger drag              | Pan                                                                  |
+| Arrow keys (hold)                         | Pan left, right, up, down                                            |
+| Shift + arrow keys                        | Orbit in small steps                                                 |
+| On-screen arrow pad (touch screens only)  | Hold to pan; the centre button refits the whole tree                 |
+| Hover a person (mouse)                    | Highlight their line: ancestors, descendants and spouses; others dim |
+| Click / tap a person                      | Select them and open a details panel; click empty space to deselect  |
+| Click a name in the details panel         | Jump to that relative                                                |
+| Type in **Find a person…** (or press `/`) | Search by name; choosing a result selects and flies to them          |
+| Clear the search (✕) or press `Esc`       | Deselect, and ease back to the whole tree                            |
+
+Any drag, zoom or pan takes the camera back from auto-framing or a fly-to straight away.
+
+Relationship labels (mother, son, sisters…) fade out with distance so the view doesn't clutter; zoom in to read them. Labels on a highlighted line stay readable at any distance.
+
+### Shareable links
+
+The address bar tracks what you're looking at, so any view can be shared or bookmarked:
+
+- `?saga=dune` opens a saga.
+- `?saga=starwars&person=leia` opens a saga with a person selected.
+
+Unknown sagas fall back to the first one, and unknown people are ignored.
 
 ## Using your own family
 

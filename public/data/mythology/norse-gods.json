@@ -1,0 +1,1641 @@
+{
+    "id": "norse-gods",
+    "title": "Norse Gods",
+    "source": {
+        "work": "Norse Gods",
+        "medium": "GEDCOM genealogy (Norse+Gods.ged)",
+        "author": "Compiled by unknown",
+        "canon": "Sources cited: RCKarnes; World Family Tree Vol. 5; Aderholt Hillman Hughes Solomon Dunn Funderburg; Guy Allen Sims",
+        "genre": "Mythology",
+        "covers": "117 people and 46 families, imported from a public GEDCOM sample."
+    },
+    "notes": [
+        "Imported from Norse+Gods.ged (Windows-1252; FTM Family Tree Maker (17.0.0.440); file dated 20 November 2007) by scripts/gedcom-to-saga.mts.",
+        "Names are read in mythology mode: the deity's name is the GEDCOM surname part, and descriptive text in the given-name part (e.g. \"queen of the Gods\") is dropped.",
+        "Everyone is in one house, \"Norse pantheon\": the file has no real surnames to group by.",
+        "Import warnings: Heimdall: sex not recorded as M or F, shown as male; Ve: sex not recorded as M or F, shown as male; Vidar: sex not recorded as M or F, shown as male; Vör: sex not recorded as M or F, shown as male; Family @F000-1@: CHIL points to a missing person; Family @F000-2@: CHIL points to a missing person; Family @F000-4@: CHIL points to a missing person; Family @F000-6@: CHIL points to a missing person; Family @F00-10@: CHIL points to a missing person; Family @F00-11@: CHIL points to a missing person; Family @F00-12@: CHIL points to a missing person; Family @F00-13@: CHIL points to a missing person; Family @F00-14@: CHIL points to a missing person; Family @F00-15@: CHIL points to a missing person; Family @F00-16@: CHIL points to a missing person; Family @F00-17@: CHIL points to a missing person; Family @F00-18@: CHIL points to a missing person; Family @F00-23@: CHIL points to a missing person; Family @F00-24@: CHIL points to a missing person; Family @F00-25@: CHIL points to a missing person; Family @F00-26@: CHIL points to a missing person; Family @F00-27@: CHIL points to a missing person; Family @F00-28@: CHIL points to a missing person"
+    ],
+    "houses": [
+        {
+            "name": "Norse pantheon",
+            "color": "#c8102e"
+        }
+    ],
+    "people": [
+        {
+            "id": "bestla",
+            "name": "Bestla",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "sibil",
+            "name": "Sibil",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "angrboda",
+            "name": "Angrboda",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "annar",
+            "name": "Annar",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "au-r",
+            "name": "Auðr",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "au-umbla",
+            "name": "Auðumbla",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "aurbo-a",
+            "name": "Aurboða",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "gir",
+            "name": "Ægir",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "baldr",
+            "name": "Baldr",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "baugi",
+            "name": "Baugi",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "bara",
+            "name": "Bára",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "beli",
+            "name": "Beli",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "blo-ughadda",
+            "name": "Blóðughadda",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "bolthorn",
+            "name": "Bolthorn",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "borr",
+            "name": "Borr",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "bragi",
+            "name": "Bragi",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "buri",
+            "name": "Búri",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "bylgja",
+            "name": "Bylgja",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "byleistr",
+            "name": "Býleistr",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "giant-teacher-of-odin-of-nine-magic-charms",
+            "name": "Giant Teacher of Odin of Nine Magic Charms",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "dagr",
+            "name": "Dagr",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "delling",
+            "name": "Delling",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "dufa",
+            "name": "Dúfa",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "farbauti",
+            "name": "Fárbauti",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "fenrir",
+            "name": "Fenrir",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "fjalar",
+            "name": "Fjalar",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "fjolnir",
+            "name": "Fjölnir",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "fornjot",
+            "name": "Fornjót",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "forseti",
+            "name": "Forseti",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "freyja",
+            "name": "Freyja",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "freyr",
+            "name": "Freyr",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "frigg",
+            "name": "Frigg",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "galar",
+            "name": "Galar",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "gangr",
+            "name": "Gangr",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "gefjun",
+            "name": "Gefjun",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "gerd",
+            "name": "Gerd",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "gersemi",
+            "name": "Gersemi",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "a-giantess",
+            "name": "A Giantess",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "gilling",
+            "name": "Gilling",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "rich-girl",
+            "name": "Rich Girl",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "glaur",
+            "name": "Glaur",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "grid",
+            "name": "Grid",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "gunnlo",
+            "name": "Gunnlöð",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "hefring",
+            "name": "Hefring",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "heimdall",
+            "name": "Heimdall",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hel",
+            "name": "Hel",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "helbindi",
+            "name": "Helbindi",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hermod",
+            "name": "Hermod",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "himingl-va",
+            "name": "Himinglæva",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "hnoss",
+            "name": "Hnoss",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "ho-r",
+            "name": "Höðr",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hati-hrodvitnisson",
+            "name": "Hati Hródvitnisson",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hronn",
+            "name": "Hrönn",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "idi",
+            "name": "Idi",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "i-unn",
+            "name": "Iðunn",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "jarnsaxa",
+            "name": "Járnsaxa",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "jor",
+            "name": "Jörð",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "jormungandr",
+            "name": "Jörmungandr",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "kari",
+            "name": "Kári",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "kolga",
+            "name": "Kólga",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "kvasir",
+            "name": "Kvasir",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "laufey",
+            "name": "Laufey",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "lofn",
+            "name": "Lofn",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "logi",
+            "name": "Logi",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "loki",
+            "name": "Loki",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "magni",
+            "name": "Magni",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "mani",
+            "name": "Máni",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "mimir",
+            "name": "Mímir",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "mo-i",
+            "name": "Móði",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "mundilfari",
+            "name": "Mundilfari",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "naglfari",
+            "name": "Naglfari",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "nanna",
+            "name": "Nanna",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "narfi",
+            "name": "Narfi",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "nepr",
+            "name": "Nepr",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "nerthus",
+            "name": "Nerthus",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "njor-r",
+            "name": "Njörðr",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "nott",
+            "name": "Nótt",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "odin",
+            "name": "Odin",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "olvaldi",
+            "name": "Olvaldi",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "o-r",
+            "name": "Óðr",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "ran",
+            "name": "Rán",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "rindr",
+            "name": "Rindr",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "all-the-female-god-s-saliva",
+            "name": "All the Female God's Saliva",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "all-the-male-god-s-saliva",
+            "name": "All the Male God's Saliva",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "saga",
+            "name": "Sága",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "seaxneat",
+            "name": "Seaxneat",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "sif",
+            "name": "Sif",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "sigyn",
+            "name": "Sigyn",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "sjofn",
+            "name": "Sjöfn",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "ska-i",
+            "name": "Skaði",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "skirnir",
+            "name": "Skirnir",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "skoll",
+            "name": "Skoll",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "skuld",
+            "name": "Skuld",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "several-sons",
+            "name": "Several Sons",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "sowilo",
+            "name": "Sowilo",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "sunna",
+            "name": "Sunna",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "suttungr",
+            "name": "Suttungr",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "thjazi",
+            "name": "Thjazi",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "thor",
+            "name": "Thor",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "tyr",
+            "name": "Týr",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "ru-r",
+            "name": "Þrúðr",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "ullr",
+            "name": "Ullr",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "unknown",
+            "name": "Unknown",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "unknown-2",
+            "name": "Unknown",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "unknown-3",
+            "name": "Unknown",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "unnr",
+            "name": "Unnr",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "vali",
+            "name": "Váli",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "var",
+            "name": "Vár",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "ve",
+            "name": "Ve",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "verdandi",
+            "name": "Verdandi",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "vidar",
+            "name": "Vidar",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "vili",
+            "name": "Vili",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "visbur",
+            "name": "Visbur",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "vor",
+            "name": "Vör",
+            "house": "Norse pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "gilling-s-wife",
+            "name": "Gilling's Wife",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "wyrd",
+            "name": "Wyrd",
+            "house": "Norse pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "semi-myth-kings-of-sweden-as-told-in-ynglingatal",
+            "name": "Semi-Myth Kings of Sweden as Told in Ynglingatal",
+            "house": "Norse pantheon",
+            "sex": "m"
+        }
+    ],
+    "families": [
+        {
+            "id": "norse-gods-f1",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f2",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f3",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f4",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f5",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f6",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f7",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f8",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f9",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f10",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f11",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f12",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f13",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f14",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f15",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f16",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f17",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f18",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f19",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f20",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f21",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f22",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f23",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f24",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f25",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f26",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f27",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f28",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f29",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f30",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f31",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f32",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f33",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f34",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f35",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f36",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f37",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f38",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f39",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f40",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f41",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f42",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f43",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f44",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f45",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f46",
+            "adoptive": false
+        }
+    ],
+    "members": [
+        {
+            "family": "norse-gods-f1",
+            "person": "borr",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f1",
+            "person": "bestla",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f1",
+            "person": "odin",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f1",
+            "person": "ve",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f1",
+            "person": "vili",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f2",
+            "person": "buri",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f2",
+            "person": "borr",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f3",
+            "person": "odin",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f3",
+            "person": "frigg",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f3",
+            "person": "baldr",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f3",
+            "person": "ho-r",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f3",
+            "person": "bragi",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f3",
+            "person": "tyr",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f4",
+            "person": "borr",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f5",
+            "person": "sibil",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f6",
+            "person": "odin",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f6",
+            "person": "jor",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f6",
+            "person": "thor",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f7",
+            "person": "odin",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f7",
+            "person": "grid",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f7",
+            "person": "vidar",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f8",
+            "person": "odin",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f8",
+            "person": "rindr",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f9",
+            "person": "bolthorn",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f9",
+            "person": "bestla",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f9",
+            "person": "giant-teacher-of-odin-of-nine-magic-charms",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f10",
+            "person": "au-umbla",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f10",
+            "person": "buri",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f11",
+            "person": "farbauti",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f11",
+            "person": "laufey",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f11",
+            "person": "loki",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f11",
+            "person": "byleistr",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f11",
+            "person": "helbindi",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f12",
+            "person": "loki",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f12",
+            "person": "angrboda",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f12",
+            "person": "fenrir",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f12",
+            "person": "jormungandr",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f12",
+            "person": "hel",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f13",
+            "person": "fenrir",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f13",
+            "person": "a-giantess",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f13",
+            "person": "hati-hrodvitnisson",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f13",
+            "person": "skoll",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f14",
+            "person": "baldr",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f14",
+            "person": "nanna",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f14",
+            "person": "forseti",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f15",
+            "person": "nepr",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f15",
+            "person": "nanna",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f16",
+            "person": "odin",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f16",
+            "person": "nepr",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f17",
+            "person": "vili",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f17",
+            "person": "frigg",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f18",
+            "person": "mimir",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f18",
+            "person": "several-sons",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f19",
+            "person": "unknown",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f19",
+            "person": "njor-r",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f20",
+            "person": "njor-r",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f20",
+            "person": "ska-i",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f21",
+            "person": "thjazi",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f21",
+            "person": "ska-i",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f22",
+            "person": "olvaldi",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f22",
+            "person": "thjazi",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f22",
+            "person": "gangr",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f22",
+            "person": "idi",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f23",
+            "person": "njor-r",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f23",
+            "person": "nerthus",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f23",
+            "person": "freyr",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f23",
+            "person": "freyja",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f24",
+            "person": "freyr",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f24",
+            "person": "gerd",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f24",
+            "person": "fjolnir",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f25",
+            "person": "fjolnir",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f25",
+            "person": "semi-myth-kings-of-sweden-as-told-in-ynglingatal",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f26",
+            "person": "gir",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f26",
+            "person": "aurbo-a",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f26",
+            "person": "beli",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f26",
+            "person": "gerd",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f27",
+            "person": "bragi",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f27",
+            "person": "i-unn",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f28",
+            "person": "annar",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f28",
+            "person": "nott",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f28",
+            "person": "jor",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f29",
+            "person": "narfi",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f29",
+            "person": "nott",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f30",
+            "person": "loki",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f30",
+            "person": "sigyn",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f30",
+            "person": "narfi",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f30",
+            "person": "vali",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f31",
+            "person": "gir",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f31",
+            "person": "ran",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f31",
+            "person": "bara",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f31",
+            "person": "blo-ughadda",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f31",
+            "person": "bylgja",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f31",
+            "person": "dufa",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f31",
+            "person": "hefring",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f31",
+            "person": "himingl-va",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f31",
+            "person": "hronn",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f31",
+            "person": "kolga",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f31",
+            "person": "unnr",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f32",
+            "person": "fornjot",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f32",
+            "person": "gir",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f32",
+            "person": "logi",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f32",
+            "person": "kari",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f33",
+            "person": "delling",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f33",
+            "person": "nott",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f33",
+            "person": "dagr",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f34",
+            "person": "naglfari",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f34",
+            "person": "nott",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f34",
+            "person": "au-r",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f35",
+            "person": "au-r",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f35",
+            "person": "rich-girl",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f36",
+            "person": "visbur",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f36",
+            "person": "rich-girl",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f37",
+            "person": "thor",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f37",
+            "person": "sif",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f37",
+            "person": "ru-r",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f37",
+            "person": "mo-i",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f38",
+            "person": "thor",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f38",
+            "person": "jarnsaxa",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f38",
+            "person": "magni",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f39",
+            "person": "unknown-2",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f39",
+            "person": "sif",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f39",
+            "person": "ullr",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f40",
+            "person": "o-r",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f40",
+            "person": "freyja",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f40",
+            "person": "hnoss",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f40",
+            "person": "gersemi",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f41",
+            "person": "odin",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f41",
+            "person": "hermod",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f41",
+            "person": "heimdall",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f42",
+            "person": "mundilfari",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f42",
+            "person": "glaur",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f42",
+            "person": "sowilo",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f42",
+            "person": "sunna",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f42",
+            "person": "mani",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f43",
+            "person": "all-the-male-god-s-saliva",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f43",
+            "person": "all-the-female-god-s-saliva",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f43",
+            "person": "kvasir",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f44",
+            "person": "gilling",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f44",
+            "person": "gilling-s-wife",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f44",
+            "person": "suttungr",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f45",
+            "person": "gilling",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f45",
+            "person": "unknown-3",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f45",
+            "person": "baugi",
+            "role": "child"
+        },
+        {
+            "family": "norse-gods-f46",
+            "person": "suttungr",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f46",
+            "person": "gunnlo",
+            "role": "child"
+        }
+    ]
+}

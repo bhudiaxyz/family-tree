@@ -1,0 +1,1253 @@
+{
+    "id": "greek-gods",
+    "title": "Greek Gods",
+    "source": {
+        "work": "Greek Gods",
+        "medium": "GEDCOM genealogy (Greek+Gods.ged)",
+        "author": "Unknown compiler",
+        "canon": "As recorded in the GEDCOM file",
+        "genre": "Mythology",
+        "covers": "69 people and 45 families, imported from a public GEDCOM sample."
+    },
+    "notes": [
+        "Imported from Greek+Gods.ged (UTF-8; FTW 10.0; file dated 27 JAN 2004) by scripts/gedcom-to-saga.mts.",
+        "Names are read in mythology mode: the deity's name is the GEDCOM surname part, and descriptive text in the given-name part (e.g. \"queen of the Gods\") is dropped.",
+        "Everyone is in one house, \"Greek pantheon\": the file has no real surnames to group by."
+    ],
+    "houses": [
+        {
+            "name": "Greek pantheon",
+            "color": "#c8102e"
+        }
+    ],
+    "people": [
+        {
+            "id": "andromache",
+            "name": "Andromache",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "hera",
+            "name": "Hera",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "eros",
+            "name": "Eros",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hebe",
+            "name": "Hebe",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "ares",
+            "name": "Ares",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "adonis",
+            "name": "Adonis",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "dionne",
+            "name": "Dionne",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "aphrodite",
+            "name": "Aphrodite",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "anchises",
+            "name": "Anchises",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "trojan-hero-aeneas",
+            "name": "Trojan Hero Aeneas",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "creusa",
+            "name": "Creusa",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "silvius-aeneas",
+            "name": "Silvius Aeneas",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "numa-pompilius",
+            "name": "Numa Pompilius",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "rhea-silvia",
+            "name": "Rhea Silvia",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "fetebir",
+            "name": "Fetebir",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "lavinia",
+            "name": "Lavinia",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "ascanius-iulus",
+            "name": "Ascanius Iulus",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "ate",
+            "name": "Ate",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "neoptolemus",
+            "name": "Neoptolemus",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "persephone",
+            "name": "Persephone",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "demeter",
+            "name": "Demeter",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "hades",
+            "name": "Hades",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "cronus",
+            "name": "Cronus",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "rhea",
+            "name": "Rhea",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "hephaestus",
+            "name": "Hephaestus",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hercules",
+            "name": "Hercules",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "alcmene",
+            "name": "Alcmene",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "theban-princess-megara",
+            "name": "Theban Princess Megara",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "deianira",
+            "name": "Deianira",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "uranus",
+            "name": "Uranus",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "gaea",
+            "name": "Gaea",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "poseidon",
+            "name": "Poseidon",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "amphitrite",
+            "name": "Amphitrite",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "triton",
+            "name": "Triton",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "medusa",
+            "name": "Medusa",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "pegasus",
+            "name": "Pegasus",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "orion",
+            "name": "Orion",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "cyclops-polyphemus",
+            "name": "Cyclops Polyphemus",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hestia",
+            "name": "Hestia",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "eileithya",
+            "name": "Eileithya",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "achilles",
+            "name": "Achilles",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "king-of-the-myrmidans-peleus",
+            "name": "King of the Myrmidans Peleus",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "thetis",
+            "name": "Thetis",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "neures",
+            "name": "Neures",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "pontus",
+            "name": "Pontus",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "doris",
+            "name": "Doris",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "oceanus",
+            "name": "Oceanus",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "chaos",
+            "name": "Chaos",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "thethys",
+            "name": "Thethys",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "deidamia",
+            "name": "Deidamia",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "hermione",
+            "name": "Hermione",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "helen",
+            "name": "Helen",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "king-of-sparta-menelaus",
+            "name": "King of Sparta Menelaus",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "zeus",
+            "name": "Zeus",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "leda",
+            "name": "Leda",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "greek-and-roman-mythology-polydueces",
+            "name": "Greek and Roman Mythology Polydueces",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "a-titan-coeus",
+            "name": "A Titan Coeus",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "a-titan-crius",
+            "name": "A Titan Crius",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "a-titan-hyperion",
+            "name": "A Titan Hyperion",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "a-titan-iapetus",
+            "name": "A Titan Iapetus",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "a-titan-thea",
+            "name": "A Titan Thea",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "a-titan-themis",
+            "name": "A Titan Themis",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "phoebe",
+            "name": "Phoebe",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "a-titan-mnemosyne",
+            "name": "A Titan Mnemosyne",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "athena",
+            "name": "Athena",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "apollo",
+            "name": "Apollo",
+            "house": "Greek pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "artemis",
+            "name": "Artemis",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "leto",
+            "name": "Leto",
+            "house": "Greek pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "eris",
+            "name": "Eris",
+            "house": "Greek pantheon",
+            "sex": "f"
+        }
+    ],
+    "families": [
+        {
+            "id": "greek-gods-f1",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f2",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f3",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f4",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f5",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f6",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f7",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f8",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f9",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f10",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f11",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f12",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f13",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f14",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f15",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f16",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f17",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f18",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f19",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f20",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f21",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f22",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f23",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f24",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f25",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f26",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f27",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f28",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f29",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f30",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f31",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f32",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f33",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f34",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f35",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f36",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f37",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f38",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f39",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f40",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f41",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f42",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f43",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f44",
+            "adoptive": false
+        },
+        {
+            "id": "greek-gods-f45",
+            "adoptive": false
+        }
+    ],
+    "members": [
+        {
+            "family": "greek-gods-f1",
+            "person": "andromache",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f2",
+            "person": "andromache",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f3",
+            "person": "anchises",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f4",
+            "person": "anchises",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f4",
+            "person": "aphrodite",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f4",
+            "person": "trojan-hero-aeneas",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f5",
+            "person": "trojan-hero-aeneas",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f5",
+            "person": "creusa",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f5",
+            "person": "silvius-aeneas",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f5",
+            "person": "numa-pompilius",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f6",
+            "person": "numa-pompilius",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f6",
+            "person": "rhea-silvia",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f7",
+            "person": "fetebir",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f7",
+            "person": "rhea-silvia",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f8",
+            "person": "trojan-hero-aeneas",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f8",
+            "person": "lavinia",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f8",
+            "person": "ascanius-iulus",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f9",
+            "person": "andromache",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f10",
+            "person": "zeus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f10",
+            "person": "dionne",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f10",
+            "person": "aphrodite",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f11",
+            "person": "adonis",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f11",
+            "person": "aphrodite",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f12",
+            "person": "ares",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f12",
+            "person": "aphrodite",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f13",
+            "person": "hephaestus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f13",
+            "person": "aphrodite",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f13",
+            "person": "eros",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f14",
+            "person": "zeus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f14",
+            "person": "hera",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f14",
+            "person": "hephaestus",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f14",
+            "person": "ares",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f14",
+            "person": "hebe",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f14",
+            "person": "eileithya",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f15",
+            "person": "neoptolemus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f15",
+            "person": "andromache",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f16",
+            "person": "zeus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f16",
+            "person": "eris",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f16",
+            "person": "ate",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f17",
+            "person": "hercules",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f17",
+            "person": "theban-princess-megara",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f18",
+            "person": "hercules",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f18",
+            "person": "deianira",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f19",
+            "person": "hercules",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f19",
+            "person": "hebe",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f20",
+            "person": "adonis",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f21",
+            "person": "adonis",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f21",
+            "person": "persephone",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f22",
+            "person": "zeus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f22",
+            "person": "demeter",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f22",
+            "person": "persephone",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f23",
+            "person": "hades",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f23",
+            "person": "persephone",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f24",
+            "person": "cronus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f24",
+            "person": "rhea",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f24",
+            "person": "demeter",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f24",
+            "person": "hera",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f24",
+            "person": "poseidon",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f24",
+            "person": "hades",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f24",
+            "person": "hestia",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f24",
+            "person": "zeus",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f25",
+            "person": "zeus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f25",
+            "person": "alcmene",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f25",
+            "person": "hercules",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f26",
+            "person": "alcmene",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f27",
+            "person": "uranus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f27",
+            "person": "gaea",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f27",
+            "person": "cronus",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f27",
+            "person": "rhea",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f27",
+            "person": "oceanus",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f27",
+            "person": "thethys",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f27",
+            "person": "a-titan-coeus",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f27",
+            "person": "a-titan-crius",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f27",
+            "person": "a-titan-hyperion",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f27",
+            "person": "a-titan-iapetus",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f27",
+            "person": "a-titan-thea",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f27",
+            "person": "a-titan-themis",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f27",
+            "person": "phoebe",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f27",
+            "person": "a-titan-mnemosyne",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f28",
+            "person": "poseidon",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f28",
+            "person": "amphitrite",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f28",
+            "person": "triton",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f29",
+            "person": "poseidon",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f29",
+            "person": "medusa",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f29",
+            "person": "pegasus",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f30",
+            "person": "poseidon",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f30",
+            "person": "orion",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f31",
+            "person": "poseidon",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f31",
+            "person": "cyclops-polyphemus",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f32",
+            "person": "achilles",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f32",
+            "person": "deidamia",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f32",
+            "person": "neoptolemus",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f33",
+            "person": "king-of-the-myrmidans-peleus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f33",
+            "person": "thetis",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f33",
+            "person": "achilles",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f34",
+            "person": "neures",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f34",
+            "person": "doris",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f34",
+            "person": "thetis",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f35",
+            "person": "pontus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f35",
+            "person": "gaea",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f35",
+            "person": "neures",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f36",
+            "person": "chaos",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f36",
+            "person": "gaea",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f37",
+            "person": "oceanus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f37",
+            "person": "thethys",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f37",
+            "person": "doris",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f38",
+            "person": "neoptolemus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f38",
+            "person": "hermione",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f39",
+            "person": "king-of-sparta-menelaus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f39",
+            "person": "helen",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f39",
+            "person": "hermione",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f40",
+            "person": "zeus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f40",
+            "person": "leda",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f40",
+            "person": "helen",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f40",
+            "person": "greek-and-roman-mythology-polydueces",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f41",
+            "person": "leda",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f42",
+            "person": "eris",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f43",
+            "person": "zeus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f43",
+            "person": "athena",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f44",
+            "person": "zeus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f44",
+            "person": "leto",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f44",
+            "person": "apollo",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f44",
+            "person": "artemis",
+            "role": "child"
+        },
+        {
+            "family": "greek-gods-f45",
+            "person": "a-titan-coeus",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f45",
+            "person": "phoebe",
+            "role": "parent"
+        },
+        {
+            "family": "greek-gods-f45",
+            "person": "leto",
+            "role": "child"
+        }
+    ]
+}

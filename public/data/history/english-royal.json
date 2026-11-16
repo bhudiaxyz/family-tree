@@ -1,0 +1,4680 @@
+{
+    "id": "english-royal",
+    "title": "English Royal Family (Tudors)",
+    "source": {
+        "work": "English Royal Family (Tudors)",
+        "medium": "GEDCOM genealogy (English+Tudor+Royal+Family.ged)",
+        "author": "Compiled by Chris Phillips",
+        "canon": "Sources cited: The Complete Peerage; Scots Peerage; Mary Boleyn's Carey children  - offspring of King Henry VIII?; The Earlier Tudors 1485-1558; Dictionary of National Biography",
+        "genre": "History",
+        "covers": "268 people and 175 families, imported from a public GEDCOM sample."
+    },
+    "notes": [
+        "Imported from English+Tudor+Royal+Family.ged (Windows-1252; PAF 5.1.12.0; file dated 30 Aug 2003) by scripts/gedcom-to-saga.mts.",
+        "Display names are the person's name only; a monarch is shown by their regnal name (e.g. King Henry VIII). Titles, title dates and life dates are not imported.",
+        "Houses are surnames; only the 12 largest keep their own colour, the rest are grouped as \"Other families\"."
+    ],
+    "houses": [
+        {
+            "name": "Stewart",
+            "color": "#c8102e"
+        },
+        {
+            "name": "Tudor",
+            "color": "#e0b23a"
+        },
+        {
+            "name": "Howard",
+            "color": "#3b6fb6"
+        },
+        {
+            "name": "Plantagenet",
+            "color": "#3f9a4b"
+        },
+        {
+            "name": "Grey",
+            "color": "#8a5fd0"
+        },
+        {
+            "name": "Douglas",
+            "color": "#e07a2e"
+        },
+        {
+            "name": "Stafford",
+            "color": "#4aa8c8"
+        },
+        {
+            "name": "Seymour",
+            "color": "#d24fa8"
+        },
+        {
+            "name": "Neville",
+            "color": "#9aa9b8"
+        },
+        {
+            "name": "Valois",
+            "color": "#a87a4a"
+        },
+        {
+            "name": "Stuart",
+            "color": "#7fc4ff"
+        },
+        {
+            "name": "Stanley",
+            "color": "#b3202a"
+        },
+        {
+            "name": "Other families",
+            "color": "#6f6a78"
+        }
+    ],
+    "people": [
+        {
+            "id": "henry-vii",
+            "name": "Henry VII",
+            "house": "Tudor",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-plantagenet",
+            "name": "Elizabeth Plantagenet",
+            "house": "Plantagenet",
+            "sex": "f"
+        },
+        {
+            "id": "edmund-tudor",
+            "name": "Edmund Tudor",
+            "house": "Tudor",
+            "sex": "m"
+        },
+        {
+            "id": "margaret-beaufort",
+            "name": "Margaret Beaufort",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "john-de-la-pole",
+            "name": "John de la Pole",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "john-beaufort",
+            "name": "John Beaufort",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "margaret-beauchamp",
+            "name": "Margaret Beauchamp",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "oliver-st-john",
+            "name": "Oliver St John",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "john-beauchamp",
+            "name": "John Beauchamp",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "james-stewart",
+            "name": "James Stewart",
+            "house": "Stewart",
+            "sex": "m"
+        },
+        {
+            "id": "henry-stafford",
+            "name": "Henry Stafford",
+            "house": "Stafford",
+            "sex": "m"
+        },
+        {
+            "id": "humphrey-stafford",
+            "name": "Humphrey Stafford",
+            "house": "Stafford",
+            "sex": "m"
+        },
+        {
+            "id": "thomas-stanley",
+            "name": "Thomas Stanley",
+            "house": "Stanley",
+            "sex": "m"
+        },
+        {
+            "id": "henry-viii",
+            "name": "Henry VIII",
+            "house": "Tudor",
+            "sex": "m"
+        },
+        {
+            "id": "catherine-of-aragon",
+            "name": "Catherine of Aragon",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "anne-boleyn",
+            "name": "Anne Boleyn",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "anne-of-cleves",
+            "name": "Anne of Cleves",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "jane-seymour",
+            "name": "Jane Seymour",
+            "house": "Seymour",
+            "sex": "f"
+        },
+        {
+            "id": "catherine-howard",
+            "name": "Catherine Howard",
+            "house": "Howard",
+            "sex": "f"
+        },
+        {
+            "id": "catherine-parr",
+            "name": "Catherine Parr",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "elizabeth-blount",
+            "name": "Elizabeth Blount",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "henry-fitzroy",
+            "name": "Henry Fitzroy",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "mary-howard",
+            "name": "Mary Howard",
+            "house": "Howard",
+            "sex": "f"
+        },
+        {
+            "id": "thomas-howard",
+            "name": "Thomas Howard",
+            "house": "Howard",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-stafford",
+            "name": "Elizabeth Stafford",
+            "house": "Stafford",
+            "sex": "f"
+        },
+        {
+            "id": "edward-stafford",
+            "name": "Edward Stafford",
+            "house": "Stafford",
+            "sex": "m"
+        },
+        {
+            "id": "edmund-tudor-2",
+            "name": "Edmund Tudor",
+            "house": "Tudor",
+            "sex": "m"
+        },
+        {
+            "id": "arthur-tudor",
+            "name": "Arthur Tudor",
+            "house": "Tudor",
+            "sex": "m"
+        },
+        {
+            "id": "ferdinand-v",
+            "name": "Ferdinand V",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "isabella-of-castile",
+            "name": "Isabella of Castile",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "john-ii",
+            "name": "John II",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "henry-tudor",
+            "name": "Henry Tudor",
+            "house": "Tudor",
+            "sex": "m"
+        },
+        {
+            "id": "unnamed-son-tudor",
+            "name": "(unnamed son) Tudor",
+            "house": "Tudor",
+            "sex": "m"
+        },
+        {
+            "id": "edward-vi",
+            "name": "Edward VI",
+            "house": "Tudor",
+            "sex": "m"
+        },
+        {
+            "id": "john-seymour",
+            "name": "John Seymour",
+            "house": "Seymour",
+            "sex": "m"
+        },
+        {
+            "id": "thomas-boleyn",
+            "name": "Thomas Boleyn",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-howard",
+            "name": "Elizabeth Howard",
+            "house": "Howard",
+            "sex": "f"
+        },
+        {
+            "id": "thomas-howard-2",
+            "name": "Thomas Howard",
+            "house": "Howard",
+            "sex": "m"
+        },
+        {
+            "id": "mary-tudor",
+            "name": "Mary Tudor",
+            "house": "Tudor",
+            "sex": "f"
+        },
+        {
+            "id": "charles-brandon",
+            "name": "Charles Brandon",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "william-brandon",
+            "name": "William Brandon",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-bruyn",
+            "name": "Elizabeth Bruyn",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "henry-bruyn",
+            "name": "Henry Bruyn",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "anne-browne",
+            "name": "Anne Browne",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "margaret-neville",
+            "name": "Margaret Neville",
+            "house": "Neville",
+            "sex": "f"
+        },
+        {
+            "id": "john-neville",
+            "name": "John Neville",
+            "house": "Neville",
+            "sex": "m"
+        },
+        {
+            "id": "isabella-ingaldesthorpe",
+            "name": "Isabella Ingaldesthorpe",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "edmund-ingaldesthorpe",
+            "name": "Edmund Ingaldesthorpe",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "john-mortimer",
+            "name": "John Mortimer",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "anthony-browne",
+            "name": "Anthony Browne",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "louis-xii",
+            "name": "Louis XII",
+            "house": "Valois",
+            "sex": "m"
+        },
+        {
+            "id": "catherine-willoughby",
+            "name": "Catherine Willoughby",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "william-willoughby",
+            "name": "William Willoughby",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "mary-de-salinas",
+            "name": "Mary de Salinas",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "richard-bertie",
+            "name": "Richard Bertie",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "archibald-douglas",
+            "name": "Archibald Douglas",
+            "house": "Douglas",
+            "sex": "m"
+        },
+        {
+            "id": "george-douglas",
+            "name": "George Douglas",
+            "house": "Douglas",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-drummond",
+            "name": "Elizabeth Drummond",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "john-drummond",
+            "name": "John Drummond",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "david-fleming",
+            "name": "David Fleming",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "margaret-hepburn",
+            "name": "Margaret Hepburn",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "patrick-hepburn",
+            "name": "Patrick Hepburn",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "janet-douglas",
+            "name": "Janet Douglas",
+            "house": "Douglas",
+            "sex": "f"
+        },
+        {
+            "id": "james-douglas",
+            "name": "James Douglas",
+            "house": "Douglas",
+            "sex": "m"
+        },
+        {
+            "id": "margaret-tudor",
+            "name": "Margaret Tudor",
+            "house": "Tudor",
+            "sex": "f"
+        },
+        {
+            "id": "margaret-maxwell",
+            "name": "Margaret Maxwell",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "robert-maxwell",
+            "name": "Robert Maxwell",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "janet-douglas-2",
+            "name": "Janet Douglas",
+            "house": "Douglas",
+            "sex": "f"
+        },
+        {
+            "id": "william-douglas",
+            "name": "William Douglas",
+            "house": "Douglas",
+            "sex": "m"
+        },
+        {
+            "id": "william-baillie",
+            "name": "William Baillie",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "henry-stewart",
+            "name": "Henry Stewart",
+            "house": "Stewart",
+            "sex": "m"
+        },
+        {
+            "id": "andrew-stewart",
+            "name": "Andrew Stewart",
+            "house": "Stewart",
+            "sex": "m"
+        },
+        {
+            "id": "margaret-kennedy",
+            "name": "Margaret Kennedy",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "john-kennedy",
+            "name": "John Kennedy",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "unnamed-daughter-leslie",
+            "name": "(unnamed daughter) Leslie",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "janet-stewart",
+            "name": "Janet Stewart",
+            "house": "Stewart",
+            "sex": "f"
+        },
+        {
+            "id": "hugh-kennedy",
+            "name": "Hugh Kennedy",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "alexander-gordon",
+            "name": "Alexander Gordon",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "john-stewart",
+            "name": "John Stewart",
+            "house": "Stewart",
+            "sex": "m"
+        },
+        {
+            "id": "janet-campbell",
+            "name": "Janet Campbell",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "archibald-campbell",
+            "name": "Archibald Campbell",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "patrick-ruthven",
+            "name": "Patrick Ruthven",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "james-gray",
+            "name": "James Gray",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "edward-iv",
+            "name": "Edward IV",
+            "house": "Plantagenet",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-wydvill",
+            "name": "Elizabeth Wydvill",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "arthur-plantagenet",
+            "name": "Arthur Plantagenet",
+            "house": "Plantagenet",
+            "sex": "m"
+        },
+        {
+            "id": "james-stewart-2",
+            "name": "James Stewart",
+            "house": "Stewart",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-grey",
+            "name": "Elizabeth Grey",
+            "house": "Grey",
+            "sex": "f"
+        },
+        {
+            "id": "edward-grey",
+            "name": "Edward Grey",
+            "house": "Grey",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-talbot",
+            "name": "Elizabeth Talbot",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "edmund-dudley",
+            "name": "Edmund Dudley",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "honor-grenville",
+            "name": "Honor Grenville",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "john-basset",
+            "name": "John Basset",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "thomas-grenville",
+            "name": "Thomas Grenville",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "isabella-gilbert",
+            "name": "Isabella Gilbert",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "otes-gilbert",
+            "name": "Otes Gilbert",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "cecily-plantagenet",
+            "name": "Cecily Plantagenet",
+            "house": "Plantagenet",
+            "sex": "f"
+        },
+        {
+            "id": "john-welles",
+            "name": "John Welles",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "richard-wydvill",
+            "name": "Richard Wydvill",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-welles",
+            "name": "Elizabeth Welles",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "anne-welles",
+            "name": "Anne Welles",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "thomas-kyme",
+            "name": "Thomas Kyme",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "edward-v",
+            "name": "Edward V",
+            "house": "Plantagenet",
+            "sex": "m"
+        },
+        {
+            "id": "richard-plantagenet",
+            "name": "Richard Plantagenet",
+            "house": "Plantagenet",
+            "sex": "m"
+        },
+        {
+            "id": "john-grey",
+            "name": "John Grey",
+            "house": "Grey",
+            "sex": "m"
+        },
+        {
+            "id": "anne-mowbray",
+            "name": "Anne Mowbray",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "john-mowbray",
+            "name": "John Mowbray",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-talbot-2",
+            "name": "Elizabeth Talbot",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "john-talbot",
+            "name": "John Talbot",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "george-plantagenet",
+            "name": "George Plantagenet",
+            "house": "Plantagenet",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-tylney",
+            "name": "Elizabeth Tylney",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "humphrey-bourchier",
+            "name": "Humphrey Bourchier",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "john-bourchier",
+            "name": "John Bourchier",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "frederick-tylney",
+            "name": "Frederick Tylney",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-cheney",
+            "name": "Elizabeth Cheney",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "lawrence-cheney",
+            "name": "Lawrence Cheney",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-cokayne",
+            "name": "Elizabeth Cokayne",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "john-cokayne",
+            "name": "John Cokayne",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "agnes-tylney",
+            "name": "Agnes Tylney",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "hugh-tylney",
+            "name": "Hugh Tylney",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "philip-tylney",
+            "name": "Philip Tylney",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "unnamed-daughter-tailboys",
+            "name": "(unnamed daughter) Tailboys",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "walter-tailboys",
+            "name": "Walter Tailboys",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "anne-plantagenet",
+            "name": "Anne Plantagenet",
+            "house": "Plantagenet",
+            "sex": "f"
+        },
+        {
+            "id": "ralph-scrope",
+            "name": "Ralph Scrope",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "unnamed-son-howard",
+            "name": "(unnamed son) Howard",
+            "house": "Howard",
+            "sex": "m"
+        },
+        {
+            "id": "eleanor-percy",
+            "name": "Eleanor Percy",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "henry-percy",
+            "name": "Henry Percy",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "richard-wydvill-2",
+            "name": "Richard Wydvill",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "jacqueline-de-luxembourg",
+            "name": "Jacqueline de Luxembourg",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "peter-de-luxembourg",
+            "name": "Peter de Luxembourg",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "thomas-grey",
+            "name": "Thomas Grey",
+            "house": "Grey",
+            "sex": "m"
+        },
+        {
+            "id": "anne-holand",
+            "name": "Anne Holand",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "henry-holand",
+            "name": "Henry Holand",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "anne-plantagenet-2",
+            "name": "Anne Plantagenet",
+            "house": "Plantagenet",
+            "sex": "f"
+        },
+        {
+            "id": "richard-plantagenet-2",
+            "name": "Richard Plantagenet",
+            "house": "Plantagenet",
+            "sex": "m"
+        },
+        {
+            "id": "cecily-bonville",
+            "name": "Cecily Bonville",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "william-bonville",
+            "name": "William Bonville",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "catherine-neville",
+            "name": "Catherine Neville",
+            "house": "Neville",
+            "sex": "f"
+        },
+        {
+            "id": "henry-stafford-2",
+            "name": "Henry Stafford",
+            "house": "Stafford",
+            "sex": "m"
+        },
+        {
+            "id": "henry-brandon",
+            "name": "Henry Brandon",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "frances-brandon",
+            "name": "Frances Brandon",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "adrian-stokes",
+            "name": "Adrian Stokes",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "thomas-grey-2",
+            "name": "Thomas Grey",
+            "house": "Grey",
+            "sex": "m"
+        },
+        {
+            "id": "margaret-wotton",
+            "name": "Margaret Wotton",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "william-medley",
+            "name": "William Medley",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "robert-wotton",
+            "name": "Robert Wotton",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "anne-belknap",
+            "name": "Anne Belknap",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "henry-belknap",
+            "name": "Henry Belknap",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "henry-grey",
+            "name": "Henry Grey",
+            "house": "Grey",
+            "sex": "m"
+        },
+        {
+            "id": "catherine-fitzalan",
+            "name": "Catherine FitzAlan",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "william-fitzalan",
+            "name": "William FitzAlan",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "anne-percy",
+            "name": "Anne Percy",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "eleanor-brandon",
+            "name": "Eleanor Brandon",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "henry-clifford",
+            "name": "Henry Clifford",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "margaret-clifford",
+            "name": "Margaret Clifford",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "jane-grey",
+            "name": "Jane Grey",
+            "house": "Grey",
+            "sex": "f"
+        },
+        {
+            "id": "anne-dacre",
+            "name": "Anne Dacre",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "william-dacre",
+            "name": "William Dacre",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-talbot-3",
+            "name": "Elizabeth Talbot",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "george-talbot",
+            "name": "George Talbot",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "eleanor-neville",
+            "name": "Eleanor Neville",
+            "house": "Neville",
+            "sex": "f"
+        },
+        {
+            "id": "richard-neville",
+            "name": "Richard Neville",
+            "house": "Neville",
+            "sex": "m"
+        },
+        {
+            "id": "alice-montagu",
+            "name": "Alice Montagu",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "thomas-montagu",
+            "name": "Thomas Montagu",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "arthur-stewart",
+            "name": "Arthur Stewart",
+            "house": "Stewart",
+            "sex": "m"
+        },
+        {
+            "id": "george-stanley",
+            "name": "George Stanley",
+            "house": "Stanley",
+            "sex": "m"
+        },
+        {
+            "id": "joan-le-strange",
+            "name": "Joan le Strange",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "john-le-strange",
+            "name": "John le Strange",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "jacquette-wydvill",
+            "name": "Jacquette Wydvill",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "thomas-stanley-2",
+            "name": "Thomas Stanley",
+            "house": "Stanley",
+            "sex": "m"
+        },
+        {
+            "id": "anne-hastings",
+            "name": "Anne Hastings",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "edward-hastings",
+            "name": "Edward Hastings",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "unnamed-daughter-stewart",
+            "name": "(unnamed daughter) Stewart",
+            "house": "Stewart",
+            "sex": "f"
+        },
+        {
+            "id": "mary-hungerford",
+            "name": "Mary Hungerford",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "thomas-hungerford",
+            "name": "Thomas Hungerford",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "edward-stanley",
+            "name": "Edward Stanley",
+            "house": "Stanley",
+            "sex": "m"
+        },
+        {
+            "id": "dorothy-howard",
+            "name": "Dorothy Howard",
+            "house": "Howard",
+            "sex": "f"
+        },
+        {
+            "id": "margaret-barlow",
+            "name": "Margaret Barlow",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "ellis-barlow",
+            "name": "Ellis Barlow",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "anne-reddish",
+            "name": "Anne Reddish",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "otes-reddish",
+            "name": "Otes Reddish",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "mary-cotton",
+            "name": "Mary Cotton",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "george-cotton",
+            "name": "George Cotton",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "mary-onley",
+            "name": "Mary Onley",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "john-onley",
+            "name": "John Onley",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "henry-grey-2",
+            "name": "Henry Grey",
+            "house": "Grey",
+            "sex": "m"
+        },
+        {
+            "id": "henry-stanley",
+            "name": "Henry Stanley",
+            "house": "Stanley",
+            "sex": "m"
+        },
+        {
+            "id": "catherine-grey",
+            "name": "Catherine Grey",
+            "house": "Grey",
+            "sex": "f"
+        },
+        {
+            "id": "mary-grey",
+            "name": "Mary Grey",
+            "house": "Grey",
+            "sex": "f"
+        },
+        {
+            "id": "thomas-keyes",
+            "name": "Thomas Keyes",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "edward-seymour",
+            "name": "Edward Seymour",
+            "house": "Seymour",
+            "sex": "m"
+        },
+        {
+            "id": "edmund-howard",
+            "name": "Edmund Howard",
+            "house": "Howard",
+            "sex": "m"
+        },
+        {
+            "id": "edward-seymour-2",
+            "name": "Edward Seymour",
+            "house": "Seymour",
+            "sex": "m"
+        },
+        {
+            "id": "anne-stanhope",
+            "name": "Anne Stanhope",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "henry-herbert",
+            "name": "Henry Herbert",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "frances-howard",
+            "name": "Frances Howard",
+            "house": "Howard",
+            "sex": "f"
+        },
+        {
+            "id": "william-howard",
+            "name": "William Howard",
+            "house": "Howard",
+            "sex": "m"
+        },
+        {
+            "id": "margaret-gamage",
+            "name": "Margaret Gamage",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "thomas-gamage",
+            "name": "Thomas Gamage",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "frances-howard-2",
+            "name": "Frances Howard",
+            "house": "Howard",
+            "sex": "f"
+        },
+        {
+            "id": "henry-pranell",
+            "name": "Henry Pranell",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "thomas-howard-3",
+            "name": "Thomas Howard",
+            "house": "Howard",
+            "sex": "m"
+        },
+        {
+            "id": "mabel-burton",
+            "name": "Mabel Burton",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "nicholas-burton",
+            "name": "Nicholas Burton",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "ludovic-stuart",
+            "name": "Ludovic Stuart",
+            "house": "Stuart",
+            "sex": "m"
+        },
+        {
+            "id": "margery-wentworth",
+            "name": "Margery Wentworth",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "henry-wentworth",
+            "name": "Henry Wentworth",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "thomas-seymour",
+            "name": "Thomas Seymour",
+            "house": "Seymour",
+            "sex": "m"
+        },
+        {
+            "id": "thomas-parr",
+            "name": "Thomas Parr",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "maud-green",
+            "name": "Maud Green",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "thomas-green",
+            "name": "Thomas Green",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "edward-burgh",
+            "name": "Edward Burgh",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "john-neville-2",
+            "name": "John Neville",
+            "house": "Neville",
+            "sex": "m"
+        },
+        {
+            "id": "gilbert-gray",
+            "name": "Gilbert Gray",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "james-stewart-3",
+            "name": "James Stewart",
+            "house": "Stewart",
+            "sex": "m"
+        },
+        {
+            "id": "unnamed-daughter-stewart-2",
+            "name": "(unnamed daughter) Stewart",
+            "house": "Stewart",
+            "sex": "f"
+        },
+        {
+            "id": "alexander-stewart",
+            "name": "Alexander Stewart",
+            "house": "Stewart",
+            "sex": "m"
+        },
+        {
+            "id": "margaret-douglas",
+            "name": "Margaret Douglas",
+            "house": "Douglas",
+            "sex": "f"
+        },
+        {
+            "id": "matthew-stuart",
+            "name": "Matthew Stuart",
+            "house": "Stuart",
+            "sex": "m"
+        },
+        {
+            "id": "henry-stuart",
+            "name": "Henry Stuart",
+            "house": "Stuart",
+            "sex": "m"
+        },
+        {
+            "id": "charles-stuart",
+            "name": "Charles Stuart",
+            "house": "Stuart",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-cavendish",
+            "name": "Elizabeth Cavendish",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "william-cavendish",
+            "name": "William Cavendish",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "arabella-stuart",
+            "name": "Arabella Stuart",
+            "house": "Stuart",
+            "sex": "f"
+        },
+        {
+            "id": "william-seymour",
+            "name": "William Seymour",
+            "house": "Seymour",
+            "sex": "m"
+        },
+        {
+            "id": "margaret-boyd",
+            "name": "Margaret Boyd",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "alexander-stewart-2",
+            "name": "Alexander Stewart",
+            "house": "Stewart",
+            "sex": "m"
+        },
+        {
+            "id": "catherine-stewart",
+            "name": "Catherine Stewart",
+            "house": "Stewart",
+            "sex": "f"
+        },
+        {
+            "id": "james-douglas-2",
+            "name": "James Douglas",
+            "house": "Douglas",
+            "sex": "m"
+        },
+        {
+            "id": "janet-kennedy",
+            "name": "Janet Kennedy",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "james-stewart-4",
+            "name": "James Stewart",
+            "house": "Stewart",
+            "sex": "m"
+        },
+        {
+            "id": "elizabeth-campbell",
+            "name": "Elizabeth Campbell",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "colin-campbell",
+            "name": "Colin Campbell",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "margaret-drummond",
+            "name": "Margaret Drummond",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "margaret-stewart",
+            "name": "Margaret Stewart",
+            "house": "Stewart",
+            "sex": "f"
+        },
+        {
+            "id": "john-gordon",
+            "name": "John Gordon",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "john-drummond-2",
+            "name": "John Drummond",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "isabella-stewart",
+            "name": "Isabella Stewart",
+            "house": "Stewart",
+            "sex": "f"
+        },
+        {
+            "id": "james-stewart-5",
+            "name": "James Stewart",
+            "house": "Stewart",
+            "sex": "m"
+        },
+        {
+            "id": "janet-stewart-2",
+            "name": "Janet Stewart",
+            "house": "Stewart",
+            "sex": "f"
+        },
+        {
+            "id": "malcolm-fleming",
+            "name": "Malcolm Fleming",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "henry-ii",
+            "name": "Henry II",
+            "house": "Valois",
+            "sex": "m"
+        },
+        {
+            "id": "henry-of-valois",
+            "name": "Henry of Valois",
+            "house": "Valois",
+            "sex": "m"
+        },
+        {
+            "id": "madeleine-of-valois",
+            "name": "Madeleine of Valois",
+            "house": "Valois",
+            "sex": "f"
+        },
+        {
+            "id": "francis-i",
+            "name": "Francis I",
+            "house": "Valois",
+            "sex": "m"
+        },
+        {
+            "id": "mary-of-lorraine",
+            "name": "Mary of Lorraine",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "louis-of-orleans",
+            "name": "Louis of Orleans",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "james-stewart-6",
+            "name": "James Stewart",
+            "house": "Stewart",
+            "sex": "m"
+        },
+        {
+            "id": "arthur-stewart-2",
+            "name": "Arthur Stewart",
+            "house": "Stewart",
+            "sex": "m"
+        },
+        {
+            "id": "mary-stewart",
+            "name": "Mary Stewart",
+            "house": "Stewart",
+            "sex": "f"
+        },
+        {
+            "id": "francis-ii",
+            "name": "Francis II",
+            "house": "Valois",
+            "sex": "m"
+        },
+        {
+            "id": "catherine-de-medicis",
+            "name": "Catherine de Medicis",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "james-stuart",
+            "name": "James Stuart",
+            "house": "Stuart",
+            "sex": "m"
+        },
+        {
+            "id": "james-hepburn",
+            "name": "James Hepburn",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "anne-of-oldenburg",
+            "name": "Anne of Oldenburg",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "mary-boleyn",
+            "name": "Mary Boleyn",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "william-carey",
+            "name": "William Carey",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "william-stafford",
+            "name": "William Stafford",
+            "house": "Stafford",
+            "sex": "m"
+        },
+        {
+            "id": "henry-carey",
+            "name": "Henry Carey",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "catherine-carey",
+            "name": "Catherine Carey",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "elizabeth-i",
+            "name": "Elizabeth I",
+            "house": "Tudor",
+            "sex": "f"
+        },
+        {
+            "id": "mary-i",
+            "name": "Mary I",
+            "house": "Tudor",
+            "sex": "f"
+        },
+        {
+            "id": "francis-knollys",
+            "name": "Francis Knollys",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "anne-morgan",
+            "name": "Anne Morgan",
+            "house": "Other families",
+            "sex": "f"
+        },
+        {
+            "id": "philip-ii",
+            "name": "Philip II",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "guilford-dudley",
+            "name": "Guilford Dudley",
+            "house": "Other families",
+            "sex": "m"
+        },
+        {
+            "id": "margaret-kyme",
+            "name": "Margaret Kyme",
+            "house": "Other families",
+            "sex": "f"
+        }
+    ],
+    "families": [
+        {
+            "id": "english-royal-f1",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f2",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f3",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f4",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f5",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f6",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f7",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f8",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f9",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f10",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f11",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f12",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f13",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f14",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f15",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f16",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f17",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f18",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f19",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f20",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f21",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f22",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f23",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f24",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f25",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f26",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f27",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f28",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f29",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f30",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f31",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f32",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f33",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f34",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f35",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f36",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f37",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f38",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f39",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f40",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f41",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f42",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f43",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f44",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f45",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f46",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f47",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f48",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f49",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f50",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f51",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f52",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f53",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f54",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f55",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f56",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f57",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f58",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f59",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f60",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f61",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f62",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f63",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f64",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f65",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f66",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f67",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f68",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f69",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f70",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f71",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f72",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f73",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f74",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f75",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f76",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f77",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f78",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f79",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f80",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f81",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f82",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f83",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f84",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f85",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f86",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f87",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f88",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f89",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f90",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f91",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f92",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f93",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f94",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f95",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f96",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f97",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f98",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f99",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f100",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f101",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f102",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f103",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f104",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f105",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f106",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f107",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f108",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f109",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f110",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f111",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f112",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f113",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f114",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f115",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f116",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f117",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f118",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f119",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f120",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f121",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f122",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f123",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f124",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f125",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f126",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f127",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f128",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f129",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f130",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f131",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f132",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f133",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f134",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f135",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f136",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f137",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f138",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f139",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f140",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f141",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f142",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f143",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f144",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f145",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f146",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f147",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f148",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f149",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f150",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f151",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f152",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f153",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f154",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f155",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f156",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f157",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f158",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f159",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f160",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f161",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f162",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f163",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f164",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f165",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f166",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f167",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f168",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f169",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f170",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f171",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f172",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f173",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f174",
+            "adoptive": false
+        },
+        {
+            "id": "english-royal-f175",
+            "adoptive": false
+        }
+    ],
+    "members": [
+        {
+            "family": "english-royal-f1",
+            "person": "henry-vii",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f1",
+            "person": "elizabeth-plantagenet",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f1",
+            "person": "arthur-tudor",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f1",
+            "person": "margaret-tudor",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f1",
+            "person": "henry-viii",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f1",
+            "person": "mary-tudor",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f1",
+            "person": "edmund-tudor-2",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f2",
+            "person": "edmund-tudor",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f2",
+            "person": "margaret-beaufort",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f2",
+            "person": "henry-vii",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f3",
+            "person": "edward-iv",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f3",
+            "person": "elizabeth-wydvill",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f3",
+            "person": "elizabeth-plantagenet",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f3",
+            "person": "cecily-plantagenet",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f3",
+            "person": "edward-v",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f3",
+            "person": "richard-plantagenet",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f3",
+            "person": "anne-plantagenet",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f3",
+            "person": "george-plantagenet",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f4",
+            "person": "john-de-la-pole",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f4",
+            "person": "margaret-beaufort",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f5",
+            "person": "henry-stafford",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f5",
+            "person": "margaret-beaufort",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f6",
+            "person": "thomas-stanley",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f6",
+            "person": "margaret-beaufort",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f7",
+            "person": "john-beaufort",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f7",
+            "person": "margaret-beauchamp",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f7",
+            "person": "margaret-beaufort",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f8",
+            "person": "oliver-st-john",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f8",
+            "person": "margaret-beauchamp",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f9",
+            "person": "john-beauchamp",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f9",
+            "person": "margaret-beauchamp",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f10",
+            "person": "humphrey-stafford",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f10",
+            "person": "henry-stafford",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f11",
+            "person": "thomas-stanley",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f11",
+            "person": "eleanor-neville",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f11",
+            "person": "george-stanley",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f12",
+            "person": "henry-viii",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f12",
+            "person": "catherine-of-aragon",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f12",
+            "person": "henry-tudor",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f12",
+            "person": "unnamed-son-tudor",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f12",
+            "person": "mary-i",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f13",
+            "person": "henry-viii",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f13",
+            "person": "anne-boleyn",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f13",
+            "person": "elizabeth-i",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f14",
+            "person": "henry-viii",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f14",
+            "person": "jane-seymour",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f14",
+            "person": "edward-vi",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f15",
+            "person": "henry-viii",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f15",
+            "person": "anne-of-cleves",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f16",
+            "person": "henry-viii",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f16",
+            "person": "catherine-howard",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f17",
+            "person": "henry-viii",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f17",
+            "person": "catherine-parr",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f18",
+            "person": "henry-viii",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f18",
+            "person": "elizabeth-blount",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f18",
+            "person": "henry-fitzroy",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f19",
+            "person": "arthur-tudor",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f19",
+            "person": "catherine-of-aragon",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f20",
+            "person": "ferdinand-v",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f20",
+            "person": "isabella-of-castile",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f20",
+            "person": "catherine-of-aragon",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f21",
+            "person": "thomas-boleyn",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f21",
+            "person": "elizabeth-howard",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f21",
+            "person": "anne-boleyn",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f21",
+            "person": "mary-boleyn",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f22",
+            "person": "john-seymour",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f22",
+            "person": "margery-wentworth",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f22",
+            "person": "jane-seymour",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f22",
+            "person": "edward-seymour-2",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f22",
+            "person": "thomas-seymour",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f23",
+            "person": "edmund-howard",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f23",
+            "person": "catherine-howard",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f24",
+            "person": "edward-burgh",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f24",
+            "person": "catherine-parr",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f25",
+            "person": "john-neville-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f25",
+            "person": "catherine-parr",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f26",
+            "person": "thomas-seymour",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f26",
+            "person": "catherine-parr",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f27",
+            "person": "thomas-parr",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f27",
+            "person": "maud-green",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f27",
+            "person": "catherine-parr",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f28",
+            "person": "henry-fitzroy",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f28",
+            "person": "mary-howard",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f29",
+            "person": "thomas-howard",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f29",
+            "person": "elizabeth-stafford",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f29",
+            "person": "mary-howard",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f29",
+            "person": "thomas-howard-3",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f30",
+            "person": "thomas-howard",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f30",
+            "person": "anne-plantagenet",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f30",
+            "person": "unnamed-son-howard",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f31",
+            "person": "thomas-howard-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f31",
+            "person": "elizabeth-tylney",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f31",
+            "person": "elizabeth-howard",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f31",
+            "person": "thomas-howard",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f31",
+            "person": "edmund-howard",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f32",
+            "person": "edward-stafford",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f32",
+            "person": "eleanor-percy",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f32",
+            "person": "elizabeth-stafford",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f33",
+            "person": "john-ii",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f33",
+            "person": "isabella-of-castile",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f34",
+            "person": "thomas-howard-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f34",
+            "person": "agnes-tylney",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f34",
+            "person": "dorothy-howard",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f34",
+            "person": "william-howard",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f35",
+            "person": "louis-xii",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f35",
+            "person": "mary-tudor",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f36",
+            "person": "charles-brandon",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f36",
+            "person": "mary-tudor",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f36",
+            "person": "henry-brandon",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f36",
+            "person": "frances-brandon",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f36",
+            "person": "eleanor-brandon",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f37",
+            "person": "charles-brandon",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f37",
+            "person": "anne-browne",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f38",
+            "person": "charles-brandon",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f38",
+            "person": "margaret-neville",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f39",
+            "person": "charles-brandon",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f39",
+            "person": "catherine-willoughby",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f40",
+            "person": "william-brandon",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f40",
+            "person": "elizabeth-bruyn",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f40",
+            "person": "charles-brandon",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f41",
+            "person": "henry-bruyn",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f41",
+            "person": "elizabeth-bruyn",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f42",
+            "person": "anthony-browne",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f42",
+            "person": "anne-browne",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f43",
+            "person": "john-mortimer",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f43",
+            "person": "margaret-neville",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f44",
+            "person": "john-neville",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f44",
+            "person": "isabella-ingaldesthorpe",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f44",
+            "person": "margaret-neville",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f45",
+            "person": "edmund-ingaldesthorpe",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f45",
+            "person": "isabella-ingaldesthorpe",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f46",
+            "person": "richard-bertie",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f46",
+            "person": "catherine-willoughby",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f47",
+            "person": "william-willoughby",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f47",
+            "person": "mary-de-salinas",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f47",
+            "person": "catherine-willoughby",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f48",
+            "person": "archibald-douglas",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f48",
+            "person": "margaret-hepburn",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f49",
+            "person": "archibald-douglas",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f49",
+            "person": "margaret-tudor",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f49",
+            "person": "margaret-douglas",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f50",
+            "person": "archibald-douglas",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f50",
+            "person": "margaret-maxwell",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f51",
+            "person": "george-douglas",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f51",
+            "person": "elizabeth-drummond",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f51",
+            "person": "archibald-douglas",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f52",
+            "person": "david-fleming",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f52",
+            "person": "elizabeth-drummond",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f53",
+            "person": "john-drummond",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f53",
+            "person": "elizabeth-drummond",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f54",
+            "person": "patrick-hepburn",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f54",
+            "person": "janet-douglas",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f54",
+            "person": "margaret-hepburn",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f55",
+            "person": "james-douglas",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f55",
+            "person": "janet-douglas",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f56",
+            "person": "henry-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f56",
+            "person": "margaret-tudor",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f57",
+            "person": "william-baillie",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f57",
+            "person": "margaret-maxwell",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f58",
+            "person": "robert-maxwell",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f58",
+            "person": "janet-douglas-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f58",
+            "person": "margaret-maxwell",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f59",
+            "person": "william-douglas",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f59",
+            "person": "janet-douglas-2",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f60",
+            "person": "henry-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f60",
+            "person": "unnamed-daughter-leslie",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f61",
+            "person": "henry-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f61",
+            "person": "janet-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f62",
+            "person": "andrew-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f62",
+            "person": "margaret-kennedy",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f62",
+            "person": "henry-stewart",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f63",
+            "person": "john-kennedy",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f63",
+            "person": "margaret-kennedy",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f63",
+            "person": "janet-kennedy",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f64",
+            "person": "alexander-gordon",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f64",
+            "person": "janet-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f65",
+            "person": "hugh-kennedy",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f65",
+            "person": "janet-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f66",
+            "person": "patrick-ruthven",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f66",
+            "person": "janet-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f67",
+            "person": "james-gray",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f67",
+            "person": "janet-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f68",
+            "person": "john-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f68",
+            "person": "janet-campbell",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f68",
+            "person": "janet-stewart",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f69",
+            "person": "archibald-campbell",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f69",
+            "person": "janet-campbell",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f70",
+            "person": "edward-iv",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f70",
+            "person": "arthur-plantagenet",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f71",
+            "person": "john-grey",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f71",
+            "person": "elizabeth-wydvill",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f71",
+            "person": "thomas-grey",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f72",
+            "person": "richard-wydvill",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f72",
+            "person": "jacqueline-de-luxembourg",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f72",
+            "person": "elizabeth-wydvill",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f72",
+            "person": "richard-wydvill-2",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f72",
+            "person": "jacquette-wydvill",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f73",
+            "person": "arthur-plantagenet",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f73",
+            "person": "elizabeth-grey",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f74",
+            "person": "arthur-plantagenet",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f74",
+            "person": "honor-grenville",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f75",
+            "person": "edmund-dudley",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f75",
+            "person": "elizabeth-grey",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f76",
+            "person": "edward-grey",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f76",
+            "person": "elizabeth-talbot",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f76",
+            "person": "elizabeth-grey",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f77",
+            "person": "john-basset",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f77",
+            "person": "honor-grenville",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f78",
+            "person": "thomas-grenville",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f78",
+            "person": "isabella-gilbert",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f78",
+            "person": "honor-grenville",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f79",
+            "person": "otes-gilbert",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f79",
+            "person": "isabella-gilbert",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f80",
+            "person": "ralph-scrope",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f80",
+            "person": "cecily-plantagenet",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f81",
+            "person": "john-welles",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f81",
+            "person": "cecily-plantagenet",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f81",
+            "person": "elizabeth-welles",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f81",
+            "person": "anne-welles",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f82",
+            "person": "thomas-kyme",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f82",
+            "person": "cecily-plantagenet",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f82",
+            "person": "margaret-kyme",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f83",
+            "person": "richard-plantagenet",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f83",
+            "person": "anne-mowbray",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f84",
+            "person": "john-mowbray",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f84",
+            "person": "elizabeth-talbot-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f84",
+            "person": "anne-mowbray",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f85",
+            "person": "john-talbot",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f85",
+            "person": "elizabeth-talbot-2",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f86",
+            "person": "humphrey-bourchier",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f86",
+            "person": "elizabeth-tylney",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f86",
+            "person": "john-bourchier",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f87",
+            "person": "frederick-tylney",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f87",
+            "person": "elizabeth-cheney",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f87",
+            "person": "elizabeth-tylney",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f88",
+            "person": "lawrence-cheney",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f88",
+            "person": "elizabeth-cokayne",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f88",
+            "person": "elizabeth-cheney",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f89",
+            "person": "john-cokayne",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f89",
+            "person": "elizabeth-cokayne",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f90",
+            "person": "hugh-tylney",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f90",
+            "person": "unnamed-daughter-tailboys",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f90",
+            "person": "agnes-tylney",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f90",
+            "person": "philip-tylney",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f91",
+            "person": "walter-tailboys",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f91",
+            "person": "unnamed-daughter-tailboys",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f92",
+            "person": "henry-percy",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f92",
+            "person": "eleanor-percy",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f92",
+            "person": "anne-percy",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f93",
+            "person": "peter-de-luxembourg",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f93",
+            "person": "jacqueline-de-luxembourg",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f94",
+            "person": "thomas-grey",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f94",
+            "person": "anne-holand",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f95",
+            "person": "thomas-grey",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f95",
+            "person": "cecily-bonville",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f95",
+            "person": "thomas-grey-2",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f96",
+            "person": "henry-holand",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f96",
+            "person": "anne-plantagenet-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f96",
+            "person": "anne-holand",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f97",
+            "person": "richard-plantagenet-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f97",
+            "person": "anne-plantagenet-2",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f98",
+            "person": "henry-stafford-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f98",
+            "person": "cecily-bonville",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f99",
+            "person": "william-bonville",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f99",
+            "person": "catherine-neville",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f99",
+            "person": "cecily-bonville",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f100",
+            "person": "henry-grey",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f100",
+            "person": "frances-brandon",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f100",
+            "person": "jane-grey",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f100",
+            "person": "catherine-grey",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f100",
+            "person": "mary-grey",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f101",
+            "person": "adrian-stokes",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f101",
+            "person": "frances-brandon",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f102",
+            "person": "thomas-grey-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f102",
+            "person": "margaret-wotton",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f102",
+            "person": "henry-grey",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f103",
+            "person": "william-medley",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f103",
+            "person": "margaret-wotton",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f104",
+            "person": "robert-wotton",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f104",
+            "person": "anne-belknap",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f104",
+            "person": "margaret-wotton",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f105",
+            "person": "henry-belknap",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f105",
+            "person": "anne-belknap",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f106",
+            "person": "henry-grey",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f106",
+            "person": "catherine-fitzalan",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f107",
+            "person": "william-fitzalan",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f107",
+            "person": "anne-percy",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f107",
+            "person": "catherine-fitzalan",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f108",
+            "person": "henry-clifford",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f108",
+            "person": "eleanor-brandon",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f108",
+            "person": "margaret-clifford",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f109",
+            "person": "henry-clifford",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f109",
+            "person": "anne-dacre",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f110",
+            "person": "henry-stanley",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f110",
+            "person": "margaret-clifford",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f111",
+            "person": "william-dacre",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f111",
+            "person": "elizabeth-talbot-3",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f111",
+            "person": "anne-dacre",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f112",
+            "person": "george-talbot",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f112",
+            "person": "elizabeth-talbot-3",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f113",
+            "person": "richard-neville",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f113",
+            "person": "alice-montagu",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f113",
+            "person": "eleanor-neville",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f114",
+            "person": "thomas-montagu",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f114",
+            "person": "alice-montagu",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f115",
+            "person": "george-stanley",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f115",
+            "person": "joan-le-strange",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f115",
+            "person": "thomas-stanley-2",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f116",
+            "person": "john-le-strange",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f116",
+            "person": "jacquette-wydvill",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f116",
+            "person": "joan-le-strange",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f117",
+            "person": "thomas-stanley-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f117",
+            "person": "anne-hastings",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f117",
+            "person": "edward-stanley",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f118",
+            "person": "edward-hastings",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f118",
+            "person": "mary-hungerford",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f118",
+            "person": "anne-hastings",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f119",
+            "person": "thomas-hungerford",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f119",
+            "person": "mary-hungerford",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f120",
+            "person": "edward-stanley",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f120",
+            "person": "dorothy-howard",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f120",
+            "person": "henry-stanley",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f121",
+            "person": "edward-stanley",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f121",
+            "person": "margaret-barlow",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f122",
+            "person": "edward-stanley",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f122",
+            "person": "mary-cotton",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f123",
+            "person": "ellis-barlow",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f123",
+            "person": "anne-reddish",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f123",
+            "person": "margaret-barlow",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f124",
+            "person": "otes-reddish",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f124",
+            "person": "anne-reddish",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f125",
+            "person": "henry-grey-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f125",
+            "person": "mary-cotton",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f126",
+            "person": "george-cotton",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f126",
+            "person": "mary-onley",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f126",
+            "person": "mary-cotton",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f127",
+            "person": "john-onley",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f127",
+            "person": "mary-onley",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f128",
+            "person": "henry-herbert",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f128",
+            "person": "catherine-grey",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f129",
+            "person": "edward-seymour",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f129",
+            "person": "catherine-grey",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f130",
+            "person": "thomas-keyes",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f130",
+            "person": "mary-grey",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f131",
+            "person": "edward-seymour",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f131",
+            "person": "frances-howard",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f132",
+            "person": "edward-seymour",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f132",
+            "person": "frances-howard-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f133",
+            "person": "edward-seymour-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f133",
+            "person": "anne-stanhope",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f133",
+            "person": "edward-seymour",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f134",
+            "person": "william-howard",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f134",
+            "person": "margaret-gamage",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f134",
+            "person": "frances-howard",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f135",
+            "person": "thomas-gamage",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f135",
+            "person": "margaret-gamage",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f136",
+            "person": "henry-pranell",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f136",
+            "person": "frances-howard-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f137",
+            "person": "ludovic-stuart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f137",
+            "person": "frances-howard-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f138",
+            "person": "thomas-howard-3",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f138",
+            "person": "mabel-burton",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f138",
+            "person": "frances-howard-2",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f139",
+            "person": "nicholas-burton",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f139",
+            "person": "mabel-burton",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f140",
+            "person": "henry-wentworth",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f140",
+            "person": "margery-wentworth",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f141",
+            "person": "thomas-green",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f141",
+            "person": "maud-green",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f142",
+            "person": "gilbert-gray",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f142",
+            "person": "james-gray",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f143",
+            "person": "james-stewart-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f143",
+            "person": "margaret-tudor",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f143",
+            "person": "james-stewart",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f143",
+            "person": "unnamed-daughter-stewart",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f143",
+            "person": "arthur-stewart",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f143",
+            "person": "james-stewart-3",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f143",
+            "person": "unnamed-daughter-stewart-2",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f143",
+            "person": "alexander-stewart",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f144",
+            "person": "matthew-stuart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f144",
+            "person": "margaret-douglas",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f144",
+            "person": "henry-stuart",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f144",
+            "person": "charles-stuart",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f145",
+            "person": "charles-stuart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f145",
+            "person": "elizabeth-cavendish",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f145",
+            "person": "arabella-stuart",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f146",
+            "person": "william-cavendish",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f146",
+            "person": "elizabeth-cavendish",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f147",
+            "person": "william-seymour",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f147",
+            "person": "arabella-stuart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f148",
+            "person": "james-stewart-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f148",
+            "person": "margaret-boyd",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f148",
+            "person": "alexander-stewart-2",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f148",
+            "person": "catherine-stewart",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f149",
+            "person": "james-douglas-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f149",
+            "person": "catherine-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f150",
+            "person": "james-stewart-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f150",
+            "person": "janet-kennedy",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f150",
+            "person": "james-stewart-4",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f151",
+            "person": "james-stewart-4",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f151",
+            "person": "elizabeth-campbell",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f152",
+            "person": "colin-campbell",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f152",
+            "person": "elizabeth-campbell",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f153",
+            "person": "james-stewart-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f153",
+            "person": "margaret-drummond",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f153",
+            "person": "margaret-stewart",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f154",
+            "person": "john-gordon",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f154",
+            "person": "margaret-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f155",
+            "person": "john-drummond-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f155",
+            "person": "margaret-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f156",
+            "person": "james-stewart-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f156",
+            "person": "isabella-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f156",
+            "person": "janet-stewart-2",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f157",
+            "person": "james-stewart-5",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f157",
+            "person": "isabella-stewart",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f158",
+            "person": "malcolm-fleming",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f158",
+            "person": "janet-stewart-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f159",
+            "person": "henry-ii",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f159",
+            "person": "janet-stewart-2",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f159",
+            "person": "henry-of-valois",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f160",
+            "person": "james-stewart-3",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f160",
+            "person": "madeleine-of-valois",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f161",
+            "person": "francis-i",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f161",
+            "person": "madeleine-of-valois",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f162",
+            "person": "james-stewart-3",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f162",
+            "person": "mary-of-lorraine",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f162",
+            "person": "james-stewart-6",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f162",
+            "person": "arthur-stewart-2",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f162",
+            "person": "mary-stewart",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f163",
+            "person": "louis-of-orleans",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f163",
+            "person": "mary-of-lorraine",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f164",
+            "person": "francis-ii",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f164",
+            "person": "mary-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f165",
+            "person": "henry-ii",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f165",
+            "person": "catherine-de-medicis",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f165",
+            "person": "francis-ii",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f166",
+            "person": "henry-stuart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f166",
+            "person": "mary-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f166",
+            "person": "james-stuart",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f167",
+            "person": "james-hepburn",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f167",
+            "person": "mary-stewart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f168",
+            "person": "james-stuart",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f168",
+            "person": "anne-of-oldenburg",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f169",
+            "person": "william-carey",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f169",
+            "person": "mary-boleyn",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f170",
+            "person": "william-stafford",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f170",
+            "person": "mary-boleyn",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f171",
+            "person": "henry-viii",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f171",
+            "person": "mary-boleyn",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f171",
+            "person": "henry-carey",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f171",
+            "person": "catherine-carey",
+            "role": "child"
+        },
+        {
+            "family": "english-royal-f172",
+            "person": "francis-knollys",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f172",
+            "person": "catherine-carey",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f173",
+            "person": "henry-carey",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f173",
+            "person": "anne-morgan",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f174",
+            "person": "philip-ii",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f174",
+            "person": "mary-i",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f175",
+            "person": "guilford-dudley",
+            "role": "parent"
+        },
+        {
+            "family": "english-royal-f175",
+            "person": "jane-grey",
+            "role": "parent"
+        }
+    ]
+}

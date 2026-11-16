@@ -1,0 +1,5144 @@
+{
+    "id": "roman-gods",
+    "title": "Roman Gods",
+    "source": {
+        "work": "Roman Gods",
+        "medium": "GEDCOM genealogy (Roman+Gods.ged)",
+        "author": "Compiled by unknown",
+        "canon": "As recorded in the GEDCOM file",
+        "genre": "Mythology",
+        "covers": "322 people and 163 families, imported from a public GEDCOM sample."
+    },
+    "notes": [
+        "Imported from Roman+Gods.ged (Windows-1252; FTM Family Tree Maker (17.0.0.440); file dated 19 November 2007) by scripts/gedcom-to-saga.mts.",
+        "Names are read in mythology mode: the deity's name is the GEDCOM surname part, and descriptive text in the given-name part (e.g. \"queen of the Gods\") is dropped.",
+        "Everyone is in one house, \"Roman pantheon\": the file has no real surnames to group by.",
+        "Import warnings: Achaeus: sex not recorded as M or F, shown as male; Aesimus: sex not recorded as M or F, shown as male; Amulius: sex not recorded as M or F, shown as male; Antevorta: sex not recorded as M or F, shown as male; Aratus: sex not recorded as M or F, shown as male; Bellerophon: sex not recorded as M or F, shown as male; Brutus of Britain: sex not recorded as M or F, shown as male; Cadmus: sex not recorded as M or F, shown as male; Carmenta: sex not recorded as M or F, shown as male; Carystus.: sex not recorded as M or F, shown as male; Dardanus: sex not recorded as M or F, shown as male; Deidameia: sex not recorded as M or F, shown as male; Egeria: sex not recorded as M or F, shown as male; Electra: sex not recorded as M or F, shown as male; Endeis: sex not recorded as M or F, shown as male; Epimetheus: sex not recorded as M or F, shown as male; Erichtonius: sex not recorded as M or F, shown as male; Eurypylus: sex not recorded as M or F, shown as male; Ganymede: sex not recorded as M or F, shown as male; Gigantes: sex not recorded as M or F, shown as male; Gorgorphone: sex not recorded as M or F, shown as male; Harmonia: sex not recorded as M or F, shown as male; Hellen: sex not recorded as M or F, shown as male; Herulus: sex not recorded as M or F, shown as male; Hippe: sex not recorded as M or F, shown as male; Hyades: sex not recorded as M or F, shown as male; Icarius: sex not recorded as M or F, shown as male; II Lares: sex not recorded as M or F, shown as male; The Lares: sex not recorded as M or F, shown as male; Lavinia: sex not recorded as M or F, shown as male; Libera: sex not recorded as M or F, shown as male; Maia: sex not recorded as M or F, shown as male; Makedon: sex not recorded as M or F, shown as male; The Manes: sex not recorded as M or F, shown as male; The Minyas: sex not recorded as M or F, shown as male; Nox: sex not recorded as M or F, shown as male; Lydian nymphs: sex not recorded as M or F, shown as male; Ocyrhoe: sex not recorded as M or F, shown as male; Pallas: sex not recorded as M or F, shown as male; Panacea: sex not recorded as M or F, shown as male; Pandora: sex not recorded as M or F, shown as male; Pax: sex not recorded as M or F, shown as male; Penelope: sex not recorded as M or F, shown as male; Perimede: sex not recorded as M or F, shown as male; Perleres: sex not recorded as M or F, shown as male; Picumnus: sex not recorded as M or F, shown as male; Pleiades: sex not recorded as M or F, shown as male; Postvorta: sex not recorded as M or F, shown as male; Prometheus: sex not recorded as M or F, shown as male; Salus: sex not recorded as M or F, shown as male; Sarpedon: sex not recorded as M or F, shown as male; Sinon: sex not recorded as M or F, shown as male; 49 Other Sons: sex not recorded as M or F, shown as male; Stimula: sex not recorded as M or F, shown as male; Tenes: sex not recorded as M or F, shown as male; 3000 Rivers (Sons of Oceanus and Tethys): sex not recorded as M or F, shown as male; Thestius: sex not recorded as M or F, shown as male; Tiresias: sex not recorded as M or F, shown as male; Trivia: sex not recorded as M or F, shown as male; Tros: sex not recorded as M or F, shown as male; Unknown: sex not recorded as M or F, shown as male; Virtue: sex not recorded as M or F, shown as male; Virtus: sex not recorded as M or F, shown as male"
+    ],
+    "houses": [
+        {
+            "name": "Roman pantheon",
+            "color": "#c8102e"
+        }
+    ],
+    "people": [
+        {
+            "id": "jupiter",
+            "name": "Jupiter",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "unnamed-daughter",
+            "name": "(unnamed daughter)",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "abrota",
+            "name": "Abrota",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "aceso",
+            "name": "Aceso",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "achaeus",
+            "name": "Achaeus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "achilles",
+            "name": "Achilles",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "achiroe",
+            "name": "Achiroe",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "acis",
+            "name": "Acis",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "aegeus",
+            "name": "Aegeus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "aegyptus",
+            "name": "Aegyptus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "aeneas",
+            "name": "Aeneas",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "aesculapius",
+            "name": "Aesculapius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "aesimus",
+            "name": "Aesimus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "aglaea",
+            "name": "Aglaea",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "agrippa",
+            "name": "Agrippa",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "ajax",
+            "name": "Ajax",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "alba",
+            "name": "Alba",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "alcmene",
+            "name": "Alcmene",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "alexiares",
+            "name": "Alexiares",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "almon",
+            "name": "Almon",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "amata",
+            "name": "Amata",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "amphithea",
+            "name": "Amphithea",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "amulius",
+            "name": "Amulius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "anchises",
+            "name": "Anchises",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "anicetus",
+            "name": "Anicetus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "antevorta",
+            "name": "Antevorta",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "anticlea",
+            "name": "Anticlea",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "anton",
+            "name": "Anton",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "apollo",
+            "name": "Apollo",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "aquilo",
+            "name": "Aquilo",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "aratus",
+            "name": "Aratus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "arcesius",
+            "name": "Arcesius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "aricia",
+            "name": "Aricia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "aristodama",
+            "name": "Aristodama",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "ascanius",
+            "name": "Ascanius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "asopus",
+            "name": "Asopus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "asteria",
+            "name": "Asteria",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "astraeus",
+            "name": "Astraeus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "astyoche",
+            "name": "Astyoche",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "ate",
+            "name": "Ate",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "atlas",
+            "name": "Atlas",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "atys",
+            "name": "Atys",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "aurora",
+            "name": "Aurora",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "auster",
+            "name": "Auster",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "autolycus",
+            "name": "Autolycus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "aventinus",
+            "name": "Aventinus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "olus",
+            "name": "Æolus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "bacchus",
+            "name": "Bacchus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "bellerophon",
+            "name": "Bellerophon",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "bellona",
+            "name": "Bellona",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "belus",
+            "name": "Belus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "bia",
+            "name": "Bia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "brutus-of-britain",
+            "name": "Brutus of Britain",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "caca",
+            "name": "Caca",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "cacus",
+            "name": "Cacus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "cadmus",
+            "name": "Cadmus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "caelus",
+            "name": "Caelus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "caliadne",
+            "name": "Caliadne",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "capetus",
+            "name": "Capetus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "capys",
+            "name": "Capys",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "carmenta",
+            "name": "Carmenta",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "carmenta-2",
+            "name": "Carmenta",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "carystus",
+            "name": "Carystus.",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "cephalus",
+            "name": "Cephalus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "ceres",
+            "name": "Ceres",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "chaos",
+            "name": "Chaos",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "chariclo",
+            "name": "Chariclo",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "charopus",
+            "name": "Charopus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "chione",
+            "name": "Chione",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "chiron",
+            "name": "Chiron",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "chryse",
+            "name": "Chryse",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "cleopatra",
+            "name": "Cleopatra",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "clitunno",
+            "name": "Clitunno",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "clymene",
+            "name": "Clymene",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "clymene-2",
+            "name": "Clymene",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "clytius",
+            "name": "Clytius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "coronis",
+            "name": "Coronis",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "cratos",
+            "name": "Cratos",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "creusa",
+            "name": "Creusa",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "crius",
+            "name": "Crius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "cupid",
+            "name": "Cupid",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "cychreus",
+            "name": "Cychreus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "cycnus",
+            "name": "Cycnus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "danaus",
+            "name": "Danaus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "daphne",
+            "name": "Daphne",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "dardanus",
+            "name": "Dardanus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "decima",
+            "name": "Decima",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "deianira",
+            "name": "Deianira",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "deidameia",
+            "name": "Deidameia",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "deidamia",
+            "name": "Deidamia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "deioneus",
+            "name": "Deioneus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "deliades",
+            "name": "Deliades",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "deucalion",
+            "name": "Deucalion",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "deucalion-2",
+            "name": "Deucalion",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "diana",
+            "name": "Diana",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "dione",
+            "name": "Dione",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "discordia",
+            "name": "Discordia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "discordia-2",
+            "name": "Discordia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "dolops",
+            "name": "Dolops",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "doris",
+            "name": "Doris",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "dorus",
+            "name": "Dorus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "egeria",
+            "name": "Egeria",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "eileithya",
+            "name": "Eileithya",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "electra",
+            "name": "Electra",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "endeis",
+            "name": "Endeis",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "eos",
+            "name": "Eos",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "epimetheus",
+            "name": "Epimetheus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "epione",
+            "name": "Epione",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "erichtonius",
+            "name": "Erichtonius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "eros",
+            "name": "Eros",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "eurybia",
+            "name": "Eurybia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "eurynome",
+            "name": "Eurynome",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "eurypylus",
+            "name": "Eurypylus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "evander",
+            "name": "Evander",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "everes",
+            "name": "Everes",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "fama",
+            "name": "Fama",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "fauna",
+            "name": "Fauna",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "faunus",
+            "name": "Faunus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "faustulus",
+            "name": "Faustulus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "favonius",
+            "name": "Favonius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "feronia",
+            "name": "Feronia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "fontus",
+            "name": "Fontus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "ganymede",
+            "name": "Ganymede",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "gigantes",
+            "name": "Gigantes",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "glaucus",
+            "name": "Glaucus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "glaucus-2",
+            "name": "Glaucus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "gorgorphone",
+            "name": "Gorgorphone",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "graecus",
+            "name": "Graecus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "harmonia",
+            "name": "Harmonia",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "helen",
+            "name": "Helen",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "hellen",
+            "name": "Hellen",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hemithea",
+            "name": "Hemithea",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "hercules",
+            "name": "Hercules",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hermione",
+            "name": "Hermione",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "hermus",
+            "name": "Hermus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hermus-2",
+            "name": "Hermus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hersilia",
+            "name": "Hersilia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "herulus",
+            "name": "Herulus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hesione",
+            "name": "Hesione",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "hicetaon",
+            "name": "Hicetaon",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hippasus",
+            "name": "Hippasus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hippe",
+            "name": "Hippe",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "honos",
+            "name": "Honos",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hyades",
+            "name": "Hyades",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hyperion",
+            "name": "Hyperion",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "hypermnestra",
+            "name": "Hypermnestra",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "iapetus",
+            "name": "Iapetus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "iaso",
+            "name": "Iaso",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "icarius",
+            "name": "Icarius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "ilus",
+            "name": "Ilus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "iphiclus",
+            "name": "Iphiclus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "iustitia",
+            "name": "Iustitia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "janus",
+            "name": "Janus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "juno",
+            "name": "Juno",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "justitia",
+            "name": "Justitia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "juturna",
+            "name": "Juturna",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "juventas",
+            "name": "Juventas",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "ladon",
+            "name": "Ladon",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "laertes",
+            "name": "Laertes",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "lampus",
+            "name": "Lampus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "laodamia",
+            "name": "Laodamia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "laomedon",
+            "name": "Laomedon",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "lara",
+            "name": "Lara",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "acca-larentia",
+            "name": "Acca Larentia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "lares-i",
+            "name": "Lares I",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "lares-ii",
+            "name": "Lares II",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "the-lares",
+            "name": "The Lares",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "latinus",
+            "name": "Latinus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "latinus-2",
+            "name": "Latinus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "latona",
+            "name": "Latona",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "lavinia",
+            "name": "Lavinia",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "leda",
+            "name": "Leda",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "leucippe",
+            "name": "Leucippe",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "libera",
+            "name": "Libera",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "lucifer",
+            "name": "Lucifer",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "luna",
+            "name": "Luna",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "lycus",
+            "name": "Lycus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "lynceus",
+            "name": "Lynceus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "machaon",
+            "name": "Machaon",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "magnetas",
+            "name": "Magnetas",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "maia",
+            "name": "Maia",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "makedon",
+            "name": "Makedon",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "the-manes",
+            "name": "The Manes",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "mania",
+            "name": "Mania",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "mantus",
+            "name": "Mantus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "marica",
+            "name": "Marica",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "mars",
+            "name": "Mars",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "meditrina",
+            "name": "Meditrina",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "medusa",
+            "name": "Medusa",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "megara",
+            "name": "Megara",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "melanippus",
+            "name": "Melanippus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "menelaus",
+            "name": "Menelaus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "mercury",
+            "name": "Mercury",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "metis",
+            "name": "Metis",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "metope",
+            "name": "Metope",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "minerva",
+            "name": "Minerva",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "minyas",
+            "name": "Minyas",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "the-minyas",
+            "name": "The Minyas",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "moneta",
+            "name": "Moneta",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "mors",
+            "name": "Mors",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "morta",
+            "name": "Morta",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "neoptolemus",
+            "name": "Neoptolemus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "neptune",
+            "name": "Neptune",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "neures",
+            "name": "Neures",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "nireus",
+            "name": "Nireus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "nisos",
+            "name": "Nisos",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "nona",
+            "name": "Nona",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "nox",
+            "name": "Nox",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "numitor",
+            "name": "Numitor",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "lydian-nymphs",
+            "name": "Lydian nymphs",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "oceanus",
+            "name": "Oceanus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "ocyrhoe",
+            "name": "Ocyrhoe",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "oebalus",
+            "name": "Oebalus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "ops",
+            "name": "Ops",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "orion",
+            "name": "Orion",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "orseis",
+            "name": "Orseis",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "pallas",
+            "name": "Pallas",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "pallas-2",
+            "name": "Pallas",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "pallas-3",
+            "name": "Pallas",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "panacea",
+            "name": "Panacea",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "pandion-ii",
+            "name": "Pandion II",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "pandora",
+            "name": "Pandora",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "pandora-2",
+            "name": "Pandora",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "pax",
+            "name": "Pax",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "pegasus",
+            "name": "Pegasus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "peleus",
+            "name": "Peleus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "penelope",
+            "name": "Penelope",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "penia",
+            "name": "Penia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "periboea",
+            "name": "Periboea",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "perimede",
+            "name": "Perimede",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "perleres",
+            "name": "Perleres",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "philyra",
+            "name": "Philyra",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "phlegyas",
+            "name": "Phlegyas",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "phoebe",
+            "name": "Phoebe",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "phylacus",
+            "name": "Phylacus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "picumnus",
+            "name": "Picumnus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "pleiades",
+            "name": "Pleiades",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "pluto",
+            "name": "Pluto",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "podalirius",
+            "name": "Podalirius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "polus",
+            "name": "Polus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "polydueces",
+            "name": "Polydueces",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "polyphemus",
+            "name": "Polyphemus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "polyxo",
+            "name": "Polyxo",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "pomona",
+            "name": "Pomona",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "pontus",
+            "name": "Pontus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "porus",
+            "name": "Porus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "postvorta",
+            "name": "Postvorta",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "priam",
+            "name": "Priam",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "procas",
+            "name": "Procas",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "proclia",
+            "name": "Proclia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "prometheus",
+            "name": "Prometheus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "prometheus-2",
+            "name": "Prometheus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "pronoia",
+            "name": "Pronoia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "proserpina",
+            "name": "Proserpina",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "psyche",
+            "name": "Psyche",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "pyrrha",
+            "name": "Pyrrha",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "pyrrha-2",
+            "name": "Pyrrha",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "remus",
+            "name": "Remus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "robigo",
+            "name": "Robigo",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "robigus",
+            "name": "Robigus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "kings-of-rome",
+            "name": "Kings of Rome",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "romulus",
+            "name": "Romulus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "salacia",
+            "name": "Salacia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "salamis",
+            "name": "Salamis",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "salus",
+            "name": "Salus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "sarpedon",
+            "name": "Sarpedon",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "saturn",
+            "name": "Saturn",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "rhea-silvia",
+            "name": "Rhea Silvia",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "silvius",
+            "name": "Silvius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "silvius-2",
+            "name": "Silvius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "aeneas-silvius",
+            "name": "Aeneas Silvius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "latinus-silvius",
+            "name": "Latinus Silvius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "romulus-silvius",
+            "name": "Romulus Silvius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "tiberinus-silvius",
+            "name": "Tiberinus Silvius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "sinon",
+            "name": "Sinon",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "sisyphus",
+            "name": "Sisyphus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "sol",
+            "name": "Sol",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "somnus",
+            "name": "Somnus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "49-other-sons",
+            "name": "49 Other Sons",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "statanus",
+            "name": "Statanus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "statina",
+            "name": "Statina",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "stilbe",
+            "name": "Stilbe",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "stimula",
+            "name": "Stimula",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "strymo",
+            "name": "Strymo",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "symaethis",
+            "name": "Symaethis",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "telamon",
+            "name": "Telamon",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "telemachus",
+            "name": "Telemachus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "telephus",
+            "name": "Telephus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "telesphorus",
+            "name": "Telesphorus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "tellus",
+            "name": "Tellus",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "tenes",
+            "name": "Tenes",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "3000-rivers-sons-of-oceanus-and-tethys",
+            "name": "3000 Rivers (Sons of Oceanus and Tethys)",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "tethys",
+            "name": "Tethys",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "teucer",
+            "name": "Teucer",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "thea",
+            "name": "Thea",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "thestius",
+            "name": "Thestius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "thetis",
+            "name": "Thetis",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "tiberinus",
+            "name": "Tiberinus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "tiresias",
+            "name": "Tiresias",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "tithonus",
+            "name": "Tithonus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "triton",
+            "name": "Triton",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "trivia",
+            "name": "Trivia",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "tros",
+            "name": "Tros",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "turnus",
+            "name": "Turnus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "ulysses",
+            "name": "Ulysses",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "unknown",
+            "name": "Unknown",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "unknown-2",
+            "name": "Unknown",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "unknown-3",
+            "name": "Unknown",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "unknown-4",
+            "name": "Unknown",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "venus",
+            "name": "Venus",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "veritas",
+            "name": "Veritas",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "vertumnus",
+            "name": "Vertumnus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "vesta",
+            "name": "Vesta",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "victoria",
+            "name": "Victoria",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "virbius",
+            "name": "Virbius",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "virtue",
+            "name": "Virtue",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "virtus",
+            "name": "Virtus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "volupta",
+            "name": "Volupta",
+            "house": "Roman pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "vulcan",
+            "name": "Vulcan",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "vulturnus",
+            "name": "Vulturnus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "xuthus",
+            "name": "Xuthus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "zelus",
+            "name": "Zelus",
+            "house": "Roman pantheon",
+            "sex": "m"
+        }
+    ],
+    "families": [
+        {
+            "id": "roman-gods-f1",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f2",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f3",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f4",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f5",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f6",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f7",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f8",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f9",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f10",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f11",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f12",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f13",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f14",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f15",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f16",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f17",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f18",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f19",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f20",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f21",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f22",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f23",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f24",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f25",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f26",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f27",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f28",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f29",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f30",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f31",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f32",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f33",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f34",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f35",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f36",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f37",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f38",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f39",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f40",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f41",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f42",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f43",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f44",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f45",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f46",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f47",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f48",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f49",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f50",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f51",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f52",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f53",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f54",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f55",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f56",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f57",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f58",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f59",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f60",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f61",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f62",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f63",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f64",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f65",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f66",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f67",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f68",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f69",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f70",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f71",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f72",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f73",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f74",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f75",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f76",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f77",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f78",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f79",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f80",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f81",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f82",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f83",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f84",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f85",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f86",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f87",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f88",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f89",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f90",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f91",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f92",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f93",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f94",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f95",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f96",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f97",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f98",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f99",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f100",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f101",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f102",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f103",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f104",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f105",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f106",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f107",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f108",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f109",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f110",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f111",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f112",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f113",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f114",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f115",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f116",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f117",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f118",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f119",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f120",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f121",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f122",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f123",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f124",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f125",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f126",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f127",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f128",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f129",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f130",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f131",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f132",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f133",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f134",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f135",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f136",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f137",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f138",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f139",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f140",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f141",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f142",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f143",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f144",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f145",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f146",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f147",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f148",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f149",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f150",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f151",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f152",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f153",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f154",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f155",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f156",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f157",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f158",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f159",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f160",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f161",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f162",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f163",
+            "adoptive": false
+        }
+    ],
+    "members": [
+        {
+            "family": "roman-gods-f1",
+            "person": "unnamed-daughter",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f2",
+            "person": "unnamed-daughter",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f3",
+            "person": "anchises",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f4",
+            "person": "anchises",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f4",
+            "person": "venus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f4",
+            "person": "aeneas",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f5",
+            "person": "numitor",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f5",
+            "person": "rhea-silvia",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f6",
+            "person": "tiberinus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f6",
+            "person": "rhea-silvia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f7",
+            "person": "aeneas",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f7",
+            "person": "creusa",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f7",
+            "person": "ascanius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f8",
+            "person": "unnamed-daughter",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f9",
+            "person": "jupiter",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f9",
+            "person": "dione",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f10",
+            "person": "mars",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f10",
+            "person": "venus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f10",
+            "person": "harmonia",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f11",
+            "person": "vulcan",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f11",
+            "person": "venus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f11",
+            "person": "cacus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f11",
+            "person": "caca",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f12",
+            "person": "jupiter",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f12",
+            "person": "juno",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f12",
+            "person": "vulcan",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f12",
+            "person": "juventas",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f12",
+            "person": "eileithya",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f12",
+            "person": "bellona",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f12",
+            "person": "mars",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f13",
+            "person": "neoptolemus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f13",
+            "person": "unnamed-daughter",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f14",
+            "person": "jupiter",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f14",
+            "person": "discordia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f14",
+            "person": "ate",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f15",
+            "person": "hercules",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f15",
+            "person": "megara",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f16",
+            "person": "hercules",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f16",
+            "person": "deianira",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f17",
+            "person": "hercules",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f17",
+            "person": "juventas",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f17",
+            "person": "anton",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f17",
+            "person": "alexiares",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f17",
+            "person": "anicetus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f18",
+            "person": "jupiter",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f18",
+            "person": "ceres",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f18",
+            "person": "proserpina",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f19",
+            "person": "pluto",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f19",
+            "person": "proserpina",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f20",
+            "person": "saturn",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f20",
+            "person": "ops",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f20",
+            "person": "ceres",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f20",
+            "person": "juno",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f20",
+            "person": "pluto",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f20",
+            "person": "vesta",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f20",
+            "person": "jupiter",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f20",
+            "person": "veritas",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f20",
+            "person": "neptune",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f21",
+            "person": "jupiter",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f21",
+            "person": "alcmene",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f21",
+            "person": "hercules",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f22",
+            "person": "alcmene",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "caelus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "tellus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "saturn",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "ops",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "polus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "crius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "hyperion",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "iapetus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "thea",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "justitia",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "phoebe",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "moneta",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "fama",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "gigantes",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "oceanus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f23",
+            "person": "tethys",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f24",
+            "person": "neptune",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f24",
+            "person": "salacia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f24",
+            "person": "triton",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f25",
+            "person": "neptune",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f25",
+            "person": "medusa",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f25",
+            "person": "pegasus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f26",
+            "person": "achilles",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f26",
+            "person": "deidamia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f26",
+            "person": "neoptolemus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f27",
+            "person": "peleus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f27",
+            "person": "thetis",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f27",
+            "person": "achilles",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f28",
+            "person": "neures",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f28",
+            "person": "doris",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f28",
+            "person": "thetis",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f29",
+            "person": "pontus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f29",
+            "person": "tellus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f29",
+            "person": "neures",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f30",
+            "person": "oceanus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f30",
+            "person": "tethys",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f30",
+            "person": "doris",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f30",
+            "person": "clitunno",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f30",
+            "person": "3000-rivers-sons-of-oceanus-and-tethys",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f30",
+            "person": "tiberinus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f30",
+            "person": "hermus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f30",
+            "person": "daphne",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f30",
+            "person": "ladon",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f31",
+            "person": "neoptolemus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f31",
+            "person": "hermione",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f32",
+            "person": "menelaus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f32",
+            "person": "helen",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f32",
+            "person": "hermione",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f33",
+            "person": "jupiter",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f33",
+            "person": "leda",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f33",
+            "person": "helen",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f33",
+            "person": "polydueces",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f34",
+            "person": "leda",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f35",
+            "person": "discordia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f36",
+            "person": "jupiter",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f36",
+            "person": "metis",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f36",
+            "person": "minerva",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f36",
+            "person": "porus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f37",
+            "person": "jupiter",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f37",
+            "person": "latona",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f37",
+            "person": "apollo",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f37",
+            "person": "diana",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f38",
+            "person": "polus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f38",
+            "person": "phoebe",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f38",
+            "person": "latona",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f38",
+            "person": "asteria",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f39",
+            "person": "iapetus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f39",
+            "person": "clymene",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f39",
+            "person": "atlas",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f39",
+            "person": "epimetheus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f39",
+            "person": "prometheus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f39",
+            "person": "prometheus-2",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f40",
+            "person": "atlas",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f40",
+            "person": "pleiades",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f40",
+            "person": "hyades",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f41",
+            "person": "epimetheus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f41",
+            "person": "pandora",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f41",
+            "person": "pyrrha",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f42",
+            "person": "deucalion",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f42",
+            "person": "pyrrha",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f42",
+            "person": "hellen",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f43",
+            "person": "hellen",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f43",
+            "person": "olus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f44",
+            "person": "perleres",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f44",
+            "person": "gorgorphone",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f44",
+            "person": "deidameia",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f45",
+            "person": "oebalus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f45",
+            "person": "gorgorphone",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f45",
+            "person": "icarius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f46",
+            "person": "icarius",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f46",
+            "person": "penelope",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f47",
+            "person": "deidameia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f47",
+            "person": "thestius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f48",
+            "person": "thestius",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f48",
+            "person": "leda",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f49",
+            "person": "ulysses",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f49",
+            "person": "penelope",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f49",
+            "person": "telemachus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f50",
+            "person": "pleiades",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f50",
+            "person": "electra",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f50",
+            "person": "maia",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f51",
+            "person": "electra",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f51",
+            "person": "jupiter",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f51",
+            "person": "dardanus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f52",
+            "person": "dardanus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f52",
+            "person": "erichtonius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f53",
+            "person": "erichtonius",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f53",
+            "person": "tros",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f54",
+            "person": "tros",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f54",
+            "person": "ganymede",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f54",
+            "person": "ilus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f55",
+            "person": "jupiter",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f55",
+            "person": "maia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f55",
+            "person": "mercury",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f56",
+            "person": "harmonia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f56",
+            "person": "cadmus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f56",
+            "person": "stimula",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f57",
+            "person": "stimula",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f57",
+            "person": "bacchus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f58",
+            "person": "bacchus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f58",
+            "person": "ceres",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f58",
+            "person": "libera",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f59",
+            "person": "apollo",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f59",
+            "person": "coronis",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f59",
+            "person": "aesculapius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f60",
+            "person": "hyperion",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f60",
+            "person": "thea",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f60",
+            "person": "aurora",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f60",
+            "person": "sol",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f60",
+            "person": "luna",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f60",
+            "person": "eos",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f61",
+            "person": "astraeus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f61",
+            "person": "aurora",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f61",
+            "person": "aquilo",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f61",
+            "person": "auster",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f61",
+            "person": "vulturnus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f61",
+            "person": "favonius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f61",
+            "person": "lucifer",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f62",
+            "person": "mars",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f62",
+            "person": "bellona",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f63",
+            "person": "jupiter",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f63",
+            "person": "venus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f63",
+            "person": "cupid",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f64",
+            "person": "cupid",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f64",
+            "person": "psyche",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f64",
+            "person": "volupta",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f65",
+            "person": "chaos",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f65",
+            "person": "tellus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f65",
+            "person": "nox",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f66",
+            "person": "jupiter",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f66",
+            "person": "iustitia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f66",
+            "person": "pax",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f67",
+            "person": "aesculapius",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f67",
+            "person": "epione",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f67",
+            "person": "salus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f67",
+            "person": "meditrina",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f67",
+            "person": "panacea",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f67",
+            "person": "iaso",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f67",
+            "person": "aceso",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f67",
+            "person": "aglaea",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f67",
+            "person": "machaon",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f67",
+            "person": "podalirius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f67",
+            "person": "telesphorus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f68",
+            "person": "nox",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f68",
+            "person": "mors",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f68",
+            "person": "somnus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f68",
+            "person": "discordia-2",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f68",
+            "person": "decima",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f68",
+            "person": "morta",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f68",
+            "person": "nona",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f69",
+            "person": "mercury",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f69",
+            "person": "carmenta",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f69",
+            "person": "faunus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f69",
+            "person": "evander",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f70",
+            "person": "faunus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f70",
+            "person": "marica",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f70",
+            "person": "fauna",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f70",
+            "person": "latinus-2",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f71",
+            "person": "evander",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f71",
+            "person": "pallas",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f72",
+            "person": "mars",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f72",
+            "person": "rhea-silvia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f72",
+            "person": "remus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f72",
+            "person": "romulus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f73",
+            "person": "ilus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f73",
+            "person": "laomedon",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f74",
+            "person": "laomedon",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f74",
+            "person": "strymo",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f74",
+            "person": "tithonus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f75",
+            "person": "laomedon",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f75",
+            "person": "leucippe",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f75",
+            "person": "priam",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f75",
+            "person": "astyoche",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f75",
+            "person": "lampus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f75",
+            "person": "hicetaon",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f75",
+            "person": "clytius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f75",
+            "person": "proclia",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f75",
+            "person": "hesione",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f76",
+            "person": "telephus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f76",
+            "person": "astyoche",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f76",
+            "person": "eurypylus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f77",
+            "person": "lampus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f77",
+            "person": "dolops",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f78",
+            "person": "hicetaon",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f78",
+            "person": "melanippus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f79",
+            "person": "cycnus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f79",
+            "person": "proclia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f79",
+            "person": "tenes",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f79",
+            "person": "hemithea",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f80",
+            "person": "telamon",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f80",
+            "person": "hesione",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f80",
+            "person": "teucer",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f81",
+            "person": "telamon",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f81",
+            "person": "periboea",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f81",
+            "person": "ajax",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f82",
+            "person": "caelus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f82",
+            "person": "venus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f83",
+            "person": "mercury",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f83",
+            "person": "lara",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f83",
+            "person": "lares-i",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f83",
+            "person": "lares-ii",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f84",
+            "person": "almon",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f84",
+            "person": "lara",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f85",
+            "person": "unknown",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f85",
+            "person": "juturna",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f85",
+            "person": "turnus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f86",
+            "person": "janus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f86",
+            "person": "juturna",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f86",
+            "person": "fontus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f87",
+            "person": "hercules",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f87",
+            "person": "acca-larentia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f88",
+            "person": "faustulus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f88",
+            "person": "acca-larentia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f89",
+            "person": "feronia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f89",
+            "person": "herulus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f90",
+            "person": "romulus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f90",
+            "person": "hersilia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f90",
+            "person": "kings-of-rome",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f91",
+            "person": "procas",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f91",
+            "person": "numitor",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f92",
+            "person": "aventinus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f92",
+            "person": "procas",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f93",
+            "person": "romulus-silvius",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f93",
+            "person": "aventinus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f94",
+            "person": "agrippa",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f94",
+            "person": "romulus-silvius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f95",
+            "person": "tiberinus-silvius",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f95",
+            "person": "agrippa",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f96",
+            "person": "capetus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f96",
+            "person": "tiberinus-silvius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f97",
+            "person": "capys",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f97",
+            "person": "capetus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f98",
+            "person": "atys",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f98",
+            "person": "capys",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f99",
+            "person": "alba",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f99",
+            "person": "atys",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f100",
+            "person": "latinus-silvius",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f100",
+            "person": "alba",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f101",
+            "person": "aeneas-silvius",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f101",
+            "person": "latinus-silvius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f102",
+            "person": "silvius-2",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f102",
+            "person": "aeneas-silvius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f103",
+            "person": "aeneas",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f103",
+            "person": "lavinia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f103",
+            "person": "silvius-2",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f103",
+            "person": "amulius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f104",
+            "person": "latinus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f104",
+            "person": "lavinia",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f105",
+            "person": "ascanius",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f105",
+            "person": "silvius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f106",
+            "person": "silvius",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f106",
+            "person": "brutus-of-britain",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f107",
+            "person": "belus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f107",
+            "person": "achiroe",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f107",
+            "person": "danaus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f107",
+            "person": "aegyptus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f108",
+            "person": "danaus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f108",
+            "person": "lynceus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f108",
+            "person": "49-other-sons",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f109",
+            "person": "lynceus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f109",
+            "person": "hypermnestra",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f110",
+            "person": "unknown-2",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f110",
+            "person": "belus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f110",
+            "person": "picumnus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f111",
+            "person": "latinus-2",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f111",
+            "person": "amata",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f111",
+            "person": "lavinia",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f112",
+            "person": "porus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f112",
+            "person": "penia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f112",
+            "person": "eros",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f113",
+            "person": "unknown-3",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f113",
+            "person": "robigus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f113",
+            "person": "robigo",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f114",
+            "person": "veritas",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f114",
+            "person": "virtue",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f115",
+            "person": "vertumnus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f115",
+            "person": "pomona",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f116",
+            "person": "virbius",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f116",
+            "person": "aricia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f117",
+            "person": "pallas-2",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f117",
+            "person": "aricia",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f118",
+            "person": "pandion-ii",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f118",
+            "person": "pallas-2",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f118",
+            "person": "aegeus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f118",
+            "person": "nisos",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f118",
+            "person": "lycus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f119",
+            "person": "nisos",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f119",
+            "person": "abrota",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f119",
+            "person": "eurynome",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f120",
+            "person": "glaucus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f120",
+            "person": "eurynome",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f120",
+            "person": "bellerophon",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f120",
+            "person": "deliades",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f121",
+            "person": "bellerophon",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f121",
+            "person": "unknown-4",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f121",
+            "person": "laodamia",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f122",
+            "person": "unknown-4",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f122",
+            "person": "glaucus-2",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f123",
+            "person": "sisyphus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f123",
+            "person": "glaucus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f124",
+            "person": "laodamia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f124",
+            "person": "sarpedon",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f125",
+            "person": "faunus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f125",
+            "person": "symaethis",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f125",
+            "person": "acis",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f126",
+            "person": "charopus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f126",
+            "person": "aglaea",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f126",
+            "person": "nireus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f127",
+            "person": "phlegyas",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f127",
+            "person": "coronis",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f128",
+            "person": "aesculapius",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f128",
+            "person": "aristodama",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f128",
+            "person": "aratus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f129",
+            "person": "hermus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f129",
+            "person": "lydian-nymphs",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f130",
+            "person": "aegyptus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f130",
+            "person": "caliadne",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f130",
+            "person": "hermus-2",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f131",
+            "person": "hermus-2",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f131",
+            "person": "cleopatra",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f132",
+            "person": "danaus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f132",
+            "person": "polyxo",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f132",
+            "person": "cleopatra",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f133",
+            "person": "mantus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f133",
+            "person": "mania",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f133",
+            "person": "the-lares",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f133",
+            "person": "the-manes",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f134",
+            "person": "moneta",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f134",
+            "person": "egeria",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f134",
+            "person": "antevorta",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f134",
+            "person": "postvorta",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f134",
+            "person": "carmenta-2",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f135",
+            "person": "statanus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f135",
+            "person": "statina",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f136",
+            "person": "asteria",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f136",
+            "person": "trivia",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f137",
+            "person": "crius",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f137",
+            "person": "eurybia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f137",
+            "person": "astraeus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f137",
+            "person": "pallas-3",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f138",
+            "person": "pallas-3",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f138",
+            "person": "victoria",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f138",
+            "person": "zelus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f138",
+            "person": "cratos",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f138",
+            "person": "bia",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f139",
+            "person": "mars",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f139",
+            "person": "chryse",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f139",
+            "person": "phlegyas",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f140",
+            "person": "saturn",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f140",
+            "person": "philyra",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f140",
+            "person": "chiron",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f141",
+            "person": "oceanus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f142",
+            "person": "chiron",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f142",
+            "person": "chariclo",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f142",
+            "person": "hippe",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f142",
+            "person": "endeis",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f142",
+            "person": "ocyrhoe",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f142",
+            "person": "carystus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f143",
+            "person": "cychreus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f143",
+            "person": "stilbe",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f143",
+            "person": "chariclo",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f144",
+            "person": "everes",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f144",
+            "person": "chariclo",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f144",
+            "person": "tiresias",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f145",
+            "person": "neptune",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f145",
+            "person": "salamis",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f145",
+            "person": "cychreus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f145",
+            "person": "orion",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f145",
+            "person": "polyphemus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f146",
+            "person": "asopus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f146",
+            "person": "metope",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f146",
+            "person": "salamis",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f147",
+            "person": "ladon",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f147",
+            "person": "metope",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f147",
+            "person": "daphne",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f148",
+            "person": "laertes",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f148",
+            "person": "anticlea",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f148",
+            "person": "ulysses",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f149",
+            "person": "arcesius",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f149",
+            "person": "laertes",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f150",
+            "person": "cephalus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f150",
+            "person": "clymene-2",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f150",
+            "person": "arcesius",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f151",
+            "person": "minyas",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f151",
+            "person": "clymene-2",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f151",
+            "person": "the-minyas",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f152",
+            "person": "the-minyas",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f152",
+            "person": "hippasus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f153",
+            "person": "phylacus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f153",
+            "person": "clymene-2",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f153",
+            "person": "iphiclus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f154",
+            "person": "deioneus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f154",
+            "person": "cephalus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f155",
+            "person": "olus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f155",
+            "person": "deioneus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f155",
+            "person": "perleres",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f156",
+            "person": "hellen",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f156",
+            "person": "orseis",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f156",
+            "person": "olus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f156",
+            "person": "dorus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f156",
+            "person": "xuthus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f157",
+            "person": "deucalion-2",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f157",
+            "person": "pyrrha-2",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f157",
+            "person": "pandora-2",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f157",
+            "person": "hellen",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f158",
+            "person": "pandora-2",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f158",
+            "person": "graecus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f158",
+            "person": "magnetas",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f158",
+            "person": "makedon",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f159",
+            "person": "xuthus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f159",
+            "person": "achaeus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f160",
+            "person": "prometheus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f160",
+            "person": "pronoia",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f160",
+            "person": "deucalion",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f161",
+            "person": "autolycus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f161",
+            "person": "amphithea",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f161",
+            "person": "anticlea",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f161",
+            "person": "perimede",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f161",
+            "person": "aesimus",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f162",
+            "person": "aesimus",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f162",
+            "person": "sinon",
+            "role": "child"
+        },
+        {
+            "family": "roman-gods-f163",
+            "person": "mercury",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f163",
+            "person": "chione",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f163",
+            "person": "amphithea",
+            "role": "child"
+        }
+    ]
+}

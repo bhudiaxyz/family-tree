@@ -1,60 +1,70 @@
 [
     {
         "id": "got",
+        "category": "fiction",
         "title": "Game of Thrones",
         "work": "Game of Thrones",
         "author": "David Benioff & D. B. Weiss; novels by George R. R. Martin"
     },
     {
         "id": "fireblood",
+        "category": "fiction",
         "title": "Fire & Blood",
         "work": "Fire & Blood",
         "author": "George R. R. Martin"
     },
     {
         "id": "lotr",
+        "category": "fiction",
         "title": "The Lord of the Rings",
         "work": "The Lord of the Rings",
         "author": "J. R. R. Tolkien"
     },
     {
         "id": "silmarillion",
+        "category": "fiction",
         "title": "The Silmarillion",
         "work": "The Silmarillion",
         "author": "J. R. R. Tolkien, edited by Christopher Tolkien"
     },
     {
         "id": "dune",
+        "category": "fiction",
         "title": "Dune",
         "work": "Dune",
         "author": "Frank Herbert; Dmitri, Abulurd and Anirul from the prequels by Brian Herbert & Kevin J. Anderson"
     },
     {
         "id": "potter",
+        "category": "fiction",
         "title": "Harry Potter",
         "work": "Harry Potter",
         "author": "J. K. Rowling"
     },
     {
         "id": "starwars",
+        "category": "fiction",
         "title": "Star Wars",
         "work": "Star Wars",
         "author": "Created by George Lucas; sequel trilogy by J. J. Abrams and Rian Johnson"
     },
     {
         "id": "wot",
+        "category": "fiction",
         "title": "The Wheel of Time",
         "work": "The Wheel of Time",
         "author": "Robert Jordan; final three books completed by Brandon Sanderson"
     },
     {
         "id": "stormlight",
+        "category": "fiction",
         "title": "The Stormlight Archive",
         "work": "The Stormlight Archive",
         "author": "Brandon Sanderson"
     },
     {
         "id": "witcher",
+        "category": "fiction",
         "title": "The Witcher",
         "work": "The Witcher",
         "author": "Andrzej Sapkowski"

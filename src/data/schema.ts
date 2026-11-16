@@ -1,7 +1,28 @@
 // Storage schema: one saga = normalised tables, matching db/schema.sql one-to-one.
 // Any backend (static JSON, object store, REST API over a database) only has to return these shapes.
 
-export type SagaIndexEntry = { id: string; title: string; work: string; author: string };
+/**
+ * What kind of family a saga is. Each category is a sub-folder of the data directory (`<category>/<id>.json`), and
+ * the same value is stored in the `saga.category` column. Add a value here to add a category; the list is closed so
+ * a bad manifest entry can't make the loader request an arbitrary path.
+ */
+export const CATEGORIES = ["fiction", "history"] as const;
+export type Category = (typeof CATEGORIES)[number];
+
+export type SagaIndexEntry = { id: string; category: Category; title: string; work: string; author: string };
+
+/**
+ * Path of a saga's data file, relative to the data directory: `<category>/<id>.json`. The ONE place this path is
+ * built, used by the app's loader and by every script and test, so they can never disagree about where files live.
+ * Throws on an unknown category rather than building a path from it.
+ */
+export function sagaPath(entry: Pick<SagaIndexEntry, "id" | "category">): string {
+    if (!(CATEGORIES as readonly string[]).includes(entry.category))
+        throw new Error(
+            `Saga "${entry.id}" has unknown category "${entry.category}" (expected ${CATEGORIES.join(" or ")})`
+        );
+    return `${entry.category}/${encodeURIComponent(entry.id)}.json`;
+}
 
 export type SagaRecord = {
     id: string;

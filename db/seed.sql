@@ -12,22 +12,22 @@
 -- order (saga, notes, houses, people, families with their members), so the file can be re-run safely.
 --
 -- Sagas, in drop-down order:
---    1. Game of Thrones          got
---    2. Fire & Blood             fireblood
---    3. The Lord of the Rings    lotr
---    4. The Silmarillion         silmarillion
---    5. Dune                     dune
---    6. Harry Potter             potter
---    7. Star Wars                starwars
---    8. The Wheel of Time        wot
---    9. The Stormlight Archive   stormlight
---   10. The Witcher              witcher
+--    1. Game of Thrones          fiction   got
+--    2. Fire & Blood             fiction   fireblood
+--    3. The Lord of the Rings    fiction   lotr
+--    4. The Silmarillion         fiction   silmarillion
+--    5. Dune                     fiction   dune
+--    6. Harry Potter             fiction   potter
+--    7. Star Wars                fiction   starwars
+--    8. The Wheel of Time        fiction   wot
+--    9. The Stormlight Archive   fiction   stormlight
+--   10. The Witcher              fiction   witcher
 
 BEGIN;
 
 
 -- =================================================================================================
--- SAGA 1 of 10: GAME OF THRONES   [id: got]
+-- SAGA 1 of 10: GAME OF THRONES   [id: got, category: fiction]
 -- Author:  David Benioff & D. B. Weiss; novels by George R. R. Martin
 -- Medium:  Television series (HBO, 2011–2019), based on A Song of Ice and Fire
 -- Canon:   TV show (where it differs from the books, the show is followed)
@@ -40,8 +40,8 @@ BEGIN;
 DELETE FROM saga WHERE id = 'got';
 
 -- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
-INSERT INTO saga (id, position, title, work, medium, author, canon, genre, covers) VALUES
-    ('got', 0, 'Game of Thrones', 'Game of Thrones', 'Television series (HBO, 2011–2019), based on A Song of Ice and Fire', 'David Benioff & D. B. Weiss; novels by George R. R. Martin', 'TV show (where it differs from the books, the show is followed)', 'Fantasy', 'Stark, Tully, Arryn, Targaryen, Lannister and Baratheon, from Robert''s Rebellion to the show''s present.');
+INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
+    ('got', 'fiction', 0, 'Game of Thrones', 'Game of Thrones', 'Television series (HBO, 2011–2019), based on A Song of Ice and Fire', 'David Benioff & D. B. Weiss; novels by George R. R. Martin', 'TV show (where it differs from the books, the show is followed)', 'Fantasy', 'Stark, Tully, Arryn, Targaryen, Lannister and Baratheon, from Robert''s Rebellion to the show''s present.');
 
 -- ── Houses (9) ─────────────────────────────────────────────────────────────────────────────────
 INSERT INTO house (saga_id, name, color) VALUES
@@ -238,7 +238,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 2 of 10: FIRE & BLOOD   [id: fireblood]
+-- SAGA 2 of 10: FIRE & BLOOD   [id: fireblood, category: fiction]
 -- Author:  George R. R. Martin
 -- Medium:  Novel (2018), a fictional history; adapted as HBO's House of the Dragon (2022–)
 -- Canon:   Book (where it differs from the show, the book is followed)
@@ -251,8 +251,8 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 DELETE FROM saga WHERE id = 'fireblood';
 
 -- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
-INSERT INTO saga (id, position, title, work, medium, author, canon, genre, covers) VALUES
-    ('fireblood', 1, 'Fire & Blood', 'Fire & Blood', 'Novel (2018), a fictional history; adapted as HBO''s House of the Dragon (2022–)', 'George R. R. Martin', 'Book (where it differs from the show, the book is followed)', 'Fantasy', 'House Targaryen from Aegon the Conqueror to the Dance of the Dragons and its aftermath: seven generations, with heavy intermarriage.');
+INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
+    ('fireblood', 'fiction', 1, 'Fire & Blood', 'Fire & Blood', 'Novel (2018), a fictional history; adapted as HBO''s House of the Dragon (2022–)', 'George R. R. Martin', 'Book (where it differs from the show, the book is followed)', 'Fantasy', 'House Targaryen from Aegon the Conqueror to the Dance of the Dragons and its aftermath: seven generations, with heavy intermarriage.');
 
 -- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
 INSERT INTO saga_note (saga_id, position, note) VALUES
@@ -461,7 +461,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 3 of 10: THE LORD OF THE RINGS   [id: lotr]
+-- SAGA 3 of 10: THE LORD OF THE RINGS   [id: lotr, category: fiction]
 -- Author:  J. R. R. Tolkien
 -- Medium:  Novel (1954–1955), with its appendices; The Silmarillion for the earliest generations
 -- Canon:   Books, chiefly Appendix A ("Annals of the Kings and Rulers")
@@ -474,8 +474,8 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 DELETE FROM saga WHERE id = 'lotr';
 
 -- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
-INSERT INTO saga (id, position, title, work, medium, author, canon, genre, covers) VALUES
-    ('lotr', 2, 'The Lord of the Rings', 'The Lord of the Rings', 'Novel (1954–1955), with its appendices; The Silmarillion for the earliest generations', 'J. R. R. Tolkien', 'Books, chiefly Appendix A ("Annals of the Kings and Rulers")', 'High fantasy', 'The half-elven line and House of Elrond, the heirs of Isildur down to Aragorn, and the royal houses of Rohan and Gondor.');
+INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
+    ('lotr', 'fiction', 2, 'The Lord of the Rings', 'The Lord of the Rings', 'Novel (1954–1955), with its appendices; The Silmarillion for the earliest generations', 'J. R. R. Tolkien', 'Books, chiefly Appendix A ("Annals of the Kings and Rulers")', 'High fantasy', 'The half-elven line and House of Elrond, the heirs of Isildur down to Aragorn, and the royal houses of Rohan and Gondor.');
 
 -- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
 INSERT INTO saga_note (saga_id, position, note) VALUES
@@ -641,7 +641,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 4 of 10: THE SILMARILLION   [id: silmarillion]
+-- SAGA 4 of 10: THE SILMARILLION   [id: silmarillion, category: fiction]
 -- Author:  J. R. R. Tolkien, edited by Christopher Tolkien
 -- Medium:  Mythopoeic history of Middle-earth (1977, published posthumously)
 -- Canon:   The published Silmarillion (not Tolkien's later, conflicting notes)
@@ -654,8 +654,8 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 DELETE FROM saga WHERE id = 'silmarillion';
 
 -- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
-INSERT INTO saga (id, position, title, work, medium, author, canon, genre, covers) VALUES
-    ('silmarillion', 3, 'The Silmarillion', 'The Silmarillion', 'Mythopoeic history of Middle-earth (1977, published posthumously)', 'J. R. R. Tolkien, edited by Christopher Tolkien', 'The published Silmarillion (not Tolkien''s later, conflicting notes)', 'High fantasy', 'House of Finwë (Fëanor, Fingolfin, Finarfin), and the lines of Lúthien and Tuor down to Elrond and Elros: eight generations.');
+INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
+    ('silmarillion', 'fiction', 3, 'The Silmarillion', 'The Silmarillion', 'Mythopoeic history of Middle-earth (1977, published posthumously)', 'J. R. R. Tolkien, edited by Christopher Tolkien', 'The published Silmarillion (not Tolkien''s later, conflicting notes)', 'High fantasy', 'House of Finwë (Fëanor, Fingolfin, Finarfin), and the lines of Lúthien and Tuor down to Elrond and Elros: eight generations.');
 
 -- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
 INSERT INTO saga_note (saga_id, position, note) VALUES
@@ -857,7 +857,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 5 of 10: DUNE   [id: dune]
+-- SAGA 5 of 10: DUNE   [id: dune, category: fiction]
 -- Author:  Frank Herbert; Dmitri, Abulurd and Anirul from the prequels by Brian Herbert & Kevin
 -- J. Anderson
 -- Medium:  Novel series (1965–1985); Dune, Dune Messiah, Children of Dune
@@ -871,8 +871,8 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 DELETE FROM saga WHERE id = 'dune';
 
 -- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
-INSERT INTO saga (id, position, title, work, medium, author, canon, genre, covers) VALUES
-    ('dune', 4, 'Dune', 'Dune', 'Novel series (1965–1985); Dune, Dune Messiah, Children of Dune', 'Frank Herbert; Dmitri, Abulurd and Anirul from the prequels by Brian Herbert & Kevin J. Anderson', 'Novels', 'Science fiction', 'Houses Atreides, Harkonnen and Corrino, the Fremen, and the Bene Gesserit, through Leto II and Ghanima.');
+INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
+    ('dune', 'fiction', 4, 'Dune', 'Dune', 'Novel series (1965–1985); Dune, Dune Messiah, Children of Dune', 'Frank Herbert; Dmitri, Abulurd and Anirul from the prequels by Brian Herbert & Kevin J. Anderson', 'Novels', 'Science fiction', 'Houses Atreides, Harkonnen and Corrino, the Fremen, and the Bene Gesserit, through Leto II and Ghanima.');
 
 -- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
 INSERT INTO saga_note (saga_id, position, note) VALUES
@@ -1009,7 +1009,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 6 of 10: HARRY POTTER   [id: potter]
+-- SAGA 6 of 10: HARRY POTTER   [id: potter, category: fiction]
 -- Author:  J. K. Rowling
 -- Medium:  Novel series (1997–2007)
 -- Canon:   Novels, including the epilogue of Deathly Hallows, plus Rowling's published family
@@ -1023,8 +1023,8 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 DELETE FROM saga WHERE id = 'potter';
 
 -- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
-INSERT INTO saga (id, position, title, work, medium, author, canon, genre, covers) VALUES
-    ('potter', 5, 'Harry Potter', 'Harry Potter', 'Novel series (1997–2007)', 'J. K. Rowling', 'Novels, including the epilogue of Deathly Hallows, plus Rowling''s published family details (e.g. Fleamont Potter)', 'Fantasy', 'Potter, Evans/Dursley, Weasley, Black/Tonks/Lupin and Malfoy families, through the epilogue children.');
+INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
+    ('potter', 'fiction', 5, 'Harry Potter', 'Harry Potter', 'Novel series (1997–2007)', 'J. K. Rowling', 'Novels, including the epilogue of Deathly Hallows, plus Rowling''s published family details (e.g. Fleamont Potter)', 'Fantasy', 'Potter, Evans/Dursley, Weasley, Black/Tonks/Lupin and Malfoy families, through the epilogue children.');
 
 -- ── Houses (13) ────────────────────────────────────────────────────────────────────────────────
 INSERT INTO house (saga_id, name, color) VALUES
@@ -1219,7 +1219,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 7 of 10: STAR WARS   [id: starwars]
+-- SAGA 7 of 10: STAR WARS   [id: starwars, category: fiction]
 -- Author:  Created by George Lucas; sequel trilogy by J. J. Abrams and Rian Johnson
 -- Medium:  Film series, the Skywalker saga (1977–2019), Episodes I–IX
 -- Canon:   Films (current Disney canon)
@@ -1231,8 +1231,8 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 DELETE FROM saga WHERE id = 'starwars';
 
 -- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
-INSERT INTO saga (id, position, title, work, medium, author, canon, genre, covers) VALUES
-    ('starwars', 6, 'Star Wars', 'Star Wars', 'Film series, the Skywalker saga (1977–2019), Episodes I–IX', 'Created by George Lucas; sequel trilogy by J. J. Abrams and Rian Johnson', 'Films (current Disney canon)', 'Science fiction (space opera)', 'Skywalker, Lars, Naberrie, Organa and Solo, and the Palpatine line down to Rey.');
+INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
+    ('starwars', 'fiction', 6, 'Star Wars', 'Star Wars', 'Film series, the Skywalker saga (1977–2019), Episodes I–IX', 'Created by George Lucas; sequel trilogy by J. J. Abrams and Rian Johnson', 'Films (current Disney canon)', 'Science fiction (space opera)', 'Skywalker, Lars, Naberrie, Organa and Solo, and the Palpatine line down to Rey.');
 
 -- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
 INSERT INTO saga_note (saga_id, position, note) VALUES
@@ -1358,7 +1358,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 8 of 10: THE WHEEL OF TIME   [id: wot]
+-- SAGA 8 of 10: THE WHEEL OF TIME   [id: wot, category: fiction]
 -- Author:  Robert Jordan; final three books completed by Brandon Sanderson
 -- Medium:  Novel series (1990–2013), 14 books
 -- Canon:   Novels
@@ -1371,8 +1371,8 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 DELETE FROM saga WHERE id = 'wot';
 
 -- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
-INSERT INTO saga (id, position, title, work, medium, author, canon, genre, covers) VALUES
-    ('wot', 7, 'The Wheel of Time', 'The Wheel of Time', 'Novel series (1990–2013), 14 books', 'Robert Jordan; final three books completed by Brandon Sanderson', 'Novels', 'Epic fantasy', 'Rand al''Thor''s Aiel and Andoran royal ancestry, and the Trakand/Damodred half-siblings linked through his mother Tigraine.');
+INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
+    ('wot', 'fiction', 7, 'The Wheel of Time', 'The Wheel of Time', 'Novel series (1990–2013), 14 books', 'Robert Jordan; final three books completed by Brandon Sanderson', 'Novels', 'Epic fantasy', 'Rand al''Thor''s Aiel and Andoran royal ancestry, and the Trakand/Damodred half-siblings linked through his mother Tigraine.');
 
 -- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
 INSERT INTO saga_note (saga_id, position, note) VALUES
@@ -1497,7 +1497,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 9 of 10: THE STORMLIGHT ARCHIVE   [id: stormlight]
+-- SAGA 9 of 10: THE STORMLIGHT ARCHIVE   [id: stormlight, category: fiction]
 -- Author:  Brandon Sanderson
 -- Medium:  Novel series (2010–), set in the Cosmere
 -- Canon:   Novels (up to Wind and Truth)
@@ -1509,8 +1509,8 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 DELETE FROM saga WHERE id = 'stormlight';
 
 -- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
-INSERT INTO saga (id, position, title, work, medium, author, canon, genre, covers) VALUES
-    ('stormlight', 8, 'The Stormlight Archive', 'The Stormlight Archive', 'Novel series (2010–), set in the Cosmere', 'Brandon Sanderson', 'Novels (up to Wind and Truth)', 'Epic fantasy', 'House Kholin and its marriages, House Davar (Shallan''s family), and Kaladin''s family.');
+INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
+    ('stormlight', 'fiction', 8, 'The Stormlight Archive', 'The Stormlight Archive', 'Novel series (2010–), set in the Cosmere', 'Brandon Sanderson', 'Novels (up to Wind and Truth)', 'Epic fantasy', 'House Kholin and its marriages, House Davar (Shallan''s family), and Kaladin''s family.');
 
 -- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
 INSERT INTO saga_note (saga_id, position, note) VALUES
@@ -1627,7 +1627,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 10 of 10: THE WITCHER   [id: witcher]
+-- SAGA 10 of 10: THE WITCHER   [id: witcher, category: fiction]
 -- Author:  Andrzej Sapkowski
 -- Medium:  Novel and short-story series (1986–2013), the Witcher saga
 -- Canon:   Books (not the games or the Netflix series)
@@ -1640,8 +1640,8 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 DELETE FROM saga WHERE id = 'witcher';
 
 -- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
-INSERT INTO saga (id, position, title, work, medium, author, canon, genre, covers) VALUES
-    ('witcher', 9, 'The Witcher', 'The Witcher', 'Novel and short-story series (1986–2013), the Witcher saga', 'Andrzej Sapkowski', 'Books (not the games or the Netflix series)', 'Fantasy (Slavic-inspired)', 'The royal line of Cintra and the Elder Blood from Lara Dorren to Ciri, and her guardians Geralt and Yennefer.');
+INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
+    ('witcher', 'fiction', 9, 'The Witcher', 'The Witcher', 'Novel and short-story series (1986–2013), the Witcher saga', 'Andrzej Sapkowski', 'Books (not the games or the Netflix series)', 'Fantasy (Slavic-inspired)', 'The royal line of Cintra and the Elder Blood from Lara Dorren to Ciri, and her guardians Geralt and Yennefer.');
 
 -- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
 INSERT INTO saga_note (saga_id, position, note) VALUES

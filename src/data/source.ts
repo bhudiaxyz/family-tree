@@ -1,8 +1,8 @@
-import type { SagaIndexEntry, SagaRecord, Tree } from "./schema.ts";
+import { type SagaIndexEntry, type SagaRecord, sagaPath, type Tree } from "./schema.ts";
 
 // Where saga data lives. Defaults to the static JSON in public/data/.
 // Point VITE_DATA_URL at an object store bucket or an API in front of a database; it must serve
-// `${base}/sagas.json` and `${base}/<id>.json` in the shapes from schema.ts.
+// `${base}/sagas.json` and `${base}/<category>/<id>.json` (see sagaPath) in the shapes from schema.ts.
 const base = (import.meta.env?.VITE_DATA_URL ?? `${import.meta.env?.BASE_URL ?? "/"}data`).replace(/\/$/, "");
 
 async function getJson<T>(path: string): Promise<T> {
@@ -12,7 +12,8 @@ async function getJson<T>(path: string): Promise<T> {
 }
 
 export const listSagas = () => getJson<SagaIndexEntry[]>("sagas.json");
-export const loadSaga = async (id: string) => toTree(await getJson<SagaRecord>(`${encodeURIComponent(id)}.json`));
+/** Load a saga from `<category>/<id>.json`. Takes the manifest entry, because the category is part of the path. */
+export const loadSaga = async (entry: SagaIndexEntry) => toTree(await getJson<SagaRecord>(sagaPath(entry)));
 
 export function toTree(s: SagaRecord): Tree {
     const families = new Map(

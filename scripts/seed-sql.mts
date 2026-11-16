@@ -8,10 +8,7 @@
 // Layout, to keep the file easy to scan: a boxed banner per saga, a labelled sub-section per table, people grouped
 // by house, and one INSERT per family headed by a readable "parents → children" comment.
 import fs from "node:fs";
-import type { SagaIndexEntry, SagaRecord } from "../src/data/schema.ts";
-
-const dir = new URL("../public/data/", import.meta.url);
-const read = <T,>(f: string): T => JSON.parse(fs.readFileSync(new URL(f, dir), "utf8"));
+import { readIndex, readSaga } from "./data.mts";
 
 // SQL string literal: single quotes doubled (O'Brien → 'O''Brien'). Data is plain text, so this is sufficient.
 const q = (s: string) => `'${s.replace(/'/g, "''")}'`;
@@ -48,8 +45,8 @@ const section = (title: string, detail = "") => [
     `-- ── ${title}${detail ? ` (${detail})` : ""} ${"─".repeat(Math.max(3, WIDTH - 9 - title.length - (detail ? detail.length + 3 : 0)))}`,
 ];
 
-const index = read<SagaIndexEntry[]>("sagas.json");
-const sagas = index.map((e) => read<SagaRecord>(`${e.id}.json`));
+const index = readIndex();
+const sagas = index.map((e) => readSaga(e));
 const totals = {
     people: sagas.reduce((n, s) => n + s.people.length, 0),
     families: sagas.reduce((n, s) => n + s.families.length, 0),
@@ -71,7 +68,9 @@ const out: string[] = [
     "-- order (saga, notes, houses, people, families with their members), so the file can be re-run safely.",
     "--",
     "-- Sagas, in drop-down order:",
-    ...sagas.map((s, i) => `--   ${String(i + 1).padStart(2)}. ${s.title.padEnd(24)} ${s.id}`),
+    ...sagas.map(
+        (s, i) => `--   ${String(i + 1).padStart(2)}. ${s.title.padEnd(24)} ${index[i].category.padEnd(9)} ${s.id}`
+    ),
     "",
     "BEGIN;",
 ];
@@ -79,13 +78,14 @@ const out: string[] = [
 sagas.forEach((s, position) => {
     const id = q(s.id);
     const src = s.source;
+    const category = index[position].category; // from the manifest: it's also the data sub-folder
     const name = (pid: string) => s.people.find((p) => p.id === pid)?.name ?? pid;
 
     out.push(
         "",
         "",
         ...banner([
-            `SAGA ${position + 1} of ${sagas.length}: ${s.title.toUpperCase()}   [id: ${s.id}]`,
+            `SAGA ${position + 1} of ${sagas.length}: ${s.title.toUpperCase()}   [id: ${s.id}, category: ${category}]`,
             `Author:  ${src.author}`,
             `Medium:  ${src.medium}`,
             `Canon:   ${src.canon}`,
@@ -101,10 +101,11 @@ sagas.forEach((s, position) => {
     out.push(
         ...insert(
             "saga",
-            ["id", "position", "title", "work", "medium", "author", "canon", "genre", "covers"],
+            ["id", "category", "position", "title", "work", "medium", "author", "canon", "genre", "covers"],
             [
                 [
                     id,
+                    q(category),
                     String(position),
                     q(s.title),
                     q(src.work),

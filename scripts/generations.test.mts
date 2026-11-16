@@ -1,16 +1,13 @@
 // Checks generation layering on every saga: parents sit exactly one row above their children, co-parents share a
 // row, and the people who used to float to the top row (married-in spouses) now line up with their partner.
 import assert from "node:assert/strict";
-import fs from "node:fs";
-import type { SagaIndexEntry, SagaRecord } from "../src/data/schema.ts";
 import { toTree } from "../src/data/source.ts";
 import { generations } from "../src/generations.ts";
+import { readIndex, readSaga, treeById } from "./data.mts";
 
-const dir = new URL("../public/data/", import.meta.url);
-const read = <T,>(f: string): T => JSON.parse(fs.readFileSync(new URL(f, dir), "utf8"));
-
-for (const { id } of read<SagaIndexEntry[]>("sagas.json")) {
-    const t = toTree(read<SagaRecord>(`${id}.json`));
+for (const entry of readIndex()) {
+    const { id } = entry;
+    const t = toTree(readSaga(entry));
     const gen = generations(t);
     let skips = 0;
     for (const f of t.families) {
@@ -27,7 +24,7 @@ for (const { id } of read<SagaIndexEntry[]>("sagas.json")) {
 }
 
 // The originally reported problem: married-in spouses with no parents in the data.
-const got = toTree(read<SagaRecord>("got.json"));
+const got = treeById("got");
 const g = generations(got);
 for (const [spouse, partner] of [
     ["elia", "rhaegar"],

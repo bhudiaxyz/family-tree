@@ -1,9 +1,12 @@
 -- Relational schema for saga data. Mirrors src/data/schema.ts (SagaRecord) table for table.
--- Portable SQL (PostgreSQL / SQLite). An API serving /sagas.json and /<id>.json from these tables
+-- Portable SQL (PostgreSQL / SQLite). An API serving /sagas.json and /<category>/<id>.json from these tables
 -- can replace the static files: set VITE_DATA_URL to its base URL.
 
 CREATE TABLE saga (
     id       TEXT PRIMARY KEY,
+    -- Kind of family; also the data sub-folder (<category>/<id>.json). Keep in step with CATEGORIES in
+    -- src/data/schema.ts when adding a category.
+    category TEXT NOT NULL CHECK (category IN ('fiction', 'history')),
     position INTEGER NOT NULL UNIQUE,  -- drop-down order (sagas.json order); lowest loads first
     title    TEXT NOT NULL,
     work    TEXT NOT NULL,

@@ -4,10 +4,10 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { DatabaseSync } from "node:sqlite";
-import type { SagaIndexEntry, SagaRecord } from "../src/data/schema.ts";
+import type { SagaRecord } from "../src/data/schema.ts";
+import { readIndex, readSaga } from "./data.mts";
 
 const file = (p: string) => fs.readFileSync(new URL(`../${p}`, import.meta.url), "utf8");
-const json = <T,>(f: string): T => JSON.parse(file(`public/data/${f}`));
 
 const db = new DatabaseSync(":memory:");
 db.exec("PRAGMA foreign_keys = ON;");
@@ -24,12 +24,12 @@ const all = (sql: string, ...args: (string | number)[]) =>
         .map((r) => ({ ...r })) as Record<string, unknown>[];
 
 // Manifest: saga order and fields.
-const index = json<SagaIndexEntry[]>("sagas.json");
-const dbIndex = all("SELECT id, title, work, author FROM saga ORDER BY position");
+const index = readIndex();
+const dbIndex = all("SELECT id, category, title, work, author FROM saga ORDER BY position");
 assert.deepEqual(dbIndex, index, "saga table differs from sagas.json (order or fields)");
 
 for (const { id } of index) {
-    const s = json<SagaRecord>(`${id}.json`);
+    const s = readSaga(index.find((e) => e.id === id)!);
     const saga = all("SELECT * FROM saga WHERE id = ?", id)[0];
     const rebuilt: SagaRecord = {
         id,
@@ -76,3 +76,13 @@ for (const t of ["saga_note", "house", "person", "family", "family_member"]) {
     assert.equal(n, 0, `${t}: rows left after deleting saga`);
 }
 console.log("ok  re-running the seed is safe, and deleting a saga cascades to every table");
+
+// The schema's CHECK constraint rejects an unknown category.
+assert.throws(
+    () =>
+        db.exec(
+            "INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES ('bad', 'poetry', 99, '', '', '', '', '', '', '')"
+        ),
+    /CHECK constraint failed/
+);
+console.log("ok  schema rejects an unknown saga category");

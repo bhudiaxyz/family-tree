@@ -515,6 +515,10 @@ function writeUrl() {
     history.replaceState(null, "", `?${q}`);
 }
 
+// The manifest (sagas.json), keyed by id. The URL and the menu only carry an id; the entry adds the category that
+// the data file's path needs (data/<category>/<id>.json, see sagaPath in schema.ts).
+const sagaIndex = new Map<string, SagaIndexEntry>();
+
 let request = 0; // ignore a slow response if the user has already picked another saga
 async function openSaga(id: string, person?: string | null, withPerson?: string | null) {
     const mine = ++request;
@@ -522,7 +526,9 @@ async function openSaga(id: string, person?: string | null, withPerson?: string 
     title.textContent = "Loading…";
     author.textContent = "";
     try {
-        const t = await loadSaga(id);
+        const entry = sagaIndex.get(id);
+        if (!entry) throw new Error(`no saga "${id}" in sagas.json`);
+        const t = await loadSaga(entry);
         if (mine !== request) return;
         show(t);
         // Give the layout a moment to place nodes before selecting a linked person and flying to them.
@@ -600,6 +606,7 @@ prefersReduced.addEventListener("change", () => setReducedMotion(prefersReduced.
 
 Promise.all([listSagas(), fontsReady])
     .then(([sagas]: [SagaIndexEntry[], unknown]) => {
+        for (const s of sagas) sagaIndex.set(s.id, s);
         const params = new URLSearchParams(location.search);
         const wanted = params.get("saga");
         const state = { saga: sagas.some((s) => s.id === wanted) ? wanted! : sagas[0].id };

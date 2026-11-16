@@ -1,12 +1,10 @@
 // Relationship finder against facts from the stories (and the standard cousin table).
 import assert from "node:assert/strict";
-import fs from "node:fs";
-import type { SagaRecord, Tree } from "../src/data/schema.ts";
-import { toTree } from "../src/data/source.ts";
+import type { Tree } from "../src/data/schema.ts";
 import { labelAll, relate } from "../src/relationship.ts";
+import { treeById } from "./data.mts";
 
-const saga = (id: string): Tree =>
-    toTree(JSON.parse(fs.readFileSync(new URL(`../public/data/${id}.json`, import.meta.url), "utf8")) as SagaRecord);
+const saga = (id: string): Tree => treeById(id);
 const got = saga("got");
 const fb = saga("fireblood");
 const sw = saga("starwars");

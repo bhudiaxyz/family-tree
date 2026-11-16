@@ -1,7 +1,7 @@
 -- =================================================================================================
 -- Family Tree: database seed
 -- Generated from public/data/*.json by scripts/seed-sql.mts. Do not edit: run `npm run db:seed`.
--- Contents: 14 sagas, 1072 people, 555 families, 1657 family-member rows.
+-- Contents: 14 sagas, 1072 people, 570 families, 1672 family-member rows.
 -- =================================================================================================
 --
 -- Load after db/schema.sql:
@@ -3311,7 +3311,7 @@ INSERT INTO person (saga_id, id, name, house, sex) VALUES
     ('greek-gods', 'dionne', 'Dionne', 'Greek pantheon', 'f'),
     ('greek-gods', 'aphrodite', 'Aphrodite', 'Greek pantheon', 'f'),
     ('greek-gods', 'anchises', 'Anchises', 'Greek pantheon', 'm'),
-    ('greek-gods', 'trojan-hero-aeneas', 'Trojan Hero Aeneas', 'Greek pantheon', 'm'),
+    ('greek-gods', 'aeneas', 'Aeneas', 'Greek pantheon', 'm'),
     ('greek-gods', 'creusa', 'Creusa', 'Greek pantheon', 'f'),
     ('greek-gods', 'silvius-aeneas', 'Silvius Aeneas', 'Greek pantheon', 'm'),
     ('greek-gods', 'numa-pompilius', 'Numa Pompilius', 'Greek pantheon', 'm'),
@@ -3329,7 +3329,7 @@ INSERT INTO person (saga_id, id, name, house, sex) VALUES
     ('greek-gods', 'hephaestus', 'Hephaestus', 'Greek pantheon', 'm'),
     ('greek-gods', 'hercules', 'Hercules', 'Greek pantheon', 'm'),
     ('greek-gods', 'alcmene', 'Alcmene', 'Greek pantheon', 'f'),
-    ('greek-gods', 'theban-princess-megara', 'Theban Princess Megara', 'Greek pantheon', 'f'),
+    ('greek-gods', 'megara', 'Megara', 'Greek pantheon', 'f'),
     ('greek-gods', 'deianira', 'Deianira', 'Greek pantheon', 'f'),
     ('greek-gods', 'uranus', 'Uranus', 'Greek pantheon', 'm'),
     ('greek-gods', 'gaea', 'Gaea', 'Greek pantheon', 'f'),
@@ -3339,11 +3339,11 @@ INSERT INTO person (saga_id, id, name, house, sex) VALUES
     ('greek-gods', 'medusa', 'Medusa', 'Greek pantheon', 'f'),
     ('greek-gods', 'pegasus', 'Pegasus', 'Greek pantheon', 'm'),
     ('greek-gods', 'orion', 'Orion', 'Greek pantheon', 'm'),
-    ('greek-gods', 'cyclops-polyphemus', 'Cyclops Polyphemus', 'Greek pantheon', 'm'),
+    ('greek-gods', 'polyphemus', 'Polyphemus', 'Greek pantheon', 'm'),
     ('greek-gods', 'hestia', 'Hestia', 'Greek pantheon', 'f'),
     ('greek-gods', 'eileithya', 'Eileithya', 'Greek pantheon', 'f'),
     ('greek-gods', 'achilles', 'Achilles', 'Greek pantheon', 'm'),
-    ('greek-gods', 'king-of-the-myrmidans-peleus', 'King of the Myrmidans Peleus', 'Greek pantheon', 'm'),
+    ('greek-gods', 'peleus', 'Peleus', 'Greek pantheon', 'm'),
     ('greek-gods', 'thetis', 'Thetis', 'Greek pantheon', 'f'),
     ('greek-gods', 'neures', 'Neures', 'Greek pantheon', 'm'),
     ('greek-gods', 'pontus', 'Pontus', 'Greek pantheon', 'm'),
@@ -3354,10 +3354,10 @@ INSERT INTO person (saga_id, id, name, house, sex) VALUES
     ('greek-gods', 'deidamia', 'Deidamia', 'Greek pantheon', 'f'),
     ('greek-gods', 'hermione', 'Hermione', 'Greek pantheon', 'f'),
     ('greek-gods', 'helen', 'Helen', 'Greek pantheon', 'f'),
-    ('greek-gods', 'king-of-sparta-menelaus', 'King of Sparta Menelaus', 'Greek pantheon', 'm'),
+    ('greek-gods', 'menelaus', 'Menelaus', 'Greek pantheon', 'm'),
     ('greek-gods', 'zeus', 'Zeus', 'Greek pantheon', 'm'),
     ('greek-gods', 'leda', 'Leda', 'Greek pantheon', 'f'),
-    ('greek-gods', 'greek-and-roman-mythology-polydueces', 'Greek and Roman Mythology Polydueces', 'Greek pantheon', 'm'),
+    ('greek-gods', 'polydueces', 'Polydueces', 'Greek pantheon', 'm'),
     ('greek-gods', 'a-titan-coeus', 'A Titan Coeus', 'Greek pantheon', 'm'),
     ('greek-gods', 'a-titan-crius', 'A Titan Crius', 'Greek pantheon', 'm'),
     ('greek-gods', 'a-titan-hyperion', 'A Titan Hyperion', 'Greek pantheon', 'm'),
@@ -3388,18 +3388,18 @@ INSERT INTO family (saga_id, id, adoptive) VALUES
     ('greek-gods', 'greek-gods-f3', FALSE);
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('greek-gods', 'greek-gods-f3', 'anchises', 'child');
--- greek-gods-f4: Anchises + Aphrodite → Trojan Hero Aeneas
+-- greek-gods-f4: Anchises + Aphrodite → Aeneas
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('greek-gods', 'greek-gods-f4', FALSE);
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('greek-gods', 'greek-gods-f4', 'anchises', 'parent'),
     ('greek-gods', 'greek-gods-f4', 'aphrodite', 'parent'),
-    ('greek-gods', 'greek-gods-f4', 'trojan-hero-aeneas', 'child');
--- greek-gods-f5: Trojan Hero Aeneas + Creusa → Silvius Aeneas, Numa Pompilius
+    ('greek-gods', 'greek-gods-f4', 'aeneas', 'child');
+-- greek-gods-f5: Aeneas + Creusa → Silvius Aeneas, Numa Pompilius
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('greek-gods', 'greek-gods-f5', FALSE);
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
-    ('greek-gods', 'greek-gods-f5', 'trojan-hero-aeneas', 'parent'),
+    ('greek-gods', 'greek-gods-f5', 'aeneas', 'parent'),
     ('greek-gods', 'greek-gods-f5', 'creusa', 'parent'),
     ('greek-gods', 'greek-gods-f5', 'silvius-aeneas', 'child'),
     ('greek-gods', 'greek-gods-f5', 'numa-pompilius', 'child');
@@ -3415,11 +3415,11 @@ INSERT INTO family (saga_id, id, adoptive) VALUES
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('greek-gods', 'greek-gods-f7', 'fetebir', 'parent'),
     ('greek-gods', 'greek-gods-f7', 'rhea-silvia', 'parent');
--- greek-gods-f8: Trojan Hero Aeneas + Lavinia → Ascanius Iulus
+-- greek-gods-f8: Aeneas + Lavinia → Ascanius Iulus
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('greek-gods', 'greek-gods-f8', FALSE);
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
-    ('greek-gods', 'greek-gods-f8', 'trojan-hero-aeneas', 'parent'),
+    ('greek-gods', 'greek-gods-f8', 'aeneas', 'parent'),
     ('greek-gods', 'greek-gods-f8', 'lavinia', 'parent'),
     ('greek-gods', 'greek-gods-f8', 'ascanius-iulus', 'child');
 -- greek-gods-f9: Andromache (no children)
@@ -3476,12 +3476,12 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('greek-gods', 'greek-gods-f16', 'zeus', 'parent'),
     ('greek-gods', 'greek-gods-f16', 'eris', 'parent'),
     ('greek-gods', 'greek-gods-f16', 'ate', 'child');
--- greek-gods-f17: Hercules + Theban Princess Megara (no children)
+-- greek-gods-f17: Hercules + Megara (no children)
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('greek-gods', 'greek-gods-f17', FALSE);
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('greek-gods', 'greek-gods-f17', 'hercules', 'parent'),
-    ('greek-gods', 'greek-gods-f17', 'theban-princess-megara', 'parent');
+    ('greek-gods', 'greek-gods-f17', 'megara', 'parent');
 -- greek-gods-f18: Hercules + Deianira (no children)
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('greek-gods', 'greek-gods-f18', FALSE);
@@ -3580,12 +3580,12 @@ INSERT INTO family (saga_id, id, adoptive) VALUES
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('greek-gods', 'greek-gods-f30', 'poseidon', 'parent'),
     ('greek-gods', 'greek-gods-f30', 'orion', 'child');
--- greek-gods-f31: Poseidon → Cyclops Polyphemus
+-- greek-gods-f31: Poseidon → Polyphemus
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('greek-gods', 'greek-gods-f31', FALSE);
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('greek-gods', 'greek-gods-f31', 'poseidon', 'parent'),
-    ('greek-gods', 'greek-gods-f31', 'cyclops-polyphemus', 'child');
+    ('greek-gods', 'greek-gods-f31', 'polyphemus', 'child');
 -- greek-gods-f32: Achilles + Deidamia → Neoptolemus
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('greek-gods', 'greek-gods-f32', FALSE);
@@ -3593,11 +3593,11 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('greek-gods', 'greek-gods-f32', 'achilles', 'parent'),
     ('greek-gods', 'greek-gods-f32', 'deidamia', 'parent'),
     ('greek-gods', 'greek-gods-f32', 'neoptolemus', 'child');
--- greek-gods-f33: King of the Myrmidans Peleus + Thetis → Achilles
+-- greek-gods-f33: Peleus + Thetis → Achilles
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('greek-gods', 'greek-gods-f33', FALSE);
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
-    ('greek-gods', 'greek-gods-f33', 'king-of-the-myrmidans-peleus', 'parent'),
+    ('greek-gods', 'greek-gods-f33', 'peleus', 'parent'),
     ('greek-gods', 'greek-gods-f33', 'thetis', 'parent'),
     ('greek-gods', 'greek-gods-f33', 'achilles', 'child');
 -- greek-gods-f34: Neures + Doris → Thetis
@@ -3633,21 +3633,21 @@ INSERT INTO family (saga_id, id, adoptive) VALUES
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('greek-gods', 'greek-gods-f38', 'neoptolemus', 'parent'),
     ('greek-gods', 'greek-gods-f38', 'hermione', 'parent');
--- greek-gods-f39: King of Sparta Menelaus + Helen → Hermione
+-- greek-gods-f39: Menelaus + Helen → Hermione
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('greek-gods', 'greek-gods-f39', FALSE);
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
-    ('greek-gods', 'greek-gods-f39', 'king-of-sparta-menelaus', 'parent'),
+    ('greek-gods', 'greek-gods-f39', 'menelaus', 'parent'),
     ('greek-gods', 'greek-gods-f39', 'helen', 'parent'),
     ('greek-gods', 'greek-gods-f39', 'hermione', 'child');
--- greek-gods-f40: Zeus + Leda → Helen, Greek and Roman Mythology Polydueces
+-- greek-gods-f40: Zeus + Leda → Helen, Polydueces
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('greek-gods', 'greek-gods-f40', FALSE);
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('greek-gods', 'greek-gods-f40', 'zeus', 'parent'),
     ('greek-gods', 'greek-gods-f40', 'leda', 'parent'),
     ('greek-gods', 'greek-gods-f40', 'helen', 'child'),
-    ('greek-gods', 'greek-gods-f40', 'greek-and-roman-mythology-polydueces', 'child');
+    ('greek-gods', 'greek-gods-f40', 'polydueces', 'child');
 -- greek-gods-f41: Leda (no children)
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('greek-gods', 'greek-gods-f41', FALSE);
@@ -3687,8 +3687,8 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 -- Medium:  GEDCOM genealogy (Norse+Gods.ged)
 -- Canon:   Sources cited: RCKarnes; World Family Tree Vol. 5; Aderholt Hillman Hughes Solomon
 -- Dunn Funderburg; Guy Allen Sims
--- Covers:  117 people and 46 families, imported from a public GEDCOM sample.
--- Rows:    1 houses, 117 people, 46 families, 145 members
+-- Covers:  117 people and 59 families, imported from a public GEDCOM sample.
+-- Rows:    1 houses, 117 people, 59 families, 158 members
 -- =================================================================================================
 
 -- ── Reset (removes this saga and, by cascade, all of its rows) ─────────────────────────────────
@@ -3696,14 +3696,15 @@ DELETE FROM saga WHERE id = 'norse-gods';
 
 -- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
 INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
-    ('norse-gods', 'mythology', 12, 'Norse Gods', 'Norse Gods', 'GEDCOM genealogy (Norse+Gods.ged)', 'Compiled by unknown', 'Sources cited: RCKarnes; World Family Tree Vol. 5; Aderholt Hillman Hughes Solomon Dunn Funderburg; Guy Allen Sims', 'Mythology', '117 people and 46 families, imported from a public GEDCOM sample.');
+    ('norse-gods', 'mythology', 12, 'Norse Gods', 'Norse Gods', 'GEDCOM genealogy (Norse+Gods.ged)', 'Compiled by unknown', 'Sources cited: RCKarnes; World Family Tree Vol. 5; Aderholt Hillman Hughes Solomon Dunn Funderburg; Guy Allen Sims', 'Mythology', '117 people and 59 families, imported from a public GEDCOM sample.');
 
 -- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
 INSERT INTO saga_note (saga_id, position, note) VALUES
     ('norse-gods', 0, 'Imported from Norse+Gods.ged (Windows-1252; FTM Family Tree Maker (17.0.0.440); file dated 20 November 2007) by scripts/gedcom-to-saga.mts.'),
     ('norse-gods', 1, 'Names are read in mythology mode: the deity''s name is the GEDCOM surname part, and descriptive text in the given-name part (e.g. "queen of the Gods") is dropped.'),
     ('norse-gods', 2, 'Everyone is in one house, "Norse pantheon": the file has no real surnames to group by.'),
-    ('norse-gods', 3, 'Import warnings: Heimdall: sex not recorded as M or F, shown as male; Ve: sex not recorded as M or F, shown as male; Vidar: sex not recorded as M or F, shown as male; Vör: sex not recorded as M or F, shown as male; Family @F000-1@: CHIL points to a missing person; Family @F000-2@: CHIL points to a missing person; Family @F000-4@: CHIL points to a missing person; Family @F000-6@: CHIL points to a missing person; Family @F00-10@: CHIL points to a missing person; Family @F00-11@: CHIL points to a missing person; Family @F00-12@: CHIL points to a missing person; Family @F00-13@: CHIL points to a missing person; Family @F00-14@: CHIL points to a missing person; Family @F00-15@: CHIL points to a missing person; Family @F00-16@: CHIL points to a missing person; Family @F00-17@: CHIL points to a missing person; Family @F00-18@: CHIL points to a missing person; Family @F00-23@: CHIL points to a missing person; Family @F00-24@: CHIL points to a missing person; Family @F00-25@: CHIL points to a missing person; Family @F00-26@: CHIL points to a missing person; Family @F00-27@: CHIL points to a missing person; Family @F00-28@: CHIL points to a missing person');
+    ('norse-gods', 3, '13 people have no recorded relatives in the source and are shown on their own: Fjalar, Galar, Gefjun, Lofn, Sága, Seaxneat, Sjöfn, Skirnir, Skuld, Vár, Verdandi, Vör, Wyrd.'),
+    ('norse-gods', 4, 'Import warnings: Heimdall: sex not recorded as M or F, shown as male; Ve: sex not recorded as M or F, shown as male; Vidar: sex not recorded as M or F, shown as male; Vör: sex not recorded as M or F, shown as male; Family @F000-1@: CHIL points to a missing person; Family @F000-2@: CHIL points to a missing person; Family @F000-4@: CHIL points to a missing person; Family @F000-6@: CHIL points to a missing person; Family @F00-10@: CHIL points to a missing person; Family @F00-11@: CHIL points to a missing person; Family @F00-12@: CHIL points to a missing person; Family @F00-13@: CHIL points to a missing person; Family @F00-14@: CHIL points to a missing person; Family @F00-15@: CHIL points to a missing person; Family @F00-16@: CHIL points to a missing person; Family @F00-17@: CHIL points to a missing person; Family @F00-18@: CHIL points to a missing person; Family @F00-23@: CHIL points to a missing person; Family @F00-24@: CHIL points to a missing person; Family @F00-25@: CHIL points to a missing person; Family @F00-26@: CHIL points to a missing person; Family @F00-27@: CHIL points to a missing person; Family @F00-28@: CHIL points to a missing person');
 
 -- ── Houses (1) ─────────────────────────────────────────────────────────────────────────────────
 INSERT INTO house (saga_id, name, color) VALUES
@@ -3828,9 +3829,9 @@ INSERT INTO person (saga_id, id, name, house, sex) VALUES
     ('norse-gods', 'vor', 'Vör', 'Norse pantheon', 'm'),
     ('norse-gods', 'gilling-s-wife', 'Gilling''s Wife', 'Norse pantheon', 'f'),
     ('norse-gods', 'wyrd', 'Wyrd', 'Norse pantheon', 'f'),
-    ('norse-gods', 'semi-myth-kings-of-sweden-as-told-in-ynglingatal', 'Semi-Myth Kings of Sweden as Told in Ynglingatal', 'Norse pantheon', 'm');
+    ('norse-gods', 'ynglingatal', 'Ynglingatal', 'Norse pantheon', 'm');
 
--- ── Families (46, each followed by its members) ────────────────────────────────────────────────
+-- ── Families (59, each followed by its members) ────────────────────────────────────────────────
 -- norse-gods-f1: Borr + Bestla → Odin, Ve, Vili
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('norse-gods', 'norse-gods-f1', FALSE);
@@ -3997,12 +3998,12 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('norse-gods', 'norse-gods-f24', 'freyr', 'parent'),
     ('norse-gods', 'norse-gods-f24', 'gerd', 'parent'),
     ('norse-gods', 'norse-gods-f24', 'fjolnir', 'child');
--- norse-gods-f25: Fjölnir → Semi-Myth Kings of Sweden as Told in Ynglingatal
+-- norse-gods-f25: Fjölnir → Ynglingatal
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('norse-gods', 'norse-gods-f25', FALSE);
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('norse-gods', 'norse-gods-f25', 'fjolnir', 'parent'),
-    ('norse-gods', 'norse-gods-f25', 'semi-myth-kings-of-sweden-as-told-in-ynglingatal', 'child');
+    ('norse-gods', 'norse-gods-f25', 'ynglingatal', 'child');
 -- norse-gods-f26: Ægir + Aurboða → Beli, Gerd
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('norse-gods', 'norse-gods-f26', FALSE);
@@ -4160,6 +4161,71 @@ INSERT INTO family (saga_id, id, adoptive) VALUES
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('norse-gods', 'norse-gods-f46', 'suttungr', 'parent'),
     ('norse-gods', 'norse-gods-f46', 'gunnlo', 'child');
+-- norse-gods-f47: Fjalar (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('norse-gods', 'norse-gods-f47', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('norse-gods', 'norse-gods-f47', 'fjalar', 'parent');
+-- norse-gods-f48: Galar (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('norse-gods', 'norse-gods-f48', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('norse-gods', 'norse-gods-f48', 'galar', 'parent');
+-- norse-gods-f49: Gefjun (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('norse-gods', 'norse-gods-f49', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('norse-gods', 'norse-gods-f49', 'gefjun', 'parent');
+-- norse-gods-f50: Lofn (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('norse-gods', 'norse-gods-f50', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('norse-gods', 'norse-gods-f50', 'lofn', 'parent');
+-- norse-gods-f51: Sága (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('norse-gods', 'norse-gods-f51', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('norse-gods', 'norse-gods-f51', 'saga', 'parent');
+-- norse-gods-f52: Seaxneat (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('norse-gods', 'norse-gods-f52', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('norse-gods', 'norse-gods-f52', 'seaxneat', 'parent');
+-- norse-gods-f53: Sjöfn (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('norse-gods', 'norse-gods-f53', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('norse-gods', 'norse-gods-f53', 'sjofn', 'parent');
+-- norse-gods-f54: Skirnir (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('norse-gods', 'norse-gods-f54', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('norse-gods', 'norse-gods-f54', 'skirnir', 'parent');
+-- norse-gods-f55: Skuld (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('norse-gods', 'norse-gods-f55', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('norse-gods', 'norse-gods-f55', 'skuld', 'parent');
+-- norse-gods-f56: Vár (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('norse-gods', 'norse-gods-f56', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('norse-gods', 'norse-gods-f56', 'var', 'parent');
+-- norse-gods-f57: Verdandi (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('norse-gods', 'norse-gods-f57', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('norse-gods', 'norse-gods-f57', 'verdandi', 'parent');
+-- norse-gods-f58: Vör (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('norse-gods', 'norse-gods-f58', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('norse-gods', 'norse-gods-f58', 'vor', 'parent');
+-- norse-gods-f59: Wyrd (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('norse-gods', 'norse-gods-f59', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('norse-gods', 'norse-gods-f59', 'wyrd', 'parent');
 
 
 -- =================================================================================================
@@ -4167,8 +4233,8 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 -- Author:  Compiled by unknown
 -- Medium:  GEDCOM genealogy (Roman+Gods.ged)
 -- Canon:   As recorded in the GEDCOM file
--- Covers:  322 people and 163 families, imported from a public GEDCOM sample.
--- Rows:    1 houses, 322 people, 163 families, 506 members
+-- Covers:  322 people and 165 families, imported from a public GEDCOM sample.
+-- Rows:    1 houses, 322 people, 165 families, 508 members
 -- =================================================================================================
 
 -- ── Reset (removes this saga and, by cascade, all of its rows) ─────────────────────────────────
@@ -4176,14 +4242,15 @@ DELETE FROM saga WHERE id = 'roman-gods';
 
 -- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
 INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
-    ('roman-gods', 'mythology', 13, 'Roman Gods', 'Roman Gods', 'GEDCOM genealogy (Roman+Gods.ged)', 'Compiled by unknown', 'As recorded in the GEDCOM file', 'Mythology', '322 people and 163 families, imported from a public GEDCOM sample.');
+    ('roman-gods', 'mythology', 13, 'Roman Gods', 'Roman Gods', 'GEDCOM genealogy (Roman+Gods.ged)', 'Compiled by unknown', 'As recorded in the GEDCOM file', 'Mythology', '322 people and 165 families, imported from a public GEDCOM sample.');
 
 -- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
 INSERT INTO saga_note (saga_id, position, note) VALUES
     ('roman-gods', 0, 'Imported from Roman+Gods.ged (Windows-1252; FTM Family Tree Maker (17.0.0.440); file dated 19 November 2007) by scripts/gedcom-to-saga.mts.'),
     ('roman-gods', 1, 'Names are read in mythology mode: the deity''s name is the GEDCOM surname part, and descriptive text in the given-name part (e.g. "queen of the Gods") is dropped.'),
     ('roman-gods', 2, 'Everyone is in one house, "Roman pantheon": the file has no real surnames to group by.'),
-    ('roman-gods', 3, 'Import warnings: Achaeus: sex not recorded as M or F, shown as male; Aesimus: sex not recorded as M or F, shown as male; Amulius: sex not recorded as M or F, shown as male; Antevorta: sex not recorded as M or F, shown as male; Aratus: sex not recorded as M or F, shown as male; Bellerophon: sex not recorded as M or F, shown as male; Brutus of Britain: sex not recorded as M or F, shown as male; Cadmus: sex not recorded as M or F, shown as male; Carmenta: sex not recorded as M or F, shown as male; Carystus.: sex not recorded as M or F, shown as male; Dardanus: sex not recorded as M or F, shown as male; Deidameia: sex not recorded as M or F, shown as male; Egeria: sex not recorded as M or F, shown as male; Electra: sex not recorded as M or F, shown as male; Endeis: sex not recorded as M or F, shown as male; Epimetheus: sex not recorded as M or F, shown as male; Erichtonius: sex not recorded as M or F, shown as male; Eurypylus: sex not recorded as M or F, shown as male; Ganymede: sex not recorded as M or F, shown as male; Gigantes: sex not recorded as M or F, shown as male; Gorgorphone: sex not recorded as M or F, shown as male; Harmonia: sex not recorded as M or F, shown as male; Hellen: sex not recorded as M or F, shown as male; Herulus: sex not recorded as M or F, shown as male; Hippe: sex not recorded as M or F, shown as male; Hyades: sex not recorded as M or F, shown as male; Icarius: sex not recorded as M or F, shown as male; II Lares: sex not recorded as M or F, shown as male; The Lares: sex not recorded as M or F, shown as male; Lavinia: sex not recorded as M or F, shown as male; Libera: sex not recorded as M or F, shown as male; Maia: sex not recorded as M or F, shown as male; Makedon: sex not recorded as M or F, shown as male; The Manes: sex not recorded as M or F, shown as male; The Minyas: sex not recorded as M or F, shown as male; Nox: sex not recorded as M or F, shown as male; Lydian nymphs: sex not recorded as M or F, shown as male; Ocyrhoe: sex not recorded as M or F, shown as male; Pallas: sex not recorded as M or F, shown as male; Panacea: sex not recorded as M or F, shown as male; Pandora: sex not recorded as M or F, shown as male; Pax: sex not recorded as M or F, shown as male; Penelope: sex not recorded as M or F, shown as male; Perimede: sex not recorded as M or F, shown as male; Perleres: sex not recorded as M or F, shown as male; Picumnus: sex not recorded as M or F, shown as male; Pleiades: sex not recorded as M or F, shown as male; Postvorta: sex not recorded as M or F, shown as male; Prometheus: sex not recorded as M or F, shown as male; Salus: sex not recorded as M or F, shown as male; Sarpedon: sex not recorded as M or F, shown as male; Sinon: sex not recorded as M or F, shown as male; 49 Other Sons: sex not recorded as M or F, shown as male; Stimula: sex not recorded as M or F, shown as male; Tenes: sex not recorded as M or F, shown as male; 3000 Rivers (Sons of Oceanus and Tethys): sex not recorded as M or F, shown as male; Thestius: sex not recorded as M or F, shown as male; Tiresias: sex not recorded as M or F, shown as male; Trivia: sex not recorded as M or F, shown as male; Tros: sex not recorded as M or F, shown as male; Unknown: sex not recorded as M or F, shown as male; Virtue: sex not recorded as M or F, shown as male; Virtus: sex not recorded as M or F, shown as male');
+    ('roman-gods', 3, '2 people have no recorded relatives in the source and are shown on their own: Honos, Virtus.'),
+    ('roman-gods', 4, 'Import warnings: Achaeus: sex not recorded as M or F, shown as male; Aesimus: sex not recorded as M or F, shown as male; Amulius: sex not recorded as M or F, shown as male; Antevorta: sex not recorded as M or F, shown as male; Aratus: sex not recorded as M or F, shown as male; Bellerophon: sex not recorded as M or F, shown as male; Brutus of Britain: sex not recorded as M or F, shown as male; Cadmus: sex not recorded as M or F, shown as male; Carmenta: sex not recorded as M or F, shown as male; Carystus.: sex not recorded as M or F, shown as male; Dardanus: sex not recorded as M or F, shown as male; Deidameia: sex not recorded as M or F, shown as male; Egeria: sex not recorded as M or F, shown as male; Electra: sex not recorded as M or F, shown as male; Endeis: sex not recorded as M or F, shown as male; Epimetheus: sex not recorded as M or F, shown as male; Erichtonius: sex not recorded as M or F, shown as male; Eurypylus: sex not recorded as M or F, shown as male; Ganymede: sex not recorded as M or F, shown as male; Gigantes: sex not recorded as M or F, shown as male; Gorgorphone: sex not recorded as M or F, shown as male; Harmonia: sex not recorded as M or F, shown as male; Hellen: sex not recorded as M or F, shown as male; Herulus: sex not recorded as M or F, shown as male; Hippe: sex not recorded as M or F, shown as male; Hyades: sex not recorded as M or F, shown as male; Icarius: sex not recorded as M or F, shown as male; II Lares: sex not recorded as M or F, shown as male; The Lares: sex not recorded as M or F, shown as male; Lavinia: sex not recorded as M or F, shown as male; Libera: sex not recorded as M or F, shown as male; Maia: sex not recorded as M or F, shown as male; Makedon: sex not recorded as M or F, shown as male; The Manes: sex not recorded as M or F, shown as male; The Minyas: sex not recorded as M or F, shown as male; Nox: sex not recorded as M or F, shown as male; Lydian nymphs: sex not recorded as M or F, shown as male; Ocyrhoe: sex not recorded as M or F, shown as male; Pallas: sex not recorded as M or F, shown as male; Panacea: sex not recorded as M or F, shown as male; Pandora: sex not recorded as M or F, shown as male; Pax: sex not recorded as M or F, shown as male; Penelope: sex not recorded as M or F, shown as male; Perimede: sex not recorded as M or F, shown as male; Perleres: sex not recorded as M or F, shown as male; Picumnus: sex not recorded as M or F, shown as male; Pleiades: sex not recorded as M or F, shown as male; Postvorta: sex not recorded as M or F, shown as male; Prometheus: sex not recorded as M or F, shown as male; Salus: sex not recorded as M or F, shown as male; Sarpedon: sex not recorded as M or F, shown as male; Sinon: sex not recorded as M or F, shown as male; 49 Other Sons: sex not recorded as M or F, shown as male; Stimula: sex not recorded as M or F, shown as male; Tenes: sex not recorded as M or F, shown as male; 3000 Rivers (Sons of Oceanus and Tethys): sex not recorded as M or F, shown as male; Thestius: sex not recorded as M or F, shown as male; Tiresias: sex not recorded as M or F, shown as male; Trivia: sex not recorded as M or F, shown as male; Tros: sex not recorded as M or F, shown as male; Unknown: sex not recorded as M or F, shown as male; Virtue: sex not recorded as M or F, shown as male; Virtus: sex not recorded as M or F, shown as male');
 
 -- ── Houses (1) ─────────────────────────────────────────────────────────────────────────────────
 INSERT INTO house (saga_id, name, color) VALUES
@@ -4470,7 +4537,7 @@ INSERT INTO person (saga_id, id, name, house, sex) VALUES
     ('roman-gods', 'sisyphus', 'Sisyphus', 'Roman pantheon', 'm'),
     ('roman-gods', 'sol', 'Sol', 'Roman pantheon', 'm'),
     ('roman-gods', 'somnus', 'Somnus', 'Roman pantheon', 'm'),
-    ('roman-gods', '49-other-sons', '49 Other Sons', 'Roman pantheon', 'm'),
+    ('roman-gods', 'sons', 'Sons', 'Roman pantheon', 'm'),
     ('roman-gods', 'statanus', 'Statanus', 'Roman pantheon', 'm'),
     ('roman-gods', 'statina', 'Statina', 'Roman pantheon', 'f'),
     ('roman-gods', 'stilbe', 'Stilbe', 'Roman pantheon', 'f'),
@@ -4483,8 +4550,8 @@ INSERT INTO person (saga_id, id, name, house, sex) VALUES
     ('roman-gods', 'telesphorus', 'Telesphorus', 'Roman pantheon', 'm'),
     ('roman-gods', 'tellus', 'Tellus', 'Roman pantheon', 'f'),
     ('roman-gods', 'tenes', 'Tenes', 'Roman pantheon', 'm'),
-    ('roman-gods', '3000-rivers-sons-of-oceanus-and-tethys', '3000 Rivers (Sons of Oceanus and Tethys)', 'Roman pantheon', 'm'),
-    ('roman-gods', 'tethys', 'Tethys', 'Roman pantheon', 'f'),
+    ('roman-gods', 'tethys', 'Tethys)', 'Roman pantheon', 'm'),
+    ('roman-gods', 'tethys-2', 'Tethys', 'Roman pantheon', 'f'),
     ('roman-gods', 'teucer', 'Teucer', 'Roman pantheon', 'm'),
     ('roman-gods', 'thea', 'Thea', 'Roman pantheon', 'f'),
     ('roman-gods', 'thestius', 'Thestius', 'Roman pantheon', 'm'),
@@ -4515,7 +4582,7 @@ INSERT INTO person (saga_id, id, name, house, sex) VALUES
     ('roman-gods', 'xuthus', 'Xuthus', 'Roman pantheon', 'm'),
     ('roman-gods', 'zelus', 'Zelus', 'Roman pantheon', 'm');
 
--- ── Families (163, each followed by its members) ───────────────────────────────────────────────
+-- ── Families (165, each followed by its members) ───────────────────────────────────────────────
 -- roman-gods-f1: (unnamed daughter) (no children)
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('roman-gods', 'roman-gods-f1', FALSE);
@@ -4685,7 +4752,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('roman-gods', 'roman-gods-f23', 'fama', 'child'),
     ('roman-gods', 'roman-gods-f23', 'gigantes', 'child'),
     ('roman-gods', 'roman-gods-f23', 'oceanus', 'child'),
-    ('roman-gods', 'roman-gods-f23', 'tethys', 'child');
+    ('roman-gods', 'roman-gods-f23', 'tethys-2', 'child');
 -- roman-gods-f24: Neptune + Salacia → Triton
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('roman-gods', 'roman-gods-f24', FALSE);
@@ -4728,15 +4795,15 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('roman-gods', 'roman-gods-f29', 'pontus', 'parent'),
     ('roman-gods', 'roman-gods-f29', 'tellus', 'parent'),
     ('roman-gods', 'roman-gods-f29', 'neures', 'child');
--- roman-gods-f30: Oceanus + Tethys → Doris, Clitunno, 3000 Rivers (Sons of Oceanus and Tethys), Tiberinus, Hermus, Daphne, Ladon
+-- roman-gods-f30: Oceanus + Tethys → Doris, Clitunno, Tethys), Tiberinus, Hermus, Daphne, Ladon
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('roman-gods', 'roman-gods-f30', FALSE);
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('roman-gods', 'roman-gods-f30', 'oceanus', 'parent'),
-    ('roman-gods', 'roman-gods-f30', 'tethys', 'parent'),
+    ('roman-gods', 'roman-gods-f30', 'tethys-2', 'parent'),
     ('roman-gods', 'roman-gods-f30', 'doris', 'child'),
     ('roman-gods', 'roman-gods-f30', 'clitunno', 'child'),
-    ('roman-gods', 'roman-gods-f30', '3000-rivers-sons-of-oceanus-and-tethys', 'child'),
+    ('roman-gods', 'roman-gods-f30', 'tethys', 'child'),
     ('roman-gods', 'roman-gods-f30', 'tiberinus', 'child'),
     ('roman-gods', 'roman-gods-f30', 'hermus', 'child'),
     ('roman-gods', 'roman-gods-f30', 'daphne', 'child'),
@@ -5282,13 +5349,13 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('roman-gods', 'roman-gods-f107', 'achiroe', 'parent'),
     ('roman-gods', 'roman-gods-f107', 'danaus', 'child'),
     ('roman-gods', 'roman-gods-f107', 'aegyptus', 'child');
--- roman-gods-f108: Danaus → Lynceus, 49 Other Sons
+-- roman-gods-f108: Danaus → Lynceus, Sons
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('roman-gods', 'roman-gods-f108', FALSE);
 INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('roman-gods', 'roman-gods-f108', 'danaus', 'parent'),
     ('roman-gods', 'roman-gods-f108', 'lynceus', 'child'),
-    ('roman-gods', 'roman-gods-f108', '49-other-sons', 'child');
+    ('roman-gods', 'roman-gods-f108', 'sons', 'child');
 -- roman-gods-f109: Lynceus + Hypermnestra (no children)
 INSERT INTO family (saga_id, id, adoptive) VALUES
     ('roman-gods', 'roman-gods-f109', FALSE);
@@ -5674,6 +5741,16 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
     ('roman-gods', 'roman-gods-f163', 'mercury', 'parent'),
     ('roman-gods', 'roman-gods-f163', 'chione', 'parent'),
     ('roman-gods', 'roman-gods-f163', 'amphithea', 'child');
+-- roman-gods-f164: Honos (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('roman-gods', 'roman-gods-f164', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('roman-gods', 'roman-gods-f164', 'honos', 'parent');
+-- roman-gods-f165: Virtus (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('roman-gods', 'roman-gods-f165', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('roman-gods', 'roman-gods-f165', 'virtus', 'parent');
 
 
 -- =================================================================================================

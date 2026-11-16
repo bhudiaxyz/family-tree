@@ -7,12 +7,13 @@
         "author": "Compiled by unknown",
         "canon": "As recorded in the GEDCOM file",
         "genre": "Mythology",
-        "covers": "322 people and 163 families, imported from a public GEDCOM sample."
+        "covers": "322 people and 165 families, imported from a public GEDCOM sample."
     },
     "notes": [
         "Imported from Roman+Gods.ged (Windows-1252; FTM Family Tree Maker (17.0.0.440); file dated 19 November 2007) by scripts/gedcom-to-saga.mts.",
         "Names are read in mythology mode: the deity's name is the GEDCOM surname part, and descriptive text in the given-name part (e.g. \"queen of the Gods\") is dropped.",
         "Everyone is in one house, \"Roman pantheon\": the file has no real surnames to group by.",
+        "2 people have no recorded relatives in the source and are shown on their own: Honos, Virtus.",
         "Import warnings: Achaeus: sex not recorded as M or F, shown as male; Aesimus: sex not recorded as M or F, shown as male; Amulius: sex not recorded as M or F, shown as male; Antevorta: sex not recorded as M or F, shown as male; Aratus: sex not recorded as M or F, shown as male; Bellerophon: sex not recorded as M or F, shown as male; Brutus of Britain: sex not recorded as M or F, shown as male; Cadmus: sex not recorded as M or F, shown as male; Carmenta: sex not recorded as M or F, shown as male; Carystus.: sex not recorded as M or F, shown as male; Dardanus: sex not recorded as M or F, shown as male; Deidameia: sex not recorded as M or F, shown as male; Egeria: sex not recorded as M or F, shown as male; Electra: sex not recorded as M or F, shown as male; Endeis: sex not recorded as M or F, shown as male; Epimetheus: sex not recorded as M or F, shown as male; Erichtonius: sex not recorded as M or F, shown as male; Eurypylus: sex not recorded as M or F, shown as male; Ganymede: sex not recorded as M or F, shown as male; Gigantes: sex not recorded as M or F, shown as male; Gorgorphone: sex not recorded as M or F, shown as male; Harmonia: sex not recorded as M or F, shown as male; Hellen: sex not recorded as M or F, shown as male; Herulus: sex not recorded as M or F, shown as male; Hippe: sex not recorded as M or F, shown as male; Hyades: sex not recorded as M or F, shown as male; Icarius: sex not recorded as M or F, shown as male; II Lares: sex not recorded as M or F, shown as male; The Lares: sex not recorded as M or F, shown as male; Lavinia: sex not recorded as M or F, shown as male; Libera: sex not recorded as M or F, shown as male; Maia: sex not recorded as M or F, shown as male; Makedon: sex not recorded as M or F, shown as male; The Manes: sex not recorded as M or F, shown as male; The Minyas: sex not recorded as M or F, shown as male; Nox: sex not recorded as M or F, shown as male; Lydian nymphs: sex not recorded as M or F, shown as male; Ocyrhoe: sex not recorded as M or F, shown as male; Pallas: sex not recorded as M or F, shown as male; Panacea: sex not recorded as M or F, shown as male; Pandora: sex not recorded as M or F, shown as male; Pax: sex not recorded as M or F, shown as male; Penelope: sex not recorded as M or F, shown as male; Perimede: sex not recorded as M or F, shown as male; Perleres: sex not recorded as M or F, shown as male; Picumnus: sex not recorded as M or F, shown as male; Pleiades: sex not recorded as M or F, shown as male; Postvorta: sex not recorded as M or F, shown as male; Prometheus: sex not recorded as M or F, shown as male; Salus: sex not recorded as M or F, shown as male; Sarpedon: sex not recorded as M or F, shown as male; Sinon: sex not recorded as M or F, shown as male; 49 Other Sons: sex not recorded as M or F, shown as male; Stimula: sex not recorded as M or F, shown as male; Tenes: sex not recorded as M or F, shown as male; 3000 Rivers (Sons of Oceanus and Tethys): sex not recorded as M or F, shown as male; Thestius: sex not recorded as M or F, shown as male; Tiresias: sex not recorded as M or F, shown as male; Trivia: sex not recorded as M or F, shown as male; Tros: sex not recorded as M or F, shown as male; Unknown: sex not recorded as M or F, shown as male; Virtue: sex not recorded as M or F, shown as male; Virtus: sex not recorded as M or F, shown as male"
     ],
     "houses": [
@@ -1691,8 +1692,8 @@
             "sex": "m"
         },
         {
-            "id": "49-other-sons",
-            "name": "49 Other Sons",
+            "id": "sons",
+            "name": "Sons",
             "house": "Roman pantheon",
             "sex": "m"
         },
@@ -1769,13 +1770,13 @@
             "sex": "m"
         },
         {
-            "id": "3000-rivers-sons-of-oceanus-and-tethys",
-            "name": "3000 Rivers (Sons of Oceanus and Tethys)",
+            "id": "tethys",
+            "name": "Tethys)",
             "house": "Roman pantheon",
             "sex": "m"
         },
         {
-            "id": "tethys",
+            "id": "tethys-2",
             "name": "Tethys",
             "house": "Roman pantheon",
             "sex": "f"
@@ -2607,6 +2608,14 @@
         {
             "id": "roman-gods-f163",
             "adoptive": false
+        },
+        {
+            "id": "roman-gods-f164",
+            "adoptive": false
+        },
+        {
+            "id": "roman-gods-f165",
+            "adoptive": false
         }
     ],
     "members": [
@@ -2997,7 +3006,7 @@
         },
         {
             "family": "roman-gods-f23",
-            "person": "tethys",
+            "person": "tethys-2",
             "role": "child"
         },
         {
@@ -3097,7 +3106,7 @@
         },
         {
             "family": "roman-gods-f30",
-            "person": "tethys",
+            "person": "tethys-2",
             "role": "parent"
         },
         {
@@ -3112,7 +3121,7 @@
         },
         {
             "family": "roman-gods-f30",
-            "person": "3000-rivers-sons-of-oceanus-and-tethys",
+            "person": "tethys",
             "role": "child"
         },
         {
@@ -4312,7 +4321,7 @@
         },
         {
             "family": "roman-gods-f108",
-            "person": "49-other-sons",
+            "person": "sons",
             "role": "child"
         },
         {
@@ -5139,6 +5148,16 @@
             "family": "roman-gods-f163",
             "person": "amphithea",
             "role": "child"
+        },
+        {
+            "family": "roman-gods-f164",
+            "person": "honos",
+            "role": "parent"
+        },
+        {
+            "family": "roman-gods-f165",
+            "person": "virtus",
+            "role": "parent"
         }
     ]
 }

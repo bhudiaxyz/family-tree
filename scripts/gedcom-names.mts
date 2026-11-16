@@ -30,7 +30,10 @@ const DESCRIPTIVE = /^(?:the|a|an|of)\b/i;
 const ROLE_WORD =
     /^(?:King|Queen|Prince|Princess|Lord|Lady|Hero|Heroine|God|Goddess|Titan|Titaness|Giant|Giantess|Nymph|Cyclops|Monster|Mortal|Demigod|Hunter|Seer|Priestess|Muse)$/;
 const isDescription = (given: string) =>
-    DESCRIPTIVE.test(given) || startsLower(given) || given.trim().split(/\s+/).length >= 2 || ROLE_WORD.test(given.trim());
+    DESCRIPTIVE.test(given) ||
+    startsLower(given) ||
+    given.trim().split(/\s+/).length >= 2 ||
+    ROLE_WORD.test(given.trim());
 const startsLower = (s: string) => /^\p{Ll}/u.test(s);
 
 /** Split a GEDCOM NAME value into its parts. Values without slashes are all "given". */
@@ -69,7 +72,8 @@ export function displayName(raw: string, mode: NameMode, sex: "m" | "f", titles:
             // When the given part ends in "of"/"of the" (or a possessive), the surname finishes the phrase rather than
             // naming anyone: "Giant Teacher of Odin of Nine Magic /Charms/" is a description of Bölþorn, whose name
             // the file omits. Dropping the prefix would leave "Charms", so keep the compiler's whole description.
-            if (/(?:\bof(?:\s+the)?|'s)\s*$/i.test(given) || /\bof\b.*\bof\b/i.test(given)) return withSuffix(`${given} ${surname}`);
+            if (/(?:\bof(?:\s+the)?|'s)\s*$/i.test(given) || /\bof\b.*\bof\b/i.test(given))
+                return withSuffix(`${given} ${surname}`);
             // A descriptive given part is dropped; a real given name (one capitalised, non-role word) is kept.
             const keepGiven = given && !isDescription(given);
             return withSuffix(keepGiven ? `${given} ${surname}` : surname);

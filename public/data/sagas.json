@@ -81,20 +81,20 @@
         "category": "mythology",
         "title": "Greek Gods",
         "work": "Greek Gods",
-        "author": "Unknown"
+        "author": "Unknown compiler"
     },
     {
         "id": "norse-gods",
         "category": "mythology",
         "title": "Norse Gods",
         "work": "Norse Gods",
-        "author": "Unknown"
+        "author": "Compiled by unknown"
     },
     {
         "id": "roman-gods",
         "category": "mythology",
         "title": "Roman Gods",
         "work": "Roman Gods",
-        "author": "Unknown"
+        "author": "Compiled by unknown"
     }
 ]

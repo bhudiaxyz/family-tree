@@ -7,12 +7,13 @@
         "author": "Compiled by unknown",
         "canon": "Sources cited: RCKarnes; World Family Tree Vol. 5; Aderholt Hillman Hughes Solomon Dunn Funderburg; Guy Allen Sims",
         "genre": "Mythology",
-        "covers": "117 people and 46 families, imported from a public GEDCOM sample."
+        "covers": "117 people and 59 families, imported from a public GEDCOM sample."
     },
     "notes": [
         "Imported from Norse+Gods.ged (Windows-1252; FTM Family Tree Maker (17.0.0.440); file dated 20 November 2007) by scripts/gedcom-to-saga.mts.",
         "Names are read in mythology mode: the deity's name is the GEDCOM surname part, and descriptive text in the given-name part (e.g. \"queen of the Gods\") is dropped.",
         "Everyone is in one house, \"Norse pantheon\": the file has no real surnames to group by.",
+        "13 people have no recorded relatives in the source and are shown on their own: Fjalar, Galar, Gefjun, Lofn, Sága, Seaxneat, Sjöfn, Skirnir, Skuld, Vár, Verdandi, Vör, Wyrd.",
         "Import warnings: Heimdall: sex not recorded as M or F, shown as male; Ve: sex not recorded as M or F, shown as male; Vidar: sex not recorded as M or F, shown as male; Vör: sex not recorded as M or F, shown as male; Family @F000-1@: CHIL points to a missing person; Family @F000-2@: CHIL points to a missing person; Family @F000-4@: CHIL points to a missing person; Family @F000-6@: CHIL points to a missing person; Family @F00-10@: CHIL points to a missing person; Family @F00-11@: CHIL points to a missing person; Family @F00-12@: CHIL points to a missing person; Family @F00-13@: CHIL points to a missing person; Family @F00-14@: CHIL points to a missing person; Family @F00-15@: CHIL points to a missing person; Family @F00-16@: CHIL points to a missing person; Family @F00-17@: CHIL points to a missing person; Family @F00-18@: CHIL points to a missing person; Family @F00-23@: CHIL points to a missing person; Family @F00-24@: CHIL points to a missing person; Family @F00-25@: CHIL points to a missing person; Family @F00-26@: CHIL points to a missing person; Family @F00-27@: CHIL points to a missing person; Family @F00-28@: CHIL points to a missing person"
     ],
     "houses": [
@@ -719,8 +720,8 @@
             "sex": "f"
         },
         {
-            "id": "semi-myth-kings-of-sweden-as-told-in-ynglingatal",
-            "name": "Semi-Myth Kings of Sweden as Told in Ynglingatal",
+            "id": "ynglingatal",
+            "name": "Ynglingatal",
             "house": "Norse pantheon",
             "sex": "m"
         }
@@ -908,6 +909,58 @@
         },
         {
             "id": "norse-gods-f46",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f47",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f48",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f49",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f50",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f51",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f52",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f53",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f54",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f55",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f56",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f57",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f58",
+            "adoptive": false
+        },
+        {
+            "id": "norse-gods-f59",
             "adoptive": false
         }
     ],
@@ -1269,7 +1322,7 @@
         },
         {
             "family": "norse-gods-f25",
-            "person": "semi-myth-kings-of-sweden-as-told-in-ynglingatal",
+            "person": "ynglingatal",
             "role": "child"
         },
         {
@@ -1636,6 +1689,71 @@
             "family": "norse-gods-f46",
             "person": "gunnlo",
             "role": "child"
+        },
+        {
+            "family": "norse-gods-f47",
+            "person": "fjalar",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f48",
+            "person": "galar",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f49",
+            "person": "gefjun",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f50",
+            "person": "lofn",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f51",
+            "person": "saga",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f52",
+            "person": "seaxneat",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f53",
+            "person": "sjofn",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f54",
+            "person": "skirnir",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f55",
+            "person": "skuld",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f56",
+            "person": "var",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f57",
+            "person": "verdandi",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f58",
+            "person": "vor",
+            "role": "parent"
+        },
+        {
+            "family": "norse-gods-f59",
+            "person": "wyrd",
+            "role": "parent"
         }
     ]
 }

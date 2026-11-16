@@ -168,6 +168,13 @@ const people = Object.entries(tree.people).map(([gid, p]) => ({
     house: houseOf(p.house),
     sex: p.sex,
 }));
+// People the source records with no relatives at all (e.g. the Norse file links 19 people it never defines, leaving
+// figures like Skuld and Gefjun with nobody). They are real figures, so keep them, each in a one-person family: the
+// model's way of saying "no known relatives", which keeps them visible and satisfies "everyone is in a family".
+const related = new Set(tree.families.flatMap((f) => [...f.parents, ...f.children]));
+const loners = Object.keys(tree.people).filter((gid) => !related.has(gid));
+for (const gid of loners) tree.families.push({ parents: [gid], children: [] });
+
 const families = tree.families.map((f, i) => ({ id: `${id}-f${i + 1}`, adoptive: !!f.adoptive }));
 const members = tree.families.flatMap((f, i) => [
     ...f.parents.map((p) => ({ family: `${id}-f${i + 1}`, person: newId.get(p)!, role: "parent" as const })),
@@ -199,6 +206,11 @@ const saga: SagaRecord = {
         singleHouse
             ? `Everyone is in one house, "${singleHouse}": the file has no real surnames to group by.`
             : `Houses are surnames; only the ${major.length} largest keep their own colour, the rest are grouped as "${OTHER}".`,
+        ...(loners.length
+            ? [
+                  `${loners.length} people have no recorded relatives in the source and are shown on their own: ${loners.map((g) => people.find((p) => p.id === newId.get(g))!.name).join(", ")}.`,
+              ]
+            : []),
         ...(warnings.length ? [`Import warnings: ${warnings.join("; ")}`] : []),
     ],
     houses,

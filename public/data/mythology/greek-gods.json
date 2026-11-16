@@ -76,8 +76,8 @@
             "sex": "m"
         },
         {
-            "id": "trojan-hero-aeneas",
-            "name": "Trojan Hero Aeneas",
+            "id": "aeneas",
+            "name": "Aeneas",
             "house": "Greek pantheon",
             "sex": "m"
         },
@@ -184,8 +184,8 @@
             "sex": "f"
         },
         {
-            "id": "theban-princess-megara",
-            "name": "Theban Princess Megara",
+            "id": "megara",
+            "name": "Megara",
             "house": "Greek pantheon",
             "sex": "f"
         },
@@ -244,8 +244,8 @@
             "sex": "m"
         },
         {
-            "id": "cyclops-polyphemus",
-            "name": "Cyclops Polyphemus",
+            "id": "polyphemus",
+            "name": "Polyphemus",
             "house": "Greek pantheon",
             "sex": "m"
         },
@@ -268,8 +268,8 @@
             "sex": "m"
         },
         {
-            "id": "king-of-the-myrmidans-peleus",
-            "name": "King of the Myrmidans Peleus",
+            "id": "peleus",
+            "name": "Peleus",
             "house": "Greek pantheon",
             "sex": "m"
         },
@@ -334,8 +334,8 @@
             "sex": "f"
         },
         {
-            "id": "king-of-sparta-menelaus",
-            "name": "King of Sparta Menelaus",
+            "id": "menelaus",
+            "name": "Menelaus",
             "house": "Greek pantheon",
             "sex": "m"
         },
@@ -352,8 +352,8 @@
             "sex": "f"
         },
         {
-            "id": "greek-and-roman-mythology-polydueces",
-            "name": "Greek and Roman Mythology Polydueces",
+            "id": "polydueces",
+            "name": "Polydueces",
             "house": "Greek pantheon",
             "sex": "m"
         },
@@ -646,12 +646,12 @@
         },
         {
             "family": "greek-gods-f4",
-            "person": "trojan-hero-aeneas",
+            "person": "aeneas",
             "role": "child"
         },
         {
             "family": "greek-gods-f5",
-            "person": "trojan-hero-aeneas",
+            "person": "aeneas",
             "role": "parent"
         },
         {
@@ -691,7 +691,7 @@
         },
         {
             "family": "greek-gods-f8",
-            "person": "trojan-hero-aeneas",
+            "person": "aeneas",
             "role": "parent"
         },
         {
@@ -821,7 +821,7 @@
         },
         {
             "family": "greek-gods-f17",
-            "person": "theban-princess-megara",
+            "person": "megara",
             "role": "parent"
         },
         {
@@ -1061,7 +1061,7 @@
         },
         {
             "family": "greek-gods-f31",
-            "person": "cyclops-polyphemus",
+            "person": "polyphemus",
             "role": "child"
         },
         {
@@ -1081,7 +1081,7 @@
         },
         {
             "family": "greek-gods-f33",
-            "person": "king-of-the-myrmidans-peleus",
+            "person": "peleus",
             "role": "parent"
         },
         {
@@ -1161,7 +1161,7 @@
         },
         {
             "family": "greek-gods-f39",
-            "person": "king-of-sparta-menelaus",
+            "person": "menelaus",
             "role": "parent"
         },
         {
@@ -1191,7 +1191,7 @@
         },
         {
             "family": "greek-gods-f40",
-            "person": "greek-and-roman-mythology-polydueces",
+            "person": "polydueces",
             "role": "child"
         },
         {

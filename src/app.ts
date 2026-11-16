@@ -8,10 +8,19 @@ import type { SagaIndexEntry, Tree } from "./data/schema.ts";
 import { listSagas, loadSaga } from "./data/source.ts";
 import { parseGedcom } from "./data/gedcom.ts";
 import { findByName, lineage, relatives } from "./family.ts";
-import { relate } from "./relationship.ts";
+import { labelAll, relate } from "./relationship.ts";
 import { fontsReady } from "./labels.ts";
-import { camera, captureView, controls, renderer, scene } from "./scene.ts";
-import { graph, highlight, nodeById, showTree, stepGraph } from "./graph.ts";
+import { camera, captureView, controls, draw, glow, renderer, scene, setGlow, updateFog } from "./scene.ts";
+import {
+    graph,
+    highlight,
+    nodeById,
+    peopleBbox,
+    setGuidesVisible,
+    setRelativeTags,
+    showTree,
+    stepGraph,
+} from "./graph.ts";
 import {
     type Dir,
     fitTree,
@@ -40,6 +49,7 @@ const relA = $<HTMLInputElement>("rel-a");
 const relB = $<HTMLInputElement>("rel-b");
 const relResult = $("rel-result");
 const relSteps = $("rel-steps");
+const relNotes = $("rel-notes");
 const toast = $("toast");
 
 const IMPORTED = "imported"; // saga id used in the URL / GUI for a GEDCOM file loaded from disk
@@ -74,6 +84,7 @@ function notify(message: string, error = false) {
 function select(id: string, fly = false) {
     if (!tree) return;
     selected = id;
+    if (relativeTo) setRelativeTo(id); // tags follow the selection, so they always describe the person shown
     refreshHighlight();
     const p = tree.people[id];
     panelName.textContent = p.name;
@@ -114,12 +125,24 @@ function deselect() {
     selected = null;
     panel.hidden = true;
     search.value = "";
+    setRelativeTo(null);
     fitTree(); // ease back to the whole tree, so the orbit pivot is no longer the last person
     refreshHighlight();
     writeUrl();
 }
 $("panel-close").onclick = deselect;
 $("panel-relate").onclick = () => selected && openRelate(selected);
+
+// --- "Relative to" mode: tag everyone with how they're related to one person -----------------------------------
+const btnRelativeTo = $("panel-relative-to");
+let relativeTo: string | null = null;
+function setRelativeTo(id: string | null) {
+    relativeTo = id && tree ? id : null;
+    setRelativeTags(relativeTo ? labelAll(tree!, relativeTo) : null);
+    btnRelativeTo.setAttribute("aria-pressed", String(!!relativeTo));
+    btnRelativeTo.textContent = relativeTo ? "Hide relationship tags" : "Tag everyone's relationship";
+}
+btnRelativeTo.onclick = () => setRelativeTo(relativeTo === selected ? null : selected);
 
 // --- Relationship finder --------------------------------------------------------------------------------------------
 const btnRelate = $("btn-relate");
@@ -138,6 +161,7 @@ function closeRelate() {
     relPair = null;
     relResult.textContent = "";
     relSteps.replaceChildren();
+    relNotes.replaceChildren();
     refreshHighlight();
     writeUrl();
 }
@@ -148,6 +172,7 @@ function updateRelate() {
     const a = findByName(tree, relA.value);
     const b = findByName(tree, relB.value);
     relSteps.replaceChildren();
+    relNotes.replaceChildren();
     if (!a || !b) {
         relPair = null;
         relResult.textContent = relA.value && relB.value ? "Pick two people from the list." : "";
@@ -161,6 +186,26 @@ function updateRelate() {
         relResult.textContent = `${tree.people[a].name} and ${tree.people[b].name} aren't connected in this tree.`;
     } else {
         relResult.textContent = r.summary;
+        // Who they descend from in common, and any other ways they're related (intermarried families).
+        const extra: HTMLElement[] = [];
+        if (r.commonAncestors.length) {
+            const p = Object.assign(document.createElement("p"), { className: "rel-note" });
+            p.append(r.commonAncestors.length > 1 ? "Closest common ancestors: " : "Closest common ancestor: ");
+            r.commonAncestors.forEach((id, i) => {
+                if (i) p.append(" & ");
+                p.append(personLink(id, () => flyToPerson(id)));
+            });
+            extra.push(p);
+        }
+        if (r.routes.length > 1) {
+            const p = Object.assign(document.createElement("p"), { className: "rel-note" });
+            p.textContent = `Also related as: ${r.routes
+                .slice(1)
+                .map((x) => x.label + (x.adoptive ? " (by adoption)" : ""))
+                .join(", ")}.`;
+            extra.push(p);
+        }
+        relNotes.replaceChildren(...extra);
         // Step-by-step chain, each name clickable to fly there.
         for (const s of r.steps) {
             const li = document.createElement("li");
@@ -337,14 +382,55 @@ function pick(e: PointerEvent | MouseEvent): string | null {
     return null;
 }
 
-// A click only counts if it started on the canvas and the pointer barely moved (otherwise it was an orbit drag).
+// Tap/click handling that works the same for mouse, pen and touch:
+//  - A tap counts only if it started on the canvas, used one pointer, and moved less than TAP_SLOP (a finger moves a
+//    little even when "still"; 5 px was too tight on phones). A second finger turns it into a pinch, never a tap.
+//  - Two taps on the same person within DOUBLE_MS fly to them (dblclick is unreliable on mobile browsers).
+//  - Press and hold on a person (touch) previews their line, the touch equivalent of mouse hover.
+//  - pointercancel (the browser took over for scrolling/zooming) abandons the tap.
 // downAt is cleared after every pointerup, so a click on the panel can never also select whoever is behind it.
+const TAP_SLOP = { mouse: 5, pen: 8, touch: 12 } as Record<string, number>;
+const DOUBLE_MS = 350;
+const HOLD_MS = 450;
 const canvas = renderer.domElement;
-let downAt: [number, number] | null = null;
-canvas.addEventListener("pointerdown", (e) => (downAt = [e.clientX, e.clientY]));
+const active = new Set<number>(); // pointers currently down on the canvas
+let downAt: { x: number; y: number; type: string; multi: boolean } | null = null;
+let lastTap: { id: string; at: number } | null = null;
+let holdTimer = 0;
+
+canvas.addEventListener("pointerdown", (e) => {
+    active.add(e.pointerId);
+    if (active.size > 1) {
+        if (downAt) downAt.multi = true; // pinch/rotate: not a tap
+        clearTimeout(holdTimer);
+        return;
+    }
+    downAt = { x: e.clientX, y: e.clientY, type: e.pointerType, multi: false };
+    if (e.pointerType !== "mouse") {
+        clearTimeout(holdTimer);
+        holdTimer = window.setTimeout(() => {
+            const id = pick(e);
+            if (!id || relPair) return;
+            hovered = id; // long-press preview of this person's line
+            refreshHighlight();
+            navigator.vibrate?.(10);
+        }, HOLD_MS);
+    }
+});
+const endPointer = (e: PointerEvent) => {
+    active.delete(e.pointerId);
+    clearTimeout(holdTimer);
+};
+canvas.addEventListener("pointercancel", (e) => {
+    endPointer(e);
+    downAt = null;
+});
 addEventListener("pointerup", () => setTimeout(() => (downAt = null)));
 canvas.addEventListener("pointermove", (e) => {
-    if (e.pointerType !== "mouse" || e.buttons) return; // hover is mouse-only; touch uses tap
+    // Moving past the slop cancels the long-press (it's a drag).
+    if (downAt && Math.hypot(e.clientX - downAt.x, e.clientY - downAt.y) > TAP_SLOP[downAt.type])
+        clearTimeout(holdTimer);
+    if (e.pointerType !== "mouse" || e.buttons) return; // hover is mouse-only; touch uses long-press
     const id = pick(e);
     canvas.style.cursor = id ? "pointer" : "";
     if (id !== hovered) {
@@ -353,20 +439,27 @@ canvas.addEventListener("pointermove", (e) => {
     }
 });
 canvas.addEventListener("pointerup", (e) => {
-    if (!downAt || Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 5) return;
+    endPointer(e);
+    const start = downAt;
+    if (!start || start.multi || active.size) return;
+    if (Math.hypot(e.clientX - start.x, e.clientY - start.y) > (TAP_SLOP[start.type] ?? 8)) return;
+    // End a touch long-press preview on release.
+    if (start.type !== "mouse" && hovered && !selected) {
+        hovered = null;
+        refreshHighlight();
+    }
     const id = pick(e);
-    // With the finder open, clicks fill it: first click sets "From" if empty, otherwise "To".
+    // With the finder open, taps fill it: the first sets "From" if empty, otherwise "To".
     if (id && !relatePanel.hidden && tree) {
         (relA.value ? relB : relA).value = tree.people[id].name;
         return updateRelate();
     }
-    if (id) select(id);
+    const now = performance.now();
+    const double = !!id && lastTap?.id === id && now - lastTap.at < DOUBLE_MS;
+    lastTap = id ? { id, at: now } : null;
+    if (id)
+        select(id, double); // a double tap / double click flies to them
     else if (selected) deselect();
-});
-// Double-click a person to fly to them.
-canvas.addEventListener("dblclick", (e) => {
-    const id = pick(e);
-    if (id) select(id, true);
 });
 
 // --- Loading sagas, and shareable links (?saga=<id>&person=<id>&with=<id>) ----------------------------------------
@@ -415,6 +508,7 @@ function show(t: Tree) {
     btnRelate.setAttribute("aria-pressed", "false");
     search.value = relA.value = relB.value = relResult.textContent = "";
     relSteps.replaceChildren();
+    relNotes.replaceChildren();
     showTree(t);
     names.replaceChildren(
         ...Object.values(t.people)
@@ -442,6 +536,17 @@ Promise.all([listSagas(), fontsReady])
         gui.add(state, "saga", Object.fromEntries(sagas.map((s) => [s.title, s.id])))
             .name("Saga")
             .onChange((id: string) => openSaga(id));
+        // Display options. Glow defaults off on touch devices (GPU/battery); both are remembered between visits.
+        const stored = (k: string, dflt: boolean) => (localStorage.getItem(k) ?? String(dflt)) === "true";
+        const view = { glow: stored("ft.glow", glow), guides: stored("ft.guides", true) };
+        setGlow(view.glow);
+        setGuidesVisible(view.guides);
+        gui.add(view, "glow")
+            .name("Glow")
+            .onChange((on: boolean) => (setGlow(on), localStorage.setItem("ft.glow", String(on))));
+        gui.add(view, "guides")
+            .name("Generation guides")
+            .onChange((on: boolean) => (setGuidesVisible(on), localStorage.setItem("ft.guides", String(on))));
         if (matchMedia("(max-width: 600px)").matches) gui.close(); // on phones the open menu covers the title
         return openSaga(state.saga, params.get("person"), params.get("with"));
     })
@@ -471,7 +576,8 @@ renderer.setAnimationLoop((now) => {
     const dt = last ? Math.min((now - last) / 1000, 0.1) : 1 / 60; // seconds; clamped so a backgrounded tab can't jump
     last = now;
     if (paused) return;
-    stepGraph(camera, dt);
-    stepCamera(dt, () => (graph.graphData().nodes.length ? graph.getGraphBbox() : null));
-    renderer.render(scene, camera);
+    stepGraph(camera, dt, now, innerWidth, innerHeight);
+    stepCamera(dt, peopleBbox);
+    updateFog();
+    draw();
 });

@@ -42,15 +42,22 @@ export function flyTo(node: Pos): void {
     flight = { node, dir: camera.position.clone().sub(controls.target).normalize(), t: 0 };
 }
 
-// Fits width and height from the front. Depth is left out on purpose: it doesn't change what fits on screen, and
-// including it would push the camera back and flatten the pan parallax.
+// Fits the people's width and height to the view, measured to the box centre. Depth is left out on purpose: the house
+// planes spread people front to back for parallax, and fitting the front face (as before) pushed the camera back by
+// that whole depth, so the first view was far too zoomed out. Near people may now sit slightly past the frame edge
+// in perspective, which reads as closer and more immersive; the 5–95% box (peopleBbox) already trims stragglers.
+// On a portrait phone the width is the constraint; the header takes the top of the screen, so leave a little room.
+const FIT_MARGIN = 1.02;
 function stepFit(bbox: Bbox, dt: number) {
     const { x, y, z } = bbox;
     const center = new THREE.Vector3((x[0] + x[1]) / 2, (y[0] + y[1]) / 2, (z[0] + z[1]) / 2);
     const tanHalf = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2);
+    const portrait = camera.aspect < 1;
     const fitH = (y[1] - y[0]) / 2 / tanHalf;
     const fitW = (x[1] - x[0]) / 2 / (tanHalf * camera.aspect);
-    const dist = Math.max(fitH, fitW) * 1.08 + (z[1] - center.z); // margin, measured from the front face
+    const dist = Math.max(fitH * (portrait ? 1.12 : 1), fitW) * FIT_MARGIN;
+    // Nudge the target down a touch so the header and toolbar overlay don't cover the top generation.
+    center.y += (y[1] - y[0]) * 0.04;
     const k = ease(6, dt);
     controls.target.lerp(center, k);
     camera.position.lerp(center.clone().add(new THREE.Vector3(0, 0, dist)), k);

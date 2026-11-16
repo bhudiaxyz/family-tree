@@ -60,11 +60,15 @@ assert.ok(!relate(sw, "luke", "leia")!.adoptive);
 
 // Marriage only.
 assert.equal(label(got, "catelyn", "eddard"), "wife");
-const inLaw = relate(got, "catelyn", "benjen")!;
-assert.equal(inLaw.label, null, "Catelyn and Benjen are related only by marriage");
-assert.ok(inLaw.summary.startsWith("Catelyn Tully is connected by marriage"));
-assert.deepEqual(inLaw.path[0], "catelyn");
-assert.deepEqual(inLaw.path.at(-1), "benjen");
+// Elia and Lyanna were both married to Rhaegar: there's no standard word, so the chain is described.
+const viaMarriage = relate(got, "elia", "lyanna")!;
+assert.equal(viaMarriage.label, null);
+assert.equal(viaMarriage.kind, "path");
+assert.equal(
+    viaMarriage.summary,
+    "Elia Martell is connected by marriage: Elia Martell's husband Rhaegar Targaryen, whose wife Lyanna Stark."
+);
+assert.deepEqual(viaMarriage.path, ["elia", "rhaegar", "lyanna"]);
 
 // Paths are real chains (each consecutive pair is linked), endpoints correct.
 for (const [t, a, b] of [
@@ -121,3 +125,51 @@ assert.equal(c("a3", "b3"), "second cousin");
 assert.equal(c("a4", "b3"), "second cousin once removed");
 assert.equal(c("a4", "r1"), "great-great-grandson");
 console.log("ok  relationship finder: cousin chart (degree and removal) on a synthetic tree");
+
+// --- In-laws, step-relations, half-aunt/uncle, common ancestors, every route, labelAll -------------------------
+import { labelAll } from "../src/relationship.ts";
+
+// In-laws (the gap the user saw: Catelyn → Benjen was only "connected by marriage").
+assert.equal(label(got, "catelyn", "benjen"), "sister-in-law", "Catelyn married Benjen's brother Ned");
+assert.equal(label(got, "benjen", "catelyn"), "brother-in-law");
+assert.equal(relate(got, "catelyn", "benjen")!.kind, "in-law");
+assert.equal(label(got, "rickard", "catelyn"), "father-in-law", "Ned's father");
+assert.equal(label(got, "catelyn", "rickard"), "daughter-in-law");
+assert.equal(label(got, "hoster", "eddard"), "father-in-law", "Catelyn's father");
+assert.equal(label(got, "lysa", "eddard"), "sister-in-law", "Catelyn's sister");
+assert.equal(label(got, "eddard", "lysa"), "brother-in-law");
+assert.equal(label(got, "catelyn", "lyanna"), "sister-in-law");
+
+// Step-relations: Cersei married Robert; Gendry is Robert's son by another, so Cersei is his step-mother.
+assert.equal(label(got, "cersei", "gendry"), "step-mother");
+assert.equal(label(got, "gendry", "cersei"), "step-son");
+assert.equal(relate(got, "gendry", "cersei")!.kind, "step");
+// Robert → Joffrey: Robert is married to Joffrey's mother, but isn't his father in this (book-true) data.
+assert.equal(label(got, "robert", "joffrey"), "step-father");
+
+// Half-uncle / half-nephew: Rhaenys and Aegon are Jon's half-siblings (Rhaegar's children by Elia), so Lyanna's
+// brother Benjen is no relative of theirs — but within Rhaegar's line, Viserys is a full uncle to all three.
+assert.equal(label(got, "viserys", "aegon"), "uncle");
+assert.equal(label(fb, "aegonII", "aegonIII"), "half-uncle", "Aegon II is Rhaenyra's half-brother");
+assert.equal(label(fb, "aegonIII", "aegonII"), "half-nephew");
+// Full siblings are never "half".
+assert.equal(label(got, "robb", "sansa"), "brother");
+
+// Common ancestors: Jon and Daenerys meet at Aerys & Rhaella (the couple), not at anyone above them.
+assert.deepEqual(relate(got, "jon", "daenerys")!.commonAncestors.sort(), ["aerys", "rhaella"]);
+assert.deepEqual(relate(got, "robb", "jon")!.commonAncestors.sort(), ["lyarra", "rickard"]);
+
+// Every route: Aegon III descends from Baelon by two routes (via Daemon, and via Rhaenyra ← Viserys I).
+const routes = relate(fb, "aegonIII", "baelon")!.routes.map((r) => r.label);
+assert.deepEqual(routes, ["grandson", "great-grandson"]);
+assert.equal(relate(got, "jon", "daenerys")!.routes.length, 1, "a single route stays single");
+
+// labelAll ("Relative to" mode) agrees with relate() and covers everyone else.
+const fromJon = labelAll(got, "jon");
+assert.equal(fromJon.size, Object.keys(got.people).length - 1);
+assert.equal(fromJon.get("daenerys"), "aunt");
+assert.equal(fromJon.get("robb"), "first cousin");
+assert.equal(fromJon.get("rhaegar"), "father");
+assert.equal(fromJon.has("jon"), false);
+
+console.log("ok  relationship finder: in-laws, step-relations, half-uncle/nephew, common ancestors, routes, labelAll");

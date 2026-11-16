@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="icon" href="data:," />
         <title>Family Tree</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -48,6 +48,7 @@
                 <input id="rel-b" type="search" list="names" placeholder="Second person" autocomplete="off" />
             </label>
             <p id="rel-result" aria-live="polite"></p>
+            <div id="rel-notes"></div>
             <ol id="rel-steps"></ol>
         </section>
 
@@ -72,7 +73,10 @@
             <h2 id="panel-name"></h2>
             <p id="panel-house"></p>
             <dl id="panel-list"></dl>
-            <p class="panel-actions"><button id="panel-relate">Find how they're related to…</button></p>
+            <p class="panel-actions">
+                <button id="panel-relate">Find how they're related to…</button>
+                <button id="panel-relative-to" aria-pressed="false">Tag everyone's relationship</button>
+            </p>
         </aside>
 
         <nav id="pad" aria-label="Pan the view">

@@ -6,7 +6,7 @@ import { forceZ } from "d3-force-3d";
 import type { Tree } from "./data/schema.ts";
 import { generations } from "./generations.ts";
 import { childLabel, houseDepths, parentLabel, siblingLabel } from "./family.ts";
-import { disposeLabel, nameLabel, relationLabel } from "./labels.ts";
+import { disposeLabel, houseBadge, nameLabel, relationLabel } from "./labels.ts";
 
 export type Node = { id: string; name?: string; house?: string; x?: number; y?: number; z?: number; fy?: number };
 // The library swaps link source/target ids for node objects once the simulation starts.
@@ -50,7 +50,15 @@ export const graph = new ThreeForceGraph<Node, Link>()
         sphere.userData.personId = n.id; // picked by the raycaster for hover/click
         const label = nameLabel(n.name);
         label.position.y = 8;
-        return new THREE.Group().add(sphere, label);
+        label.userData.isName = true;
+        // House badge just below the sphere, and a "relative to" tag above the name (filled in by setRelativeTags).
+        const badge = houseBadge(n.house!, tree.houseColors[n.house!] ?? "#888");
+        badge.position.set(0, -6.2, 0);
+        const tag = relationLabel(" ", "#8fd0b6");
+        tag.position.y = 12;
+        tag.visible = false;
+        tag.userData.isTag = true;
+        return new THREE.Group().add(sphere, label, badge, tag);
     })
     // One material per link. The library otherwise shares one material per colour, so dimming one link dimmed every
     // link of that colour and the last one processed decided them all.
@@ -148,6 +156,7 @@ export function showTree(t: Tree): void {
     for (const l of graph.graphData().links as (Link & Bound)[]) disposeObject(l.__lineObj?.children[1]);
 
     setSiblings(t, new Map(nodes.map((n) => [n.id, n])), pairs);
+    setGuides(rows, y);
     graph.graphData({ nodes, links });
     focus = null;
 }
@@ -155,9 +164,60 @@ export function showTree(t: Tree): void {
 function disposeObject(obj: THREE.Object3D | undefined) {
     obj?.traverse((o) => {
         if (o instanceof SpriteText) return disposeLabel(o);
+        // Shared geometries, the union material and the cached house-badge textures are reused: only free the
+        // per-object material (disposing a SpriteMaterial leaves its shared texture alone).
         const m = (o as THREE.Mesh).material as THREE.Material | undefined;
-        if (m && m !== unionMat) m.dispose(); // shared geometries and the union material are reused
+        if (m && m !== unionMat) m.dispose();
     });
+}
+
+// --- Generation guides: a faint band and a "Generation n" label at each row, so you can tell where you are --------
+const guides = new THREE.Group();
+graph.add(guides);
+const guideMat = new THREE.LineBasicMaterial({ color: 0xc9ad73, transparent: true, opacity: 0.07, depthWrite: false });
+function setGuides(rows: number, y: (g: number) => number) {
+    guides.traverse((o) => o instanceof SpriteText && disposeLabel(o));
+    for (const c of guides.children) if (c instanceof THREE.LineSegments) c.geometry.dispose();
+    guides.clear();
+    for (let g = 0; g <= rows; g++) {
+        // A long horizontal line in the x-z plane at this generation's height (a cross, so it reads from any angle).
+        const L = 600;
+        const geo = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(-L, y(g), 0),
+            new THREE.Vector3(L, y(g), 0),
+            new THREE.Vector3(0, y(g), -L),
+            new THREE.Vector3(0, y(g), L),
+        ]);
+        const line = new THREE.LineSegments(geo, guideMat);
+        line.userData.guideRow = g;
+        const label = relationLabel(`Generation ${g + 1}`, "rgba(201,173,115,.55)");
+        label.backgroundColor = false as unknown as string; // no backing box for these
+        label.userData.guideLabel = true;
+        label.position.set(0, y(g) + 3, 0);
+        guides.add(line, label);
+    }
+}
+export const setGuidesVisible = (on: boolean) => (guides.visible = on);
+
+/**
+ * Box around the people (not union nodes or guides), for framing the camera. Uses the 5th–95th percentile on each
+ * axis, so one stray family off to the side doesn't push the whole view out; padded by a person's radius and label.
+ * Null until the layout has placed anyone.
+ */
+export function peopleBbox(): { x: [number, number]; y: [number, number]; z: [number, number] } | null {
+    const pts = graph.graphData().nodes.filter((n) => n.name && n.x !== undefined);
+    if (!pts.length) return null;
+    const range = (k: "x" | "y" | "z", lo = 0.05, hi = 0.95): [number, number] => {
+        const v = pts.map((n) => n[k]!).sort((a, b) => a - b);
+        const at = (q: number) => v[Math.min(v.length - 1, Math.max(0, Math.round(q * (v.length - 1))))];
+        return [at(lo), at(hi)];
+    };
+    const x = range("x");
+    const z = range("z");
+    // Vertical extent uses every person: generations are few and pinned, so there are no stray rows to ignore, and
+    // cutting the top/bottom row would hide a whole generation. Pad for the name label above and badge below.
+    const y = range("y", 0, 1);
+    return { x: [x[0] - 6, x[1] + 6], y: [y[0] - 9, y[1] + 12], z };
 }
 
 /** Live node for a person (its position is updated by the simulation), if the tree has been laid out. */
@@ -229,7 +289,8 @@ function stepFades(dt: number) {
             const target = (o.userData.dimTarget ?? 1) as number;
             const dim = approach((o.userData.dim ?? 1) as number, target, k);
             o.userData.dim = dim;
-            if (o instanceof SpriteText || o.userData.isLinkLine) return; // labels: fadeLabels(); links: below
+            // Labels are faded by fadeLabels() / stepNames(), link lines below; everything else (spheres, badges) here.
+            if (o instanceof SpriteText || o.userData.isLinkLine) return;
             const m = (o as THREE.Mesh).material as THREE.Material | undefined;
             if (!m || m === (unionMat as THREE.Material)) return;
             m.transparent = true;
@@ -281,10 +342,90 @@ function fadeLabels(camera: THREE.Camera) {
     siblingLabels.forEach(fade);
 }
 
+// --- Name de-overlap ----------------------------------------------------------------------------------------------
+// Names that collide on screen are faded out, keeping the most important one: highlighted people first, then the
+// person nearest the camera. Screen boxes are estimated from the projected label width/height. The layout is
+// recomputed a few times a second (not every frame); visibility then eases, so names fade rather than pop.
+// ponytail: O(n²) box test, fine for the few hundred names a family tree has; use a grid if trees reach thousands.
+const NAME_GAP = 4; // px of clearance kept between name boxes
+let declutterAt = 0;
+const nameShown = new WeakMap<SpriteText, number>(); // target opacity per name (0/1)
+function declutter(camera: THREE.PerspectiveCamera, viewW: number, viewH: number, now: number) {
+    if (now - declutterAt < 150) return;
+    declutterAt = now;
+    type Box = { s: SpriteText; x0: number; x1: number; y0: number; y1: number; prio: number };
+    const boxes: Box[] = [];
+    const p = new THREE.Vector3();
+    const edge = new THREE.Vector3();
+    for (const n of graph.graphData().nodes as (Node & Bound)[]) {
+        const g = n.__threeObj;
+        const s = g?.children.find((c) => c.userData.isName) as SpriteText | undefined;
+        if (!s) continue;
+        s.getWorldPosition(p);
+        const depth = p.distanceTo(camera.position);
+        edge.copy(p).project(camera);
+        if (edge.z > 1) continue; // behind the camera
+        const cx = ((edge.x + 1) / 2) * viewW;
+        const cy = ((1 - edge.y) / 2) * viewH;
+        // World size of the sprite → pixels at this depth.
+        const pxPerUnit = viewH / (2 * depth * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2));
+        const w = s.scale.x * pxPerUnit;
+        const h = s.scale.y * pxPerUnit;
+        const lit = (g!.userData.dimTarget ?? 1) === 1 && focus !== null;
+        boxes.push({
+            s,
+            x0: cx - w / 2,
+            x1: cx + w / 2,
+            y0: cy - h / 2,
+            y1: cy + h / 2,
+            prio: (lit ? 1e6 : 0) - depth,
+        });
+    }
+    boxes.sort((a, b) => b.prio - a.prio);
+    const placed: Box[] = [];
+    for (const b of boxes) {
+        const hit = placed.some(
+            (o) => b.x0 < o.x1 + NAME_GAP && b.x1 > o.x0 - NAME_GAP && b.y0 < o.y1 + NAME_GAP && b.y1 > o.y0 - NAME_GAP
+        );
+        nameShown.set(b.s, hit ? 0 : 1);
+        if (!hit) placed.push(b);
+    }
+}
+function stepNames(dt: number) {
+    const k = 1 - Math.exp(-12 * dt);
+    for (const n of graph.graphData().nodes as (Node & Bound)[]) {
+        const s = n.__threeObj?.children.find((c) => c.userData.isName) as SpriteText | undefined;
+        if (!s) continue;
+        const shown = (s.userData.shown = approach((s.userData.shown ?? 1) as number, nameShown.get(s) ?? 1, k));
+        s.material.transparent = true;
+        s.material.opacity = shown * ((n.__threeObj!.userData.dim ?? 1) as number);
+        s.visible = s.material.opacity > 0.02;
+    }
+}
+
+// --- "Relative to" tags: a small label above each person saying how they relate to the centre person ------------
+export function setRelativeTags(labels: Map<string, string | null> | null): void {
+    for (const n of graph.graphData().nodes as (Node & Bound)[]) {
+        const tag = n.__threeObj?.children.find((c) => c.userData.isTag) as SpriteText | undefined;
+        if (!tag) continue;
+        const text = labels?.get(n.id) ?? null;
+        tag.visible = !!text;
+        if (text && tag.text !== text) tag.text = text;
+    }
+}
+
 /** Advance the simulation, highlight fades and overlays by one frame. */
-export function stepGraph(camera: THREE.Camera, dt: number): void {
+export function stepGraph(
+    camera: THREE.PerspectiveCamera,
+    dt: number,
+    now: number,
+    viewW: number,
+    viewH: number
+): void {
     graph.tickFrame();
     updateSiblings();
     stepFades(dt);
     fadeLabels(camera);
+    declutter(camera, viewW, viewH, now);
+    stepNames(dt);
 }

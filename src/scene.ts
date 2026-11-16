@@ -2,6 +2,10 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 
 /** True if this browser can create a WebGL2 context (three.js r163+ requires WebGL2). */
 export function hasWebGL(): boolean {
@@ -44,6 +48,16 @@ rim.position.set(2, 1, -3);
 scene.add(new THREE.HemisphereLight(0xfff4e0, 0x0a0a12, 0.22), key, rim);
 // A faint radial vignette behind the tree: depth cue and a less flat black. Drawn as the scene background.
 scene.background = vignette();
+// Depth fog towards the background colour: far people fade back, near ones stay crisp. Its range follows the camera
+// (see updateFog), so it works the same for the whole-tree view and close-ups.
+const fog = new THREE.Fog(0x0b0a10, 200, 900);
+scene.fog = fog;
+/** Keep the fog band just behind what you're looking at: starts a little past the orbit target. */
+export function updateFog(): void {
+    const d = camera.position.distanceTo(controls.target);
+    fog.near = d * 0.9;
+    fog.far = d * 2.4 + 120;
+}
 
 // 50° keeps perspective (and so pan parallax) visible without fish-eye distortion at the tree edges.
 export const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 1, 5000);
@@ -53,11 +67,48 @@ export const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.saveState();
 
-addEventListener("resize", () => {
+// --- Glow (bloom) ---------------------------------------------------------------------------------------------------
+// A soft bloom so the gold relationship path and lit spheres glow. It's a few full-screen passes per frame, so it is
+// optional: on by default on desktops, off on phones/tablets (coarse pointer) where GPU and battery matter more.
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.55, 0.6, 0.78); // strength, radius, threshold
+composer.addPass(bloom);
+composer.addPass(new OutputPass()); // tone mapping + sRGB, which the composer otherwise skips
+export let glow = !matchMedia("(pointer: coarse)").matches;
+export const setGlow = (on: boolean) => (glow = on);
+
+/**
+ * Draw one frame, with or without the glow pass. OutputPass applies tone mapping itself, so the renderer's own tone
+ * mapping is switched off while the composer runs (otherwise the image is tone-mapped twice and looks washed out).
+ */
+export function draw(): void {
+    if (glow) {
+        renderer.toneMapping = THREE.NoToneMapping;
+        composer.render();
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    } else renderer.render(scene, camera);
+}
+
+/** Size the renderer and composer to the window at `ratio` device pixels per CSS pixel. */
+function setRenderSize(ratio: number, updateStyle = true) {
+    renderer.setPixelRatio(ratio);
+    renderer.setSize(innerWidth, innerHeight, updateStyle);
+    composer.setPixelRatio(ratio);
+    composer.setSize(innerWidth, innerHeight);
+}
+// Phones have dense screens; 2× is plenty and keeps the fill rate manageable.
+const screenRatio = () => Math.min(devicePixelRatio, 2);
+
+function resize() {
     camera.aspect = innerWidth / innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth, innerHeight);
-});
+    setRenderSize(screenRatio());
+}
+addEventListener("resize", resize);
+// Mobile browsers resize the visual viewport (URL bar showing/hiding, on-screen keyboard) without always firing
+// window resize; follow it too so the canvas never ends up stretched or cut off.
+visualViewport?.addEventListener("resize", resize);
 
 // Losing the GPU context (driver reset, too many tabs) would otherwise freeze the view silently.
 renderer.domElement.addEventListener("webglcontextlost", (e) => {
@@ -91,20 +142,18 @@ function vignette(): THREE.Texture {
  * `overlay` draws on top of the copy (title, credits) before encoding.
  */
 export async function captureView(scale = 2, overlay?: (g: CanvasRenderingContext2D, width: number) => void) {
-    const size = renderer.getSize(new THREE.Vector2());
     const ratio = renderer.getPixelRatio();
-    const target = Math.min(ratio * scale, 4);
+    // Phones cap lower: a 4× buffer on a high-DPI phone can exceed the GPU's maximum texture size.
+    const target = Math.min(ratio * scale, matchMedia("(pointer: coarse)").matches ? 3 : 4);
     const copy = document.createElement("canvas");
     try {
-        renderer.setPixelRatio(target);
-        renderer.setSize(size.x, size.y, false);
-        renderer.render(scene, camera);
+        setRenderSize(target, false); // don't change the on-screen CSS size, only the buffer
+        draw(); // same look as the screen, glow included
         copy.width = renderer.domElement.width;
         copy.height = renderer.domElement.height;
         copy.getContext("2d")!.drawImage(renderer.domElement, 0, 0); // same task as render(): buffer still intact
     } finally {
-        renderer.setPixelRatio(ratio);
-        renderer.setSize(size.x, size.y, false);
+        setRenderSize(ratio, false);
     }
     overlay?.(copy.getContext("2d")!, copy.width);
     const blob = await new Promise<Blob | null>((resolve) => copy.toBlob(resolve, "image/png"));

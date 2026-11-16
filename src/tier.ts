@@ -103,11 +103,7 @@ export type Quality = {
     nebulaMipmaps: boolean;
     sphereSegments: [number, number]; // person sphere detail
     labelDeclutterMs: number; // how often to re-run the name overlap pass
-    maxLabels: number; // most relationship labels kept visible at once (nearest win)
     idleFps: number; // frame rate once nothing is moving (battery)
-    // High-tier extras (visual fidelity, see app/scene):
-    shimmer: boolean; // gentle twinkle on the highlighted path
-    softShadows: boolean; // contact-shadow discs under each person
 };
 
 export const QUALITY: Record<Tier, Quality> = {
@@ -121,10 +117,7 @@ export const QUALITY: Record<Tier, Quality> = {
         nebulaMipmaps: false,
         sphereSegments: [20, 12],
         labelDeclutterMs: 300,
-        maxLabels: 40,
         idleFps: 10,
-        shimmer: false,
-        softShadows: false,
     },
     medium: {
         pixelRatio: 2,
@@ -136,10 +129,7 @@ export const QUALITY: Record<Tier, Quality> = {
         nebulaMipmaps: true,
         sphereSegments: [32, 18],
         labelDeclutterMs: 180,
-        maxLabels: 90,
         idleFps: 20,
-        shimmer: false,
-        softShadows: true,
     },
     high: {
         pixelRatio: 2,
@@ -151,10 +141,7 @@ export const QUALITY: Record<Tier, Quality> = {
         nebulaMipmaps: true,
         sphereSegments: [48, 24],
         labelDeclutterMs: 120,
-        maxLabels: 200,
         idleFps: 30,
-        shimmer: true,
-        softShadows: true,
     },
 };
 

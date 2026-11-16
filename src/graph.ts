@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { forceZ } from "d3-force-3d";
 import ThreeForceGraph from "three-forcegraph";
 import SpriteText from "three-spritetext";
+import { quality } from "./device.ts";
 import type { Tree } from "./data/schema.ts";
 import { childLabel, houseDepths, parentLabel, siblingLabel } from "./family.ts";
 import { generations } from "./generations.ts";
@@ -29,7 +30,9 @@ const FADE_RATE = 10; // highlight fades converge at this rate per second (≈ 0
 const LABEL_NEAR = 110; // relationship labels are fully visible within this distance of the camera…
 const LABEL_FAR = 240; // …and hidden beyond this one
 
-const personGeo = new THREE.SphereGeometry(4, 48, 24);
+// Detail per tier (device.ts): 48×24 ≈ 2,300 triangles per person on high, 20×12 ≈ 480 on low: a 5× saving for old
+// GPUs, with no visible difference at the size spheres appear on a phone.
+const personGeo = new THREE.SphereGeometry(4, ...quality.sphereSegments);
 const unionGeo = new THREE.SphereGeometry(1.2, 12, 6);
 const unionMat = new THREE.MeshBasicMaterial({ color: palette().union });
 const siblingMat = new THREE.LineDashedMaterial({
@@ -91,6 +94,14 @@ export const graph = new ThreeForceGraph<Node, Link>()
 
 // Unbounded repulsion drives disconnected families apart forever; cap its range so the tree stays compact.
 graph.d3Force("charge")!.distanceMax(120);
+
+// CONVERGENCE. The library defaults are cooldownTicks = Infinity and cooldownTime = 15 s, so every saga load ran
+// the physics (and, through auto-fit, moved the camera and forced full-rate rendering) for 15 seconds: measured
+// nodes still drifting 3 units/s at 12 s. With heights pinned per generation and a weak depth pull there's little
+// left to solve, so cool faster (alphaDecay 0.045 ≈ 150 ticks to rest vs d3's 300), damp more so it doesn't wobble
+// while settling, and stop hard at 300 ticks or 5 s, whichever comes first. Once stopped, nothing moves, so the
+// frame loop's idle throttling (app.ts) can take over. Interaction never needs the simulation running.
+graph.d3AlphaDecay(0.045).d3VelocityDecay(0.5).cooldownTicks(300).cooldownTime(5000);
 // Depth for parallax: pull each house towards its own z plane, so panning moves near families faster than far ones.
 // A weak pull (strength < 1), so links and repulsion still shape the layout.
 graph.d3Force(
@@ -367,7 +378,7 @@ const NAME_GAP = 4; // px of clearance kept between name boxes
 let declutterAt = 0;
 const nameShown = new WeakMap<SpriteText, number>(); // target opacity per name (0/1)
 function declutter(camera: THREE.PerspectiveCamera, viewW: number, viewH: number, now: number) {
-    if (now - declutterAt < 150) return;
+    if (now - declutterAt < quality.labelDeclutterMs) return;
     declutterAt = now;
     type Box = { s: SpriteText; x0: number; x1: number; y0: number; y1: number; prio: number };
     const boxes: Box[] = [];

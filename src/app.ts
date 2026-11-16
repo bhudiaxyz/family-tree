@@ -673,7 +673,9 @@ function fingerprint(): string {
     const c = camera.position;
     const t = controls.target;
     const nodes = graph.graphData().nodes;
-    let s = `${c.x.toFixed(2)},${c.y.toFixed(2)},${c.z.toFixed(2)},${t.x.toFixed(2)},${t.y.toFixed(2)},${t.z.toFixed(2)}`;
+    // One decimal place: positions span hundreds of units, and OrbitControls damping / auto-fit easing converge
+    // asymptotically (measured 0.008 units/s at rest), so finer rounding kept waking the loop for invisible motion.
+    let s = `${c.x.toFixed(1)},${c.y.toFixed(1)},${c.z.toFixed(1)},${t.x.toFixed(1)},${t.y.toFixed(1)},${t.z.toFixed(1)}`;
     // A stride through the nodes is enough to see the layout still settling; checking all of them isn't needed.
     for (let i = 0; i < nodes.length; i += Math.max(1, nodes.length >> 3)) s += `|${nodes[i].x?.toFixed(1)}`;
     return s;

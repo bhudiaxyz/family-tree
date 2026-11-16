@@ -71,7 +71,7 @@ assert.equal(tier("WebKit WebGL"), "medium", "nothing known: medium");
 
 // The quality table is monotonic: higher tiers never cost less than lower ones on any axis.
 const order = ["low", "medium", "high"] as const;
-for (const k of ["pixelRatio", "bloomScale", "nebulaSize", "nebulaOctaves", "maxLabels", "idleFps"] as const)
+for (const k of ["pixelRatio", "bloomScale", "nebulaSize", "nebulaOctaves", "idleFps"] as const)
     for (let i = 1; i < 3; i++)
         assert.ok(
             QUALITY[order[i]][k] >= QUALITY[order[i - 1]][k],

@@ -47,14 +47,15 @@ The saga data is static JSON in [public/data/](public/data/):
 ```
 public/data/
 ├── sagas.json            the manifest: every saga, in drop-down order
-├── fiction/              one folder per category: fiction, history, mythology
+├── fiction/              one folder per category: fiction, history, mythology, religion
 │   ├── got.json
 │   └── …
 ├── history/              historical families
-└── mythology/            pantheons
+├── mythology/            pantheons
+└── religion/             religious genealogies
 ```
 
-Each saga's `category` in `sagas.json` (`fiction`, `history` or `mythology`) says which folder its file is in. Vite copies the whole folder to `dist/data/`, so GitHub Pages or any static host serves it alongside the app with no extra setup.
+Each saga's `category` in `sagas.json` (`fiction`, `history`, `mythology` or `religion`) says which folder its file is in. Vite copies the whole folder to `dist/data/`, so GitHub Pages or any static host serves it alongside the app with no extra setup.
 
 To load data from somewhere else, such as an object store bucket (S3, Azure Blob, GCS) or an API in front of a database, set `VITE_DATA_URL` at build time:
 
@@ -194,16 +195,19 @@ The in-app **Import GEDCOM** button shows a file for the current visit only. To 
 ```sh
 npm run import:gedcom -- "English+Tudor+Royal+Family.ged" --id english-royal --category history --title "English Royal Family (Tudors)"
 npm run import:gedcom -- "Greek+Gods.ged" --id greek-gods --category mythology --title "Greek Gods" --names mythology --house "Greek pantheon" --genre Mythology
+npm run import:gedcom -- "Bible+Family+Tree.ged" --id bible --category religion --title "The Bible" --house Bible --color "#c9ad73" --genre Religion --rename scripts/gedcom-renames/bible.json
 npm run db:seed    # then refresh the database seed
 ```
 
-| Option                          | Meaning                                                                                                                                                                                                |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `--id`, `--title`, `--category` | The saga's id (lower-case letters, digits, hyphens), its menu title, and its folder.                                                                                                                   |
-| `--names person` (default)      | Names are "Given Surname". Monarchs are shown by regnal name, e.g. `Henry VIII` rather than `Henry Tudor`. Titles and dates are left out to keep names clean.                                          |
-| `--names mythology`             | For deity files, which put the god's name in the surname slot and a description in front ("queen of the Gods /Hera/"): the description is dropped and real two-part names ("Numa Pompilius") are kept. |
-| `--house`                       | Put everyone in one house (e.g. a pantheon), instead of one house per surname.                                                                                                                         |
-| `--genre`                       | The saga's genre (default `History`).                                                                                                                                                                  |
+| Option                          | Meaning                                                                                                                                                                                                                                                                                                          |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--id`, `--title`, `--category` | The saga's id (lower-case letters, digits, hyphens), its menu title, and its folder.                                                                                                                                                                                                                             |
+| `--names person` (default)      | Names are "Given Surname". Monarchs are shown by regnal name, e.g. `Henry VIII` rather than `Henry Tudor`. Titles and dates are left out to keep names clean.                                                                                                                                                    |
+| `--names mythology`             | For deity files, which put the god's name in the surname slot and a description in front ("queen of the Gods /Hera/"): the description is dropped and real two-part names ("Numa Pompilius") are kept.                                                                                                           |
+| `--house`                       | Put everyone in one house (e.g. a pantheon), instead of one house per surname.                                                                                                                                                                                                                                   |
+| `--color`                       | The colour for that one house (default a strong red).                                                                                                                                                                                                                                                            |
+| `--genre`                       | The saga's genre (default `History`).                                                                                                                                                                                                                                                                            |
+| `--rename <file.json>`          | Corrections for names the file writes badly, keyed by GEDCOM record id: `"I364": ["King David of Judah and Israel", "david"]` sets the display name and the person's id (used in links). The importer stops if an id isn't in the file or a chosen id is already taken. See `scripts/gedcom-renames/bible.json`. |
 
 The importer handles GEDCOM 5.5 to 7 and both UTF-8 and older "ANSI" (Windows-1252) files. Unrecorded first names ("... Tudor") become "(unnamed son) Tudor". People with no recorded relatives are kept, on their own. Anything it couldn't resolve, such as a link to someone the file never defines, is listed in the saga's notes.
 

@@ -1,7 +1,9 @@
 // Convert a GEDCOM file into a saga data file (SagaFile JSON, families inline) for public/data/<category>/<id>.json, and add it to
 // sagas.json. Repeatable: re-running replaces the saga's file and manifest entry.
 //
-//   npm run import:gedcom -- <file.ged> --id english-royal --category history --title "English Royal Family (Tudors)"
+//   npm run import:gedcom -- <file.ged | https://…> --id english-royal --category history --title "English Royal Family (Tudors)"
+//
+// The input can be a local path or an https:// URL; a GitHub page link is fetched as its raw file (gedcom-source.mts).
 //
 // The app's own parser (src/data/gedcom.ts) builds the family structure; this script adds what a *stored* saga needs
 // and the in-browser import doesn't: clean display names (a monarch by their regnal name, everyone else by name only),
@@ -20,6 +22,7 @@ import {
 } from "../src/data/schema.ts";
 import { parseGedcom } from "../src/data/gedcom.ts";
 import { displayName as nameFor, type NameMode } from "./gedcom-names.mts";
+import { readSource, sourceName } from "./gedcom-source.mts";
 
 // --- Arguments ----------------------------------------------------------------------------------------------------
 const args = process.argv.slice(2);
@@ -54,7 +57,7 @@ const renames = new Map(renameEntries.map(([k, v]) => [k, v[0]]));
 const renameIds = new Map(renameEntries.filter(([, v]) => v[1]).map(([k, v]) => [k, v[1]!]));
 if (!file || !id || !category || !title)
     throw new Error(
-        `usage: gedcom-to-saga <file.ged> --id <id> --category <${CATEGORIES.join("|")}> --title "<title>" [--names person|mythology] [--house "<name>" [--color "<css>"]] [--genre "<text>"] [--rename <file.json>]`
+        `usage: gedcom-to-saga <file.ged | https://url> --id <id> --category <${CATEGORIES.join("|")}> --title "<title>" [--names person|mythology] [--house "<name>" [--color "<css>"]] [--genre "<text>"] [--rename <file.json>]`
     );
 if (!CATEGORIES.includes(category)) throw new Error(`--category must be one of ${CATEGORIES.join(", ")}`);
 if (!/^[a-z0-9-]+$/.test(id)) throw new Error("--id must be lower-case letters, digits and hyphens");
@@ -62,7 +65,8 @@ if (!/^[a-z0-9-]+$/.test(id)) throw new Error("--id must be lower-case letters, 
 // --- Decode: GEDCOM 5.5 files are often "ANSI" (Windows-1252), not UTF-8 ------------------------------------------
 // Decoding a Windows-1252 file as UTF-8 would turn accented names into replacement characters, so try strict UTF-8
 // first and fall back to Windows-1252 (a superset of Latin-1) if the bytes aren't valid UTF-8.
-const raw = fs.readFileSync(file);
+const raw = await readSource(file);
+const fileName = sourceName(file); // "Babylonian+Gods.ged", for the notes, whether local or downloaded
 let text: string;
 let encoding: string;
 try {
@@ -120,7 +124,7 @@ function bestTitle(indi: Rec): string | null {
 const { tree, warnings } = parseGedcom(text, title);
 const indis = new Map(recs.filter((r) => r.tag === "INDI" && r.xref).map((r) => [r.xref!.replace(/@/g, ""), r]));
 for (const gid of renames.keys())
-    if (!indis.has(gid)) throw new Error(`--rename: no INDI record ${gid} in ${path.basename(file)}`);
+    if (!indis.has(gid)) throw new Error(`--rename: no INDI record ${gid} in ${fileName}`);
 
 // Display name from the raw NAME and the person's own TITL values, by the tested rules in gedcom-names.mts (clean
 // names; monarchs by regnal name; "(unnamed son)" placeholders; mythology mode for deity files).
@@ -240,7 +244,7 @@ const saga: SagaRecord = {
     title,
     source: {
         work: title,
-        medium: `GEDCOM genealogy (${path.basename(file)})`,
+        medium: `GEDCOM genealogy (${fileName})`,
         // A SUBM record without a NAME (the Roman gods file) would read "Compiled by unknown"; say it plainly instead.
         author:
             submitter && child(submitter, "NAME")?.value
@@ -251,7 +255,7 @@ const saga: SagaRecord = {
         covers: `${people.length} people and ${families.length} families, imported from a public GEDCOM sample.`,
     },
     notes: [
-        `Imported from ${path.basename(file)} (${encoding}; ${app?.value ?? "unknown software"}${app && child(app, "VERS") ? " " + child(app, "VERS")!.value : ""}; file dated ${child(head ?? { tag: "", value: "", children: [] }, "DATE")?.value ?? "unknown"}) by scripts/gedcom-to-saga.mts.`,
+        `Imported from ${fileName} (${encoding}; ${app?.value ?? "unknown software"}${app && child(app, "VERS") ? " " + child(app, "VERS")!.value : ""}; file dated ${child(head ?? { tag: "", value: "", children: [] }, "DATE")?.value ?? "unknown"}) by scripts/gedcom-to-saga.mts.`,
         nameMode === "mythology"
             ? 'Names are read in mythology mode: the deity\'s name is the GEDCOM surname part, and descriptive text in the given-name part (e.g. "queen of the Gods") is dropped.'
             : "Display names are the person's name only; a monarch is shown by their regnal name (e.g. King Henry VIII). Titles, title dates and life dates are not imported.",

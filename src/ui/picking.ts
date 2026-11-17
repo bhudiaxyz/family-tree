@@ -1,10 +1,12 @@
 // Picking people on the canvas: hover highlights (mouse only), click/tap selects, double tap flies, long press previews.
 import * as THREE from "three";
-import { drawnZ, graph } from "../graph.ts";
+import { drawnZ, graph, isShown, type Node } from "../graph.ts";
 import { camera, renderer } from "../scene.ts";
-import { relatePanel } from "./dom.ts";
+import { $, relatePanel } from "./dom.ts";
+import { relate } from "../relationship.ts";
 import { deselect, select } from "./panel.ts";
 import { fillRelate } from "./relate.ts";
+import { setHouse } from "./legend.ts";
 import { refreshHighlight, state } from "./state.ts";
 
 const raycaster = new THREE.Raycaster();
@@ -24,7 +26,7 @@ function pick(e: PointerEvent | MouseEvent): string | null {
     raycaster.setFromCamera(pointer, camera);
     for (const hit of raycaster.intersectObject(graph, true)) {
         const id = hit.object.userData.personId as string | undefined;
-        if (id) return id;
+        if (id && hit.object.visible) return id; // the raycaster doesn't skip hidden (focus mode) objects itself
     }
     return null;
 }
@@ -34,7 +36,7 @@ function nearestOnScreen(x: number, y: number, radius: number): string | null {
     let best: string | null = null;
     let bestD = radius;
     for (const n of graph.graphData().nodes) {
-        if (!n.name || n.x === undefined) continue;
+        if (!n.name || n.x === undefined || !isShown(n as Node)) continue;
         projected.set(n.x, n.y!, drawnZ(n.z!)).project(camera);
         if (projected.z > 1) continue; // behind the camera
         const d = Math.hypot(((projected.x + 1) / 2) * innerWidth - x, ((1 - projected.y) / 2) * innerHeight - y);
@@ -77,6 +79,7 @@ canvas.addEventListener("pointerdown", (e) => {
             if (!id || state.relPair) return;
             state.hovered = id; // long-press preview of this person's line
             refreshHighlight();
+            showCard(id, e.clientX, e.clientY);
             navigator.vibrate?.(10);
         }, HOLD_MS);
     }
@@ -87,8 +90,10 @@ const endPointer = (e: PointerEvent) => {
 };
 canvas.addEventListener("pointercancel", (e) => {
     endPointer(e);
+    hideCard();
     downAt = null;
 });
+canvas.addEventListener("pointerleave", (e) => e.pointerType === "mouse" && hideCard());
 addEventListener("pointerup", () => setTimeout(() => (downAt = null)));
 canvas.addEventListener("pointermove", (e) => {
     // Moving past the slop cancels the long-press (it's a drag).
@@ -97,6 +102,8 @@ canvas.addEventListener("pointermove", (e) => {
     if (e.pointerType !== "mouse" || e.buttons) return; // hover is mouse-only; touch uses long-press
     const id = pick(e);
     canvas.style.cursor = id ? "pointer" : "";
+    if (id) showCard(id, e.clientX, e.clientY);
+    else hideCard();
     if (id !== state.hovered) {
         state.hovered = id;
         if (!state.relPair) refreshHighlight(); // hover doesn't disturb a relationship being shown
@@ -108,6 +115,7 @@ canvas.addEventListener("pointerup", (e) => {
     if (!start || start.multi || active.size) return;
     if (Math.hypot(e.clientX - start.x, e.clientY - start.y) > (TAP_SLOP[start.type] ?? 8)) return;
     // End a touch long-press preview on release.
+    if (start.type !== "mouse") hideCard();
     if (start.type !== "mouse" && state.hovered && !state.selected) {
         state.hovered = null;
         refreshHighlight();
@@ -121,4 +129,53 @@ canvas.addEventListener("pointerup", (e) => {
     if (id)
         select(id, double); // a double tap / double click flies to them
     else if (state.selected) deselect();
+    else if (state.house) setHouse(null); // clicking empty space also clears a house picked in the legend
 });
+
+// --- Hover card: who this is, and how they're related to the selected person ----------------------------------------
+// Answers "how is this person related to me?" without switching on tags for the whole tree. Follows the mouse; on
+// touch it shows during a long press. The relationship comes from relate(), the same as the finder's headline.
+const card = $("hovercard");
+let cardFor = "";
+function showCard(id: string, x: number, y: number) {
+    const { tree, selected } = state;
+    if (!tree) return;
+    if (cardFor !== id) {
+        cardFor = id;
+        const p = tree.people[id];
+        const rel = selected && selected !== id ? relate(tree, id, selected) : null;
+        const name = Object.assign(document.createElement("strong"), { textContent: p.name });
+        const house = Object.assign(document.createElement("span"), { className: "card-house", textContent: p.house });
+        house.style.color = tree.houseColors[p.house] ?? "";
+        const parts: (string | globalThis.Node)[] = [name, house];
+        if (rel?.label) {
+            const how = document.createElement("span");
+            how.className = "card-rel";
+            how.textContent = `${rel.label} of ${tree.people[selected!].name}`;
+            parts.push(how);
+        } else if (selected && selected !== id) {
+            // No short name for it (a distant or in-law connection): say so plainly, the finder has the full chain.
+            const how = document.createElement("span");
+            how.className = "card-rel";
+            how.textContent = rel
+                ? `related to ${tree.people[selected].name} (see "How are they related?")`
+                : `not related to ${tree.people[selected].name}`;
+            parts.push(how);
+        }
+        card.replaceChildren(...parts);
+    }
+    card.hidden = false;
+    // Beside the pointer, flipped to stay on screen; above a finger so it isn't hidden under it.
+    const touch = state.hovered === id && downAt?.type === "touch";
+    const w = card.offsetWidth;
+    const h = card.offsetHeight;
+    const left = x + 16 + w > innerWidth ? x - 16 - w : x + 16;
+    const top = touch ? y - h - 40 : y + 16 + h > innerHeight ? y - 16 - h : y + 16;
+    card.style.transform = `translate(${Math.max(4, left)}px, ${Math.max(4, top)}px)`;
+}
+function hideCard() {
+    card.hidden = true;
+    cardFor = "";
+}
+/** Refresh the card's text after the selection changes (its relationship is to the selected person). */
+export const resetCard = () => (cardFor = "");

@@ -1,7 +1,16 @@
 // Unit tests for src/family.ts against real saga data, so the expectations are facts about the stories.
 import assert from "node:assert/strict";
 import type { Tree } from "../src/data/schema.ts";
-import { childLabel, findByName, houseDepths, lineage, parentLabel, relatives, siblingLabel } from "../src/family.ts";
+import {
+    childLabel,
+    findByName,
+    houseDepths,
+    lineage,
+    lineageRoles,
+    parentLabel,
+    relatives,
+    siblingLabel,
+} from "../src/family.ts";
 import { treeById } from "./data.mts";
 
 const saga = (id: string): Tree => treeById(id);
@@ -17,6 +26,13 @@ for (const id of ["tywin", "cersei", "elia", "robb"]) assert.ok(!jon.has(id), `$
 // Spouses are included (so the marriage stays visible), descendants too.
 const ned = lineage(got, "eddard");
 for (const id of ["catelyn", "robb", "sansa", "arya", "bran", "rickon", "rickard"]) assert.ok(ned.has(id), id);
+// lineageRoles: side and generation distance, used to tint and fade the highlight.
+const nedRoles = lineageRoles(got, "eddard");
+assert.deepEqual(nedRoles.get("eddard"), { side: "self", distance: 0 });
+assert.deepEqual(nedRoles.get("rickard"), { side: "ancestor", distance: 1 });
+assert.deepEqual(nedRoles.get("arya"), { side: "descendant", distance: 1 });
+assert.deepEqual(nedRoles.get("catelyn"), { side: "spouse", distance: 0 });
+assert.deepEqual(lineageRoles(got, "jon").get("aerys"), { side: "ancestor", distance: 2 });
 
 // relatives: grouping and adoptive labels.
 const rel = (t: Tree, id: string) => Object.fromEntries(relatives(t, id));

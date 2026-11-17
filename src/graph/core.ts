@@ -32,8 +32,33 @@ export const LINK_OPACITY = 0.45; // resting opacity of family links (the librar
 // Detail per tier (device.ts): 48×24 ≈ 2,300 triangles per person on high, 20×12 ≈ 480 on low: a 5× saving for old
 // GPUs, with no visible difference at the size spheres appear on a phone.
 const personGeo = new THREE.SphereGeometry(4, ...quality.sphereSegments);
-const unionGeo = new THREE.SphereGeometry(1.2, 12, 6);
+const unionGeo = new THREE.SphereGeometry(0.9, 12, 6);
 const dotGeo = new THREE.SphereGeometry(0.6, 4, 4); // link particles
+
+// A thin ring, drawn once and shared: around union (marriage) nodes so couples read at a glance, and around people on
+// a relationship path, a shape cue that doesn't depend on colour.
+let ringTex: THREE.CanvasTexture | null = null;
+function ringTexture(): THREE.CanvasTexture {
+    if (ringTex) return ringTex;
+    const c = document.createElement("canvas");
+    c.width = c.height = 64;
+    const g = c.getContext("2d")!;
+    g.lineWidth = 5;
+    g.strokeStyle = "#fff";
+    g.beginPath();
+    g.arc(32, 32, 27, 0, Math.PI * 2);
+    g.stroke();
+    ringTex = new THREE.CanvasTexture(c);
+    ringTex.colorSpace = THREE.SRGBColorSpace;
+    return ringTex;
+}
+function ring(colour: THREE.ColorRepresentation, size: number, opacity: number): THREE.Sprite {
+    const s = new THREE.Sprite(
+        new THREE.SpriteMaterial({ map: ringTexture(), color: colour, transparent: true, opacity, depthWrite: false })
+    );
+    s.scale.setScalar(size);
+    return s;
+}
 
 let tree: Tree;
 let houseZ = new Map<string, number>();
@@ -45,8 +70,16 @@ export function useTree(t: Tree): void {
 
 export const graph = new ThreeForceGraph<Node, Link>()
     .nodeThreeObject((n) => {
-        // Union (marriage) nodes get their own material too, so they can fade with the highlight like people do.
-        if (!n.name) return new THREE.Mesh(unionGeo, new THREE.MeshBasicMaterial({ color: palette().union }));
+        // Union (marriage) nodes: a small dot in a ring. Their own materials, so they fade with the highlight; the
+        // group is scaled up by highlight.ts while its couple is lit.
+        if (!n.name) {
+            const dot = new THREE.Mesh(unionGeo, new THREE.MeshBasicMaterial({ color: palette().union }));
+            const unionRing = ring(palette().union, 3.6, 0.45);
+            unionRing.userData.isUnionRing = true; // only the ring grows when the couple is lit, not the dot
+            const group = new THREE.Group().add(dot, unionRing);
+            group.userData.isUnion = true;
+            return group;
+        }
         // Matte, satin-like surface: high roughness spreads the highlight wide and soft, so the form reads from the
         // light-to-shadow gradient (see the key/fill balance in scene.ts) rather than from a glossy hotspot.
         const mat = new THREE.MeshStandardMaterial({
@@ -66,7 +99,12 @@ export const graph = new ThreeForceGraph<Node, Link>()
         tag.position.y = 12;
         tag.visible = false;
         tag.userData.isTag = true;
-        return new THREE.Group().add(sphere, label, badge, tag);
+        // Ring around the person while they're on a relationship path (faded in by highlight.ts; starts hidden).
+        const pathRing = ring(palette().links.pathGlow, 12, 0.9);
+        pathRing.userData.isPathRing = true;
+        pathRing.userData.dim = pathRing.userData.dimTarget = 0;
+        pathRing.visible = false;
+        return new THREE.Group().add(sphere, label, badge, tag, pathRing);
     })
     // One material per link. The library otherwise shares one material per colour, so dimming one link dimmed every
     // link of that colour and the last one processed decided them all.
@@ -116,6 +154,9 @@ graph.d3Force(
 /** The library's node and link data, with the three.js objects it has bound to each. */
 export const boundNodes = () => graph.graphData().nodes as (Node & Bound)[];
 export const boundLinks = () => graph.graphData().links as (Link & Bound)[];
+
+/** False for a person hidden by focus mode (their target opacity is 0): skipped by picking, framing and labels. */
+export const isShown = (n: Node & Bound) => (n.__threeObj?.userData.dimTarget ?? 1) > 0;
 
 /** A person's name label (the sprite above their sphere), if their object has been built. */
 export const nameOf = (n: Node & Bound) =>

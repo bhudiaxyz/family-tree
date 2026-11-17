@@ -2,14 +2,18 @@
 import { type Dir, fitTree, holdPan, nudgeRotate, releaseAllPans, releasePan } from "../camera.ts";
 import { relatePanel, search } from "./dom.ts";
 import { savePng } from "./files.ts";
-import { deselect } from "./panel.ts";
+import { deselect, goBack, setFocus, stepToRelative } from "./panel.ts";
 import { closeRelate, toggleRelate } from "./relate.ts";
+import { setHouse } from "./legend.ts";
 import { state } from "./state.ts";
 
 // --- Keyboard -------------------------------------------------------------------------------------------------------
 const KEY_DIR: Record<string, Dir> = { ArrowLeft: "left", ArrowRight: "right", ArrowUp: "up", ArrowDown: "down" };
 const typing = () => document.activeElement instanceof HTMLInputElement;
 addEventListener("keydown", (e) => {
+    // Alt + arrows: move to a relative of the selected person (up: parent, down: child, left/right: sibling).
+    if (e.altKey && !typing() && KEY_DIR[e.key] && state.selected)
+        return (e.preventDefault(), stepToRelative(KEY_DIR[e.key]));
     if (typing() || e.ctrlKey || e.metaKey || e.altKey) {
         if (!typing() && KEY_DIR[e.key] && (e.ctrlKey || e.metaKey)) (e.preventDefault(), nudgeRotate(KEY_DIR[e.key]));
         return;
@@ -18,9 +22,13 @@ addEventListener("keydown", (e) => {
     if (e.key === "r" || e.key === "R") return (e.preventDefault(), toggleRelate());
     if (e.key === "p" || e.key === "P") return (e.preventDefault(), void savePng());
     if (e.key === "f" || e.key === "F") return fitTree();
+    // L: show only this person's line, or everyone again. Backspace: back to the person before.
+    if ((e.key === "l" || e.key === "L") && state.selected) return setFocus(state.focus === "off" ? "all" : "off");
+    if (e.key === "Backspace" && state.selected) return (e.preventDefault(), goBack());
     if (e.key === "Escape") {
         if (!relatePanel.hidden) return closeRelate();
         if (state.selected) return deselect();
+        if (state.house) return setHouse(null);
         return;
     }
     const dir = KEY_DIR[e.key];

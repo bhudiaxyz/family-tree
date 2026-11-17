@@ -10,7 +10,10 @@ import { paletteFor, usePalette } from "../palettes.ts";
 import { applyScenePalette, controls, glow, renderer, setGlow, setSky } from "../scene.ts";
 import { setSuggestions } from "../suggest.ts";
 import { author, panel, relA, relB, search, title } from "./dom.ts";
-import { select, setRelativeTo } from "./panel.ts";
+import { clearTrail, onHistoryBack, select, setFocus, setRelativeTo } from "./panel.ts";
+import { mountLegend, setLegend } from "./legend.ts";
+import { onPopState } from "./url.ts";
+import { resetCard } from "./picking.ts";
 import { openRelate, resetRelate } from "./relate.ts";
 import { IMPORTED, state } from "./state.ts";
 import { writeUrl } from "./url.ts";
@@ -60,7 +63,9 @@ const skyId = () => (state.sagaId === IMPORTED ? `import:${state.tree?.title ?? 
 function show(t: Tree) {
     state.tree = t;
     state.selected = state.hovered = null;
-    state.relPair = null;
+    state.relPair = state.relStep = null;
+    clearTrail();
+    resetCard();
     panel.hidden = true;
     search.value = "";
     resetRelate();
@@ -71,6 +76,8 @@ function show(t: Tree) {
     resetBadges(); // badge textures are cached per house; drop them so they redraw in the new theme's ink/outline
     applyScenePalette();
     showTree(t);
+    setLegend(t);
+    setFocus("off");
     scheduleSky(skyId());
     setSuggestions(
         Object.values(t.people)
@@ -116,6 +123,7 @@ function scheduleSky(id: string) {
 
 // --- Start-up: read the URL, build the menu, open the first saga -----------------------------------------------
 export function start(): void {
+    onPopState(onHistoryBack); // the browser's Back / Forward walks the people visited (see panel.ts)
     Promise.all([listSagas(), fontsReady])
         .then(([sagas]: [SagaIndexEntry[], unknown]) => {
             for (const s of sagas) sagaIndex.set(s.id, s);
@@ -167,5 +175,6 @@ function buildMenu(sagas: SagaIndexEntry[], first: string, params: URLSearchPara
             localStorage.setItem("ft.nebula", String(on));
             scheduleSky(skyId());
         });
+    mountLegend(gui); // a collapsed "Houses" folder: click a house to light it up
     if (matchMedia("(max-width: 600px)").matches) gui.close(); // on phones the open menu covers the title
 }

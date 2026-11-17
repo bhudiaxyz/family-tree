@@ -2,12 +2,15 @@
 // Plain data plus the few helpers every feature needs (highlight, toast, links to people, fly-to).
 import { flyTo } from "../camera.ts";
 import type { Tree } from "../data/schema.ts";
-import { lineage } from "../family.ts";
+import { lineageRoles } from "../family.ts";
 import { highlight, nodeById } from "../graph.ts";
 import { relate } from "../relationship.ts";
 import { $ } from "./dom.ts";
 
 export const IMPORTED = "imported"; // saga id used in the URL / GUI for a GEDCOM file loaded from disk
+
+/** Focus mode: show only the highlighted line ("all"), or just one side of it; "off" dims the rest instead. */
+export type Focus = "off" | "all" | "ancestors" | "descendants";
 
 export const state = {
     tree: null as Tree | null,
@@ -15,19 +18,38 @@ export const state = {
     selected: null as string | null,
     hovered: null as string | null,
     relPair: null as [string, string] | null, // the relationship currently shown, if any
+    relStep: null as [string, string] | null, // the finder step being hovered, if any
+    house: null as string | null, // a house picked in the legend, highlighted on its own
+    focus: "off" as Focus,
     view2d: false, // ?view=2d|3d, 3d by default
 };
 
-// What to light up: a relationship path takes priority; otherwise the selected/hovered person's line.
+// What to light up, in priority order: a relationship path; a house from the legend; the selected (or hovered)
+// person's line, with direction and distance so ancestors and descendants read apart.
 export function refreshHighlight(): void {
-    const { tree, relPair } = state;
+    const { tree, relPair, focus } = state;
     if (!tree) return highlight(null);
+    const hideOthers = focus !== "off";
     if (relPair) {
         const r = relate(tree, ...relPair);
-        return highlight(r ? new Set(r.path) : new Set(relPair), r?.path ?? []);
+        const path = r?.path ?? [];
+        return highlight(new Set(path.length ? path : relPair), { path, step: state.relStep, hideOthers });
+    }
+    if (state.house) {
+        const house = state.house;
+        const ids = Object.keys(tree.people).filter((id) => tree.people[id].house === house);
+        return highlight(new Set(ids), { hideOthers });
     }
     const id = state.selected ?? state.hovered;
-    highlight(id ? lineage(tree, id) : null);
+    if (!id) return highlight(null);
+    const roles = lineageRoles(tree, id);
+    // Focus on one side: keep that side, the person and their spouses (so the couple at the top/bottom stays whole).
+    if (focus === "ancestors" || focus === "descendants") {
+        const side = focus === "ancestors" ? "ancestor" : "descendant";
+        for (const [pid, r] of roles)
+            if (r.side !== side && r.side !== "self" && r.side !== "spouse") roles.delete(pid);
+    }
+    highlight(new Set(roles.keys()), { roles, hideOthers: hideOthers && id === state.selected });
 }
 
 const toast = $("toast");

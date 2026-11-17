@@ -19,6 +19,8 @@ export function openRelate(from?: string): void {
 }
 
 export function closeRelate(): void {
+    stopPulse();
+    state.relStep = null;
     relatePanel.hidden = true;
     btnRelate.setAttribute("aria-pressed", "false");
     state.relPair = null;
@@ -31,6 +33,8 @@ export const toggleRelate = () => (relatePanel.hidden ? openRelate(state.selecte
 
 /** Empty the finder for a new tree: both boxes and the result, without touching the highlight or URL. */
 export function resetRelate(): void {
+    stopPulse();
+    state.relStep = null;
     relatePanel.hidden = true;
     btnRelate.setAttribute("aria-pressed", "false");
     relA.value = relB.value = "";
@@ -58,12 +62,15 @@ export function updateRelate(): void {
     relSteps.replaceChildren();
     relNotes.replaceChildren();
     if (!a || !b) {
-        state.relPair = null;
+        stopPulse();
+        state.relPair = state.relStep = null;
+        lastPulsed = "";
         relResult.textContent = relA.value && relB.value ? "Pick two people from the list." : "";
         refreshHighlight();
         writeUrl();
         return;
     }
+    if (state.relPair?.[0] !== a || state.relPair?.[1] !== b) state.relStep = null; // a step of the old pair
     state.relPair = [a, b];
     const r = relate(tree, a, b);
     if (!r) {
@@ -90,20 +97,57 @@ export function updateRelate(): void {
             extra.push(p);
         }
         relNotes.replaceChildren(...extra);
-        // Step-by-step chain, each name clickable to fly there.
+        // Step-by-step chain, each name clickable to fly there. Hovering (or focusing) a step lights up just that hop.
         for (const s of r.steps) {
             const li = document.createElement("li");
             li.append(
                 `${stepWord(tree, s)}: `,
                 personLink(s.to, () => flyToPerson(s.to))
             );
+            const show = () => (stopPulse(), setStep([s.from, s.to]));
+            li.addEventListener("pointerenter", show);
+            li.addEventListener("focusin", show);
+            li.addEventListener("pointerleave", () => setStep(null));
+            li.addEventListener("focusout", () => setStep(null));
             relSteps.append(li);
         }
+        if (!pulsed(a, b)) pulse(r.steps.map((s) => [s.from, s.to] as [string, string]));
     }
     refreshHighlight();
     writeUrl();
     // Frame the two people: the camera eases to fit the whole tree, which keeps both ends of the path in view.
     fitTree();
+}
+
+function setStep(step: [string, string] | null) {
+    state.relStep = step;
+    refreshHighlight();
+}
+
+// --- Pulse: when a new relationship appears, light each step in turn, from the first person to the second ------------
+// Shows which way the path runs, once per pair. Reduced motion skips it (the whole path is already lit).
+const PULSE_MS = 380;
+let pulseTimer = 0;
+let lastPulsed = "";
+const pulsed = (a: string, b: string) => {
+    const key = `${a}|${b}`;
+    const seen = key === lastPulsed;
+    lastPulsed = key;
+    return seen;
+};
+function pulse(steps: [string, string][]) {
+    stopPulse();
+    if (!steps.length || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let i = 0;
+    const next = () => {
+        setStep(i < steps.length ? steps[i++] : null);
+        if (state.relStep) pulseTimer = window.setTimeout(next, PULSE_MS);
+    };
+    next();
+}
+function stopPulse() {
+    clearTimeout(pulseTimer);
+    pulseTimer = 0;
 }
 
 for (const input of [relA, relB]) {

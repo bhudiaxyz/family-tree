@@ -15,6 +15,9 @@
     --gold: #c9ad73;
     --gold-bright: #e6cf95;
     --line: rgba(201, 173, 115, 0.3);
+    /* Highlight direction tints; must match palette().lineage in src/palettes.ts. */
+    --ancestor: #ffb066;
+    --descendant: #6fc6ff;
 
     --narrow: 600px; /* documentation only: media queries can't read custom properties */
 }
@@ -34,6 +37,7 @@ canvas {
 /* ── Header: title, author, search ──────────────────────────────────────────────────────────────────────────── */
 header {
     position: fixed;
+    z-index: 2; /* above the generation labels that run down the left edge */
     top: 16px;
     left: 20px;
     pointer-events: none; /* clicks fall through to the canvas, except on the search box */
@@ -311,6 +315,205 @@ header {
     border-color: #c0262d;
 }
 
+/* ── Panel extras: back button, focus mode, highlight key ────────────────────────────────────────────────────── */
+#panel-back {
+    display: block;
+    max-width: calc(100% - 30px);
+    margin: -4px 0 6px;
+    padding: 2px 0;
+    overflow: hidden;
+    background: none;
+    border: 0;
+    font: 500 12px var(--fb);
+    color: var(--ink-faint);
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+#panel-back[hidden] {
+    display: none;
+}
+#panel-back:hover {
+    color: var(--gold-bright);
+}
+.panel-focus {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    margin: 10px 0 0;
+}
+.panel-focus span {
+    margin-right: 4px;
+    font-size: 12px;
+    color: var(--ink-faint);
+}
+.panel-focus button {
+    padding: 3px 8px;
+    font: 500 11px var(--fb);
+    color: var(--ink);
+    background: rgba(20, 19, 24, 0.85);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    cursor: pointer;
+}
+.panel-focus button[aria-checked="true"] {
+    color: var(--bg);
+    background: var(--gold);
+    border-color: var(--gold);
+}
+/* Colour key for the direction tint, with a shape cue (▲ up, ▼ down) so it doesn't rely on colour alone. */
+.lineage-key {
+    margin: 8px 0 0;
+    font-size: 11px;
+    color: var(--ink-faint);
+}
+.key-ancestor {
+    color: var(--ancestor);
+}
+.key-ancestor::before {
+    content: "▲ ";
+}
+.key-descendant {
+    color: var(--descendant);
+}
+.key-descendant::before {
+    content: "▼ ";
+}
+/* The finder's steps: hovering one lights that hop in the tree. */
+#rel-steps li {
+    padding: 1px 4px;
+    margin-left: -4px;
+    border-radius: 3px;
+    cursor: default;
+}
+#rel-steps li:hover,
+#rel-steps li:focus-within {
+    background: rgba(201, 173, 115, 0.14);
+}
+
+/* ── Hover card: who's under the pointer and how they relate to the selected person ──────────────────────────── */
+#hovercard {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    max-width: 260px;
+    padding: 6px 10px;
+    background: var(--surface-solid);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+    font-size: 12px;
+    color: var(--ink);
+    pointer-events: none;
+}
+#hovercard[hidden] {
+    display: none;
+}
+#hovercard strong {
+    font: 700 14px var(--fd);
+    letter-spacing: 0.02em;
+    color: var(--gold-bright);
+}
+#hovercard .card-house {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+#hovercard .card-rel {
+    margin-top: 2px;
+    color: var(--ink);
+}
+
+/* ── House legend: a "Houses" folder in the menu (ui/legend.ts) ──────────────────────────────────────────── */
+#legend-list {
+    max-height: 40vh;
+    margin: 0;
+    padding: 2px 0 4px;
+    overflow: auto;
+    list-style: none;
+}
+#legend-list button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 4px 8px;
+    font: 12px var(--fb);
+    color: var(--ink);
+    text-align: left;
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
+#legend-list button:hover {
+    background: rgba(201, 173, 115, 0.07);
+}
+#legend-list button[aria-pressed="true"] {
+    background: rgba(201, 173, 115, 0.2);
+    color: var(--gold-bright);
+    font-weight: 500;
+}
+#legend-list .house {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#legend-list .swatch {
+    flex: none;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1.5px rgba(7, 7, 10, 0.85);
+}
+#legend-list .n {
+    margin-left: auto;
+    color: var(--ink-faint);
+    font-size: 11px;
+}
+/* "Show all houses" only while one is picked. */
+#legend-list .legend-clear {
+    display: none;
+}
+#legend-list.has-house .legend-clear {
+    display: block;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 2px;
+}
+#legend-list .legend-clear button {
+    color: var(--gold-bright);
+    font-weight: 500;
+}
+
+/* ── Generation labels pinned to the left edge at each row's height (graph/guides.ts moves them) ─────────────── */
+#gen-labels {
+    position: fixed;
+    top: 0;
+    left: max(8px, env(safe-area-inset-left));
+    pointer-events: none;
+}
+#gen-labels[hidden] {
+    display: none;
+}
+#gen-labels span {
+    position: absolute;
+    top: -8px; /* centre the text on the row */
+    white-space: nowrap;
+    font: 500 11px var(--fb);
+    letter-spacing: 0.05em;
+    color: rgba(201, 173, 115, 0.55);
+    text-shadow: 0 1px 3px #000;
+}
+#gen-labels span[hidden] {
+    display: none;
+}
+
 /* ── No-WebGL notice ───────────────────────────────────────────────────────────────────────────────────────── */
 #no-webgl {
     position: fixed;
@@ -543,6 +746,11 @@ header {
     }
     #pad {
         grid-template: repeat(3, 52px) / repeat(3, 52px);
+    }
+    .panel-focus button,
+    #legend-list button {
+        min-height: 36px;
+        font-size: 13px;
     }
     .close {
         top: 2px;

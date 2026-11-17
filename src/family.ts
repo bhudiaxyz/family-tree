@@ -4,28 +4,41 @@ import type { Tree } from "./data/schema.ts";
 type Sex = Tree["people"][string]["sex"];
 const by = (sex: Sex, m: string, f: string) => (sex === "m" ? m : f);
 
-/** The person, all their ancestors and descendants, and their spouses: everything a highlight keeps lit. */
-export function lineage(tree: Tree, id: string): Set<string> {
-    const keep = new Set([id]);
+/** How a person in someone's line relates to them: which side, and how many generations away (0 for self/spouse). */
+export type LineRole = { side: "self" | "ancestor" | "descendant" | "spouse"; distance: number };
+
+/**
+ * The person, all their ancestors and descendants, and their spouses, each with its side and generation distance.
+ * Breadth-first, so `distance` is the shortest number of generations (a cousin marriage can reach someone twice).
+ */
+export function lineageRoles(tree: Tree, id: string): Map<string, LineRole> {
+    const roles = new Map<string, LineRole>([[id, { side: "self", distance: 0 }]]);
     const walk = (up: boolean) => {
-        const stack = [id];
-        while (stack.length) {
-            const cur = stack.pop()!;
-            for (const f of tree.families) {
-                if (!(up ? f.children : f.parents).includes(cur)) continue;
-                for (const next of up ? f.parents : f.children)
-                    if (!keep.has(next)) {
-                        keep.add(next);
-                        stack.push(next);
-                    }
-            }
+        let frontier = [id];
+        for (let d = 1; frontier.length; d++) {
+            const next: string[] = [];
+            for (const cur of frontier)
+                for (const f of tree.families) {
+                    if (!(up ? f.children : f.parents).includes(cur)) continue;
+                    for (const n of up ? f.parents : f.children)
+                        if (!roles.has(n)) {
+                            roles.set(n, { side: up ? "ancestor" : "descendant", distance: d });
+                            next.push(n);
+                        }
+                }
+            frontier = next;
         }
     };
     walk(true);
     walk(false);
-    for (const f of tree.families) if (f.parents.includes(id)) for (const p of f.parents) keep.add(p);
-    return keep;
+    for (const f of tree.families)
+        if (f.parents.includes(id))
+            for (const p of f.parents) if (!roles.has(p)) roles.set(p, { side: "spouse", distance: 0 });
+    return roles;
 }
+
+/** The person, all their ancestors and descendants, and their spouses: everything a highlight keeps lit. */
+export const lineage = (tree: Tree, id: string): Set<string> => new Set(lineageRoles(tree, id).keys());
 
 /** Relatives grouped for the details panel, in a stable order: [label, ids][]. Adoptive families are labelled so. */
 export function relatives(tree: Tree, id: string): [string, string[]][] {

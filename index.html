@@ -51,6 +51,8 @@
         </section>
 
         <div id="toast" role="status" aria-live="polite" hidden></div>
+        <div id="hovercard" role="tooltip" hidden></div>
+        <div id="gen-labels" aria-hidden="true"></div>
 
         <div id="no-webgl" hidden>
             <h2>3D view unavailable</h2>
@@ -68,12 +70,29 @@
 
         <aside id="panel" hidden aria-live="polite">
             <button class="close" id="panel-close" aria-label="Close">&times;</button>
+            <button id="panel-back" hidden aria-label="Back to the previous person" title="Back (Backspace)">
+                &#9664; <span id="panel-back-name"></span>
+            </button>
             <h2 id="panel-name"></h2>
             <p id="panel-house"></p>
             <dl id="panel-list"></dl>
             <p class="panel-actions">
                 <button id="panel-relate">Find how they're related to…</button>
                 <button id="panel-relative-to" aria-pressed="false">Tag everyone's relationship</button>
+            </p>
+            <div class="panel-focus" role="radiogroup" aria-label="Focus on this person's line">
+                <span>Focus</span>
+                <button data-focus="off" role="radio" aria-checked="true" title="Dim everyone else">Off</button>
+                <button data-focus="all" role="radio" aria-checked="false" title="Show only this line (L)">Line</button>
+                <button data-focus="ancestors" role="radio" aria-checked="false" title="Ancestors only">
+                    Ancestors
+                </button>
+                <button data-focus="descendants" role="radio" aria-checked="false" title="Descendants only">
+                    Descendants
+                </button>
+            </div>
+            <p class="lineage-key" aria-hidden="true">
+                <span class="key-ancestor">ancestors</span> · <span class="key-descendant">descendants</span>
             </p>
         </aside>
 

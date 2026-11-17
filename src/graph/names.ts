@@ -48,6 +48,8 @@ export function declutter(camera: THREE.PerspectiveCamera, viewW: number, viewH:
     for (const n of boundNodes()) {
         const s = nameOf(n);
         if (!s) continue;
+        const target = (n.__threeObj!.userData.dimTarget ?? 1) as number;
+        if (target === 0) continue; // hidden by focus mode: doesn't take up room
         s.getWorldPosition(p);
         const depth = p.distanceTo(camera.position);
         edge.copy(p).project(camera);
@@ -58,7 +60,7 @@ export function declutter(camera: THREE.PerspectiveCamera, viewW: number, viewH:
         const pxPerUnit = viewH / (2 * depth * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2));
         const w = s.scale.x * pxPerUnit;
         const h = s.scale.y * pxPerUnit;
-        const lit = (n.__threeObj!.userData.dimTarget ?? 1) === 1 && focus !== null;
+        const lit = focus !== null && focus.has(n.id); // in the highlighted line (its dim may be < 1 by distance)
         boxes.push({
             s,
             x0: cx - w / 2,
@@ -86,8 +88,16 @@ export function stepNames(dt: number): void {
         if (!s) continue;
         const shown = (s.userData.shown = approach((s.userData.shown ?? 1) as number, nameShown.get(s) ?? 1, k));
         s.material.transparent = true;
-        s.material.opacity = shown * ((n.__threeObj!.userData.dim ?? 1) as number);
+        const dim = (n.__threeObj!.userData.dim ?? 1) as number;
+        s.material.opacity = shown * dim;
         s.visible = s.material.opacity > 0.02;
+        // "Relative to" tags fade with their person too (focus mode hides them with the person).
+        const tag = n.__threeObj!.children.find((c) => c.userData.isTag) as SpriteText | undefined;
+        if (tag?.userData.text) {
+            tag.material.transparent = true;
+            tag.material.opacity = dim;
+            tag.visible = dim > 0.02;
+        }
     }
 }
 
@@ -97,6 +107,7 @@ export function setRelativeTags(labels: Map<string, string | null> | null): void
         const tag = n.__threeObj?.children.find((c) => c.userData.isTag) as SpriteText | undefined;
         if (!tag) continue;
         const text = labels?.get(n.id) ?? null;
+        tag.userData.text = text; // stepNames() shows it (faded with its person) only while it has text
         tag.visible = !!text;
         if (text && tag.text !== text) tag.text = text;
     }

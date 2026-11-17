@@ -75,7 +75,7 @@ renderer.setAnimationLoop((now) => {
     if (idle && now - lastDrawn < 1000 / quality.idleFps) return; // skip this frame entirely: no simulation, no draw
     const step = idle ? Math.min((now - lastDrawn) / 1000, 0.1) : dt;
     lastDrawn = now;
-    stepGraph(camera, step, now, innerWidth, innerHeight);
+    stepGraph(camera, controls.target, step, now, innerWidth, innerHeight);
     stepCamera(step, peopleBbox);
     updateFog();
     draw();

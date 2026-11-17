@@ -8,17 +8,17 @@ import type * as THREE from "three";
 import type { Tree } from "./data/schema.ts";
 import { childLabel, parentLabel } from "./family.ts";
 import { generations } from "./generations.ts";
-import { boundLinks, boundNodes, disposeObject, graph, type Link, type Node, useTree } from "./graph/core.ts";
+import { boundLinks, boundNodes, disposeObject, graph, isShown, type Link, type Node, useTree } from "./graph/core.ts";
 import { drawnZ, setSiblingGroups, stepFlat } from "./graph/flat.ts";
-import { setGuides } from "./graph/guides.ts";
+import { setGuides, stepGuides } from "./graph/guides.ts";
 import { clearFocus, stepFades } from "./graph/highlight.ts";
 import { declutter, fadeLabels, stepNames } from "./graph/names.ts";
 import { setSiblings, updateSiblings } from "./graph/siblings.ts";
 
-export { graph, type Node } from "./graph/core.ts";
+export { graph, isShown, type Node } from "./graph/core.ts";
 export { drawnZ, setFlat } from "./graph/flat.ts";
 export { setGuidesVisible } from "./graph/guides.ts";
-export { highlight } from "./graph/highlight.ts";
+export { type HighlightOptions, highlight } from "./graph/highlight.ts";
 export { setRelativeTags } from "./graph/names.ts";
 
 const GEN_GAP = 80; // vertical gap between generations (world units)
@@ -68,7 +68,8 @@ export function showTree(t: Tree): void {
  * Null until the layout has placed anyone.
  */
 export function peopleBbox(): { x: [number, number]; y: [number, number]; z: [number, number] } | null {
-    const pts = graph.graphData().nodes.filter((n) => n.name && n.x !== undefined);
+    // In focus mode, only the people still shown, so the camera closes in on the highlighted line.
+    const pts = boundNodes().filter((n) => n.name && n.x !== undefined && isShown(n));
     if (!pts.length) return null;
     const range = (k: "x" | "y" | "z", lo = 0.05, hi = 0.95): [number, number] => {
         const v = pts.map((n) => n[k]!).sort((a, b) => a - b);
@@ -92,6 +93,7 @@ export const nodeById = (id: string): Node | undefined => graph.graphData().node
 /** Advance the simulation, highlight fades and overlays by one frame. */
 export function stepGraph(
     camera: THREE.PerspectiveCamera,
+    target: THREE.Vector3,
     dt: number,
     now: number,
     viewW: number,
@@ -104,4 +106,5 @@ export function stepGraph(
     fadeLabels(camera);
     declutter(camera, viewW, viewH, now);
     stepNames(dt);
+    stepGuides(camera, target, viewH);
 }

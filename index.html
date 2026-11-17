@@ -19,12 +19,10 @@
             <input
                 id="search"
                 type="search"
-                list="names"
                 placeholder="Find a person…  ( / )"
                 aria-label="Find a person"
                 autocomplete="off"
             />
-            <datalist id="names"></datalist>
             <div id="toolbar" role="toolbar" aria-label="Tools">
                 <button id="btn-relate" aria-pressed="false" title="How are two people related? (R)">
                     How are they related?
@@ -40,12 +38,12 @@
             <h2>How are they related?</h2>
             <label>
                 <span>From</span>
-                <input id="rel-a" type="search" list="names" placeholder="First person" autocomplete="off" />
+                <input id="rel-a" type="search" placeholder="First person" autocomplete="off" />
             </label>
             <button id="rel-swap" aria-label="Swap the two people" title="Swap">&#8645;</button>
             <label>
                 <span>To</span>
-                <input id="rel-b" type="search" list="names" placeholder="Second person" autocomplete="off" />
+                <input id="rel-b" type="search" placeholder="Second person" autocomplete="off" />
             </label>
             <p id="rel-result" aria-live="polite"></p>
             <div id="rel-notes"></div>

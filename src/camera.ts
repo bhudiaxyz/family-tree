@@ -5,6 +5,7 @@
 // behaves like a 60 Hz one.
 import * as THREE from "three";
 import { camera, controls } from "./scene.ts";
+import { drawnZ } from "./graph.ts";
 
 type Pos = { x?: number; y?: number; z?: number };
 type Bbox = { x: [number, number]; y: [number, number]; z: [number, number] };
@@ -70,7 +71,7 @@ function stepFlight(dt: number) {
     const { node, dir } = flight;
     flight.t = Math.min(1, flight.t + dt / FLY_SECONDS);
     const k = ease(2.4 + 12 * flight.t ** 2, dt); // gentle start, firm finish
-    const target = new THREE.Vector3(node.x, node.y, node.z);
+    const target = new THREE.Vector3(node.x, node.y, drawnZ(node.z!)); // as drawn (2D mode squashes z)
     controls.target.lerp(target, k);
     camera.position.lerp(target.clone().addScaledVector(dir, FLY_DISTANCE), k);
     if (flight.t === 1) flight = null;
@@ -97,8 +98,26 @@ function stepPan(dt: number) {
     controls.pan(dx * PAN_PX_PER_SECOND * dt, dy * PAN_PX_PER_SECOND * dt);
 }
 
+// --- 2D mode: no rotation; left drag / one finger pans; the camera eases round to face the tree head-on -----------
+let flat = false;
+export function setFlatView(on: boolean): void {
+    flat = on;
+    controls.enableRotate = !on;
+    controls.mouseButtons.LEFT = on ? THREE.MOUSE.PAN : THREE.MOUSE.ROTATE;
+    controls.touches.ONE = on ? THREE.TOUCH.PAN : THREE.TOUCH.ROTATE;
+}
+const FRONT = new THREE.Vector3(0, 0, 1);
+function stepFlatView(dt: number) {
+    if (!flat) return;
+    const offset = camera.position.clone().sub(controls.target);
+    const dist = offset.length();
+    offset.normalize().lerp(FRONT, ease(5, dt)).normalize();
+    camera.position.copy(controls.target).addScaledVector(offset, dist);
+}
+
 /** Rotate around the target in a small step (Shift/Ctrl/Cmd + arrow), as OrbitControls' own key handler does. */
 export function nudgeRotate(dir: Dir): void {
+    if (flat) return;
     takeCamera();
     const angle = 0.05 * (dir === "left" || dir === "up" ? 1 : -1);
     const offset = camera.position.clone().sub(controls.target);
@@ -113,5 +132,6 @@ export function stepCamera(dt: number, bbox: () => Bbox | null): void {
     if (box) stepFit(box, dt);
     stepFlight(dt);
     stepPan(dt);
+    stepFlatView(dt);
     controls.update();
 }

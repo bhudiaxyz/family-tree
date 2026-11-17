@@ -11,6 +11,7 @@ import { listSagas, loadSaga } from "./data/source.ts";
 import { findByName, lineage, relatives } from "./family.ts";
 import { labelAll, relate } from "./relationship.ts";
 import { fontsReady, resetBadges } from "./labels.ts";
+import { attachSuggestions, setSuggestions } from "./suggest.ts";
 import { palette, paletteFor, usePalette } from "./palettes.ts";
 import {
     type Dir,
@@ -20,6 +21,7 @@ import {
     nudgeRotate,
     releaseAllPans,
     releasePan,
+    setFlatView,
     setReducedMotion,
     stepCamera,
 } from "./camera.ts";
@@ -28,6 +30,8 @@ import {
     highlight,
     nodeById,
     peopleBbox,
+    drawnZ,
+    setFlat,
     setGuidesVisible,
     setRelativeTags,
     showTree,
@@ -58,7 +62,6 @@ const panelName = $("panel-name");
 const panelHouse = $("panel-house");
 const panelList = $("panel-list");
 const search = $<HTMLInputElement>("search");
-const names = $("names");
 const relatePanel = $("relate");
 const relA = $<HTMLInputElement>("rel-a");
 const relB = $<HTMLInputElement>("rel-b");
@@ -66,6 +69,8 @@ const relResult = $("rel-result");
 const relSteps = $("rel-steps");
 const relNotes = $("rel-notes");
 const toast = $("toast");
+// Before app.ts's own listeners on these boxes, so Escape closes an open suggestion list first.
+for (const box of [search, relA, relB]) attachSuggestions(box);
 
 const IMPORTED = "imported"; // saga id used in the URL / GUI for a GEDCOM file loaded from disk
 
@@ -413,7 +418,7 @@ function nearestOnScreen(x: number, y: number, radius: number): string | null {
     let bestD = radius;
     for (const n of graph.graphData().nodes) {
         if (!n.name || n.x === undefined) continue;
-        projected.set(n.x, n.y!, n.z!).project(camera);
+        projected.set(n.x, n.y!, drawnZ(n.z!)).project(camera);
         if (projected.z > 1) continue; // behind the camera
         const d = Math.hypot(((projected.x + 1) / 2) * innerWidth - x, ((1 - projected.y) / 2) * innerHeight - y);
         if (d < bestD) {
@@ -504,10 +509,12 @@ canvas.addEventListener("pointerup", (e) => {
     else if (selected) deselect();
 });
 
-// --- Loading sagas, and shareable links (?saga=<id>&person=<id>&with=<id>) ----------------------------------------
+// --- Loading sagas, and shareable links (?saga=<id>&person=<id>&with=<id>&view=2d) -------------------------------
+let view2d = false; // ?view=2d|3d, 3d by default
 function writeUrl() {
-    if (sagaId === IMPORTED) return history.replaceState(null, "", location.pathname); // nothing shareable on disk
-    const q = new URLSearchParams({ saga: sagaId });
+    const view = view2d ? "2d" : "3d";
+    if (sagaId === IMPORTED) return history.replaceState(null, "", `?view=${view}`); // nothing else shareable on disk
+    const q = new URLSearchParams({ saga: sagaId, view });
     if (relPair) {
         q.set("person", relPair[0]);
         q.set("with", relPair[1]);
@@ -566,11 +573,10 @@ function show(t: Tree) {
     applyScenePalette();
     showTree(t);
     scheduleSky(sagaId === IMPORTED ? `import:${t.title}` : sagaId);
-    names.replaceChildren(
-        ...Object.values(t.people)
+    setSuggestions(
+        Object.values(t.people)
             .map((p) => p.name)
             .sort()
-            .map((value) => Object.assign(document.createElement("option"), { value }))
     );
     title.textContent = t.title;
     author.textContent = t.author;
@@ -625,6 +631,17 @@ Promise.all([listSagas(), fontsReady])
         gui.add(view, "guides")
             .name("Generation guides")
             .onChange((on: boolean) => (setGuidesVisible(on), localStorage.setItem("ft.guides", String(on))));
+        // 2D: the tree flattens onto its front plane (animated), the camera turns to face it, rotation is disabled.
+        // Comes from the URL (so links share it), not localStorage: no ?view=2d means 3D.
+        const flat = { on: params.get("view") === "2d" };
+        const set2d = (on: boolean) => {
+            view2d = on;
+            setFlat(on);
+            setFlatView(on);
+            if (sagaId) writeUrl(); // at start-up openSaga writes it once the saga id is known
+        };
+        set2d(flat.on);
+        gui.add(flat, "on").name("2D").onChange(set2d);
         const sky = { nebula: stored("ft.nebula", true) };
         nebulaOn = sky.nebula;
         gui.add(sky, "nebula")

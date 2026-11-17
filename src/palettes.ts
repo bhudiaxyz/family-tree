@@ -130,7 +130,7 @@ export const DEFAULT_PALETTE: Palette = {
         haze: [0.006, 0.007, 0.012], // near-zero: a faint tint beside clouds, never an even grey (see nebula.ts)
         star: [0.9, 0.92, 1.0],
         starDensity: 1.25, // ×1.25 = 25% more stars; scales both layers' cell fractions in nebula.ts
-        galaxyDensity: 0.06,
+        galaxyDensity: 0.25, // fraction of large sky cells (nebula.ts, scale 3) holding a galaxy: about a dozen in all
         dustLanes: 0.8,
         emissionH: [0.55, 0.05, 0.16], // hydrogen-alpha: deep crimson
         emissionO: [0.03, 0.34, 0.38], // oxygen-III: teal

@@ -167,31 +167,51 @@ const fragmentShader = /* glsl */ `
         return s;
     }
 
-    // Distant galaxies: a few small, faint elliptical glows with a brighter core, each tilted and flattened at
-    // random. One possible galaxy per large cell, and only a few cells (density) actually have one.
-    float galaxies(vec3 d, float scale, float density) {
-        vec3 p = d * scale;
+    // Galaxies: soft, cloud-like discs a few degrees across, seen at a random tilt. Most are spirals (two or three
+    // logarithmic arms, broken into clumps by noise, with dark dust between them); a few are smooth ellipticals.
+    // A warm core (old stars) fades to bluer outskirts (young stars in the arms). One possible galaxy per large cell
+    // on the sky sphere, and only a few cells (density) hold one. Returns colour, not yet scaled to the sky's level.
+    vec3 galaxies(vec3 d, float scale, float density) {
+        vec3 p = d * scale + seed; // the seed moves the cell grid, so each saga has its own galaxies
         vec3 i = floor(p), f = fract(p);
-        float g = 0.0;
+        vec3 col = vec3(0.0);
         for (int x = -1; x <= 1; x++)
         for (int y = -1; y <= 1; y++)
         for (int z = -1; z <= 1; z++) {
             vec3 o = vec3(float(x), float(y), float(z));
             vec3 cell = i + o;
             if (hash1(cell + 3.3) > density) continue;
-            vec3 centre = o + 0.2 + 0.6 * hash3(cell + 11.0) - f;
-            // Random orientation: build a local frame, squash one axis to make a disc seen at an angle.
+            vec3 rel = o + 0.25 + 0.5 * hash3(cell + 11.0) - f;
+            float size = 0.14 + 0.18 * hash1(cell + 31.0); // disc radius, in cell units
+            if (length(rel) > size * 2.5) continue;           // too far to contribute: skip the noise below
+            // Disc frame: (u, v) in the galaxy's plane, h along its axis. Dividing h out by the tilt is what makes a
+            // face-on disc round and an edge-on one a thin streak.
             vec3 ax = normalize(hash3(cell + 19.0) - 0.5);
             vec3 ay = normalize(cross(ax, normalize(hash3(cell + 23.0) - 0.5)));
             vec3 az = cross(ax, ay);
-            float squash = 2.0 + 4.0 * hash1(cell + 29.0); // 2–6: from round-ish to edge-on
-            vec3 q = vec3(dot(centre, ax), dot(centre, ay) * squash, dot(centre, az) * squash);
-            float r = length(q) / (0.05 + 0.06 * hash1(cell + 31.0)); // size in cell units
-            float halo = exp(-r * r * 1.6);                           // soft disc
-            float core = exp(-r * r * 18.0);                          // bright nucleus
-            g = max(g, (0.5 + 0.5 * hash1(cell + 37.0)) * (halo * 0.55 + core));
+            vec2 uv = vec2(dot(rel, ax), dot(rel, ay)) / size;
+            float h = dot(rel, az) / size;
+            float r = length(uv);
+            float thick = 0.12 + 0.1 * hash1(cell + 29.0);
+            float disc = exp(-r * 1.6) * exp(-h * h / (thick * thick));
+            float bulge = exp(-(r * r + h * h) * 30.0);
+            float spiral = step(0.2, hash1(cell + 41.0)); // 80% spirals, 20% ellipticals
+            float arms = 2.0 + step(0.6, hash1(cell + 43.0));
+            float wind = 3.0 + 3.0 * hash1(cell + 47.0); // how tightly the arms wind
+            float theta = atan(uv.y, uv.x);
+            float arm = 0.5 + 0.5 * cos(arms * (theta - wind * log(r + 0.05)) + hash1(cell + 53.0) * 6.283);
+            arm = pow(arm, 2.5);
+            // Clumps and dust: noise in the disc plane breaks the arms into knots and cuts dark lanes through them.
+            float clump = 0.5 + 0.5 * cnoise(vec3(uv * 6.0, hash1(cell + 59.0) * 50.0));
+            float dust = smoothstep(0.35, 0.75, 0.5 + 0.5 * cnoise(vec3(uv * 11.0, hash1(cell + 61.0) * 50.0 + 7.0)));
+            float spiralLight = disc * (0.5 + 3.6 * arm * clump) * mix(1.0, 0.45, dust * arm);
+            float ellipticalLight = 0.7 * exp(-r * r * 2.5 - h * h * 4.0) * (0.85 + 0.3 * clump);
+            float light = mix(ellipticalLight, spiralLight, spiral) * (0.6 + 0.4 * hash1(cell + 37.0));
+            vec3 warm = vec3(1.0, 0.86, 0.66);
+            vec3 cool = mix(vec3(0.62, 0.72, 1.0), vec3(0.95, 0.75, 0.95), hash1(cell + 67.0) * 0.5);
+            col += mix(warm, mix(warm, cool, smoothstep(0.1, 0.8, r)), spiral) * light + warm * bulge * 1.4;
         }
-        return g;
+        return col;
     }
 
     // Same shaping as the original: a folded sine of noise, summed over octaves.
@@ -286,9 +306,11 @@ const fragmentShader = /* glsl */ `
         float starCap = pow(maxLuma * 2.6, 2.2); // stars may reach ~31% on screen: visible points, never a glare
         col += starColour * starCap * min(1.0, bright * (0.55 + hAlpha) + faint * 0.6);
 
-        // 3. A FEW DISTANT GALAXIES: small faint smudges, tinted slightly warm (older stars) against the cool dust.
-        float gal = galaxies(d, 7.0, galaxyDensity);
-        col += vec3(1.0, 0.93, 0.82) * gal * pow(maxLuma * 1.6, 2.2);
+        // 3. A FEW GALAXIES: soft cloud-like spirals and ellipticals, added after the cap like the stars, with their
+        //    own ceiling (~26% on screen at their brightest core) so they read as distant glows behind the tree.
+        vec3 gal = galaxies(d, 3.0, galaxyDensity);
+        float galCap = pow(maxLuma * 2.2, 2.2);
+        col += galCap * gal / (1.0 + max(gal.r, max(gal.g, gal.b))); // soft-saturate so cores never clip to white
 
         gl_FragColor = vec4(col, 1.0);
     }

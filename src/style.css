@@ -75,6 +75,43 @@ header {
     color: rgba(232, 220, 193, 0.45);
 }
 
+/* ── Name suggestions (src/suggest.ts), shared by the search and relationship-finder boxes ─────────────────── */
+#suggest {
+    position: fixed;
+    z-index: 10;
+    box-sizing: border-box;
+    min-width: 200px;
+    margin: 0;
+    padding: 4px 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    list-style: none;
+    font: 14px var(--fb);
+    color: var(--ink);
+    background: var(--surface-solid);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+#suggest[hidden] {
+    display: none;
+}
+#suggest li {
+    padding: 6px 10px;
+    cursor: pointer;
+}
+#suggest li:hover,
+#suggest li[aria-selected="true"] {
+    background: rgba(201, 173, 115, 0.18);
+    color: var(--gold-bright);
+}
+@media (pointer: coarse) {
+    #suggest li {
+        padding: 11px 12px; /* 44 px tap targets */
+        font-size: 16px;
+    }
+}
+
 /* ── Details panel for the selected person ───────────────────────────────────────────────────────────────────── */
 #panel {
     position: fixed;
@@ -328,6 +365,13 @@ body.no-3d #pad {
 @media (pointer: coarse) {
     #pad {
         display: grid;
+    }
+}
+/* On tablets the finder sits bottom right too, where the pad would cover its "To" box; drag still pans. (Phones
+   lift the pad above the panel instead, see the max-width: 600px rules.) */
+@media (min-width: 601px) {
+    #relate:not([hidden]) ~ #pad {
+        display: none;
     }
 }
 #pad button {

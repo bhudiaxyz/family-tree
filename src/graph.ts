@@ -15,7 +15,7 @@ export type Node = { id: string; name?: string; house?: string; x?: number; y?: 
 type End = string | Node;
 type Link = { source: End; target: End; kind: "spouse" | "child"; label: string };
 // Objects the library attaches to its data (see three-forcegraph's objBindAttr).
-type Bound = { __threeObj?: THREE.Object3D; __lineObj?: THREE.Object3D };
+type Bound = { __threeObj?: THREE.Object3D; __lineObj?: THREE.Object3D; __photonsObj?: THREE.Object3D };
 type Pos = { x?: number; y?: number; z?: number };
 
 const endId = (e: End) => (typeof e === "string" ? e : e.id);
@@ -34,7 +34,7 @@ const LABEL_FAR = 240; // …and hidden beyond this one
 // GPUs, with no visible difference at the size spheres appear on a phone.
 const personGeo = new THREE.SphereGeometry(4, ...quality.sphereSegments);
 const unionGeo = new THREE.SphereGeometry(1.2, 12, 6);
-const unionMat = new THREE.MeshBasicMaterial({ color: palette().union });
+const dotGeo = new THREE.SphereGeometry(0.6, 4, 4); // link particles
 const siblingMat = new THREE.LineDashedMaterial({
     color: palette().siblingLine,
     dashSize: 2,
@@ -47,7 +47,8 @@ let houseZ = new Map<string, number>();
 
 export const graph = new ThreeForceGraph<Node, Link>()
     .nodeThreeObject((n) => {
-        if (!n.name) return new THREE.Mesh(unionGeo, unionMat);
+        // Union (marriage) nodes get their own material too, so they can fade with the highlight like people do.
+        if (!n.name) return new THREE.Mesh(unionGeo, new THREE.MeshBasicMaterial({ color: palette().union }));
         // Matte, satin-like surface: high roughness spreads the highlight wide and soft, so the form reads from the
         // light-to-shadow gradient (see the key/fill balance in scene.ts) rather than from a glossy hotspot.
         const mat = new THREE.MeshStandardMaterial({
@@ -82,7 +83,12 @@ export const graph = new ThreeForceGraph<Node, Link>()
     )
     .linkWidth(0.6)
     .linkDirectionalParticles((l) => (l.kind === "child" ? 2 : 0))
-    .linkDirectionalParticleWidth(1.2)
+    // Own material per link (the library shares one per colour), so a link's dots fade with its highlight.
+    // Same look as the library default: 0.6 radius, 4 segments, #f0f0f0 at opacity 0.6.
+    .linkDirectionalParticleThreeObject(
+        (l) =>
+            new THREE.Mesh(dotGeo, new THREE.MeshLambertMaterial({ color: 0xf0f0f0, transparent: true, opacity: 0.6 }))
+    )
     .linkThreeObjectExtend(true)
     .linkThreeObject((l) =>
         relationLabel(l.label, l.kind === "spouse" ? palette().labels.spouse : palette().labels.child)
@@ -172,9 +178,14 @@ export function showTree(t: Tree): void {
 
     // Free the previous tree's per-node materials and label textures before the library drops the objects.
     for (const n of graph.graphData().nodes as (Node & Bound)[]) disposeObject(n.__threeObj);
-    for (const l of graph.graphData().links as (Link & Bound)[]) disposeObject(l.__lineObj?.children[1]);
+    for (const l of graph.graphData().links as (Link & Bound)[]) {
+        disposeObject(l.__lineObj?.children[1]);
+        disposeObject(l.__photonsObj?.children[0]); // the dots share one material per link
+    }
 
-    setSiblings(t, new Map(nodes.map((n) => [n.id, n])), pairs);
+    const byId = new Map(nodes.map((n) => [n.id, n]));
+    siblingGroups = t.families.filter((f) => f.children.length > 1).map((f) => f.children.map((c) => byId.get(c)!));
+    setSiblings(t, byId, pairs);
     setGuides(rows, y);
     graph.graphData({ nodes, links });
     focus = null;
@@ -183,10 +194,9 @@ export function showTree(t: Tree): void {
 function disposeObject(obj: THREE.Object3D | undefined) {
     obj?.traverse((o) => {
         if (o instanceof SpriteText) return disposeLabel(o);
-        // Shared geometries, the union material and the cached house-badge textures are reused: only free the
-        // per-object material (disposing a SpriteMaterial leaves its shared texture alone).
-        const m = (o as THREE.Mesh).material as THREE.Material | undefined;
-        if (m && m !== unionMat) m.dispose();
+        // Shared geometries and the cached house-badge textures are reused: only free the per-object material
+        // (disposing a SpriteMaterial leaves its shared texture alone).
+        ((o as THREE.Mesh).material as THREE.Material | undefined)?.dispose();
     });
 }
 
@@ -223,6 +233,73 @@ function setGuides(rows: number, y: (g: number) => number) {
 }
 export const setGuidesVisible = (on: boolean) => (guides.visible = on);
 
+// --- 2D mode: squash the house depth planes flat by easing the graph's z scale towards ~0 -------------------------
+// Each node's object is counter-scaled so spheres stay round; links, sibling lines and guides simply flatten. Not
+// exactly 0, which would make the matrices singular (raycasting and normals invert them).
+const FLAT = 1e-3;
+let flatTarget = 1;
+export function setFlat(on: boolean): void {
+    flatTarget = on ? FLAT : 1;
+    graph.d3ReheatSimulation(); // re-run the layout so the row spacing below applies (or relaxes when back in 3D)
+}
+
+// In 3D, people in the same generation can share an x and still be apart in depth; flattened, they'd sit on top of
+// each other. So in 2D a force pushes neighbours in each generation row apart until their names no longer touch.
+// ponytail: name width estimated from character count; measure the label sprites if long names still collide.
+const NAME_CHAR_W = 2; // world units per character of a name label (4 units tall, condensed bold)
+const ROW_GAP = 5; // clearance between neighbouring names
+const halfWidth = (n: Node) => Math.max(4, n.name!.length * NAME_CHAR_W) / 2;
+function spreadRows() {
+    let nodes: (Node & { vx?: number })[] = [];
+    const force = () => {
+        if (flatTarget === 1) return;
+        const rows = new Map<number, typeof nodes>();
+        for (const n of nodes) {
+            if (!n.name || n.x === undefined) continue;
+            const row = rows.get(n.fy!) ?? [];
+            rows.set(n.fy!, row);
+            row.push(n);
+        }
+        for (const row of rows.values()) {
+            row.sort((a, b) => a.x! - b.x!);
+            for (let i = 1; i < row.length; i++) {
+                const [a, b] = [row[i - 1], row[i]];
+                const overlap = halfWidth(a) + halfWidth(b) + ROW_GAP - (b.x! - a.x!);
+                if (overlap <= 0) continue;
+                a.vx = (a.vx ?? 0) - overlap * 0.25;
+                b.vx = (b.vx ?? 0) + overlap * 0.25;
+            }
+        }
+    };
+    force.initialize = (n: typeof nodes) => (nodes = n);
+    return force;
+}
+graph.d3Force("spreadRows", spreadRows());
+
+// Also in 2D, siblings are pulled sideways towards their family's centre, so brothers and sisters sit side by side
+// rather than interleaved with cousins. spreadRows keeps them from overlapping, so they pack into a tight cluster.
+const SIBLING_PULL = 0.15;
+let siblingGroups: (Node & { vx?: number })[][] = [];
+function clusterSiblings(alpha: number) {
+    if (flatTarget === 1) return;
+    for (const group of siblingGroups) {
+        const placed = group.filter((n) => n.x !== undefined);
+        if (placed.length < 2) continue;
+        const cx = placed.reduce((s, n) => s + n.x!, 0) / placed.length;
+        for (const n of placed) n.vx = (n.vx ?? 0) + (cx - n.x!) * SIBLING_PULL * alpha;
+    }
+}
+graph.d3Force("clusterSiblings", clusterSiblings);
+/** A node's z as drawn (node data keeps the simulation's z; the graph's scale squashes it in 2D). */
+export const drawnZ = (z: number) => z * graph.scale.z;
+function stepFlat(dt: number) {
+    const s = graph.scale.z;
+    const next = Math.abs(s - flatTarget) < 1e-3 ? flatTarget : approach(s, flatTarget, 1 - Math.exp(-5 * dt));
+    graph.scale.z = next;
+    // Every frame, not just while easing: a saga loaded in 2D builds fresh node objects at scale 1.
+    for (const n of graph.graphData().nodes as (Node & Bound)[]) n.__threeObj?.scale.setZ(1 / next);
+}
+
 /**
  * Box around the people (not union nodes or guides), for framing the camera. Uses the 5th–95th percentile on each
  * axis, so one stray family off to the side doesn't push the whole view out; padded by a person's radius and label.
@@ -240,7 +317,7 @@ export function peopleBbox(): { x: [number, number]; y: [number, number]; z: [nu
     // the binding constraint, so trimming it pushes those people off the sides (measured: 39 of 42 visible); keep all.
     const portrait = innerWidth < innerHeight;
     const x = portrait ? range("x", 0, 1) : range("x");
-    const z = range("z");
+    const z = range("z").map(drawnZ) as [number, number];
     // Vertical extent uses every person: generations are few and pinned, so there are no stray rows to ignore, and
     // cutting the top/bottom row would hide a whole generation. Pad for the name label above and badge below.
     const y = range("y", 0, 1);
@@ -295,6 +372,7 @@ export function highlight(people: Set<string> | null, path: string[] = []): void
     for (const l of links as (Link & Bound)[]) {
         const on = pathLinks.has(l) || (lit(endId(l.source)) && lit(endId(l.target)));
         setTarget(l.__lineObj, on ? 1 : DIM);
+        setTarget(l.__photonsObj, on ? 1 : DIM);
         if (l.__lineObj) l.__lineObj.userData.path = pathLinks.has(l) ? 1 : 0;
     }
     siblingPairs.forEach(([a, b], i) => setTarget(siblingLabels[i], lit(a.id) && lit(b.id) ? 1 : DIM));
@@ -319,7 +397,7 @@ function stepFades(dt: number) {
             // Labels are faded by fadeLabels() / stepNames(), link lines below; everything else (spheres, badges) here.
             if (o instanceof SpriteText || o.userData.isLinkLine) return;
             const m = (o as THREE.Mesh).material as THREE.Material | undefined;
-            if (!m || m === (unionMat as THREE.Material)) return;
+            if (!m) return;
             m.transparent = true;
             m.userData.baseOpacity ??= m.opacity;
             m.opacity = dim * (m.userData.baseOpacity as number);
@@ -333,6 +411,7 @@ function stepFades(dt: number) {
     for (const n of nodes as (Node & Bound)[]) fadeObject(n.__threeObj);
     for (const l of links as (Link & Bound)[]) {
         fadeObject(l.__lineObj);
+        fadeObject(l.__photonsObj); // the travelling dots: the library re-uses the template's material for them
         // Path links: brighter (full opacity, gold) and thicker than resting links.
         const line = l.__lineObj?.children[0] as
             THREE.Mesh<THREE.BufferGeometry, THREE.MeshLambertMaterial> | undefined;
@@ -450,6 +529,7 @@ export function stepGraph(
     viewH: number
 ): void {
     graph.tickFrame();
+    stepFlat(dt);
     updateSiblings();
     stepFades(dt);
     fadeLabels(camera);

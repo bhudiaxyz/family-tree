@@ -113,6 +113,7 @@ The **Sagas** menu (top right) also has:
 
 - **Glow:** a soft bloom on the highlighted path and lit spheres. On by default only on fast GPUs.
 - **Generation guides:** faint horizontal lines and "Generation n" labels at each row.
+- **2D:** flattens the tree onto one plane (animated both ways) and turns the camera to face it. Rotation is off; drag to pan, scroll or pinch to zoom. The nebula sky is unaffected.
 - **Nebula sky:** a faint procedural nebula behind the tree, different for each saga. Turn it off for a plain dark background.
 
 Your choices are remembered on this device.
@@ -162,6 +163,7 @@ The address bar tracks what you're looking at, so any view can be shared or book
 - `?saga=dune` opens a saga.
 - `?saga=starwars&person=leia` opens a saga with a person selected.
 - `?saga=got&person=jon&with=daenerys` opens the relationship finder for two people.
+- `&view=2d` (on any of these) opens in 2D; `view=3d` is the default.
 
 Unknown sagas fall back to the first one, and unknown people are ignored.
 

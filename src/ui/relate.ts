@@ -1,7 +1,7 @@
 // The relationship finder: two name boxes, the relationship between them, common ancestors and the step-by-step chain.
 import { fitTree } from "../camera.ts";
-import { findByName } from "../family.ts";
 import { relate, stepWord } from "../relationship.ts";
+import { personIn, setPerson } from "../suggest.ts";
 import { $, btnRelate, relA, relatePanel, relB } from "./dom.ts";
 import { flyToPerson, personLink, refreshHighlight, state } from "./state.ts";
 import { writeUrl } from "./url.ts";
@@ -13,7 +13,7 @@ const relNotes = $("rel-notes");
 export function openRelate(from?: string): void {
     relatePanel.hidden = false;
     btnRelate.setAttribute("aria-pressed", "true");
-    if (from && state.tree) relA.value = state.tree.people[from].name;
+    if (from && state.tree) setPerson(relA, from);
     (relA.value ? relB : relA).focus();
     updateRelate();
 }
@@ -37,7 +37,8 @@ export function resetRelate(): void {
     state.relStep = null;
     relatePanel.hidden = true;
     btnRelate.setAttribute("aria-pressed", "false");
-    relA.value = relB.value = "";
+    setPerson(relA, null);
+    setPerson(relB, null);
     clearResult();
 }
 
@@ -49,7 +50,7 @@ function clearResult() {
 
 /** Fill the finder's next empty box ("From" first, then "To") with a tapped person. */
 export function fillRelate(id: string): void {
-    (relA.value ? relB : relA).value = state.tree!.people[id].name;
+    setPerson(relA.value ? relB : relA, id);
     updateRelate();
 }
 
@@ -57,8 +58,8 @@ export function fillRelate(id: string): void {
 export function updateRelate(): void {
     const { tree } = state;
     if (!tree) return;
-    const a = findByName(tree, relA.value);
-    const b = findByName(tree, relB.value);
+    const a = personIn(relA);
+    const b = personIn(relB);
     relSteps.replaceChildren();
     relNotes.replaceChildren();
     if (!a || !b) {
@@ -155,7 +156,9 @@ for (const input of [relA, relB]) {
     input.addEventListener("input", () => !input.value && updateRelate());
 }
 $("rel-swap").onclick = () => {
-    [relA.value, relB.value] = [relB.value, relA.value];
+    const [a, b] = [personIn(relA), personIn(relB)];
+    setPerson(relA, b);
+    setPerson(relB, a);
     updateRelate();
 };
 btnRelate.onclick = toggleRelate;

@@ -5,6 +5,8 @@ import { savePng } from "./files.ts";
 import { deselect, goBack, setFocus, stepToRelative } from "./panel.ts";
 import { closeRelate, toggleRelate } from "./relate.ts";
 import { setHouse } from "./legend.ts";
+import { fitFamily, stepGeneration, zoomIn, zoomOut } from "./navigate.ts";
+import { toggleMinimap } from "./minimap.ts";
 import { state } from "./state.ts";
 
 // --- Keyboard -------------------------------------------------------------------------------------------------------
@@ -22,6 +24,13 @@ addEventListener("keydown", (e) => {
     if (e.key === "r" || e.key === "R") return (e.preventDefault(), toggleRelate());
     if (e.key === "p" || e.key === "P") return (e.preventDefault(), void savePng());
     if (e.key === "f" || e.key === "F") return fitTree();
+    // G: frame the selected person's immediate family. + / -: zoom. Page Up / Down: a generation older / younger.
+    if ((e.key === "g" || e.key === "G") && state.selected) return fitFamily();
+    if (e.key === "+" || e.key === "=") return (e.preventDefault(), zoomIn());
+    if (e.key === "-" || e.key === "_") return (e.preventDefault(), zoomOut());
+    if (e.key === "PageUp" || e.key === "PageDown")
+        return (e.preventDefault(), stepGeneration(e.key === "PageUp" ? -1 : 1));
+    if (e.key === "m" || e.key === "M") return toggleMinimap();
     // L: show only this person's line, or everyone again. Backspace: back to the person before.
     if ((e.key === "l" || e.key === "L") && state.selected) return setFocus(state.focus === "off" ? "all" : "off");
     if (e.key === "Backspace" && state.selected) return (e.preventDefault(), goBack());
@@ -54,3 +63,5 @@ for (const btn of document.querySelectorAll<HTMLButtonElement>("#pad button[data
         btn.addEventListener(ev, () => releasePan(dir));
 }
 document.querySelector<HTMLButtonElement>("#pad [data-action=fit]")!.onclick = fitTree;
+document.querySelector<HTMLButtonElement>("#pad [data-action=zoom-in]")!.onclick = zoomIn;
+document.querySelector<HTMLButtonElement>("#pad [data-action=zoom-out]")!.onclick = zoomOut;

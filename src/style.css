@@ -143,6 +143,95 @@ header {
     letter-spacing: 0.03em;
     color: var(--gold-bright);
 }
+#panel-pin {
+    margin-left: 4px;
+    padding: 0 2px;
+    font-size: 17px;
+    line-height: 1;
+    vertical-align: 1px;
+    color: var(--ink-faint);
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
+#panel-pin[aria-pressed="true"],
+#panel-pin:hover {
+    color: var(--gold-bright);
+}
+/* Line of descent above the name: small, wraps, each name a link. */
+#panel-trail {
+    margin: 0 24px 4px 0;
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--ink-faint);
+}
+#panel-trail[hidden] {
+    display: none;
+}
+#panel-trail a {
+    color: var(--ink-soft);
+}
+.trail-more,
+.count-link {
+    padding: 0;
+    font: inherit;
+    color: var(--ink-soft);
+    background: none;
+    border: 0;
+    text-decoration: underline dotted rgba(201, 173, 115, 0.6);
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+.trail-more:hover,
+.count-link:hover {
+    color: var(--gold-bright);
+}
+#panel-count {
+    margin: -6px 0 10px;
+    font-size: 12px;
+}
+#panel-count:empty {
+    display: none;
+}
+.focus-depth select {
+    padding: 2px 4px;
+    font: 500 11px var(--fb);
+    color: var(--ink);
+    background: rgba(20, 19, 24, 0.85);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color-scheme: dark;
+}
+/* Namesake hints in the suggestion list ("Lamech · son of Methushael"). */
+#suggest .hint {
+    margin-left: 6px;
+    font-size: 12px;
+    color: var(--ink-faint);
+}
+#suggest .hint::before {
+    content: "· ";
+}
+/* Pinned people, a folder in the menu (ui/sagas.ts). */
+#pin-list {
+    margin: 0;
+    padding: 2px 0 4px;
+    list-style: none;
+}
+#pin-list button {
+    display: block;
+    width: 100%;
+    padding: 4px 8px;
+    font: 12px var(--fb);
+    text-align: left;
+    color: var(--ink);
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
+#pin-list button:hover {
+    background: rgba(201, 173, 115, 0.12);
+    color: var(--gold-bright);
+}
 #panel-house {
     margin: 0 0 10px;
     font-size: 12px;
@@ -501,16 +590,27 @@ header {
 #gen-labels[hidden] {
     display: none;
 }
-#gen-labels span {
+#gen-labels button {
     position: absolute;
-    top: -8px; /* centre the text on the row */
+    top: -10px; /* centre the text on the row */
+    padding: 2px 4px;
     white-space: nowrap;
     font: 500 11px var(--fb);
     letter-spacing: 0.05em;
     color: rgba(201, 173, 115, 0.55);
     text-shadow: 0 1px 3px #000;
+    background: none;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+    pointer-events: auto; /* the layer lets clicks through; the labels themselves take them */
 }
-#gen-labels span[hidden] {
+#gen-labels button:hover,
+#gen-labels button:focus-visible {
+    color: var(--gold-bright);
+    background: rgba(20, 19, 24, 0.7);
+}
+#gen-labels button[hidden] {
     display: none;
 }
 
@@ -604,6 +704,84 @@ body.no-3d #pad {
 }
 #pad [data-dir="down"] {
     grid-area: 3 / 2;
+}
+/* Zoom in the pad's empty bottom corners, so the pad stays 3 × 3. */
+#pad [data-action="zoom-out"] {
+    grid-area: 3 / 1;
+    font-size: 20px;
+}
+#pad [data-action="zoom-in"] {
+    grid-area: 3 / 3;
+    font-size: 20px;
+}
+
+/* ── Minimap (ui/minimap.ts): bottom right, above the pad on touch screens ──────────────────────────────────── */
+#minimap {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    /* width and height are set by ui/minimap.ts, which shapes the map to the tree */
+    background: rgba(20, 19, 24, 0.78);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+}
+#minimap[hidden] {
+    display: none;
+}
+#minimap canvas {
+    display: block;
+    cursor: crosshair;
+    touch-action: none;
+}
+#minimap-toggle {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: calc(max(16px, env(safe-area-inset-bottom)) + var(--map-h, 120px) + 4px);
+    width: 26px;
+    height: 22px;
+    padding: 0;
+    font-size: 13px;
+    color: var(--ink-faint);
+    background: rgba(20, 19, 24, 0.78);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    cursor: pointer;
+}
+#minimap-toggle[aria-pressed="false"] {
+    bottom: max(16px, env(safe-area-inset-bottom));
+}
+#minimap-toggle:hover {
+    color: var(--gold-bright);
+}
+/* The relationship finder sits bottom right too: hide the map while it's open, so it doesn't cover the finder. */
+#relate:not([hidden]) ~ #minimap,
+#relate:not([hidden]) ~ #minimap-toggle {
+    display: none;
+}
+/* Phones: the details panel spans the bottom of the screen (with the pad above it), so there's no free corner for the
+   map; hide it while the panel is open. It's back as soon as the panel closes. */
+@media (max-width: 600px) {
+    #panel:not([hidden]) ~ #minimap,
+    #panel:not([hidden]) ~ #minimap-toggle {
+        display: none;
+    }
+}
+/* Touch screens: the pad takes the bottom-right corner, so the map sits just above it. --pad-h is the pad's height:
+   three 52 px rows and two 4 px gaps (the coarse-pointer pad size, set further down). */
+@media (pointer: coarse) {
+    :root {
+        --pad-h: calc(3 * 52px + 2 * 4px);
+    }
+    #minimap {
+        bottom: calc(max(16px, env(safe-area-inset-bottom)) + var(--pad-h) + 10px);
+    }
+    #minimap-toggle {
+        bottom: calc(max(16px, env(safe-area-inset-bottom)) + var(--pad-h) + 10px + var(--map-h, 120px) + 4px);
+    }
+    #minimap-toggle[aria-pressed="false"] {
+        bottom: calc(max(16px, env(safe-area-inset-bottom)) + var(--pad-h) + 10px);
+    }
 }
 
 /* ── lil-gui theme; color-scheme also makes the native <select> option list dark ─────────────────────────── */

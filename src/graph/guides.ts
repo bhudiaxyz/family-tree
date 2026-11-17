@@ -39,12 +39,23 @@ export function setGuides(rows: number, y: (g: number) => number): void {
         guides.add(line);
         rowY.push(y(g));
     }
-    rowLabels = rowY.map((_, g) =>
-        Object.assign(document.createElement("span"), { textContent: `Generation ${g + 1}` })
-    );
+    // Buttons, so a row can be jumped to with a click, a tap or the keyboard (see onRowPicked).
+    rowLabels = rowY.map((_, g) => {
+        const b = Object.assign(document.createElement("button"), { textContent: `Generation ${g + 1}` });
+        b.title = `Go to generation ${g + 1} (Page Up / Page Down step between them)`;
+        b.onclick = () => rowPicked?.(g);
+        return b;
+    });
     labelLayer.replaceChildren(...rowLabels);
     lastTops = [];
 }
+
+/** World height of each generation row, top (oldest) first: for stepping between generations. */
+export const generationRows = (): readonly number[] => rowY;
+
+let rowPicked: ((row: number) => void) | null = null;
+/** Called with the row number when a "Generation n" label is clicked. */
+export const onRowPicked = (fn: (row: number) => void) => (rowPicked = fn);
 
 export function setGuidesVisible(on: boolean): void {
     guides.visible = shown = on;

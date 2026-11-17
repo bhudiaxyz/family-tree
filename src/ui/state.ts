@@ -21,6 +21,7 @@ export const state = {
     relStep: null as [string, string] | null, // the finder step being hovered, if any
     house: null as string | null, // a house picked in the legend, highlighted on its own
     focus: "off" as Focus,
+    focusDepth: 0, // generations up and down that focus mode shows; 0 = all
     view2d: false, // ?view=2d|3d, 3d by default
 };
 
@@ -44,6 +45,9 @@ export function refreshHighlight(): void {
     if (!id) return highlight(null);
     const roles = lineageRoles(tree, id);
     // Focus on one side: keep that side, the person and their spouses (so the couple at the top/bottom stays whole).
+    // Focus depth: keep only people within that many generations (spouses and the person count as distance 0).
+    if (focus !== "off" && state.focusDepth > 0)
+        for (const [pid, r] of roles) if (r.distance > state.focusDepth) roles.delete(pid);
     if (focus === "ancestors" || focus === "descendants") {
         const side = focus === "ancestors" ? "ancestor" : "descendant";
         for (const [pid, r] of roles)

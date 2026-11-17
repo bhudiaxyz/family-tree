@@ -1,17 +1,15 @@
 // The "Find a person" box.
-import { findByName } from "../family.ts";
+import { personIn } from "../suggest.ts";
 import { search } from "./dom.ts";
 import { deselect, select } from "./panel.ts";
 import { state } from "./state.ts";
 
-// `change` also fires on blur. After a search, clicking a relative in the panel selects them and writes their name
-// into the box, then the box blurs and fires `change` with the value it had before; acting on that re-selected the
-// searched person. Only treat it as a new search when the text names someone other than the current selection.
+// `change` also fires on blur. Clicking a relative in the panel selects them and writes them into the box first, so
+// the blur's `change` then names the person already selected and is ignored; acting on stale text used to re-select
+// the person searched for. The box holds a person (picked from its list), not just a name; see suggest.ts.
 search.addEventListener("change", () => {
-    const { tree, selected } = state;
-    if (!tree || search.value === (selected && tree.people[selected].name)) return;
-    const id = findByName(tree, search.value);
-    if (id && id !== selected) select(id, true);
+    const id = personIn(search);
+    if (id && id !== state.selected) select(id, true);
 });
 // The clear (✕) button and deleting the text fire `input`, not `change` (which waits for blur).
 search.addEventListener("input", () => {

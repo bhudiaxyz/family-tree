@@ -22,19 +22,53 @@ export const setReducedMotion = (on: boolean) => {
 
 let autoFit = true;
 let flight: { node: Pos; dir: THREE.Vector3; t: number } | null = null;
+// What auto-fit frames: the whole tree (null), or a group of people (fitPeople), followed live while the layout moves.
+let fitGroup: Pos[] | null = null;
+// A camera glide to a fixed target and distance (glideTo): generation steps, the minimap, a restored view.
+let glide: { target: THREE.Vector3; dist: number } | null = null;
 
-/** Hand the camera to the user: stop auto-fit and any fly-to. */
+/** Hand the camera to the user: stop auto-fit, any fly-to or glide. */
 export function takeCamera(): void {
     autoFit = false;
     flight = null;
+    glide = null;
 }
 controls.addEventListener("start", takeCamera);
 
 /** Ease back to the whole tree (after loading a saga, deselecting, or the pad's fit button). */
 export function fitTree(): void {
     flight = null;
+    glide = null;
+    fitGroup = null;
     autoFit = true;
 }
+
+/** Ease to frame just these people (a person and their immediate family), keeping the current viewing angle. */
+export function fitPeople(nodes: Pos[]): void {
+    const placed = nodes.filter((n) => n.x !== undefined);
+    if (!placed.length) return;
+    flight = null;
+    glide = null;
+    fitGroup = placed;
+    autoFit = true;
+}
+
+/** Glide the orbit target to `target`, `dist` away (or at the current distance), keeping the viewing angle. */
+export function glideTo(target: THREE.Vector3, dist = camera.position.distanceTo(controls.target)): void {
+    autoFit = false;
+    flight = null;
+    glide = { target: target.clone(), dist };
+}
+
+/** Zoom in (factor < 1) or out (factor > 1) by a step, towards the orbit target; for the pad's ± and the keyboard. */
+export function zoomBy(factor: number): void {
+    const cur = camera.position.distanceTo(controls.target);
+    const next = THREE.MathUtils.clamp(cur * factor, controls.minDistance || 8, Math.min(controls.maxDistance, 4000));
+    glideTo(controls.target, next);
+}
+
+/** Where the camera is looking and from how far: for remembering a saga's view and the minimap. */
+export const viewState = () => ({ target: controls.target.clone(), dist: camera.position.distanceTo(controls.target) });
 
 /** Fly to a node, following its live position (the layout may still be settling) for about a second. */
 export function flyTo(node: Pos): void {
@@ -66,6 +100,32 @@ function stepFit(bbox: Bbox, dt: number) {
     const k = ease(6, dt);
     controls.target.lerp(center, k);
     camera.position.lerp(goal.copy(center).setZ(center.z + dist), k);
+}
+
+// The box around a group of people, padded like peopleBbox() for names above and badges below.
+function groupBox(nodes: Pos[]): Bbox {
+    const xs = nodes.map((n) => n.x!);
+    const ys = nodes.map((n) => n.y!);
+    const zs = nodes.map((n) => drawnZ(n.z!));
+    const pad = (v: number[], lo: number, hi: number): [number, number] => [Math.min(...v) - lo, Math.max(...v) + hi];
+    // At least a little width and height, so a single person or a couple isn't framed absurdly close.
+    const x = pad(xs, 30, 30);
+    const y = pad(ys, 25, 30);
+    return { x, y, z: [Math.min(...zs), Math.max(...zs)] };
+}
+
+const offsetDir = new THREE.Vector3();
+function stepGlide(dt: number) {
+    if (!glide) return;
+    const k = ease(6, dt);
+    offsetDir.subVectors(camera.position, controls.target).normalize();
+    controls.target.lerp(glide.target, k);
+    camera.position.lerp(goal.copy(glide.target).addScaledVector(offsetDir, glide.dist), k);
+    if (
+        controls.target.distanceTo(glide.target) < 0.05 &&
+        Math.abs(camera.position.distanceTo(controls.target) - glide.dist) < 0.05
+    )
+        glide = null;
 }
 
 const FLY_SECONDS = 1;
@@ -132,9 +192,10 @@ export function nudgeRotate(dir: Dir): void {
 
 /** Advance all camera behaviour by one frame. `bbox` is only read while auto-fitting. */
 export function stepCamera(dt: number, bbox: () => Bbox | null): void {
-    const box = autoFit ? bbox() : null;
+    const box = autoFit ? (fitGroup ? groupBox(fitGroup) : bbox()) : null;
     if (box) stepFit(box, dt);
     stepFlight(dt);
+    stepGlide(dt);
     stepPan(dt);
     stepFlatView(dt);
     controls.update();

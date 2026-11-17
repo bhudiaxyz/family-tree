@@ -17,7 +17,7 @@ import { setSiblings, updateSiblings } from "./graph/siblings.ts";
 
 export { graph, isShown, type Node } from "./graph/core.ts";
 export { drawnZ, setFlat } from "./graph/flat.ts";
-export { setGuidesVisible } from "./graph/guides.ts";
+export { generationRows, onRowPicked, setGuidesVisible } from "./graph/guides.ts";
 export { type HighlightOptions, highlight } from "./graph/highlight.ts";
 export { setRelativeTags } from "./graph/names.ts";
 

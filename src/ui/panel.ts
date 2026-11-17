@@ -1,15 +1,20 @@
 // Selection and the details panel for the selected person: relatives, a back button through the people visited,
 // focus mode (show only this person's line), and "relative to" mode (tag everyone with how they're related).
 import { fitTree } from "../camera.ts";
-import { relatives } from "../family.ts";
+import { ancestry, descendantCount, relatives } from "../family.ts";
 import { setRelativeTags } from "../graph.ts";
 import { labelAll } from "../relationship.ts";
+import { setPerson } from "../suggest.ts";
 import { $, panel, search } from "./dom.ts";
+import { fitFamily, isPinned, onPinsChanged, togglePin } from "./navigate.ts";
 import { openRelate } from "./relate.ts";
 import { type Focus, flyToPerson, personLink, refreshHighlight, state } from "./state.ts";
 import { pushUrl, writeUrl } from "./url.ts";
 
-const panelName = $("panel-name");
+const panelName = $("panel-name-text");
+const panelTrail = $("panel-trail");
+const panelCount = $("panel-count");
+const pinButton = $<HTMLButtonElement>("panel-pin");
 const panelHouse = $("panel-house");
 const panelList = $("panel-list");
 const back = $<HTMLButtonElement>("panel-back");
@@ -37,8 +42,11 @@ export function select(id: string, fly = false, fromHistory = false): void {
     panelHouse.textContent = p.house;
     panelHouse.style.color = tree.houseColors[p.house] ?? "";
     panelList.replaceChildren(...relatives(tree, id).flatMap(([label, ids]) => relativeRow(label, ids)));
+    showTrail(id);
+    showCount(id);
+    showPin(id);
     panel.hidden = false;
-    search.value = p.name; // keep the search box showing who is selected
+    setPerson(search, id); // keep the search box showing who is selected
     updateBack();
     if (fromHistory) writeUrl();
     if (state.focus !== "off")
@@ -87,7 +95,7 @@ export function deselect(fromHistory = false): void {
     if (!fromHistory && state.selected) trail.push(state.selected);
     state.selected = null;
     panel.hidden = true;
-    search.value = "";
+    setPerson(search, null);
     setRelativeTo(null);
     fitTree(); // ease back to the whole tree, so the orbit pivot is no longer the last person
     refreshHighlight();
@@ -138,3 +146,81 @@ export function stepToRelative(dir: "up" | "down" | "left" | "right"): void {
     }
     if (next) select(next, true);
 }
+
+// --- Line of descent: a clickable trail from the oldest known ancestor down to this person ---------------------------
+// Long lines (the Bible runs 70+ generations) show the start, an ellipsis that expands, and the last few steps.
+const TRAIL_HEAD = 2;
+const TRAIL_TAIL = 3;
+function showTrail(id: string) {
+    const line = ancestry(state.tree!, id);
+    panelTrail.hidden = line.length < 2;
+    if (line.length < 2) return panelTrail.replaceChildren();
+    const link = (pid: string) => personLink(pid, () => select(pid, true));
+    const parts = (ids: string[]) => ids.flatMap((pid, i) => (i ? [" › ", link(pid)] : [link(pid)]));
+    const above = line.slice(0, -1); // the person themselves is the panel's heading
+    if (above.length <= TRAIL_HEAD + TRAIL_TAIL + 1) return panelTrail.replaceChildren(...parts(above), " ›");
+    const more = Object.assign(document.createElement("button"), {
+        className: "trail-more",
+        textContent: `… ${above.length - TRAIL_HEAD - TRAIL_TAIL} more …`,
+        title: "Show the whole line",
+    });
+    more.onclick = () => panelTrail.replaceChildren(...parts(above), " ›");
+    panelTrail.replaceChildren(
+        ...parts(above.slice(0, TRAIL_HEAD)),
+        " › ",
+        more,
+        " › ",
+        ...parts(above.slice(-TRAIL_TAIL)),
+        " ›"
+    );
+}
+
+// --- Descendant count: "14 descendants over 4 generations"; click to show just them --------------------------------
+function showCount(id: string) {
+    const { people, generations } = descendantCount(state.tree!, id);
+    panelCount.replaceChildren();
+    if (!people) return;
+    const b = Object.assign(document.createElement("button"), {
+        className: "count-link",
+        textContent: `${people} descendant${people === 1 ? "" : "s"} over ${generations} generation${generations === 1 ? "" : "s"}`,
+        title: "Show only their descendants",
+    });
+    b.onclick = () => setFocus("descendants");
+    panelCount.append(b);
+}
+
+// --- Pin ----------------------------------------------------------------------------------------------------------
+function showPin(id: string) {
+    const on = isPinned(id);
+    pinButton.textContent = on ? "★" : "☆";
+    pinButton.setAttribute("aria-pressed", String(on));
+    pinButton.title = on ? "Unpin" : "Pin this person (they're listed in the menu)";
+}
+pinButton.onclick = () => state.selected && togglePin(state.selected);
+onPinsChanged(() => state.selected && showPin(state.selected));
+
+$("panel-fit").onclick = fitFamily;
+
+// --- Focus depth: how many generations up and down focus mode shows ---------------------------------------------------
+const depthSelect = $<HTMLSelectElement>("panel-depth");
+depthSelect.onchange = () => {
+    state.focusDepth = Number(depthSelect.value);
+    if (state.focus === "off")
+        setFocus("all"); // choosing a depth means you want to focus
+    else (refreshHighlight(), fitTree());
+};
+
+// --- Swipe the panel left/right (touch) to move to the next/previous sibling, like Alt + ← → ---------------------------
+let swipeFrom: { x: number; y: number } | null = null;
+panel.addEventListener("pointerdown", (e) => {
+    if (e.pointerType === "touch") swipeFrom = { x: e.clientX, y: e.clientY };
+});
+panel.addEventListener("pointerup", (e) => {
+    if (!swipeFrom) return;
+    const dx = e.clientX - swipeFrom.x;
+    const dy = e.clientY - swipeFrom.y;
+    swipeFrom = null;
+    // A clear sideways swipe only: at least 60 px, and mostly horizontal, so scrolling the panel isn't mistaken for it.
+    if (Math.abs(dx) > 60 && Math.abs(dx) > 2 * Math.abs(dy)) stepToRelative(dx < 0 ? "right" : "left");
+});
+panel.addEventListener("pointercancel", () => (swipeFrom = null));

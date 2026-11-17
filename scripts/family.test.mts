@@ -2,13 +2,17 @@
 import assert from "node:assert/strict";
 import type { Tree } from "../src/data/schema.ts";
 import {
+    ancestry,
     childLabel,
+    descendantCount,
+    distinguish,
     findByName,
     houseDepths,
     lineage,
     lineageRoles,
     parentLabel,
     relatives,
+    searchPeople,
     siblingLabel,
 } from "../src/family.ts";
 import { treeById } from "./data.mts";
@@ -65,6 +69,37 @@ assert.equal(findByName(got, "Arryn"), "jonArryn");
 assert.equal(findByName(got, ""), null);
 assert.equal(findByName(got, "Gandalf"), null);
 
+// Search ignores accents, case and punctuation, ranks exact > prefix > contains > close spelling, and tolerates typos.
+const babylon = saga("babylonian-gods");
+assert.equal(findByName(babylon, "apsu"), "apsu", "accents ignored: apsu finds Apsû");
+const nehru = saga("nehru-gandhi");
+assert.equal(findByName(nehru, "Ghandi")?.endsWith("gandhi"), true, "a typo still finds a Gandhi");
+assert.equal(findByName(nehru, "Jawarharlal"), "jawaharlal-nehru", "one wrong letter");
+assert.equal(findByName(got, "Jnn"), null, "short queries don't fuzz-match (too many false hits)");
+assert.deepEqual(searchPeople(got, "stark", 3).length, 3, "limit applies");
+assert.equal(searchPeople(got, "Eddard Stark")[0], "eddard", "the exact name ranks first");
+
+// Telling namesakes apart: only for repeated names, by parents, else a child, else a spouse.
+const bible = saga("bible");
+const lamechs = Object.keys(bible.people).filter((id) => bible.people[id].name === "Lamech");
+assert.equal(lamechs.length, 2, "the Bible has two Lamechs");
+const hints = lamechs.map((id) => distinguish(bible, id));
+assert.ok(hints.every(Boolean) && hints[0] !== hints[1], `Lamechs told apart: ${hints.join(" / ")}`);
+assert.equal(distinguish(got, "jon"), null, "a unique name needs no hint");
+
+// Ancestry: one line back to the oldest ancestor, through the father first; and descendant counts.
+assert.deepEqual(ancestry(nehru, "rahul-gandhi"), [
+    "gangadhar-nehru",
+    "motilal-nehru",
+    "jawaharlal-nehru",
+    "indira-gandhi",
+    "rajiv-gandhi",
+    "rahul-gandhi",
+]);
+assert.deepEqual(ancestry(got, "rickard").at(-1), "rickard");
+// Jawaharlal, Vijaya Lakshmi, Krishna; Indira, three Pandit and two Hutheesing grandchildren; Rajiv, Sanjay; Rahul, Priyanka, Varun.
+assert.deepEqual(descendantCount(nehru, "motilal-nehru"), { people: 14, generations: 4 });
+
 // House depths: within ±depth/2, the biggest house at the centre, one plane per house.
 const z = houseDepths(got, 240);
 assert.equal(z.size, Object.keys(got.houseColors).length);
@@ -72,4 +107,4 @@ for (const v of z.values()) assert.ok(Math.abs(v) <= 120);
 assert.equal(z.get("Stark"), 0, "the biggest house sits in the middle plane");
 assert.equal(houseDepths({ ...got, houseColors: { Stark: "#fff" } }, 240).get("Stark"), 0, "single house: no NaN");
 
-console.log("ok  family queries: lineage, relatives, link labels, search, house depths");
+console.log("ok  family queries: lineage, relatives, ancestry, link labels, search (fuzzy), namesakes, house depths");

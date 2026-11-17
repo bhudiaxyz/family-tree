@@ -11,6 +11,7 @@ import { rebuildAfterContextLoss, start } from "./ui/sagas.ts";
 import "./ui/search.ts";
 import "./ui/input.ts";
 import "./ui/picking.ts";
+import { stepMinimap } from "./ui/minimap.ts";
 
 scene.add(graph);
 
@@ -76,6 +77,7 @@ renderer.setAnimationLoop((now) => {
     const step = idle ? Math.min((now - lastDrawn) / 1000, 0.1) : dt;
     lastDrawn = now;
     stepGraph(camera, controls.target, step, now, innerWidth, innerHeight);
+    stepMinimap();
     stepCamera(step, peopleBbox);
     updateFog();
     draw();

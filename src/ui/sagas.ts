@@ -8,10 +8,11 @@ import { fontsReady, resetBadges } from "../labels.ts";
 import { bakeNebula } from "../nebula.ts";
 import { paletteFor, usePalette } from "../palettes.ts";
 import { applyScenePalette, controls, glow, renderer, setGlow, setSky } from "../scene.ts";
-import { setSuggestions } from "../suggest.ts";
+import { setPerson, setSuggestions } from "../suggest.ts";
 import { author, panel, relA, relB, search, title } from "./dom.ts";
 import { clearTrail, onHistoryBack, select, setFocus, setRelativeTo } from "./panel.ts";
 import { mountLegend, setLegend } from "./legend.ts";
+import { onPinsChanged, pinned, rememberView, restoreView } from "./navigate.ts";
 import { onPopState } from "./url.ts";
 import { resetCard } from "./picking.ts";
 import { openRelate, resetRelate } from "./relate.ts";
@@ -25,6 +26,7 @@ const sagaIndex = new Map<string, SagaIndexEntry>();
 let request = 0; // ignore a slow response if the user has already picked another saga
 async function openSaga(id: string, person?: string | null, withPerson?: string | null) {
     const mine = ++request;
+    rememberView(state.sagaId); // so switching back here returns to this view
     state.sagaId = id;
     title.textContent = "Loading…";
     author.textContent = "";
@@ -39,8 +41,8 @@ async function openSaga(id: string, person?: string | null, withPerson?: string 
             setTimeout(() => {
                 if (mine !== request) return;
                 if (withPerson && t.people[withPerson]) {
-                    relA.value = t.people[person].name;
-                    relB.value = t.people[withPerson].name;
+                    setPerson(relA, person);
+                    setPerson(relB, withPerson);
                     openRelate();
                 } else select(person, true);
             }, 1500);
@@ -67,7 +69,7 @@ function show(t: Tree) {
     clearTrail();
     resetCard();
     panel.hidden = true;
-    search.value = "";
+    setPerson(search, null);
     resetRelate();
     setRelativeTo(null);
     // Theme first: materials, labels and badges pick up their colours when built, so the palette must be active
@@ -79,15 +81,12 @@ function show(t: Tree) {
     setLegend(t);
     setFocus("off");
     scheduleSky(skyId());
-    setSuggestions(
-        Object.values(t.people)
-            .map((p) => p.name)
-            .sort()
-    );
+    setSuggestions(t);
     title.textContent = t.title;
     author.textContent = t.author;
     controls.reset();
-    fitTree();
+    if (!restoreView(state.sagaId)) fitTree(); // back to where you were in this saga, else the whole tree
+    showPins();
     writeUrl();
 }
 
@@ -176,5 +175,29 @@ function buildMenu(sagas: SagaIndexEntry[], first: string, params: URLSearchPara
             scheduleSky(skyId());
         });
     mountLegend(gui); // a collapsed "Houses" folder: click a house to light it up
+    mountPins(gui); // a "Pinned" folder: the people starred in the panel, for this saga
     if (matchMedia("(max-width: 600px)").matches) gui.close(); // on phones the open menu covers the title
 }
+
+// --- Pinned people: a menu folder listing the people starred in the panel ---------------------------------------
+const pinList = Object.assign(document.createElement("ul"), { id: "pin-list" });
+let pinFolder: GUI | null = null;
+function mountPins(gui: GUI) {
+    pinFolder = gui.addFolder("Pinned").close();
+    pinFolder.$children.append(pinList);
+    showPins();
+}
+function showPins() {
+    const ids = pinned();
+    pinFolder?.show(ids.length > 0);
+    pinList.replaceChildren(
+        ...ids.map((id) => {
+            const li = document.createElement("li");
+            const b = Object.assign(document.createElement("button"), { textContent: state.tree!.people[id].name });
+            b.onclick = () => select(id, true);
+            li.append(b);
+            return li;
+        })
+    );
+}
+onPinsChanged(showPins);

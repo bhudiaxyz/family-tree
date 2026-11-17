@@ -5,7 +5,8 @@
 - [1. Overview](#1-overview)
 - [2. Source layout](#2-source-layout)
 - [3. Data model](#3-data-model)
-    - [Stored format: SagaRecord](#stored-format-sagarecord)
+    - [The data file: `SagaFile`](#the-data-file-sagafile)
+    - [Database tables: `SagaRecord`](#database-tables-sagarecord)
     - [In-memory format: Tree](#in-memory-format-tree)
 - [4. Graph construction: union nodes](#4-graph-construction-union-nodes)
 - [5. Layout](#5-layout)
@@ -31,7 +32,7 @@ The app turns a list of people and families into a 3D graph and draws it with th
 
 ```
 public/data/<category>/*.json ──fetch──► src/data/source.ts ──► src/ui/sagas.ts show() ──► three-forcegraph ──► three.js scene
- (or VITE_DATA_URL)            toTree(): tables→Tree     graph build        d3-force-3d          OrbitControls
+ (or VITE_DATA_URL)  expandSaga(): file→tables, toTree(): tables→Tree   graph build   d3-force-3d   OrbitControls
                                      ▲
                          lil-gui "Saga" drop-down (from sagas.json)
 ```
@@ -74,34 +75,120 @@ public/data/<category>/*.json ──fetch──► src/data/source.ts ──► 
 | `src/family.ts`                    | Pure family queries: `lineage`, `relatives`, link labels, `findByName`, `houseDepths`.                                                                                                                                                                                |
 | `src/relationship.ts`              | `relate(tree, a, b)` and `labelAll(tree, centre)`: blood, step and in-law names, common ancestors, every route, and the connecting path (§5b).                                                                                                                        |
 | `src/generations.ts`               | `generations(tree)`: a generation number for every person (§5).                                                                                                                                                                                                       |
-| `src/data/schema.ts`               | `SagaIndexEntry` and `SagaRecord` (the stored format), and `Tree` (the in-memory format the renderer uses).                                                                                                                                                           |
-| `src/data/source.ts`               | `listSagas()` and `loadSaga(id)` fetch from the data base URL; `toTree()` turns a `SagaRecord` into a `Tree`. The only file that knows where the data comes from.                                                                                                     |
+| `src/data/schema.ts`               | `SagaFile` (the hand-written JSON format) and `SagaRecord` (the same data as database tables), with `expandSaga()` / `compactSaga()` between them; `Tree` (the in-memory format the renderer uses); `SagaIndexEntry` and `sagaPath()` (§3).                           |
+| `src/data/source.ts`               | `listSagas()` and `loadSaga(entry)` fetch from the data base URL; `toRecord()` accepts a `SagaFile` or a `SagaRecord`, and `toTree()` turns the record into a `Tree`. The only file that knows where the data comes from.                                             |
 | `src/data/gedcom.ts`               | `parseGedcom(text)`: GEDCOM 5.5, 5.5.1 and 7 → `Tree`, plus warnings (§5c).                                                                                                                                                                                           |
 | `src/d3-force-3d.d.ts`             | Types for the one `d3-force-3d` export used (`forceZ`).                                                                                                                                                                                                               |
 | `public/data/sagas.json`           | Manifest: `{ id, category, title, work, author }` per saga. Sets the drop-down order; the first entry loads at startup.                                                                                                                                               |
-| `public/data/<category>/<id>.json` | One saga each as a `SagaRecord`: normalised tables plus `source` and `notes`, in its category's folder (`fiction/` or `history/`).                                                                                                                                    |
-| `db/schema.sql`, `db/seed.sql`     | Relational tables matching `SagaRecord`, and a generated seed with every saga (§3).                                                                                                                                                                                   |
+| `public/data/<category>/<id>.json` | One saga each as a `SagaFile`: houses, people, and families with their members inline, plus `source` and `notes`, in its category's folder. Written for people to edit (§3).                                                                                          |
+| `db/schema.sql`, `db/seed.sql`     | Relational tables matching `SagaRecord`, and a seed generated from the JSON files with every saga (§3).                                                                                                                                                               |
 | `scripts/*.test.mts`               | `npm test`: saga data, family queries, relationships, GEDCOM, generations, GPU tiers, and the SQL seed round-trip.                                                                                                                                                    |
-| `scripts/data.mts`                 | Shared by the scripts and tests: `readIndex()`, `readSaga(entry)` and `treeById(id)`, reading files through `sagaPath()` exactly as the app does.                                                                                                                     |
+| `scripts/data.mts`                 | Shared by the scripts and tests: `readIndex()`, `readSagaFile(entry)` (the file as written), `readSaga(entry)` (expanded to a `SagaRecord`) and `treeById(id)`, reading through `sagaPath()` and `expandSaga()` exactly as the app does.                              |
 | `scripts/seed-sql.mts`             | Generates `db/seed.sql`; with `--check`, fails if it is out of date.                                                                                                                                                                                                  |
 | `vite.config.ts`, `tsconfig.json`  | Dev server and base path, vendor chunk; strict TypeScript, type-check only.                                                                                                                                                                                           |
 
 ## 3. Data model
 
-### Stored format: `SagaRecord`
+Saga data has three shapes, each built from the one before:
 
-Each saga is stored as normalised tables, one array per table, so it maps one-to-one onto rows in [db/schema.sql](db/schema.sql):
+| Shape        | Where                              | For                                        | Built by                   |
+| ------------ | ---------------------------------- | ------------------------------------------ | -------------------------- |
+| `SagaFile`   | `public/data/<category>/<id>.json` | people writing and editing family trees    | hand, or the GEDCOM import |
+| `SagaRecord` | the database (`db/schema.sql`)     | storage: one array per table               | `expandSaga(file)`         |
+| `Tree`       | in memory                          | the renderer, layout and relationship code | `toTree(record)`           |
 
-| Array      | Row                        | SQL table                                              |
-| ---------- | -------------------------- | ------------------------------------------------------ |
-| (top)      | `id, title, source{…}`     | `saga` (+ `category` and `position` from `sagas.json`) |
-| `notes`    | string                     | `saga_note`                                            |
-| `houses`   | `{ name, color }`          | `house`                                                |
-| `people`   | `{ id, name, house, sex }` | `person`                                               |
-| `families` | `{ id, adoptive }`         | `family`                                               |
-| `members`  | `{ family, person, role }` | `family_member`                                        |
+You only ever edit `SagaFile`s. The database seed and everything the app shows are generated from them.
 
-`members` is the join table: one row per person per family, with `role` set to `parent` or `child`. Ids are scoped to the saga (the SQL primary keys are `(saga_id, id)`), so the same character id can appear in several sagas.
+### The data file: `SagaFile`
+
+One JSON file per saga, named after its id, in its category's folder. A trimmed example (`fiction/dune.json`):
+
+```jsonc
+{
+    "id": "dune", // lower-case; matches the file name and the sagas.json entry
+    "title": "Dune", // must match the sagas.json entry
+    "source": {
+        "work": "Dune",
+        "medium": "Novel series (1965–1985); Dune, Dune Messiah, Children of Dune",
+        "author": "Frank Herbert; …",
+        "canon": "Novels",
+        "genre": "Science fiction",
+        "covers": "Houses Atreides, Harkonnen and Corrino, the Fremen, and the Bene Gesserit, through Leto II and Ghanima.",
+    },
+    "notes": ["Jessica is the Baron's daughter by Mohiam (revealed in the novels), so Paul is Harkonnen by blood."],
+    "houses": {
+        "Atreides": "#2e8b57",
+        "Harkonnen": "#8a1c1c",
+    },
+    "people": [
+        { "id": "leto", "name": "Duke Leto Atreides", "house": "Atreides", "sex": "m" },
+        { "id": "jessica", "name": "Lady Jessica", "house": "Bene Gesserit", "sex": "f" },
+        { "id": "paul", "name": "Paul Atreides", "house": "Atreides", "sex": "m" },
+    ],
+    "families": [
+        { "parents": ["leto", "jessica"], "children": ["paul", "alia"] },
+        { "parents": ["paul", "chani"], "children": ["leto2", "ghanima"] },
+        { "parents": ["paul", "irulan"], "children": [] },
+    ],
+}
+```
+
+| Field         | Meaning                                                                                                                                                                                                                                                    |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`, `title` | The saga's id (its file name) and display title. Both must match its entry in `sagas.json`.                                                                                                                                                                |
+| `source`      | Where the family comes from: `work`, `medium`, `author`, `canon` (which sources count), `genre`, and `covers` (what part of the story the tree spans). All plain text.                                                                                     |
+| `notes`       | Caveats for readers, e.g. where sources disagree or a name comes from a later book. An empty list if there are none.                                                                                                                                       |
+| `houses`      | House (or family name, or pantheon) → its colour, any CSS colour. Every person's `house` must be one of these. The order is kept in the database.                                                                                                          |
+| `people`      | Everyone in the tree. `id` is short, lower-case and unique within the saga (`eddard`, `jon`); families and shareable links (`?person=jon`) refer to it. `name` is what the tree shows. `sex` is `"m"` or `"f"`, and picks words like _father_ or _mother_. |
+| `families`    | Everyone's relationships, as a list of families (below).                                                                                                                                                                                                   |
+
+**Families.** A family is one union: `parents` (zero, one or two person ids) and `children` (zero or more). People are never linked to each other directly; everything goes through a family. That one rule covers every case:
+
+| Situation                          | How to write it                                                                  | Example                                     |
+| ---------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------- |
+| A couple and their children        | `{ "parents": ["a", "b"], "children": ["c", "d"] }`                              | Eddard + Catelyn → Robb, Sansa, …           |
+| A marriage with no children        | `{ "parents": ["a", "b"], "children": [] }`                                      | Daenerys + Drogo                            |
+| Only one parent known              | `{ "parents": ["a"], "children": ["c"] }`                                        | Robert → Gendry                             |
+| Remarriage                         | a separate family for each marriage                                              | Robert + Cersei, Jaime + Cersei             |
+| Half-siblings                      | one family per set of parents, sharing the parent they have in common            | Jon, and Rhaenys and Aegon, through Rhaegar |
+| Siblings whose parents are unknown | `{ "parents": [], "children": ["a", "b"] }`                                      | Gavilar and Dalinar Kholin                  |
+| Adoption or fostering              | a separate family with `"adoptive": true`; the child stays in their birth family | Leia: Anakin + Padmé, and Bail + Breha      |
+| Someone with no known relatives    | a one-person family: `{ "parents": ["a"], "children": [] }`                      | Skuld (Norse gods)                          |
+
+Leave `adoptive` out unless it's true. The order of families doesn't matter to the app, but keeping related families together makes the file easier to read.
+
+**Rules.** `expandSaga()` checks these whenever a file is loaded, by the app and by `npm test`, and stops with a message naming the saga and family (e.g. `dune: family 7: unknown person "chanii"`):
+
+- person ids are unique, and every `house` is listed in `houses`;
+- every id in a family is a person in the file;
+- a family has at most two parents and isn't empty;
+- nobody is both a parent and a child of the same family;
+- everyone is in at least one family (use a one-person family for someone with no known relatives).
+
+`trees.test.mts` also checks that the files and `sagas.json` agree: the same ids and titles, each file in its category's folder, and nothing missing or stray.
+
+**Adding or changing a saga.**
+
+1. Edit or create `public/data/<category>/<id>.json`. For a new saga, also add `{ id, category, title, work, author }` to `public/data/sagas.json`; its position there is its place in the drop-down.
+2. Run `npm run db:seed` to regenerate `db/seed.sql`, and commit it with the data.
+3. Run `npm test`. It fails on any of the mistakes above, and if `seed.sql` wasn't regenerated.
+
+To bring in a family from a genealogy program instead, use `npm run import:gedcom` (§5c), which writes a `SagaFile` and its `sagas.json` entry.
+
+### Database tables: `SagaRecord`
+
+`expandSaga()` turns a file into normalised tables, one array per table, mapping one-to-one onto rows in [db/schema.sql](db/schema.sql):
+
+| Array      | Row                        | SQL table                                              | From the file                           |
+| ---------- | -------------------------- | ------------------------------------------------------ | --------------------------------------- |
+| (top)      | `id, title, source{…}`     | `saga` (+ `category` and `position` from `sagas.json`) | as written                              |
+| `notes`    | string                     | `saga_note`                                            | as written                              |
+| `houses`   | `{ name, color }`          | `house`                                                | one row per `houses` entry, in order    |
+| `people`   | `{ id, name, house, sex }` | `person`                                               | as written                              |
+| `families` | `{ id, adoptive }`         | `family`                                               | one row per family; the id is generated |
+| `members`  | `{ family, person, role }` | `family_member`                                        | one row per parent, then one per child  |
+
+Family ids are generated from each family's position in the file (`dune-f1`, `dune-f2`, …), so they're never written by hand. They stay the same as long as families aren't reordered, and nothing outside the database uses them. `members` is the join table: one row per person per family, with `role` set to `parent` or `child`. Ids are scoped to the saga (the SQL primary keys are `(saga_id, id)`), so the same character id can appear in several sagas. `compactSaga()` does the reverse; the GEDCOM importer uses it to write the `SagaRecord` it builds as a file.
 
 **Database seed.** `scripts/seed-sql.mts` (`npm run db:seed`) generates `db/seed.sql` from the JSON:
 
@@ -122,13 +209,13 @@ The schema has `ON DELETE CASCADE` on every table's link to `saga` (and from `fa
 
 Because the URL and the menu carry only a saga id, `ui/sagas.ts` keeps the manifest as a map from id to entry, and `loadSaga(entry)` takes the entry, which includes the category.
 
-**Data source.** `source.ts` fetches `${base}/sagas.json` and `${base}/<category>/<id>.json`. `base` is `VITE_DATA_URL` if it is set at build time. Otherwise it is `${BASE_URL}data`, the files in `public/data/`, which Vite copies into `dist/`. To switch to an object store, upload the same files and set `VITE_DATA_URL`. To switch to a database, put an API in front of `db/schema.sql` that returns the same JSON. In both cases nothing outside `source.ts` changes. Whichever host you use must send CORS headers if it is on a different origin from the site.
+**Data source.** `source.ts` fetches `${base}/sagas.json` and `${base}/<category>/<id>.json`. `base` is `VITE_DATA_URL` if it is set at build time. Otherwise it is `${BASE_URL}data`, the files in `public/data/`, which Vite copies into `dist/`. To switch to an object store, upload the same files and set `VITE_DATA_URL`. To switch to a database, put an API in front of `db/schema.sql`: the loader's `toRecord()` accepts a `SagaFile` or an already normalised `SagaRecord` (told apart by its `members` array), so the API can return the rows as they are. In both cases nothing outside `source.ts` changes. Whichever host you use must send CORS headers if it is on a different origin from the site.
 
 **Selection.** `select(id)` in `main.ts` shows "Loading…" and ignores any response that arrives after a newer selection. On failure it shows the error in the title instead of leaving a blank screen.
 
 ### In-memory format: `Tree`
 
-`toTree()` groups `members` by family into `parents` and `children` arrays and turns `houses` into a colour lookup:
+`toTree()` groups `members` by family back into `parents` and `children` arrays and turns `houses` into a colour lookup, giving the renderer, layout and relationship code the same family shape as the file:
 
 ```ts
 type Tree = {
@@ -139,14 +226,7 @@ type Tree = {
 };
 ```
 
-A **family** is one union: zero to two parents and zero or more children. People are not linked to each other directly. Everything goes through a family. This means:
-
-- remarriages are separate families (Robert + Cersei, Jaime + Cersei);
-- a childless marriage is a family with `children: []` (Daenerys + Drogo);
-- a single or unknown co-parent is a one-item `parents` list (Robert → Gendry);
-- half-siblings come out right, because they belong to different families that share one parent (Jon, and Rhaenys and Aegon, through Rhaegar);
-- siblings with unknown parents are a family with `parents: []` (Gavilar and Dalinar Kholin). The union node becomes a root;
-- adoption is a separate family with `adoptive: true`, so a child can have both birth and adoptive parents (Leia: Anakin + Padmé and Bail + Breha). Only the labels change; the layout treats it like any other family.
+Families mean the same as in the file (see _Families_ above). Adoption only changes the labels (_adoptive father_, _adopted son_); the layout treats an adoptive family like any other.
 
 ## 4. Graph construction: union nodes
 

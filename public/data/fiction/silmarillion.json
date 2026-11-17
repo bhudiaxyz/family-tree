@@ -10,48 +10,18 @@
         "covers": "House of Finwë (Fëanor, Fingolfin, Finarfin), and the lines of Lúthien and Tuor down to Elrond and Elros: eight generations."
     },
     "notes": ["Orodreth follows the published Silmarillion (son of Finarfin), not Tolkien's later notes."],
-    "houses": [
-        {
-            "name": "Finwë",
-            "color": "#e8e0c8"
-        },
-        {
-            "name": "Fëanor",
-            "color": "#d9531e"
-        },
-        {
-            "name": "Fingolfin",
-            "color": "#3b6fb6"
-        },
-        {
-            "name": "Finarfin",
-            "color": "#e6cf6a"
-        },
-        {
-            "name": "Vanyar",
-            "color": "#f5f0d0"
-        },
-        {
-            "name": "Teleri",
-            "color": "#7fc4d8"
-        },
-        {
-            "name": "Sindar",
-            "color": "#8fb0c8"
-        },
-        {
-            "name": "Maiar",
-            "color": "#c8a8e8"
-        },
-        {
-            "name": "Edain",
-            "color": "#7a8a5a"
-        },
-        {
-            "name": "Half-elven",
-            "color": "#b9d7f0"
-        }
-    ],
+    "houses": {
+        "Finwë": "#e8e0c8",
+        "Fëanor": "#d9531e",
+        "Fingolfin": "#3b6fb6",
+        "Finarfin": "#e6cf6a",
+        "Vanyar": "#f5f0d0",
+        "Teleri": "#7fc4d8",
+        "Sindar": "#8fb0c8",
+        "Maiar": "#c8a8e8",
+        "Edain": "#7a8a5a",
+        "Half-elven": "#b9d7f0"
+    },
     "people": [
         {
             "id": "finwe",
@@ -302,346 +272,64 @@
     ],
     "families": [
         {
-            "id": "silmarillion-f1",
-            "adoptive": false
+            "parents": ["finwe", "miriel"],
+            "children": ["feanor"]
         },
         {
-            "id": "silmarillion-f2",
-            "adoptive": false
+            "parents": ["finwe", "indis"],
+            "children": ["fingolfin", "finarfin"]
         },
         {
-            "id": "silmarillion-f3",
-            "adoptive": false
+            "parents": ["feanor", "nerdanel"],
+            "children": ["maedhros", "maglor", "celegorm", "caranthir", "curufin", "amrod", "amras"]
         },
         {
-            "id": "silmarillion-f4",
-            "adoptive": false
+            "parents": ["curufin"],
+            "children": ["celebrimbor"]
         },
         {
-            "id": "silmarillion-f5",
-            "adoptive": false
+            "parents": ["fingolfin"],
+            "children": ["fingon", "turgon", "aredhel"]
         },
         {
-            "id": "silmarillion-f6",
-            "adoptive": false
+            "parents": ["turgon", "elenwe"],
+            "children": ["idril"]
         },
         {
-            "id": "silmarillion-f7",
-            "adoptive": false
+            "parents": ["eol", "aredhel"],
+            "children": ["maeglin"]
         },
         {
-            "id": "silmarillion-f8",
-            "adoptive": false
+            "parents": ["finarfin", "earwen"],
+            "children": ["finrod", "orodreth", "angrod", "aegnor", "galadriel"]
         },
         {
-            "id": "silmarillion-f9",
-            "adoptive": false
+            "parents": ["celeborn", "galadriel"],
+            "children": ["celebrian"]
         },
         {
-            "id": "silmarillion-f10",
-            "adoptive": false
+            "parents": ["thingol", "melian"],
+            "children": ["luthien"]
         },
         {
-            "id": "silmarillion-f11",
-            "adoptive": false
+            "parents": ["beren", "luthien"],
+            "children": ["dior"]
         },
         {
-            "id": "silmarillion-f12",
-            "adoptive": false
+            "parents": ["dior", "nimloth"],
+            "children": ["elwing"]
         },
         {
-            "id": "silmarillion-f13",
-            "adoptive": false
+            "parents": ["tuor", "idril"],
+            "children": ["earendil"]
         },
         {
-            "id": "silmarillion-f14",
-            "adoptive": false
+            "parents": ["earendil", "elwing"],
+            "children": ["elrond", "elros"]
         },
         {
-            "id": "silmarillion-f15",
-            "adoptive": false
-        }
-    ],
-    "members": [
-        {
-            "family": "silmarillion-f1",
-            "person": "finwe",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f1",
-            "person": "miriel",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f1",
-            "person": "feanor",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f2",
-            "person": "finwe",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f2",
-            "person": "indis",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f2",
-            "person": "fingolfin",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f2",
-            "person": "finarfin",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f3",
-            "person": "feanor",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f3",
-            "person": "nerdanel",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f3",
-            "person": "maedhros",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f3",
-            "person": "maglor",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f3",
-            "person": "celegorm",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f3",
-            "person": "caranthir",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f3",
-            "person": "curufin",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f3",
-            "person": "amrod",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f3",
-            "person": "amras",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f4",
-            "person": "curufin",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f4",
-            "person": "celebrimbor",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f5",
-            "person": "fingolfin",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f5",
-            "person": "fingon",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f5",
-            "person": "turgon",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f5",
-            "person": "aredhel",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f6",
-            "person": "turgon",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f6",
-            "person": "elenwe",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f6",
-            "person": "idril",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f7",
-            "person": "eol",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f7",
-            "person": "aredhel",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f7",
-            "person": "maeglin",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f8",
-            "person": "finarfin",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f8",
-            "person": "earwen",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f8",
-            "person": "finrod",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f8",
-            "person": "orodreth",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f8",
-            "person": "angrod",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f8",
-            "person": "aegnor",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f8",
-            "person": "galadriel",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f9",
-            "person": "celeborn",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f9",
-            "person": "galadriel",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f9",
-            "person": "celebrian",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f10",
-            "person": "thingol",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f10",
-            "person": "melian",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f10",
-            "person": "luthien",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f11",
-            "person": "beren",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f11",
-            "person": "luthien",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f11",
-            "person": "dior",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f12",
-            "person": "dior",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f12",
-            "person": "nimloth",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f12",
-            "person": "elwing",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f13",
-            "person": "tuor",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f13",
-            "person": "idril",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f13",
-            "person": "earendil",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f14",
-            "person": "earendil",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f14",
-            "person": "elwing",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f14",
-            "person": "elrond",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f14",
-            "person": "elros",
-            "role": "child"
-        },
-        {
-            "family": "silmarillion-f15",
-            "person": "elrond",
-            "role": "parent"
-        },
-        {
-            "family": "silmarillion-f15",
-            "person": "celebrian",
-            "role": "parent"
+            "parents": ["elrond", "celebrian"],
+            "children": []
         }
     ]
 }

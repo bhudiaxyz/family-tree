@@ -1,4 +1,4 @@
-// Convert a GEDCOM file into a saga data file (SagaRecord JSON) for public/data/<category>/<id>.json, and add it to
+// Convert a GEDCOM file into a saga data file (SagaFile JSON, families inline) for public/data/<category>/<id>.json, and add it to
 // sagas.json. Repeatable: re-running replaces the saga's file and manifest entry.
 //
 //   npm run import:gedcom -- <file.ged> --id english-royal --category history --title "English Royal Family (Tudors)"
@@ -10,7 +10,14 @@
 // Input is untrusted text: it is only ever parsed, never executed, and the output is plain JSON.
 import fs from "node:fs";
 import path from "node:path";
-import { CATEGORIES, type Category, type SagaIndexEntry, type SagaRecord } from "../src/data/schema.ts";
+import {
+    CATEGORIES,
+    type Category,
+    compactSaga,
+    expandSaga,
+    type SagaIndexEntry,
+    type SagaRecord,
+} from "../src/data/schema.ts";
 import { parseGedcom } from "../src/data/gedcom.ts";
 import { displayName as nameFor, type NameMode } from "./gedcom-names.mts";
 
@@ -30,10 +37,25 @@ if (nameMode !== "person" && nameMode !== "mythology") throw new Error("--names 
 // --house "<name>": put everyone in one house (e.g. a pantheon), instead of one house per surname. Mythology files
 // have no real surnames, so grouping by "surname" would make every deity its own house.
 const singleHouse = flag("house");
+// --color "<css colour>" for that one house (default the first import colour, a strong red).
 // --genre "<text>" for the saga's source.genre (default History).
 const genre = flag("genre") ?? "History";
+// --rename <file.json>: display-name corrections keyed by GEDCOM record id ("I10": "Jacob (Israel)"), for files that
+// put titles or epithets in the NAME field. Keys starting with "_" are comments. See scripts/gedcom-renames/.
+// A value is either the display name, or [display name, id] to also choose the person's id (short ids make tidy
+// links: "david" rather than "king-david-of-judah-and-israel").
+const renameFile = flag("rename");
+const renameEntries = renameFile
+    ? Object.entries(JSON.parse(fs.readFileSync(renameFile, "utf8")) as Record<string, string | [string, string]>)
+          .filter(([k]) => !k.startsWith("_"))
+          .map(([k, v]) => [k, typeof v === "string" ? [v] : v] as const)
+    : [];
+const renames = new Map(renameEntries.map(([k, v]) => [k, v[0]]));
+const renameIds = new Map(renameEntries.filter(([, v]) => v[1]).map(([k, v]) => [k, v[1]!]));
 if (!file || !id || !category || !title)
-    throw new Error('usage: gedcom-to-saga <file.ged> --id <id> --category <fiction|history> --title "<title>"');
+    throw new Error(
+        `usage: gedcom-to-saga <file.ged> --id <id> --category <${CATEGORIES.join("|")}> --title "<title>" [--names person|mythology] [--house "<name>" [--color "<css>"]] [--genre "<text>"] [--rename <file.json>]`
+    );
 if (!CATEGORIES.includes(category)) throw new Error(`--category must be one of ${CATEGORIES.join(", ")}`);
 if (!/^[a-z0-9-]+$/.test(id)) throw new Error("--id must be lower-case letters, digits and hyphens");
 
@@ -97,10 +119,14 @@ function bestTitle(indi: Rec): string | null {
 // --- Build the tree with the app's parser, then enrich ------------------------------------------------------------
 const { tree, warnings } = parseGedcom(text, title);
 const indis = new Map(recs.filter((r) => r.tag === "INDI" && r.xref).map((r) => [r.xref!.replace(/@/g, ""), r]));
+for (const gid of renames.keys())
+    if (!indis.has(gid)) throw new Error(`--rename: no INDI record ${gid} in ${path.basename(file)}`);
 
 // Display name from the raw NAME and the person's own TITL values, by the tested rules in gedcom-names.mts (clean
 // names; monarchs by regnal name; "(unnamed son)" placeholders; mythology mode for deity files).
 function displayName(gid: string, sex: "m" | "f"): string {
+    const fixed = renames.get(gid);
+    if (fixed) return fixed;
     const indi = indis.get(gid);
     const raw = indi ? (child(indi, "NAME")?.value ?? "") : "";
     const titles = indi ? kids(indi, "TITL").map((c) => c.value) : [];
@@ -116,14 +142,36 @@ const slug = (s: string) =>
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-|-$/g, "") || "person";
+// A renamed person's id is the one given in the rename file, if any; otherwise ids come from the display name as for
+// everyone else. (Without --rename nothing changes, so existing imports keep their ids.)
+const idName = (gid: string, sex: "m" | "f") => renameIds.get(gid) ?? displayName(gid, sex);
 const used = new Map<string, number>();
 const newId = new Map<string, string>();
+// Ids chosen in the rename file are reserved first, and must come out exactly as written: numbering one ("lud-2")
+// would quietly break the links it was chosen for, so a clash with anyone, earlier or later in the file, is an error.
+const chosen = new Set<string>();
+for (const [gid, id] of renameIds) {
+    if (slug(id) !== id)
+        throw new Error(`--rename: id "${id}" for ${gid} must be lower-case letters, digits and hyphens`);
+    if (chosen.has(id)) throw new Error(`--rename: id "${id}" is chosen twice`);
+    chosen.add(id);
+}
 for (const [gid, p] of Object.entries(tree.people)) {
     // From the display name, so Henry VIII is "henry-viii" and an unnamed Tudor is "unnamed-son-tudor", not "tudor".
-    const s = slug(displayName(gid, p.sex));
-    const n = (used.get(s) ?? 0) + 1;
+    const s = slug(idName(gid, p.sex));
+    if (renameIds.has(gid)) {
+        if (used.has(s)) throw new Error(`--rename: id "${s}" for ${gid} is already used by another person`);
+        used.set(s, 1);
+        newId.set(gid, s);
+        continue;
+    }
+    // Everyone else is numbered in file order as before, stepping past any id the rename file reserved.
+    let n = used.get(s) ?? 0;
+    let id: string;
+    do id = ++n === 1 ? s : `${s}-${n}`;
+    while (chosen.has(id));
     used.set(s, n);
-    newId.set(gid, n === 1 ? s : `${s}-${n}`);
+    newId.set(gid, id);
 }
 
 // Houses: one per surname is ~95 here, far more than colours can tell apart. The biggest houses (by number of
@@ -181,7 +229,7 @@ const members = tree.families.flatMap((f, i) => [
     ...f.children.map((c) => ({ family: `${id}-f${i + 1}`, person: newId.get(c)!, role: "child" as const })),
 ]);
 const houses = singleHouse
-    ? [{ name: singleHouse, color: HOUSE_COLOURS[0] }]
+    ? [{ name: singleHouse, color: flag("color") ?? HOUSE_COLOURS[0] }]
     : [
           ...major.map((name, i) => ({ name, color: HOUSE_COLOURS[i] })),
           ...(people.some((p) => p.house === OTHER) ? [{ name: OTHER, color: "#6f6a78" }] : []),
@@ -207,6 +255,11 @@ const saga: SagaRecord = {
         nameMode === "mythology"
             ? 'Names are read in mythology mode: the deity\'s name is the GEDCOM surname part, and descriptive text in the given-name part (e.g. "queen of the Gods") is dropped.'
             : "Display names are the person's name only; a monarch is shown by their regnal name (e.g. King Henry VIII). Titles, title dates and life dates are not imported.",
+        ...(renames.size
+            ? [
+                  `${renames.size} display names were corrected from ${path.basename(renameFile!)}, where the file put titles or epithets in the name (e.g. "${[...renames.values()][0]}").`,
+              ]
+            : []),
         singleHouse
             ? `Everyone is in one house, "${singleHouse}": the file has no real surnames to group by.`
             : `Houses are surnames; only the ${major.length} largest keep their own colour, the rest are grouped as "${OTHER}".`,
@@ -227,7 +280,10 @@ const saga: SagaRecord = {
 const dataDir = new URL("../public/data/", import.meta.url);
 const out = new URL(`${category}/${id}.json`, dataDir);
 fs.mkdirSync(new URL(`${category}/`, dataDir), { recursive: true });
-fs.writeFileSync(out, JSON.stringify(saga, null, 2) + "\n");
+// Written in the hand-editable form (families inline); expandSaga() checks it the same way the app will load it.
+const sagaFile = compactSaga(saga);
+expandSaga(sagaFile);
+fs.writeFileSync(out, JSON.stringify(sagaFile, null, 4) + "\n");
 
 const manifestUrl = new URL("sagas.json", dataDir);
 const manifest: SagaIndexEntry[] = JSON.parse(fs.readFileSync(manifestUrl, "utf8"));

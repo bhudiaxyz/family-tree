@@ -96,5 +96,12 @@
         "title": "Roman Gods",
         "work": "Roman Gods",
         "author": "Unknown compiler"
+    },
+    {
+        "id": "bible",
+        "category": "religion",
+        "title": "The Bible",
+        "work": "The Bible",
+        "author": "Compiled by Jeffrey Philip Stoker"
     }
 ]

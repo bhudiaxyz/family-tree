@@ -1,4 +1,4 @@
-import { type SagaIndexEntry, type SagaRecord, sagaPath, type Tree } from "./schema.ts";
+import { expandSaga, type SagaFile, type SagaIndexEntry, type SagaRecord, sagaPath, type Tree } from "./schema.ts";
 
 // Where saga data lives. Defaults to the static JSON in public/data/.
 // Point VITE_DATA_URL at an object store bucket or an API in front of a database; it must serve
@@ -13,7 +13,14 @@ async function getJson<T>(path: string): Promise<T> {
 
 export const listSagas = () => getJson<SagaIndexEntry[]>("sagas.json");
 /** Load a saga from `<category>/<id>.json`. Takes the manifest entry, because the category is part of the path. */
-export const loadSaga = async (entry: SagaIndexEntry) => toTree(await getJson<SagaRecord>(sagaPath(entry)));
+export const loadSaga = async (entry: SagaIndexEntry) =>
+    toTree(toRecord(await getJson<SagaFile | SagaRecord>(sagaPath(entry))));
+
+/**
+ * Either shape a backend may serve: the hand-written file (families inline, expanded here) or an already normalised
+ * record (e.g. an API over the database, which has member rows). Told apart by whether `members` is present.
+ */
+export const toRecord = (data: SagaFile | SagaRecord): SagaRecord => ("members" in data ? data : expandSaga(data));
 
 export function toTree(s: SagaRecord): Tree {
     const families = new Map(

@@ -6,7 +6,7 @@ CREATE TABLE saga (
     id       TEXT PRIMARY KEY,
     -- Kind of family; also the data sub-folder (<category>/<id>.json). Keep in step with CATEGORIES in
     -- src/data/schema.ts when adding a category.
-    category TEXT NOT NULL CHECK (category IN ('fiction', 'history', 'mythology')),
+    category TEXT NOT NULL CHECK (category IN ('fiction', 'history', 'mythology', 'religion')),
     position INTEGER NOT NULL UNIQUE,  -- drop-down order (sagas.json order); lowest loads first
     title    TEXT NOT NULL,
     work    TEXT NOT NULL,

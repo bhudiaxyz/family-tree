@@ -12,40 +12,16 @@
     "notes": [
         "Dathan is a strand-cast clone of Palpatine, shown here as his son; add a \"clone\" kind if that matters."
     ],
-    "houses": [
-        {
-            "name": "Skywalker",
-            "color": "#4f9be8"
-        },
-        {
-            "name": "Lars",
-            "color": "#c9a46a"
-        },
-        {
-            "name": "Naberrie",
-            "color": "#d77fb0"
-        },
-        {
-            "name": "Organa",
-            "color": "#e8e8ee"
-        },
-        {
-            "name": "Solo",
-            "color": "#8a6a4a"
-        },
-        {
-            "name": "Palpatine",
-            "color": "#b3202a"
-        },
-        {
-            "name": "Unknown",
-            "color": "#8a8a96"
-        },
-        {
-            "name": "Whitesun",
-            "color": "#d8c89a"
-        }
-    ],
+    "houses": {
+        "Skywalker": "#4f9be8",
+        "Lars": "#c9a46a",
+        "Naberrie": "#d77fb0",
+        "Organa": "#e8e8ee",
+        "Solo": "#8a6a4a",
+        "Palpatine": "#b3202a",
+        "Unknown": "#8a8a96",
+        "Whitesun": "#d8c89a"
+    },
     "people": [
         {
             "id": "shmi",
@@ -164,186 +140,46 @@
     ],
     "families": [
         {
-            "id": "starwars-f1",
-            "adoptive": false
+            "parents": ["shmi"],
+            "children": ["anakin"]
         },
         {
-            "id": "starwars-f2",
-            "adoptive": false
+            "parents": ["cliegg"],
+            "children": ["owen"]
         },
         {
-            "id": "starwars-f3",
-            "adoptive": false
+            "parents": ["cliegg", "shmi"],
+            "children": []
         },
         {
-            "id": "starwars-f4",
+            "parents": ["owen", "beru"],
+            "children": ["luke"],
             "adoptive": true
         },
         {
-            "id": "starwars-f5",
-            "adoptive": false
+            "parents": ["ruwee", "jobal"],
+            "children": ["padme", "sola"]
         },
         {
-            "id": "starwars-f6",
-            "adoptive": false
+            "parents": ["anakin", "padme"],
+            "children": ["luke", "leia"]
         },
         {
-            "id": "starwars-f7",
+            "parents": ["bail", "breha"],
+            "children": ["leia"],
             "adoptive": true
         },
         {
-            "id": "starwars-f8",
-            "adoptive": false
+            "parents": ["han", "leia"],
+            "children": ["ben"]
         },
         {
-            "id": "starwars-f9",
-            "adoptive": false
+            "parents": ["palpatine"],
+            "children": ["dathan"]
         },
         {
-            "id": "starwars-f10",
-            "adoptive": false
-        }
-    ],
-    "members": [
-        {
-            "family": "starwars-f1",
-            "person": "shmi",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f1",
-            "person": "anakin",
-            "role": "child"
-        },
-        {
-            "family": "starwars-f2",
-            "person": "cliegg",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f2",
-            "person": "owen",
-            "role": "child"
-        },
-        {
-            "family": "starwars-f3",
-            "person": "cliegg",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f3",
-            "person": "shmi",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f4",
-            "person": "owen",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f4",
-            "person": "beru",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f4",
-            "person": "luke",
-            "role": "child"
-        },
-        {
-            "family": "starwars-f5",
-            "person": "ruwee",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f5",
-            "person": "jobal",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f5",
-            "person": "padme",
-            "role": "child"
-        },
-        {
-            "family": "starwars-f5",
-            "person": "sola",
-            "role": "child"
-        },
-        {
-            "family": "starwars-f6",
-            "person": "anakin",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f6",
-            "person": "padme",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f6",
-            "person": "luke",
-            "role": "child"
-        },
-        {
-            "family": "starwars-f6",
-            "person": "leia",
-            "role": "child"
-        },
-        {
-            "family": "starwars-f7",
-            "person": "bail",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f7",
-            "person": "breha",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f7",
-            "person": "leia",
-            "role": "child"
-        },
-        {
-            "family": "starwars-f8",
-            "person": "han",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f8",
-            "person": "leia",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f8",
-            "person": "ben",
-            "role": "child"
-        },
-        {
-            "family": "starwars-f9",
-            "person": "palpatine",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f9",
-            "person": "dathan",
-            "role": "child"
-        },
-        {
-            "family": "starwars-f10",
-            "person": "dathan",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f10",
-            "person": "miramir",
-            "role": "parent"
-        },
-        {
-            "family": "starwars-f10",
-            "person": "rey",
-            "role": "child"
+            "parents": ["dathan", "miramir"],
+            "children": ["rey"]
         }
     ]
 }

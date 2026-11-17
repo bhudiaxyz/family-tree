@@ -1,0 +1,4834 @@
+{
+    "id": "bible",
+    "title": "The Bible",
+    "source": {
+        "work": "The Bible",
+        "medium": "GEDCOM genealogy (Bible+Family+Tree.ged)",
+        "author": "Compiled by Jeffrey Philip Stoker",
+        "canon": "As recorded in the GEDCOM file",
+        "genre": "Religion",
+        "covers": "583 people and 317 families, imported from a public GEDCOM sample."
+    },
+    "notes": [
+        "Imported from Bible+Family+Tree.ged (UTF-8; PAF 5.2.18.0; file dated 9 Aug 2002) by scripts/gedcom-to-saga.mts.",
+        "Display names are the person's name only; a monarch is shown by their regnal name (e.g. King Henry VIII). Titles, title dates and life dates are not imported.",
+        "36 display names were corrected from bible.json, where the file put titles or epithets in the name (e.g. \"Jacob (Israel)\").",
+        "Everyone is in one house, \"Bible\": the file has no real surnames to group by.",
+        "1 people have no recorded relatives in the source and are shown on their own: Mariam.",
+        "Import warnings: Heth: sex not recorded as M or F, shown as male; Hivite: sex not recorded as M or F, shown as male; Isui: sex not recorded as M or F, shown as male; Ishuah: sex not recorded as M or F, shown as male; Sarah: sex not recorded as M or F, shown as male"
+    ],
+    "houses": {
+        "Bible": "#c9ad73"
+    },
+    "people": [
+        {
+            "id": "mizraim",
+            "name": "Mizraim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "phut",
+            "name": "Phut",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "cush",
+            "name": "Cush",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "sabtah",
+            "name": "Sabtah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "raamah",
+            "name": "Raamah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "canaan",
+            "name": "Canaan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "egyptus",
+            "name": "Egyptus",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "reumah",
+            "name": "Reumah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "leah",
+            "name": "Leah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "jacob",
+            "name": "Jacob (Israel)",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "isaac",
+            "name": "Isaac",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "rebekah",
+            "name": "Rebekah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "abraham-abram",
+            "name": "Abraham (Abram)",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "terah",
+            "name": "Terah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "nahor",
+            "name": "Nahor",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "serug",
+            "name": "Serug",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "reu",
+            "name": "Reu",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "peleg",
+            "name": "Peleg",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "eber",
+            "name": "Eber",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "salah",
+            "name": "Salah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "arphaxad",
+            "name": "Arphaxad",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shem",
+            "name": "Shem",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "noah",
+            "name": "Noah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "lamech",
+            "name": "Lamech",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "methuselah",
+            "name": "Methuselah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "enoch",
+            "name": "Enoch",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jared",
+            "name": "Jared",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mahalaleel",
+            "name": "Mahalaleel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "cainan",
+            "name": "Cainan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "enos",
+            "name": "Enos",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "seth",
+            "name": "Seth",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "adam",
+            "name": "Adam",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "japheth",
+            "name": "Japheth",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ham",
+            "name": "Ham",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "titea",
+            "name": "Titea",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "tait",
+            "name": "Tait",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "oghaman",
+            "name": "Oghaman",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "beouman",
+            "name": "Beouman",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "heber-scut-scott",
+            "name": "Heber Scut (Scott)",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "sruth",
+            "name": "Sruth",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "asruth-easruth",
+            "name": "Asruth (Easruth)",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "gaodhal-glas",
+            "name": "Gaodhal Glas",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "niul",
+            "name": "Niul",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "phoeniusa-farsaidh",
+            "name": "King Phoeniusa Farsaidh of Scythia",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "boath",
+            "name": "Boath",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "magog",
+            "name": "Magog",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "scota",
+            "name": "Scota",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "huz",
+            "name": "Huz",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hazo",
+            "name": "Hazo",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "chesed",
+            "name": "Chesed",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "adah",
+            "name": "Adah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "buz",
+            "name": "Buz",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "nenall",
+            "name": "Nenall",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "laban",
+            "name": "Laban",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "abel",
+            "name": "Abel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zilah",
+            "name": "Zilah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "enoch-2",
+            "name": "Enoch",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "irad",
+            "name": "Irad",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mahujael",
+            "name": "Mahujael",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "methusael",
+            "name": "Methusael",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "lamech-2",
+            "name": "Lamech",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "trbal-cain",
+            "name": "Trbal-Cain",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "adah-2",
+            "name": "Adah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "naamah",
+            "name": "Naamah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jabal",
+            "name": "Jabal",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "meshech",
+            "name": "Meshech",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "madai",
+            "name": "Madai",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "tubul",
+            "name": "Tubul",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "gomor",
+            "name": "Gomor",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "tiras",
+            "name": "Tiras",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "javan",
+            "name": "Javan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ashkeraz",
+            "name": "Ashkeraz",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "riphath",
+            "name": "Riphath",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "togarmar",
+            "name": "Togarmar",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "tarshish",
+            "name": "Tarshish",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "elisaah",
+            "name": "Elisaah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "kittim",
+            "name": "Kittim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "dodanim",
+            "name": "Dodanim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "havilah",
+            "name": "Havilah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "sabtecha",
+            "name": "Sabtecha",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "seba",
+            "name": "Seba",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "nimrod",
+            "name": "Nimrod",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "sheba",
+            "name": "Sheba",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "dedan",
+            "name": "Dedan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "sidon",
+            "name": "Sidon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "heth",
+            "name": "Heth",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jebusite",
+            "name": "Jebusite",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "amorite",
+            "name": "Amorite",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "girgassite",
+            "name": "Girgassite",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hivite",
+            "name": "Hivite",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "arkite",
+            "name": "Arkite",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "sirite",
+            "name": "Sirite",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "arvadite",
+            "name": "Arvadite",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zemarite",
+            "name": "Zemarite",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hamathite",
+            "name": "Hamathite",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ludim",
+            "name": "Ludim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "anamim",
+            "name": "Anamim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "lehabim",
+            "name": "Lehabim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "nephtuihim",
+            "name": "Nephtuihim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "pethusim",
+            "name": "Pethusim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "caphtorim",
+            "name": "Caphtorim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "casluhim",
+            "name": "Casluhim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "philstem",
+            "name": "Philstem",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "aram",
+            "name": "Aram",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "asshur",
+            "name": "Asshur",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "lud",
+            "name": "Lud",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "elam",
+            "name": "Elam",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hul",
+            "name": "Hul",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mash",
+            "name": "Mash",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "uz",
+            "name": "Uz",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "gether",
+            "name": "Gether",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jokan",
+            "name": "Jokan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "almodad",
+            "name": "Almodad",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "sheleph",
+            "name": "Sheleph",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hazarmaveth",
+            "name": "Hazarmaveth",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jerah",
+            "name": "Jerah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hadoram",
+            "name": "Hadoram",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "uzal",
+            "name": "Uzal",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "diklah",
+            "name": "Diklah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "obal",
+            "name": "Obal",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "abimael",
+            "name": "Abimael",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "sheba-2",
+            "name": "Sheba",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ophir",
+            "name": "Ophir",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "havilah-2",
+            "name": "Havilah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jobab",
+            "name": "Jobab",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "haran",
+            "name": "Haran",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "milcah",
+            "name": "Milcah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "sarai",
+            "name": "Sarai (Sarah)",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "lot",
+            "name": "Lot",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "iscah",
+            "name": "Iscah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "tebah",
+            "name": "Tebah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "gaham",
+            "name": "Gaham",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "thahash",
+            "name": "Thahash",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "maachah",
+            "name": "Maachah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "bethuel",
+            "name": "Bethuel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "moab",
+            "name": "Moab",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "benammi",
+            "name": "Benammi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "pildesh",
+            "name": "Pildesh",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jidlaph",
+            "name": "Jidlaph",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "kemuel",
+            "name": "Kemuel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "aram-2",
+            "name": "Aram",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "rachal",
+            "name": "Rachal",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "bilhah",
+            "name": "Bilhah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "zalpah",
+            "name": "Zalpah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "esau",
+            "name": "Esau",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "bashemath",
+            "name": "Bashemath",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "nahath",
+            "name": "Nahath",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "adbeel",
+            "name": "Adbeel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mibsam",
+            "name": "Mibsam",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "nephish",
+            "name": "Nephish",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mishma",
+            "name": "Mishma",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "kedemah",
+            "name": "Kedemah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "dumah",
+            "name": "Dumah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "tema",
+            "name": "Tema",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jetur",
+            "name": "Jetur",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "kendar",
+            "name": "Kendar",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "massa",
+            "name": "Massa",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "nebajoth",
+            "name": "Nebajoth",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hadar",
+            "name": "Hadar",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ephah",
+            "name": "Ephah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "epher",
+            "name": "Epher",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hanoch",
+            "name": "Hanoch",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "abida",
+            "name": "Abida",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "eldaah",
+            "name": "Eldaah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hagar",
+            "name": "Hagar",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "ishmael",
+            "name": "Ishmael",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "dedan-2",
+            "name": "Dedan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shuah",
+            "name": "Shuah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "sheba-3",
+            "name": "Sheba",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "madan",
+            "name": "Madan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ishbak",
+            "name": "Ishbak",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "judith",
+            "name": "Judith",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "keturah",
+            "name": "Keturah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "zemran",
+            "name": "Zemran",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jokshon",
+            "name": "Jokshon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "eve",
+            "name": "Eve",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "cain",
+            "name": "Cain",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "nahor-2",
+            "name": "Nahor",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "lot-elder-daughter",
+            "name": "Elder daughter of Lot",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "lot-younger-daughter",
+            "name": "Younger daughter of Lot",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "jubal",
+            "name": "Jubal",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "reuel-jethro",
+            "name": "Reuel (Jethro)",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "aholitamah",
+            "name": "Aholitamah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "aeush",
+            "name": "Aeush",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jaalam",
+            "name": "Jaalam",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "korah",
+            "name": "Korah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "anah",
+            "name": "Anah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "dishon",
+            "name": "Dishon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hemden",
+            "name": "Hemden",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "eshben",
+            "name": "Eshben",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ithran",
+            "name": "Ithran",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "cheran",
+            "name": "Cheran",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zibeon",
+            "name": "Zibeon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ajah",
+            "name": "Ajah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "seir",
+            "name": "Seir",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "timna",
+            "name": "Timna",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "lotan",
+            "name": "Lotan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "stobal",
+            "name": "Stobal",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ezer",
+            "name": "Ezer",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "dishan",
+            "name": "Dishan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "uz-2",
+            "name": "Uz",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "aran",
+            "name": "Aran",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "bilhan",
+            "name": "Bilhan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zaavan",
+            "name": "Zaavan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "akan",
+            "name": "Akan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "alvan",
+            "name": "Alvan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "manahath",
+            "name": "Manahath",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ebal",
+            "name": "Ebal",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shepho",
+            "name": "Shepho",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "onam",
+            "name": "Onam",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hori",
+            "name": "Hori",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hemam",
+            "name": "Hemam",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zarah",
+            "name": "Zarah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "shanmah",
+            "name": "Shanmah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "zipporah",
+            "name": "Zipporah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "mizzah",
+            "name": "Mizzah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "follian-falach",
+            "name": "Follian (Falach)",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "eithriall",
+            "name": "Eithriall",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "irial-faidh",
+            "name": "King Irial Faidh of Ireland",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "tamar-tephi",
+            "name": "Princess Tamar Tephi of Judah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "mattaniah",
+            "name": "King Mattaniah (Zedekiah) of Judah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "josiah",
+            "name": "King Josiah of Judah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hammutal",
+            "name": "Hammutal, daughter of Jeremiah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "eochaid-i-heremon-ireland",
+            "name": "Eochaid I (Heremon) Ireland",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jeremiah",
+            "name": "Jeremiah the Prophet",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hilkiah",
+            "name": "Hilkiah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "gemariah",
+            "name": "Gemariah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "elasah",
+            "name": "Elasah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "shaphan",
+            "name": "Shaphan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ahitub",
+            "name": "Ahitub",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "amariah",
+            "name": "Amariah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "holdiah",
+            "name": "Holdiah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "ezra",
+            "name": "Ezra",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hanameel",
+            "name": "Hanameel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shallum",
+            "name": "Shallum",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zadok",
+            "name": "Zadok",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "azariah",
+            "name": "Azariah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "meraioth",
+            "name": "Meraioth",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zerahiah",
+            "name": "Zerahiah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "uzzi",
+            "name": "Uzzi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "bukki",
+            "name": "Bukki",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "abishuah",
+            "name": "Abishuah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "phineas",
+            "name": "Phineas",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "eleazer",
+            "name": "Eleazer",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "aaron",
+            "name": "Aaron",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "amram",
+            "name": "Amram",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "kohath",
+            "name": "Kohath",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "levi",
+            "name": "Levi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "joiadah",
+            "name": "Joiadah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "eliashib",
+            "name": "Eliashib",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "joachim",
+            "name": "Joachim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "joshuah",
+            "name": "Joshuah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "josedech",
+            "name": "Josedech",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "seriah",
+            "name": "Seriah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jochebed",
+            "name": "Jochebed",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "merari",
+            "name": "Merari",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "libni",
+            "name": "Libni",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shimi",
+            "name": "Shimi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mahali",
+            "name": "Mahali",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mushi",
+            "name": "Mushi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "moses",
+            "name": "Moses",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mirham",
+            "name": "Mirham",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "elisheba",
+            "name": "Elisheba",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "jehudisah",
+            "name": "Jehudisah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "jether",
+            "name": "Jether",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mered",
+            "name": "Mered",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ephar",
+            "name": "Ephar",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jalon",
+            "name": "Jalon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mariam",
+            "name": "Mariam",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "shammai",
+            "name": "Shammai",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ishbah",
+            "name": "Ishbah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jerad",
+            "name": "Jerad",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "heber",
+            "name": "Heber",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jekuthiel",
+            "name": "Jekuthiel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "eshteemca",
+            "name": "Eshteemca",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "gedor",
+            "name": "Gedor",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "socho",
+            "name": "Socho",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zanoah",
+            "name": "Zanoah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "reuben",
+            "name": "Reuben",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "gershon",
+            "name": "Gershon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "libnah",
+            "name": "Libnah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "shallum-2",
+            "name": "Shallum",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mulek",
+            "name": "Mulek",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "azaniah",
+            "name": "Azaniah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "johanan",
+            "name": "Johanan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jehoiakim",
+            "name": "Jehoiakim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jeconiah",
+            "name": "Jeconiah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zedekiah",
+            "name": "Zedekiah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "assir",
+            "name": "Assir",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "malchiram",
+            "name": "Malchiram",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "pedaiah",
+            "name": "Pedaiah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shenazar",
+            "name": "Shenazar",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jacamiah",
+            "name": "Jacamiah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hoshama",
+            "name": "Hoshama",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "nedabiah",
+            "name": "Nedabiah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zerubbabel",
+            "name": "Zerubbabel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shimei",
+            "name": "Shimei",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "meshullam",
+            "name": "Meshullam",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hananiah",
+            "name": "Hananiah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "saeloith",
+            "name": "Saeloith",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "rephaiah",
+            "name": "Rephaiah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "miriam",
+            "name": "Miriam",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "salathiel",
+            "name": "Salathiel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "gershom",
+            "name": "Gershom",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hanoch-2",
+            "name": "Hanoch",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "phallu",
+            "name": "Phallu",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hezron",
+            "name": "Hezron",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "carmi",
+            "name": "Carmi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ohad",
+            "name": "Ohad",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jachin",
+            "name": "Jachin",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zohar",
+            "name": "Zohar",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shaul",
+            "name": "Shaul",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jemeul",
+            "name": "Jemeul",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jamin",
+            "name": "Jamin",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shimea",
+            "name": "Shimea",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "simeon",
+            "name": "Simeon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jehoram",
+            "name": "King Jehoram (Joram) of Judah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ahaziah",
+            "name": "Ahaziah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "athaliah",
+            "name": "Athaliah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "bathsheba",
+            "name": "Bathsheba",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "garcia-ii",
+            "name": "King García II of Navarre",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "chimene-ximena",
+            "name": "Chimene (Ximena)",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "sancho-iii",
+            "name": "King Sancho III of Navarre",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "munia-ninia",
+            "name": "Munia (Ninia)",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "sancho-ii",
+            "name": "Sancho II",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "urraca",
+            "name": "Urraca",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "sancho-i",
+            "name": "Sancho I",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "theuda-toda",
+            "name": "Theuda (Toda)",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "ram",
+            "name": "Ram",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "amminadab",
+            "name": "Amminadab",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "morianton",
+            "name": "Morianton",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "rahab-rachab",
+            "name": "Rahab (Rachab)",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "salmon",
+            "name": "Salmon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shelah",
+            "name": "Shelah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ruth",
+            "name": "Ruth of Moab",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "onan",
+            "name": "Onan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "boas",
+            "name": "Boas",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "obed",
+            "name": "Obed",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "riplakish",
+            "name": "Riplakish",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jesse",
+            "name": "Jesse",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "pharez",
+            "name": "Pharez",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hezron-2",
+            "name": "Hezron",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "vingener",
+            "name": "Vingener",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "tror-thor",
+            "name": "Tror (Thor)",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "priam-daughter",
+            "name": "Daughter of Priam",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "priam",
+            "name": "King Priam of Troy",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "lamoedon",
+            "name": "Lamoedon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ilus",
+            "name": "Ilus",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "tros",
+            "name": "King Tros of Troy",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "erichthonius",
+            "name": "Erichthonius",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "darda",
+            "name": "Darda",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zarah-2",
+            "name": "Zarah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "tamar",
+            "name": "Tamar",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "hamul",
+            "name": "Hamul",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "memnon",
+            "name": "Memnon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "silvius",
+            "name": "Silvius",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "aeneas",
+            "name": "Aeneas",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "capps",
+            "name": "Capps",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "assaracus",
+            "name": "Assaracus",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shuah-2",
+            "name": "Shuah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "rehoboam-roboam",
+            "name": "Rehoboam (Roboam)",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "nathan",
+            "name": "Nathan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "abia",
+            "name": "Abia",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "david",
+            "name": "King David of Judah and Israel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "asa",
+            "name": "King Asa of Judah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shabod",
+            "name": "Shabod",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "josaphat",
+            "name": "Josaphat",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "nabah",
+            "name": "Princess Nabah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "dinah",
+            "name": "Dinah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "joash",
+            "name": "King Joash of Judah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "amaziah",
+            "name": "Amaziah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "solomon",
+            "name": "King Solomon of Judah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "azuarius",
+            "name": "Azuarius",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "nashon-naasson",
+            "name": "Nashon (Naasson)",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "er",
+            "name": "Er",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "judah-judas",
+            "name": "Judah (Judas)",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "brutus",
+            "name": "Brutus of Britain",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "anchises",
+            "name": "Anchises",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "tola",
+            "name": "Tola",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shimron",
+            "name": "Shimron",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "phuvah",
+            "name": "Phuvah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "job",
+            "name": "Job",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "issachar",
+            "name": "Issachar",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jahleel",
+            "name": "Jahleel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "sered",
+            "name": "Sered",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "elon",
+            "name": "Elon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zebulun",
+            "name": "Zebulun",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "uzziah-azariah",
+            "name": "Uzziah (Azariah)",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jotham",
+            "name": "King Jotham of Judah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ahaz",
+            "name": "Ahaz",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hezekiah",
+            "name": "Hezekiah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "manasseh",
+            "name": "Manasseh",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "milcah-2",
+            "name": "Milcah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "hoglah",
+            "name": "Hoglah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "noah-2",
+            "name": "Noah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "zelophehad",
+            "name": "Zelophehad",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hepher",
+            "name": "Hepher",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "bashan",
+            "name": "Bashan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "gilead",
+            "name": "Gilead",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "machir",
+            "name": "MacHir",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shemida",
+            "name": "Shemida",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hepher-2",
+            "name": "Hepher",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shechem",
+            "name": "Shechem",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "asriel",
+            "name": "Asriel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "helek",
+            "name": "Helek",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "abiezer",
+            "name": "Abiezer",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ephraim",
+            "name": "Ephraim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "manasseh-2",
+            "name": "Manasseh",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "asenath",
+            "name": "Asenath",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "joseph",
+            "name": "Joseph",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shillem",
+            "name": "Shillem",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jezer",
+            "name": "Jezer",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "guni",
+            "name": "Guni",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jahzeel",
+            "name": "Jahzeel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "naphtali",
+            "name": "Naphtali",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "hushim",
+            "name": "Hushim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "dan",
+            "name": "Dan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shule",
+            "name": "Shule",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "heth-2",
+            "name": "Heth",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shez",
+            "name": "Shez",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "malchiel",
+            "name": "Malchiel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "heber-2",
+            "name": "Heber",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "amon",
+            "name": "King Amon of Judah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "joseph-2",
+            "name": "Joseph",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mattathias",
+            "name": "Mattathias",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "simon-daughter",
+            "name": "Daughter of Simon the Just",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "semei",
+            "name": "Semei",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "joseph-3",
+            "name": "Joseph",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "juda",
+            "name": "Juda",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "joanna",
+            "name": "Joanna",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "rhesa",
+            "name": "Rhesa",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zorobabel",
+            "name": "Zorobabel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "salathiel-2",
+            "name": "Salathiel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "neri",
+            "name": "Neri",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "melchi",
+            "name": "Melchi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "addi",
+            "name": "Addi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "cosam",
+            "name": "Cosam",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "elmodam",
+            "name": "Elmodam",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "er-2",
+            "name": "Er",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jose",
+            "name": "Jose",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "eliezer",
+            "name": "Eliezer",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jorim",
+            "name": "Jorim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jesus",
+            "name": "Jesus Christ",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "levi-2",
+            "name": "Levi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "simeon-2",
+            "name": "Simeon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "juda-2",
+            "name": "Juda",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "joseph-4",
+            "name": "Joseph",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "eliakim",
+            "name": "Eliakim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "melea",
+            "name": "Melea",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "menan",
+            "name": "Menan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mattatha",
+            "name": "Mattatha",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "amalech",
+            "name": "Amalech",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "beli",
+            "name": "King Beli the Great of the Britons",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "anna",
+            "name": "Anna, cousin of Joseph",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "matthat",
+            "name": "Matthat",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "melchi-2",
+            "name": "Melchi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "janna",
+            "name": "Janna",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "bran",
+            "name": "Bran the Blessed",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "penardin",
+            "name": "Penardin",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "llyr",
+            "name": "Llyr Lediaith (King Lear)",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "azor",
+            "name": "Azor",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mahlah",
+            "name": "Mahlah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "aodh-glas",
+            "name": "Aodh Glas",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "manogan",
+            "name": "Manogan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "lud-britons",
+            "name": "King Lud of the Britons",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "sadoc",
+            "name": "Sadoc",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "eleazar",
+            "name": "Eleazar",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "achim",
+            "name": "Achim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "eliud",
+            "name": "Eliud",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "heli",
+            "name": "Heli",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jacob-2",
+            "name": "Jacob",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "matthan",
+            "name": "Matthan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "abiud",
+            "name": "Abiud",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "salathiel-3",
+            "name": "Salathiel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jechonias",
+            "name": "Jechonias",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "josias",
+            "name": "Josias",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "amon-2",
+            "name": "Amon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "manasses",
+            "name": "Manasses",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ezekias",
+            "name": "Ezekias",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "achaz",
+            "name": "Achaz",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "joatham",
+            "name": "Joatham",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ozias",
+            "name": "Ozias",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mattathias-2",
+            "name": "Mattathias",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "maath",
+            "name": "Maath",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "nagga",
+            "name": "Nagga",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "esli",
+            "name": "Esli",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "omer",
+            "name": "Omer",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "benjaman",
+            "name": "Benjaman",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "emer",
+            "name": "Emer",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "kib",
+            "name": "Kib",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "elon-2",
+            "name": "Elon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "orihah",
+            "name": "Orihah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ezbon",
+            "name": "Ezbon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zorobabel-2",
+            "name": "Zorobabel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shuni",
+            "name": "Shuni",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "arodi",
+            "name": "Arodi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "haggi",
+            "name": "Haggi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "eri",
+            "name": "Eri",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ziphion",
+            "name": "Ziphion",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "gad",
+            "name": "Gad",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "sigurd-i",
+            "name": "King Sigurd I of Norway",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "tirzah",
+            "name": "Tirzah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "elizabeth",
+            "name": "Elizabeth, cousin of Mary",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "coriantum",
+            "name": "Coriantum",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "com",
+            "name": "Com",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "isui",
+            "name": "Isui",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ishuah",
+            "name": "Ishuah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "enos-2",
+            "name": "Enos",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "beriah",
+            "name": "Beriah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ashbel",
+            "name": "Ashbel",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jarom",
+            "name": "Jarom",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "omni",
+            "name": "Omni",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "chemish",
+            "name": "Chemish",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "amaron",
+            "name": "Amaron",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mohonria-moriancuma",
+            "name": "Mohonria Moriancuma",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "becher",
+            "name": "Becher",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ard",
+            "name": "Ard",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "naaman",
+            "name": "Naaman",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "huppim",
+            "name": "Huppim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "naum",
+            "name": "Naum",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "amos",
+            "name": "Amos",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jonan",
+            "name": "Jonan",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "muppim",
+            "name": "Muppim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "eli",
+            "name": "Eli",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "gera",
+            "name": "Gera",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "lehi",
+            "name": "Lehi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "iddo",
+            "name": "Iddo",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jacob-3",
+            "name": "Jacob",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "joeph",
+            "name": "Joeph",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "nephi",
+            "name": "Nephi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "sam",
+            "name": "Sam",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "lemul",
+            "name": "Lemul",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "laman",
+            "name": "Laman",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "sariah",
+            "name": "Sariah",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "belah",
+            "name": "Belah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "rosh",
+            "name": "Rosh",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "sarah",
+            "name": "Sarah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jimnah",
+            "name": "Jimnah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "asher",
+            "name": "Asher",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "zachariah",
+            "name": "Zachariah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "john-baptist",
+            "name": "John the Baptist",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "levi-3",
+            "name": "Levi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "joseph-5",
+            "name": "Joseph",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "joseph-6",
+            "name": "Joseph",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "areli",
+            "name": "Areli",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "eliakim-2",
+            "name": "Eliakim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mary",
+            "name": "Mary",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "matthat-2",
+            "name": "Matthat",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "kim",
+            "name": "Kim",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "levi-4",
+            "name": "Levi",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "corom",
+            "name": "Corom",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "kish",
+            "name": "Kish",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "lib",
+            "name": "Lib",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "heth-3",
+            "name": "Heth",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "aaron-2",
+            "name": "Aaron",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "amnigaddah",
+            "name": "Amnigaddah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "coriantam",
+            "name": "Coriantam",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "shiblon",
+            "name": "Shiblon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "seth-2",
+            "name": "Seth",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "anah-2",
+            "name": "Anah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ethem",
+            "name": "Ethem",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "moron",
+            "name": "Moron",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "coriantor",
+            "name": "Coriantor",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "ether",
+            "name": "Ether",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "com-2",
+            "name": "Com",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "pagag",
+            "name": "Pagag",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jacon",
+            "name": "Jacon",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "father-of-jared",
+            "name": "Father of Jared",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "corianumr",
+            "name": "Corianumr",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "a-daughter-of-jared",
+            "name": "A Daughter of Jared",
+            "house": "Bible",
+            "sex": "f"
+        },
+        {
+            "id": "jared-2",
+            "name": "Jared",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "gilgah",
+            "name": "Gilgah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "mahah",
+            "name": "Mahah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "a-son-of-alish",
+            "name": "A Son of Alish",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "jared-3",
+            "name": "Jared",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "esrom",
+            "name": "Esrom",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "nimrah",
+            "name": "Nimrah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "akish",
+            "name": "Akish",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "corihor",
+            "name": "Corihor",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "noah-3",
+            "name": "Noah",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "cohor",
+            "name": "Cohor",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "cohor-2",
+            "name": "Cohor",
+            "house": "Bible",
+            "sex": "m"
+        },
+        {
+            "id": "nimrod-2",
+            "name": "Nimrod",
+            "house": "Bible",
+            "sex": "m"
+        }
+    ],
+    "families": [
+        {
+            "parents": ["mizraim"],
+            "children": ["ludim", "anamim", "lehabim", "nephtuihim", "pethusim", "caphtorim", "casluhim"]
+        },
+        {
+            "parents": ["ham", "egyptus"],
+            "children": ["cush", "phut", "canaan", "mizraim"]
+        },
+        {
+            "parents": ["cush"],
+            "children": ["raamah", "sabtah", "havilah", "sabtecha", "seba", "nimrod"]
+        },
+        {
+            "parents": ["raamah"],
+            "children": ["sheba", "dedan"]
+        },
+        {
+            "parents": ["canaan"],
+            "children": [
+                "sidon",
+                "heth",
+                "jebusite",
+                "amorite",
+                "girgassite",
+                "hivite",
+                "arkite",
+                "sirite",
+                "arvadite",
+                "zemarite",
+                "hamathite"
+            ]
+        },
+        {
+            "parents": ["nahor-2", "reumah"],
+            "children": ["tebah", "gaham", "thahash", "maachah"]
+        },
+        {
+            "parents": ["jacob", "leah"],
+            "children": ["levi", "simeon", "judah-judas", "zebulun", "reuben", "dinah"]
+        },
+        {
+            "parents": ["leah"],
+            "children": []
+        },
+        {
+            "parents": ["laban"],
+            "children": ["leah", "rachal"]
+        },
+        {
+            "parents": ["jacob", "rachal"],
+            "children": ["joseph", "benjaman"]
+        },
+        {
+            "parents": ["jacob", "bilhah"],
+            "children": ["dan", "naphtali"]
+        },
+        {
+            "parents": ["jacob", "zalpah"],
+            "children": ["gad", "asher"]
+        },
+        {
+            "parents": ["isaac", "rebekah"],
+            "children": ["jacob", "esau"]
+        },
+        {
+            "parents": ["abraham-abram", "sarai"],
+            "children": ["isaac"]
+        },
+        {
+            "parents": ["bethuel"],
+            "children": ["rebekah", "laban"]
+        },
+        {
+            "parents": ["abraham-abram", "hagar"],
+            "children": ["ishmael"]
+        },
+        {
+            "parents": ["abraham-abram", "keturah"],
+            "children": ["zemran", "jokshon", "madan", "ishbak", "shuah"]
+        },
+        {
+            "parents": ["terah"],
+            "children": ["abraham-abram", "haran", "nahor-2"]
+        },
+        {
+            "parents": ["nahor"],
+            "children": ["terah"]
+        },
+        {
+            "parents": ["serug"],
+            "children": ["nahor"]
+        },
+        {
+            "parents": ["reu"],
+            "children": ["serug"]
+        },
+        {
+            "parents": ["peleg"],
+            "children": ["reu"]
+        },
+        {
+            "parents": ["eber"],
+            "children": ["jokan", "peleg"]
+        },
+        {
+            "parents": ["salah"],
+            "children": ["eber"]
+        },
+        {
+            "parents": ["arphaxad"],
+            "children": ["salah"]
+        },
+        {
+            "parents": ["shem"],
+            "children": ["arphaxad", "aram", "asshur", "lud", "elam"]
+        },
+        {
+            "parents": ["noah", "titea"],
+            "children": ["shem", "ham", "japheth"]
+        },
+        {
+            "parents": ["lamech"],
+            "children": ["noah"]
+        },
+        {
+            "parents": ["methuselah"],
+            "children": ["lamech"]
+        },
+        {
+            "parents": ["enoch"],
+            "children": ["methuselah"]
+        },
+        {
+            "parents": ["jared"],
+            "children": ["enoch"]
+        },
+        {
+            "parents": ["mahalaleel"],
+            "children": ["jared"]
+        },
+        {
+            "parents": ["cainan"],
+            "children": ["mahalaleel"]
+        },
+        {
+            "parents": ["enos"],
+            "children": ["cainan"]
+        },
+        {
+            "parents": ["seth"],
+            "children": ["enos"]
+        },
+        {
+            "parents": ["adam", "eve"],
+            "children": ["cain", "abel", "seth"]
+        },
+        {
+            "parents": ["japheth"],
+            "children": ["meshech", "magog", "madai", "tubul", "gomor", "tiras", "javan"]
+        },
+        {
+            "parents": ["tait"],
+            "children": []
+        },
+        {
+            "parents": ["oghaman"],
+            "children": ["tait"]
+        },
+        {
+            "parents": ["beouman"],
+            "children": ["oghaman"]
+        },
+        {
+            "parents": ["heber-scut-scott"],
+            "children": ["beouman"]
+        },
+        {
+            "parents": ["sruth"],
+            "children": ["heber-scut-scott"]
+        },
+        {
+            "parents": ["asruth-easruth"],
+            "children": ["sruth"]
+        },
+        {
+            "parents": ["gaodhal-glas"],
+            "children": ["asruth-easruth"]
+        },
+        {
+            "parents": ["niul", "scota"],
+            "children": ["gaodhal-glas"]
+        },
+        {
+            "parents": ["niul"],
+            "children": []
+        },
+        {
+            "parents": ["phoeniusa-farsaidh"],
+            "children": ["nenall", "niul"]
+        },
+        {
+            "parents": ["boath"],
+            "children": ["phoeniusa-farsaidh"]
+        },
+        {
+            "parents": ["magog"],
+            "children": ["boath"]
+        },
+        {
+            "parents": [],
+            "children": ["scota"]
+        },
+        {
+            "parents": ["nahor-2", "milcah"],
+            "children": ["bethuel", "huz", "buz", "kemuel", "chesed", "hazo", "pildesh", "jidlaph"]
+        },
+        {
+            "parents": ["esau", "adah"],
+            "children": []
+        },
+        {
+            "parents": ["lamech-2", "zilah"],
+            "children": ["trbal-cain", "naamah"]
+        },
+        {
+            "parents": ["enoch-2"],
+            "children": ["irad"]
+        },
+        {
+            "parents": ["cain"],
+            "children": ["enoch-2"]
+        },
+        {
+            "parents": ["irad"],
+            "children": ["mahujael"]
+        },
+        {
+            "parents": ["mahujael"],
+            "children": ["methusael"]
+        },
+        {
+            "parents": ["methusael"],
+            "children": ["lamech-2"]
+        },
+        {
+            "parents": ["lamech-2", "adah-2"],
+            "children": ["jabal", "jubal"]
+        },
+        {
+            "parents": ["gomor"],
+            "children": ["ashkeraz", "riphath", "togarmar"]
+        },
+        {
+            "parents": ["javan"],
+            "children": ["tarshish", "elisaah", "kittim", "dodanim"]
+        },
+        {
+            "parents": ["ashkeraz"],
+            "children": []
+        },
+        {
+            "parents": ["casluhim"],
+            "children": ["philstem"]
+        },
+        {
+            "parents": ["aram"],
+            "children": ["hul", "mash", "uz", "gether"]
+        },
+        {
+            "parents": ["jokan"],
+            "children": [
+                "almodad",
+                "sheleph",
+                "hazarmaveth",
+                "jerah",
+                "hadoram",
+                "uzal",
+                "diklah",
+                "obal",
+                "abimael",
+                "sheba-2",
+                "ophir",
+                "havilah-2",
+                "jobab"
+            ]
+        },
+        {
+            "parents": ["haran"],
+            "children": ["sarai", "milcah", "lot", "iscah"]
+        },
+        {
+            "parents": ["lot", "lot-elder-daughter"],
+            "children": ["moab"]
+        },
+        {
+            "parents": ["lot", "lot-younger-daughter"],
+            "children": ["benammi"]
+        },
+        {
+            "parents": ["lot"],
+            "children": ["lot-elder-daughter", "lot-younger-daughter"]
+        },
+        {
+            "parents": ["kemuel"],
+            "children": ["aram-2"]
+        },
+        {
+            "parents": ["esau", "bashemath"],
+            "children": ["reuel-jethro"]
+        },
+        {
+            "parents": ["follian-falach"],
+            "children": []
+        },
+        {
+            "parents": ["esau", "judith"],
+            "children": []
+        },
+        {
+            "parents": ["anah"],
+            "children": ["aholitamah"]
+        },
+        {
+            "parents": ["ishmael"],
+            "children": [
+                "massa",
+                "nebajoth",
+                "hadar",
+                "kendar",
+                "tema",
+                "adbeel",
+                "jetur",
+                "mibsam",
+                "nephish",
+                "mishma",
+                "kedemah",
+                "dumah",
+                "bashemath"
+            ]
+        },
+        {
+            "parents": ["madan"],
+            "children": ["ephah", "epher", "hanoch", "abida", "eldaah"]
+        },
+        {
+            "parents": ["dedan-2"],
+            "children": []
+        },
+        {
+            "parents": ["jokshon"],
+            "children": ["sheba-3", "dedan-2"]
+        },
+        {
+            "parents": ["esau", "aholitamah"],
+            "children": ["aeush", "jaalam", "korah"]
+        },
+        {
+            "parents": ["reuel-jethro"],
+            "children": ["nahath", "zarah", "shanmah", "zipporah", "mizzah"]
+        },
+        {
+            "parents": ["zibeon"],
+            "children": ["anah", "ajah"]
+        },
+        {
+            "parents": ["dishon"],
+            "children": ["hemden", "eshben", "ithran", "cheran"]
+        },
+        {
+            "parents": ["seir"],
+            "children": ["timna", "lotan", "stobal", "zibeon", "ezer", "dishan"]
+        },
+        {
+            "parents": ["lotan"],
+            "children": ["hori", "hemam"]
+        },
+        {
+            "parents": ["stobal"],
+            "children": ["alvan", "manahath", "ebal", "shepho", "onam"]
+        },
+        {
+            "parents": ["ezer"],
+            "children": ["bilhan", "zaavan", "akan"]
+        },
+        {
+            "parents": ["dishan"],
+            "children": ["uz-2", "aran"]
+        },
+        {
+            "parents": ["eithriall"],
+            "children": ["follian-falach"]
+        },
+        {
+            "parents": ["irial-faidh"],
+            "children": ["eithriall"]
+        },
+        {
+            "parents": ["eochaid-i-heremon-ireland", "tamar-tephi"],
+            "children": ["irial-faidh"]
+        },
+        {
+            "parents": ["mattaniah"],
+            "children": ["mulek", "tamar-tephi"]
+        },
+        {
+            "parents": ["josiah", "hammutal"],
+            "children": ["mattaniah", "shallum-2"]
+        },
+        {
+            "parents": ["josiah"],
+            "children": ["johanan", "jehoiakim"]
+        },
+        {
+            "parents": ["jeremiah", "libnah"],
+            "children": ["hammutal"]
+        },
+        {
+            "parents": ["hilkiah"],
+            "children": ["jeremiah", "shaphan", "azaniah"]
+        },
+        {
+            "parents": ["shallum"],
+            "children": ["hilkiah", "hanameel"]
+        },
+        {
+            "parents": ["shaphan", "gemariah"],
+            "children": ["elasah"]
+        },
+        {
+            "parents": ["ahitub"],
+            "children": ["zadok"]
+        },
+        {
+            "parents": ["amariah"],
+            "children": ["ahitub"]
+        },
+        {
+            "parents": ["azariah"],
+            "children": ["amariah"]
+        },
+        {
+            "parents": ["ezra", "holdiah"],
+            "children": ["jether", "mered", "ephar", "jalon"]
+        },
+        {
+            "parents": ["ezra", "jehudisah"],
+            "children": ["miriam", "shammai", "jerad", "heber", "ishbah", "jekuthiel"]
+        },
+        {
+            "parents": ["seriah"],
+            "children": ["josedech", "ezra"]
+        },
+        {
+            "parents": ["zadok"],
+            "children": ["shallum"]
+        },
+        {
+            "parents": ["meraioth"],
+            "children": ["azariah"]
+        },
+        {
+            "parents": ["zerahiah"],
+            "children": ["meraioth"]
+        },
+        {
+            "parents": ["uzzi"],
+            "children": ["zerahiah"]
+        },
+        {
+            "parents": ["bukki"],
+            "children": ["uzzi"]
+        },
+        {
+            "parents": ["abishuah"],
+            "children": ["bukki"]
+        },
+        {
+            "parents": ["phineas"],
+            "children": ["abishuah"]
+        },
+        {
+            "parents": ["eleazer"],
+            "children": ["phineas"]
+        },
+        {
+            "parents": ["aaron", "elisheba"],
+            "children": ["eleazer"]
+        },
+        {
+            "parents": ["amram", "jochebed"],
+            "children": ["aaron", "mirham", "moses"]
+        },
+        {
+            "parents": ["kohath"],
+            "children": ["amram"]
+        },
+        {
+            "parents": ["levi"],
+            "children": ["gershon", "kohath", "jochebed", "merari"]
+        },
+        {
+            "parents": ["joiadah"],
+            "children": []
+        },
+        {
+            "parents": ["eliashib"],
+            "children": ["joiadah"]
+        },
+        {
+            "parents": ["joachim"],
+            "children": ["eliashib"]
+        },
+        {
+            "parents": ["joshuah"],
+            "children": ["joachim"]
+        },
+        {
+            "parents": ["josedech"],
+            "children": ["joshuah"]
+        },
+        {
+            "parents": ["azaniah"],
+            "children": ["seriah"]
+        },
+        {
+            "parents": ["merari"],
+            "children": ["mahali", "mushi"]
+        },
+        {
+            "parents": ["gershon"],
+            "children": ["libni", "shimi"]
+        },
+        {
+            "parents": ["moses", "zipporah"],
+            "children": ["gershom"]
+        },
+        {
+            "parents": ["ishbah"],
+            "children": ["eshteemca"]
+        },
+        {
+            "parents": ["jerad"],
+            "children": ["gedor"]
+        },
+        {
+            "parents": ["heber"],
+            "children": ["socho"]
+        },
+        {
+            "parents": ["jekuthiel"],
+            "children": ["zanoah"]
+        },
+        {
+            "parents": ["reuben"],
+            "children": ["hanoch-2", "phallu", "hezron", "carmi"]
+        },
+        {
+            "parents": ["jehoiakim"],
+            "children": ["jeconiah", "zedekiah"]
+        },
+        {
+            "parents": ["jeconiah"],
+            "children": ["assir", "salathiel", "malchiram", "pedaiah", "shenazar", "jacamiah", "hoshama", "nedabiah"]
+        },
+        {
+            "parents": ["pedaiah"],
+            "children": ["zerubbabel", "shimei"]
+        },
+        {
+            "parents": ["zerubbabel"],
+            "children": ["meshullam", "hananiah", "saeloith"]
+        },
+        {
+            "parents": ["meshullam"],
+            "children": []
+        },
+        {
+            "parents": ["hananiah"],
+            "children": []
+        },
+        {
+            "parents": ["rephaiah", "saeloith"],
+            "children": []
+        },
+        {
+            "parents": ["simeon"],
+            "children": ["jemeul", "jamin", "ohad", "jachin", "zohar"]
+        },
+        {
+            "parents": ["simeon"],
+            "children": ["shaul", "jachin", "jamin", "jemeul", "ohad", "zohar"]
+        },
+        {
+            "parents": ["garcia-ii", "chimene-ximena"],
+            "children": ["sancho-iii"]
+        },
+        {
+            "parents": ["sancho-ii", "urraca"],
+            "children": ["garcia-ii"]
+        },
+        {
+            "parents": ["sancho-iii", "munia-ninia"],
+            "children": []
+        },
+        {
+            "parents": ["sancho-i", "theuda-toda"],
+            "children": ["sancho-ii"]
+        },
+        {
+            "parents": [],
+            "children": ["urraca"]
+        },
+        {
+            "parents": ["azuarius"],
+            "children": ["theuda-toda"]
+        },
+        {
+            "parents": ["ram"],
+            "children": ["amminadab"]
+        },
+        {
+            "parents": ["hezron-2"],
+            "children": ["ram"]
+        },
+        {
+            "parents": ["amminadab"],
+            "children": ["nashon-naasson"]
+        },
+        {
+            "parents": ["jesse"],
+            "children": ["david"]
+        },
+        {
+            "parents": ["salmon", "rahab-rachab"],
+            "children": ["boas"]
+        },
+        {
+            "parents": ["nashon-naasson"],
+            "children": ["salmon"]
+        },
+        {
+            "parents": ["judah-judas", "shuah-2"],
+            "children": ["er", "shelah", "onan"]
+        },
+        {
+            "parents": ["boas", "ruth"],
+            "children": ["obed"]
+        },
+        {
+            "parents": ["obed"],
+            "children": ["jesse"]
+        },
+        {
+            "parents": ["pharez"],
+            "children": ["hezron-2", "hamul"]
+        },
+        {
+            "parents": ["judah-judas", "tamar"],
+            "children": ["pharez", "zarah-2"]
+        },
+        {
+            "parents": ["vingener"],
+            "children": []
+        },
+        {
+            "parents": ["tror-thor"],
+            "children": ["vingener"]
+        },
+        {
+            "parents": ["memnon", "priam-daughter"],
+            "children": ["tror-thor"]
+        },
+        {
+            "parents": ["priam"],
+            "children": ["priam-daughter"]
+        },
+        {
+            "parents": ["lamoedon"],
+            "children": ["priam"]
+        },
+        {
+            "parents": ["ilus"],
+            "children": ["lamoedon"]
+        },
+        {
+            "parents": ["tros"],
+            "children": ["assaracus", "ilus"]
+        },
+        {
+            "parents": ["erichthonius"],
+            "children": ["tros"]
+        },
+        {
+            "parents": ["darda"],
+            "children": ["erichthonius"]
+        },
+        {
+            "parents": ["zarah-2"],
+            "children": ["darda"]
+        },
+        {
+            "parents": ["er", "tamar"],
+            "children": []
+        },
+        {
+            "parents": ["silvius"],
+            "children": ["brutus"]
+        },
+        {
+            "parents": ["aeneas"],
+            "children": ["silvius"]
+        },
+        {
+            "parents": ["anchises"],
+            "children": ["aeneas"]
+        },
+        {
+            "parents": ["capps"],
+            "children": ["anchises"]
+        },
+        {
+            "parents": ["assaracus"],
+            "children": ["azuarius", "capps"]
+        },
+        {
+            "parents": ["brutus"],
+            "children": []
+        },
+        {
+            "parents": ["issachar"],
+            "children": ["tola", "shimron", "phuvah", "job"]
+        },
+        {
+            "parents": ["zebulun"],
+            "children": ["sered", "elon", "jahleel"]
+        },
+        {
+            "parents": ["joash"],
+            "children": ["amaziah"]
+        },
+        {
+            "parents": ["ahaziah", "athaliah"],
+            "children": ["joash"]
+        },
+        {
+            "parents": ["amaziah"],
+            "children": ["uzziah-azariah"]
+        },
+        {
+            "parents": ["solomon", "nabah"],
+            "children": ["rehoboam-roboam"]
+        },
+        {
+            "parents": ["david", "bathsheba"],
+            "children": ["shimea", "shabod", "nathan", "solomon"]
+        },
+        {
+            "parents": ["rehoboam-roboam"],
+            "children": ["abia"]
+        },
+        {
+            "parents": ["nathan"],
+            "children": ["mattatha"]
+        },
+        {
+            "parents": ["abia"],
+            "children": ["asa"]
+        },
+        {
+            "parents": ["asa"],
+            "children": ["josaphat"]
+        },
+        {
+            "parents": ["josaphat"],
+            "children": ["jehoram"]
+        },
+        {
+            "parents": ["jehoram"],
+            "children": ["ozias", "ahaziah"]
+        },
+        {
+            "parents": ["uzziah-azariah"],
+            "children": ["jotham"]
+        },
+        {
+            "parents": ["jotham"],
+            "children": ["ahaz"]
+        },
+        {
+            "parents": ["ahaz"],
+            "children": ["hezekiah"]
+        },
+        {
+            "parents": ["hezekiah"],
+            "children": ["manasseh"]
+        },
+        {
+            "parents": ["manasseh"],
+            "children": ["amon"]
+        },
+        {
+            "parents": ["aodh-glas"],
+            "children": []
+        },
+        {
+            "parents": [],
+            "children": ["aodh-glas"]
+        },
+        {
+            "parents": ["amon"],
+            "children": ["josiah"]
+        },
+        {
+            "parents": ["joseph-2"],
+            "children": ["janna"]
+        },
+        {
+            "parents": ["mattathias", "simon-daughter"],
+            "children": ["joseph-2"]
+        },
+        {
+            "parents": ["amos"],
+            "children": ["mattathias"]
+        },
+        {
+            "parents": ["semei"],
+            "children": ["mattathias-2"]
+        },
+        {
+            "parents": ["joseph-3"],
+            "children": ["semei"]
+        },
+        {
+            "parents": ["juda"],
+            "children": ["joseph-3"]
+        },
+        {
+            "parents": ["joanna"],
+            "children": ["juda"]
+        },
+        {
+            "parents": ["rhesa"],
+            "children": ["joanna"]
+        },
+        {
+            "parents": ["zorobabel"],
+            "children": ["rhesa"]
+        },
+        {
+            "parents": ["salathiel-2"],
+            "children": ["zorobabel"]
+        },
+        {
+            "parents": ["neri"],
+            "children": ["salathiel-2"]
+        },
+        {
+            "parents": ["melchi"],
+            "children": ["neri"]
+        },
+        {
+            "parents": ["addi"],
+            "children": ["melchi"]
+        },
+        {
+            "parents": ["cosam"],
+            "children": ["addi"]
+        },
+        {
+            "parents": ["elmodam"],
+            "children": ["cosam"]
+        },
+        {
+            "parents": ["er-2"],
+            "children": ["elmodam"]
+        },
+        {
+            "parents": ["jose"],
+            "children": ["er-2"]
+        },
+        {
+            "parents": ["eliezer"],
+            "children": ["jose"]
+        },
+        {
+            "parents": ["jorim"],
+            "children": ["eliezer"]
+        },
+        {
+            "parents": ["matthat-2"],
+            "children": ["jorim"]
+        },
+        {
+            "parents": ["joseph-5", "mary"],
+            "children": ["jesus"]
+        },
+        {
+            "parents": ["levi-2"],
+            "children": ["matthat-2"]
+        },
+        {
+            "parents": ["simeon-2"],
+            "children": ["levi-2"]
+        },
+        {
+            "parents": ["juda-2"],
+            "children": ["simeon-2"]
+        },
+        {
+            "parents": ["joseph-4"],
+            "children": ["juda-2"]
+        },
+        {
+            "parents": ["jonan"],
+            "children": ["joseph-4"]
+        },
+        {
+            "parents": ["eliakim"],
+            "children": ["jonan"]
+        },
+        {
+            "parents": ["melea"],
+            "children": ["eliakim"]
+        },
+        {
+            "parents": ["menan"],
+            "children": ["melea"]
+        },
+        {
+            "parents": ["mattatha"],
+            "children": ["menan"]
+        },
+        {
+            "parents": ["amalech"],
+            "children": []
+        },
+        {
+            "parents": ["beli"],
+            "children": ["lud-britons", "amalech"]
+        },
+        {
+            "parents": ["manogan", "anna"],
+            "children": ["penardin", "beli"]
+        },
+        {
+            "parents": ["joseph-6"],
+            "children": ["anna"]
+        },
+        {
+            "parents": ["matthat"],
+            "children": ["heli", "joseph-6"]
+        },
+        {
+            "parents": ["levi-3"],
+            "children": ["matthat"]
+        },
+        {
+            "parents": ["melchi-2"],
+            "children": ["levi-3"]
+        },
+        {
+            "parents": ["janna"],
+            "children": ["melchi-2"]
+        },
+        {
+            "parents": ["bran"],
+            "children": []
+        },
+        {
+            "parents": ["penardin", "llyr"],
+            "children": ["bran"]
+        },
+        {
+            "parents": ["azor"],
+            "children": ["sadoc"]
+        },
+        {
+            "parents": ["eliakim-2"],
+            "children": ["azor"]
+        },
+        {
+            "parents": ["lud-britons"],
+            "children": []
+        },
+        {
+            "parents": ["sadoc"],
+            "children": ["achim"]
+        },
+        {
+            "parents": ["eleazar"],
+            "children": ["matthan"]
+        },
+        {
+            "parents": ["eliud"],
+            "children": ["eleazar"]
+        },
+        {
+            "parents": ["achim"],
+            "children": ["eliud"]
+        },
+        {
+            "parents": ["heli"],
+            "children": ["joseph-5"]
+        },
+        {
+            "parents": ["jacob-2"],
+            "children": ["mary"]
+        },
+        {
+            "parents": ["matthan"],
+            "children": ["elizabeth", "jacob-2"]
+        },
+        {
+            "parents": ["abiud"],
+            "children": ["eliakim-2"]
+        },
+        {
+            "parents": ["zorobabel-2"],
+            "children": ["abiud"]
+        },
+        {
+            "parents": ["salathiel-3"],
+            "children": ["zorobabel-2"]
+        },
+        {
+            "parents": ["jechonias"],
+            "children": ["salathiel-3"]
+        },
+        {
+            "parents": ["josias"],
+            "children": ["jechonias"]
+        },
+        {
+            "parents": ["amon-2"],
+            "children": ["josias"]
+        },
+        {
+            "parents": ["manasses"],
+            "children": ["amon-2"]
+        },
+        {
+            "parents": ["ezekias"],
+            "children": ["manasses"]
+        },
+        {
+            "parents": ["achaz"],
+            "children": ["ezekias"]
+        },
+        {
+            "parents": ["joatham"],
+            "children": ["achaz"]
+        },
+        {
+            "parents": ["ozias"],
+            "children": ["joatham"]
+        },
+        {
+            "parents": ["mattathias-2"],
+            "children": ["maath"]
+        },
+        {
+            "parents": ["maath"],
+            "children": ["nagga"]
+        },
+        {
+            "parents": ["nagga"],
+            "children": ["esli"]
+        },
+        {
+            "parents": ["esli"],
+            "children": ["naum"]
+        },
+        {
+            "parents": ["elon-2"],
+            "children": ["adah"]
+        },
+        {
+            "parents": ["naum"],
+            "children": ["amos"]
+        },
+        {
+            "parents": ["sigurd-i"],
+            "children": []
+        },
+        {
+            "parents": ["zachariah", "elizabeth"],
+            "children": ["john-baptist"]
+        },
+        {
+            "parents": ["iddo"],
+            "children": ["zachariah"]
+        },
+        {
+            "parents": ["gad"],
+            "children": ["ziphion", "eri", "haggi", "arodi", "shuni", "areli", "ezbon"]
+        },
+        {
+            "parents": ["asher"],
+            "children": ["jimnah", "sarah", "ishuah", "isui", "beriah"]
+        },
+        {
+            "parents": ["beriah"],
+            "children": ["heber-2", "malchiel"]
+        },
+        {
+            "parents": ["dan"],
+            "children": ["hushim"]
+        },
+        {
+            "parents": ["naphtali"],
+            "children": ["jahzeel", "guni", "jezer", "shillem"]
+        },
+        {
+            "parents": ["joseph", "asenath"],
+            "children": ["manasseh-2", "ephraim"]
+        },
+        {
+            "parents": ["manasseh-2"],
+            "children": ["abiezer", "helek", "asriel", "shechem", "hepher-2", "shemida", "machir"]
+        },
+        {
+            "parents": ["machir"],
+            "children": ["gilead", "bashan"]
+        },
+        {
+            "parents": ["gilead"],
+            "children": ["hepher"]
+        },
+        {
+            "parents": ["hepher"],
+            "children": ["zelophehad"]
+        },
+        {
+            "parents": ["zelophehad"],
+            "children": ["mahlah", "noah-2", "hoglah", "milcah-2", "tirzah"]
+        },
+        {
+            "parents": ["benjaman"],
+            "children": ["belah", "rosh", "ashbel", "huppim", "naaman", "ard", "becher", "gera", "eli", "muppim"]
+        },
+        {
+            "parents": ["lehi", "sariah"],
+            "children": ["laman", "lemul", "sam", "nephi", "joeph", "jacob-3"]
+        },
+        {
+            "parents": ["jacob-3"],
+            "children": ["enos-2"]
+        },
+        {
+            "parents": ["enos-2"],
+            "children": ["jarom"]
+        },
+        {
+            "parents": ["jarom"],
+            "children": ["omni"]
+        },
+        {
+            "parents": ["omni"],
+            "children": ["chemish", "amaron"]
+        },
+        {
+            "parents": ["mohonria-moriancuma"],
+            "children": ["pagag"]
+        },
+        {
+            "parents": ["father-of-jared"],
+            "children": ["mohonria-moriancuma", "jared-2"]
+        },
+        {
+            "parents": ["orihah"],
+            "children": ["kib"]
+        },
+        {
+            "parents": ["jared-2"],
+            "children": ["gilgah", "jacon", "orihah", "mahah"]
+        },
+        {
+            "parents": ["kib"],
+            "children": ["corihor", "shule"]
+        },
+        {
+            "parents": ["shule"],
+            "children": ["omer"]
+        },
+        {
+            "parents": ["omer"],
+            "children": ["emer", "esrom", "corianumr", "jared-3"]
+        },
+        {
+            "parents": ["emer"],
+            "children": ["coriantum"]
+        },
+        {
+            "parents": ["coriantum"],
+            "children": ["com"]
+        },
+        {
+            "parents": ["com"],
+            "children": ["heth-2"]
+        },
+        {
+            "parents": ["heth-2"],
+            "children": ["shez"]
+        },
+        {
+            "parents": ["shez"],
+            "children": ["riplakish"]
+        },
+        {
+            "parents": ["riplakish"],
+            "children": ["morianton"]
+        },
+        {
+            "parents": ["morianton"],
+            "children": ["kim"]
+        },
+        {
+            "parents": ["kim"],
+            "children": ["levi-4"]
+        },
+        {
+            "parents": ["levi-4"],
+            "children": ["corom"]
+        },
+        {
+            "parents": ["corom"],
+            "children": ["kish"]
+        },
+        {
+            "parents": ["kish"],
+            "children": ["lib"]
+        },
+        {
+            "parents": ["lib"],
+            "children": ["heth-3"]
+        },
+        {
+            "parents": ["heth-3"],
+            "children": ["aaron-2"]
+        },
+        {
+            "parents": ["aaron-2"],
+            "children": ["amnigaddah"]
+        },
+        {
+            "parents": ["amnigaddah"],
+            "children": ["coriantam"]
+        },
+        {
+            "parents": ["coriantam"],
+            "children": ["com-2"]
+        },
+        {
+            "parents": ["shiblon"],
+            "children": ["seth-2"]
+        },
+        {
+            "parents": ["com-2"],
+            "children": ["shiblon"]
+        },
+        {
+            "parents": ["seth-2"],
+            "children": ["anah-2"]
+        },
+        {
+            "parents": ["anah-2"],
+            "children": ["ethem"]
+        },
+        {
+            "parents": ["ethem"],
+            "children": ["moron"]
+        },
+        {
+            "parents": ["moron"],
+            "children": ["coriantor"]
+        },
+        {
+            "parents": ["coriantor"],
+            "children": ["ether"]
+        },
+        {
+            "parents": ["akish", "a-daughter-of-jared"],
+            "children": ["a-son-of-alish", "nimrah"]
+        },
+        {
+            "parents": ["jared-3"],
+            "children": ["a-daughter-of-jared"]
+        },
+        {
+            "parents": ["corihor"],
+            "children": ["noah-3", "cohor"]
+        },
+        {
+            "parents": ["noah-3"],
+            "children": ["cohor-2"]
+        },
+        {
+            "parents": ["cohor-2"],
+            "children": ["nimrod-2"]
+        },
+        {
+            "parents": ["anah"],
+            "children": ["dishon"],
+            "adoptive": true
+        },
+        {
+            "parents": ["mariam"],
+            "children": []
+        }
+    ]
+}

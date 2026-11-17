@@ -10,60 +10,21 @@
         "covers": "Potter, Evans/Dursley, Weasley, Black/Tonks/Lupin and Malfoy families, through the epilogue children."
     },
     "notes": [],
-    "houses": [
-        {
-            "name": "Potter",
-            "color": "#b8342f"
-        },
-        {
-            "name": "Evans",
-            "color": "#e58fa8"
-        },
-        {
-            "name": "Dursley",
-            "color": "#9c8f7a"
-        },
-        {
-            "name": "Weasley",
-            "color": "#e07a2e"
-        },
-        {
-            "name": "Prewett",
-            "color": "#d9a441"
-        },
-        {
-            "name": "Delacour",
-            "color": "#a8c8ef"
-        },
-        {
-            "name": "Granger",
-            "color": "#8b5a2b"
-        },
-        {
-            "name": "Black",
-            "color": "#4b4f6b"
-        },
-        {
-            "name": "Tonks",
-            "color": "#d24fa8"
-        },
-        {
-            "name": "Lupin",
-            "color": "#7a8a6a"
-        },
-        {
-            "name": "Malfoy",
-            "color": "#3f9a74"
-        },
-        {
-            "name": "Greengrass",
-            "color": "#a3c96a"
-        },
-        {
-            "name": "Rosier",
-            "color": "#8a8f6a"
-        }
-    ],
+    "houses": {
+        "Potter": "#b8342f",
+        "Evans": "#e58fa8",
+        "Dursley": "#9c8f7a",
+        "Weasley": "#e07a2e",
+        "Prewett": "#d9a441",
+        "Delacour": "#a8c8ef",
+        "Granger": "#8b5a2b",
+        "Black": "#4b4f6b",
+        "Tonks": "#d24fa8",
+        "Lupin": "#7a8a6a",
+        "Malfoy": "#3f9a74",
+        "Greengrass": "#a3c96a",
+        "Rosier": "#8a8f6a"
+    },
     "people": [
         {
             "id": "fleamont",
@@ -320,313 +281,56 @@
     ],
     "families": [
         {
-            "id": "potter-f1",
-            "adoptive": false
+            "parents": ["fleamont", "euphemia"],
+            "children": ["james"]
         },
         {
-            "id": "potter-f2",
-            "adoptive": false
+            "parents": ["james", "lily"],
+            "children": ["harry"]
         },
         {
-            "id": "potter-f3",
-            "adoptive": false
+            "parents": ["vernon", "petunia"],
+            "children": ["dudley"]
         },
         {
-            "id": "potter-f4",
-            "adoptive": false
+            "parents": ["harry", "ginny"],
+            "children": ["jamesS", "albus", "lilyL"]
         },
         {
-            "id": "potter-f5",
-            "adoptive": false
+            "parents": ["arthur", "molly"],
+            "children": ["bill", "charlie", "percy", "fred", "george", "ron", "ginny"]
         },
         {
-            "id": "potter-f6",
-            "adoptive": false
+            "parents": ["bill", "fleur"],
+            "children": ["victoire"]
         },
         {
-            "id": "potter-f7",
-            "adoptive": false
+            "parents": ["ron", "hermione"],
+            "children": ["rose", "hugo"]
         },
         {
-            "id": "potter-f8",
-            "adoptive": false
+            "parents": ["cygnus", "druella"],
+            "children": ["bellatrix", "andromeda", "narcissa"]
         },
         {
-            "id": "potter-f9",
-            "adoptive": false
+            "parents": ["orion", "walburga"],
+            "children": ["sirius", "regulus"]
         },
         {
-            "id": "potter-f10",
-            "adoptive": false
+            "parents": ["ted", "andromeda"],
+            "children": ["tonks"]
         },
         {
-            "id": "potter-f11",
-            "adoptive": false
+            "parents": ["remus", "tonks"],
+            "children": ["teddy"]
         },
         {
-            "id": "potter-f12",
-            "adoptive": false
+            "parents": ["lucius", "narcissa"],
+            "children": ["draco"]
         },
         {
-            "id": "potter-f13",
-            "adoptive": false
-        }
-    ],
-    "members": [
-        {
-            "family": "potter-f1",
-            "person": "fleamont",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f1",
-            "person": "euphemia",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f1",
-            "person": "james",
-            "role": "child"
-        },
-        {
-            "family": "potter-f2",
-            "person": "james",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f2",
-            "person": "lily",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f2",
-            "person": "harry",
-            "role": "child"
-        },
-        {
-            "family": "potter-f3",
-            "person": "vernon",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f3",
-            "person": "petunia",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f3",
-            "person": "dudley",
-            "role": "child"
-        },
-        {
-            "family": "potter-f4",
-            "person": "harry",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f4",
-            "person": "ginny",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f4",
-            "person": "jamesS",
-            "role": "child"
-        },
-        {
-            "family": "potter-f4",
-            "person": "albus",
-            "role": "child"
-        },
-        {
-            "family": "potter-f4",
-            "person": "lilyL",
-            "role": "child"
-        },
-        {
-            "family": "potter-f5",
-            "person": "arthur",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f5",
-            "person": "molly",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f5",
-            "person": "bill",
-            "role": "child"
-        },
-        {
-            "family": "potter-f5",
-            "person": "charlie",
-            "role": "child"
-        },
-        {
-            "family": "potter-f5",
-            "person": "percy",
-            "role": "child"
-        },
-        {
-            "family": "potter-f5",
-            "person": "fred",
-            "role": "child"
-        },
-        {
-            "family": "potter-f5",
-            "person": "george",
-            "role": "child"
-        },
-        {
-            "family": "potter-f5",
-            "person": "ron",
-            "role": "child"
-        },
-        {
-            "family": "potter-f5",
-            "person": "ginny",
-            "role": "child"
-        },
-        {
-            "family": "potter-f6",
-            "person": "bill",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f6",
-            "person": "fleur",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f6",
-            "person": "victoire",
-            "role": "child"
-        },
-        {
-            "family": "potter-f7",
-            "person": "ron",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f7",
-            "person": "hermione",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f7",
-            "person": "rose",
-            "role": "child"
-        },
-        {
-            "family": "potter-f7",
-            "person": "hugo",
-            "role": "child"
-        },
-        {
-            "family": "potter-f8",
-            "person": "cygnus",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f8",
-            "person": "druella",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f8",
-            "person": "bellatrix",
-            "role": "child"
-        },
-        {
-            "family": "potter-f8",
-            "person": "andromeda",
-            "role": "child"
-        },
-        {
-            "family": "potter-f8",
-            "person": "narcissa",
-            "role": "child"
-        },
-        {
-            "family": "potter-f9",
-            "person": "orion",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f9",
-            "person": "walburga",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f9",
-            "person": "sirius",
-            "role": "child"
-        },
-        {
-            "family": "potter-f9",
-            "person": "regulus",
-            "role": "child"
-        },
-        {
-            "family": "potter-f10",
-            "person": "ted",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f10",
-            "person": "andromeda",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f10",
-            "person": "tonks",
-            "role": "child"
-        },
-        {
-            "family": "potter-f11",
-            "person": "remus",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f11",
-            "person": "tonks",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f11",
-            "person": "teddy",
-            "role": "child"
-        },
-        {
-            "family": "potter-f12",
-            "person": "lucius",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f12",
-            "person": "narcissa",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f12",
-            "person": "draco",
-            "role": "child"
-        },
-        {
-            "family": "potter-f13",
-            "person": "draco",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f13",
-            "person": "astoria",
-            "role": "parent"
-        },
-        {
-            "family": "potter-f13",
-            "person": "scorpius",
-            "role": "child"
+            "parents": ["draco", "astoria"],
+            "children": ["scorpius"]
         }
     ]
 }

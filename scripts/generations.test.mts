@@ -8,9 +8,10 @@ import { toTree } from "../src/data/source.ts";
 import { generations } from "../src/generations.ts";
 import { readIndex, readSaga, treeById } from "./data.mts";
 
-// Sagas where "spouses share a row" cannot hold alongside "parents above children": Jupiter partners Venus, Venus
-// partners Mars, Mars is Jupiter's son, so the couples span generations. Descent wins; these couples may be split.
-const INTERMARRIED = new Set(["roman-gods"]);
+// Sagas where "spouses share a row" cannot hold alongside "parents above children", so descent wins and these couples
+// may be split. Roman gods: Jupiter partners Venus, Venus partners Mars, Mars is Jupiter's son. Bible: Lot fathers
+// children by his own two daughters (Genesis 19), so each couple is a father and a daughter a generation apart.
+const INTERMARRIED = new Set(["roman-gods", "bible"]);
 
 for (const entry of readIndex()) {
     const { id } = entry;
@@ -59,3 +60,13 @@ assert.ok(
 );
 assert.ok(r.get("mars")! > r.get("jupiter")!, "Mars below Jupiter");
 console.log("ok  Roman gods: descent holds through the intermarriage (Aeneas, Mars)");
+
+// The Bible case: Lot's daughters sit below Lot, and their children (Moab, Ben-Ammi) below both their parents.
+const bible = treeById("bible");
+const b = generations(bible);
+for (const d of ["lot-elder-daughter", "lot-younger-daughter"]) {
+    assert.ok(b.get(d)! > b.get("lot")!, `${d} below Lot`);
+    for (const f of bible.families.filter((f) => f.parents.includes(d) && f.parents.includes("lot")))
+        for (const c of f.children) assert.ok(b.get(c)! > b.get(d)!, `${c} below ${d} and Lot`);
+}
+console.log("ok  Bible: descent holds through Lot and his daughters");

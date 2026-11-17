@@ -10,40 +10,16 @@
         "covers": "The half-elven line and House of Elrond, the heirs of Isildur down to Aragorn, and the royal houses of Rohan and Gondor."
     },
     "notes": ["Valandil→Arathorn skips ~37 generations of Chieftains; add them if the full line matters."],
-    "houses": [
-        {
-            "name": "Half-elven",
-            "color": "#b9d7f0"
-        },
-        {
-            "name": "Lothlórien",
-            "color": "#e6cf6a"
-        },
-        {
-            "name": "Númenor",
-            "color": "#3b6fb6"
-        },
-        {
-            "name": "Elendil",
-            "color": "#e8e8ee"
-        },
-        {
-            "name": "Dúnedain",
-            "color": "#5b7a5a"
-        },
-        {
-            "name": "Rohan",
-            "color": "#3f9a4b"
-        },
-        {
-            "name": "Gondor",
-            "color": "#c8ccd8"
-        },
-        {
-            "name": "Dol Amroth",
-            "color": "#4aa8c8"
-        }
-    ],
+    "houses": {
+        "Half-elven": "#b9d7f0",
+        "Lothlórien": "#e6cf6a",
+        "Númenor": "#3b6fb6",
+        "Elendil": "#e8e8ee",
+        "Dúnedain": "#5b7a5a",
+        "Rohan": "#3f9a4b",
+        "Gondor": "#c8ccd8",
+        "Dol Amroth": "#4aa8c8"
+    },
     "people": [
         {
             "id": "earendil",
@@ -240,273 +216,56 @@
     ],
     "families": [
         {
-            "id": "lotr-f1",
-            "adoptive": false
+            "parents": ["earendil", "elwing"],
+            "children": ["elrond", "elros"]
         },
         {
-            "id": "lotr-f2",
-            "adoptive": false
+            "parents": ["celeborn", "galadriel"],
+            "children": ["celebrian"]
         },
         {
-            "id": "lotr-f3",
-            "adoptive": false
+            "parents": ["elrond", "celebrian"],
+            "children": ["elladan", "elrohir", "arwen"]
         },
         {
-            "id": "lotr-f4",
-            "adoptive": false
+            "parents": ["elendil"],
+            "children": ["isildur", "anarion"]
         },
         {
-            "id": "lotr-f5",
-            "adoptive": false
+            "parents": ["isildur"],
+            "children": ["elendur", "valandil"]
         },
         {
-            "id": "lotr-f6",
-            "adoptive": false
+            "parents": ["valandil"],
+            "children": ["arathorn"]
         },
         {
-            "id": "lotr-f7",
-            "adoptive": false
+            "parents": ["arathorn", "gilraen"],
+            "children": ["aragorn"]
         },
         {
-            "id": "lotr-f8",
-            "adoptive": false
+            "parents": ["aragorn", "arwen"],
+            "children": ["eldarion"]
         },
         {
-            "id": "lotr-f9",
-            "adoptive": false
+            "parents": ["thengel", "morwen"],
+            "children": ["theoden", "theodwyn"]
         },
         {
-            "id": "lotr-f10",
-            "adoptive": false
+            "parents": ["theoden"],
+            "children": ["theodred"]
         },
         {
-            "id": "lotr-f11",
-            "adoptive": false
+            "parents": ["eomund", "theodwyn"],
+            "children": ["eomer", "eowyn"]
         },
         {
-            "id": "lotr-f12",
-            "adoptive": false
+            "parents": ["denethor", "finduilas"],
+            "children": ["boromir", "faramir"]
         },
         {
-            "id": "lotr-f13",
-            "adoptive": false
-        }
-    ],
-    "members": [
-        {
-            "family": "lotr-f1",
-            "person": "earendil",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f1",
-            "person": "elwing",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f1",
-            "person": "elrond",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f1",
-            "person": "elros",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f2",
-            "person": "celeborn",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f2",
-            "person": "galadriel",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f2",
-            "person": "celebrian",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f3",
-            "person": "elrond",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f3",
-            "person": "celebrian",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f3",
-            "person": "elladan",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f3",
-            "person": "elrohir",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f3",
-            "person": "arwen",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f4",
-            "person": "elendil",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f4",
-            "person": "isildur",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f4",
-            "person": "anarion",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f5",
-            "person": "isildur",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f5",
-            "person": "elendur",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f5",
-            "person": "valandil",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f6",
-            "person": "valandil",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f6",
-            "person": "arathorn",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f7",
-            "person": "arathorn",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f7",
-            "person": "gilraen",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f7",
-            "person": "aragorn",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f8",
-            "person": "aragorn",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f8",
-            "person": "arwen",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f8",
-            "person": "eldarion",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f9",
-            "person": "thengel",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f9",
-            "person": "morwen",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f9",
-            "person": "theoden",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f9",
-            "person": "theodwyn",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f10",
-            "person": "theoden",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f10",
-            "person": "theodred",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f11",
-            "person": "eomund",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f11",
-            "person": "theodwyn",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f11",
-            "person": "eomer",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f11",
-            "person": "eowyn",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f12",
-            "person": "denethor",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f12",
-            "person": "finduilas",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f12",
-            "person": "boromir",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f12",
-            "person": "faramir",
-            "role": "child"
-        },
-        {
-            "family": "lotr-f13",
-            "person": "faramir",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f13",
-            "person": "eowyn",
-            "role": "parent"
-        },
-        {
-            "family": "lotr-f13",
-            "person": "elboron",
-            "role": "child"
+            "parents": ["faramir", "eowyn"],
+            "children": ["elboron"]
         }
     ]
 }

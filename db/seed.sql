@@ -1,7 +1,7 @@
 -- =================================================================================================
 -- Family Tree: database seed
 -- Generated from public/data/*.json by scripts/seed-sql.mts. Do not edit: run `npm run db:seed`.
--- Contents: 14 sagas, 1072 people, 570 families, 1672 family-member rows.
+-- Contents: 15 sagas, 1655 people, 887 families, 2583 family-member rows.
 -- =================================================================================================
 --
 -- Load after db/schema.sql:
@@ -26,12 +26,13 @@
 --   12. Greek Gods               mythology greek-gods
 --   13. Norse Gods               mythology norse-gods
 --   14. Roman Gods               mythology roman-gods
+--   15. The Bible                religion  bible
 
 BEGIN;
 
 
 -- =================================================================================================
--- SAGA 1 of 14: GAME OF THRONES   [id: got, category: fiction]
+-- SAGA 1 of 15: GAME OF THRONES   [id: got, category: fiction]
 -- Author:  David Benioff & D. B. Weiss; novels by George R. R. Martin
 -- Medium:  Television series (HBO, 2011–2019), based on A Song of Ice and Fire
 -- Canon:   TV show (where it differs from the books, the show is followed)
@@ -242,7 +243,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 2 of 14: FIRE & BLOOD   [id: fireblood, category: fiction]
+-- SAGA 2 of 15: FIRE & BLOOD   [id: fireblood, category: fiction]
 -- Author:  George R. R. Martin
 -- Medium:  Novel (2018), a fictional history; adapted as HBO's House of the Dragon (2022–)
 -- Canon:   Book (where it differs from the show, the book is followed)
@@ -465,7 +466,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 3 of 14: THE LORD OF THE RINGS   [id: lotr, category: fiction]
+-- SAGA 3 of 15: THE LORD OF THE RINGS   [id: lotr, category: fiction]
 -- Author:  J. R. R. Tolkien
 -- Medium:  Novel (1954–1955), with its appendices; The Silmarillion for the earliest generations
 -- Canon:   Books, chiefly Appendix A ("Annals of the Kings and Rulers")
@@ -645,7 +646,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 4 of 14: THE SILMARILLION   [id: silmarillion, category: fiction]
+-- SAGA 4 of 15: THE SILMARILLION   [id: silmarillion, category: fiction]
 -- Author:  J. R. R. Tolkien, edited by Christopher Tolkien
 -- Medium:  Mythopoeic history of Middle-earth (1977, published posthumously)
 -- Canon:   The published Silmarillion (not Tolkien's later, conflicting notes)
@@ -861,7 +862,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 5 of 14: DUNE   [id: dune, category: fiction]
+-- SAGA 5 of 15: DUNE   [id: dune, category: fiction]
 -- Author:  Frank Herbert; Dmitri, Abulurd and Anirul from the prequels by Brian Herbert & Kevin
 -- J. Anderson
 -- Medium:  Novel series (1965–1985); Dune, Dune Messiah, Children of Dune
@@ -1013,7 +1014,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 6 of 14: HARRY POTTER   [id: potter, category: fiction]
+-- SAGA 6 of 15: HARRY POTTER   [id: potter, category: fiction]
 -- Author:  J. K. Rowling
 -- Medium:  Novel series (1997–2007)
 -- Canon:   Novels, including the epilogue of Deathly Hallows, plus Rowling's published family
@@ -1223,7 +1224,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 7 of 14: STAR WARS   [id: starwars, category: fiction]
+-- SAGA 7 of 15: STAR WARS   [id: starwars, category: fiction]
 -- Author:  Created by George Lucas; sequel trilogy by J. J. Abrams and Rian Johnson
 -- Medium:  Film series, the Skywalker saga (1977–2019), Episodes I–IX
 -- Canon:   Films (current Disney canon)
@@ -1362,7 +1363,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 8 of 14: THE WHEEL OF TIME   [id: wot, category: fiction]
+-- SAGA 8 of 15: THE WHEEL OF TIME   [id: wot, category: fiction]
 -- Author:  Robert Jordan; final three books completed by Brandon Sanderson
 -- Medium:  Novel series (1990–2013), 14 books
 -- Canon:   Novels
@@ -1501,7 +1502,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 9 of 14: THE STORMLIGHT ARCHIVE   [id: stormlight, category: fiction]
+-- SAGA 9 of 15: THE STORMLIGHT ARCHIVE   [id: stormlight, category: fiction]
 -- Author:  Brandon Sanderson
 -- Medium:  Novel series (2010–), set in the Cosmere
 -- Canon:   Novels (up to Wind and Truth)
@@ -1631,7 +1632,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 10 of 14: THE WITCHER   [id: witcher, category: fiction]
+-- SAGA 10 of 15: THE WITCHER   [id: witcher, category: fiction]
 -- Author:  Andrzej Sapkowski
 -- Medium:  Novel and short-story series (1986–2013), the Witcher saga
 -- Canon:   Books (not the games or the Netflix series)
@@ -1777,7 +1778,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 11 of 14: ENGLISH ROYAL FAMILY (TUDORS)   [id: english-royal, category: history]
+-- SAGA 11 of 15: ENGLISH ROYAL FAMILY (TUDORS)   [id: english-royal, category: history]
 -- Author:  Compiled by Chris Phillips
 -- Medium:  GEDCOM genealogy (English+Tudor+Royal+Family.ged)
 -- Canon:   Sources cited: The Complete Peerage; Scots Peerage; Mary Boleyn's Carey children  -
@@ -3274,7 +3275,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 12 of 14: GREEK GODS   [id: greek-gods, category: mythology]
+-- SAGA 12 of 15: GREEK GODS   [id: greek-gods, category: mythology]
 -- Author:  Unknown compiler
 -- Medium:  GEDCOM genealogy (Greek+Gods.ged)
 -- Canon:   As recorded in the GEDCOM file
@@ -3682,7 +3683,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 13 of 14: NORSE GODS   [id: norse-gods, category: mythology]
+-- SAGA 13 of 15: NORSE GODS   [id: norse-gods, category: mythology]
 -- Author:  Unknown compiler
 -- Medium:  GEDCOM genealogy (Norse+Gods.ged)
 -- Canon:   Sources cited: RCKarnes; World Family Tree Vol. 5; Aderholt Hillman Hughes Solomon
@@ -4229,7 +4230,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 14 of 14: ROMAN GODS   [id: roman-gods, category: mythology]
+-- SAGA 14 of 15: ROMAN GODS   [id: roman-gods, category: mythology]
 -- Author:  Unknown compiler
 -- Medium:  GEDCOM genealogy (Roman+Gods.ged)
 -- Canon:   As recorded in the GEDCOM file
@@ -5754,6 +5755,2804 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- End of seed: 14 sagas.
+-- SAGA 15 of 15: THE BIBLE   [id: bible, category: religion]
+-- Author:  Compiled by Jeffrey Philip Stoker
+-- Medium:  GEDCOM genealogy (Bible+Family+Tree.ged)
+-- Canon:   As recorded in the GEDCOM file
+-- Covers:  583 people and 317 families, imported from a public GEDCOM sample.
+-- Rows:    1 houses, 583 people, 317 families, 911 members
+-- =================================================================================================
+
+-- ── Reset (removes this saga and, by cascade, all of its rows) ─────────────────────────────────
+DELETE FROM saga WHERE id = 'bible';
+
+-- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
+INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
+    ('bible', 'religion', 14, 'The Bible', 'The Bible', 'GEDCOM genealogy (Bible+Family+Tree.ged)', 'Compiled by Jeffrey Philip Stoker', 'As recorded in the GEDCOM file', 'Religion', '583 people and 317 families, imported from a public GEDCOM sample.');
+
+-- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
+INSERT INTO saga_note (saga_id, position, note) VALUES
+    ('bible', 0, 'Imported from Bible+Family+Tree.ged (UTF-8; PAF 5.2.18.0; file dated 9 Aug 2002) by scripts/gedcom-to-saga.mts.'),
+    ('bible', 1, 'Display names are the person''s name only; a monarch is shown by their regnal name (e.g. King Henry VIII). Titles, title dates and life dates are not imported.'),
+    ('bible', 2, '36 display names were corrected from bible.json, where the file put titles or epithets in the name (e.g. "Jacob (Israel)").'),
+    ('bible', 3, 'Everyone is in one house, "Bible": the file has no real surnames to group by.'),
+    ('bible', 4, '1 people have no recorded relatives in the source and are shown on their own: Mariam.'),
+    ('bible', 5, 'Import warnings: Heth: sex not recorded as M or F, shown as male; Hivite: sex not recorded as M or F, shown as male; Isui: sex not recorded as M or F, shown as male; Ishuah: sex not recorded as M or F, shown as male; Sarah: sex not recorded as M or F, shown as male');
+
+-- ── Houses (1) ─────────────────────────────────────────────────────────────────────────────────
+INSERT INTO house (saga_id, name, color) VALUES
+    ('bible', 'Bible', '#c9ad73');
+
+-- ── People (583, grouped by house) ─────────────────────────────────────────────────────────────
+-- Bible (583)
+INSERT INTO person (saga_id, id, name, house, sex) VALUES
+    ('bible', 'mizraim', 'Mizraim', 'Bible', 'm'),
+    ('bible', 'phut', 'Phut', 'Bible', 'm'),
+    ('bible', 'cush', 'Cush', 'Bible', 'm'),
+    ('bible', 'sabtah', 'Sabtah', 'Bible', 'm'),
+    ('bible', 'raamah', 'Raamah', 'Bible', 'm'),
+    ('bible', 'canaan', 'Canaan', 'Bible', 'm'),
+    ('bible', 'egyptus', 'Egyptus', 'Bible', 'f'),
+    ('bible', 'reumah', 'Reumah', 'Bible', 'f'),
+    ('bible', 'leah', 'Leah', 'Bible', 'f'),
+    ('bible', 'jacob', 'Jacob (Israel)', 'Bible', 'm'),
+    ('bible', 'isaac', 'Isaac', 'Bible', 'm'),
+    ('bible', 'rebekah', 'Rebekah', 'Bible', 'f'),
+    ('bible', 'abraham-abram', 'Abraham (Abram)', 'Bible', 'm'),
+    ('bible', 'terah', 'Terah', 'Bible', 'm'),
+    ('bible', 'nahor', 'Nahor', 'Bible', 'm'),
+    ('bible', 'serug', 'Serug', 'Bible', 'm'),
+    ('bible', 'reu', 'Reu', 'Bible', 'm'),
+    ('bible', 'peleg', 'Peleg', 'Bible', 'm'),
+    ('bible', 'eber', 'Eber', 'Bible', 'm'),
+    ('bible', 'salah', 'Salah', 'Bible', 'm'),
+    ('bible', 'arphaxad', 'Arphaxad', 'Bible', 'm'),
+    ('bible', 'shem', 'Shem', 'Bible', 'm'),
+    ('bible', 'noah', 'Noah', 'Bible', 'm'),
+    ('bible', 'lamech', 'Lamech', 'Bible', 'm'),
+    ('bible', 'methuselah', 'Methuselah', 'Bible', 'm'),
+    ('bible', 'enoch', 'Enoch', 'Bible', 'm'),
+    ('bible', 'jared', 'Jared', 'Bible', 'm'),
+    ('bible', 'mahalaleel', 'Mahalaleel', 'Bible', 'm'),
+    ('bible', 'cainan', 'Cainan', 'Bible', 'm'),
+    ('bible', 'enos', 'Enos', 'Bible', 'm'),
+    ('bible', 'seth', 'Seth', 'Bible', 'm'),
+    ('bible', 'adam', 'Adam', 'Bible', 'm'),
+    ('bible', 'japheth', 'Japheth', 'Bible', 'm'),
+    ('bible', 'ham', 'Ham', 'Bible', 'm'),
+    ('bible', 'titea', 'Titea', 'Bible', 'f'),
+    ('bible', 'tait', 'Tait', 'Bible', 'm'),
+    ('bible', 'oghaman', 'Oghaman', 'Bible', 'm'),
+    ('bible', 'beouman', 'Beouman', 'Bible', 'm'),
+    ('bible', 'heber-scut-scott', 'Heber Scut (Scott)', 'Bible', 'm'),
+    ('bible', 'sruth', 'Sruth', 'Bible', 'm'),
+    ('bible', 'asruth-easruth', 'Asruth (Easruth)', 'Bible', 'm'),
+    ('bible', 'gaodhal-glas', 'Gaodhal Glas', 'Bible', 'm'),
+    ('bible', 'niul', 'Niul', 'Bible', 'm'),
+    ('bible', 'phoeniusa-farsaidh', 'King Phoeniusa Farsaidh of Scythia', 'Bible', 'm'),
+    ('bible', 'boath', 'Boath', 'Bible', 'm'),
+    ('bible', 'magog', 'Magog', 'Bible', 'm'),
+    ('bible', 'scota', 'Scota', 'Bible', 'f'),
+    ('bible', 'huz', 'Huz', 'Bible', 'm'),
+    ('bible', 'hazo', 'Hazo', 'Bible', 'm'),
+    ('bible', 'chesed', 'Chesed', 'Bible', 'm'),
+    ('bible', 'adah', 'Adah', 'Bible', 'f'),
+    ('bible', 'buz', 'Buz', 'Bible', 'm'),
+    ('bible', 'nenall', 'Nenall', 'Bible', 'm'),
+    ('bible', 'laban', 'Laban', 'Bible', 'm'),
+    ('bible', 'abel', 'Abel', 'Bible', 'm'),
+    ('bible', 'zilah', 'Zilah', 'Bible', 'f'),
+    ('bible', 'enoch-2', 'Enoch', 'Bible', 'm'),
+    ('bible', 'irad', 'Irad', 'Bible', 'm'),
+    ('bible', 'mahujael', 'Mahujael', 'Bible', 'm'),
+    ('bible', 'methusael', 'Methusael', 'Bible', 'm'),
+    ('bible', 'lamech-2', 'Lamech', 'Bible', 'm'),
+    ('bible', 'trbal-cain', 'Trbal-Cain', 'Bible', 'm'),
+    ('bible', 'adah-2', 'Adah', 'Bible', 'f'),
+    ('bible', 'naamah', 'Naamah', 'Bible', 'm'),
+    ('bible', 'jabal', 'Jabal', 'Bible', 'm'),
+    ('bible', 'meshech', 'Meshech', 'Bible', 'm'),
+    ('bible', 'madai', 'Madai', 'Bible', 'm'),
+    ('bible', 'tubul', 'Tubul', 'Bible', 'm'),
+    ('bible', 'gomor', 'Gomor', 'Bible', 'm'),
+    ('bible', 'tiras', 'Tiras', 'Bible', 'm'),
+    ('bible', 'javan', 'Javan', 'Bible', 'm'),
+    ('bible', 'ashkeraz', 'Ashkeraz', 'Bible', 'm'),
+    ('bible', 'riphath', 'Riphath', 'Bible', 'm'),
+    ('bible', 'togarmar', 'Togarmar', 'Bible', 'm'),
+    ('bible', 'tarshish', 'Tarshish', 'Bible', 'm'),
+    ('bible', 'elisaah', 'Elisaah', 'Bible', 'm'),
+    ('bible', 'kittim', 'Kittim', 'Bible', 'm'),
+    ('bible', 'dodanim', 'Dodanim', 'Bible', 'm'),
+    ('bible', 'havilah', 'Havilah', 'Bible', 'm'),
+    ('bible', 'sabtecha', 'Sabtecha', 'Bible', 'm'),
+    ('bible', 'seba', 'Seba', 'Bible', 'm'),
+    ('bible', 'nimrod', 'Nimrod', 'Bible', 'm'),
+    ('bible', 'sheba', 'Sheba', 'Bible', 'm'),
+    ('bible', 'dedan', 'Dedan', 'Bible', 'm'),
+    ('bible', 'sidon', 'Sidon', 'Bible', 'm'),
+    ('bible', 'heth', 'Heth', 'Bible', 'm'),
+    ('bible', 'jebusite', 'Jebusite', 'Bible', 'm'),
+    ('bible', 'amorite', 'Amorite', 'Bible', 'm'),
+    ('bible', 'girgassite', 'Girgassite', 'Bible', 'm'),
+    ('bible', 'hivite', 'Hivite', 'Bible', 'm'),
+    ('bible', 'arkite', 'Arkite', 'Bible', 'm'),
+    ('bible', 'sirite', 'Sirite', 'Bible', 'm'),
+    ('bible', 'arvadite', 'Arvadite', 'Bible', 'm'),
+    ('bible', 'zemarite', 'Zemarite', 'Bible', 'm'),
+    ('bible', 'hamathite', 'Hamathite', 'Bible', 'm'),
+    ('bible', 'ludim', 'Ludim', 'Bible', 'm'),
+    ('bible', 'anamim', 'Anamim', 'Bible', 'm'),
+    ('bible', 'lehabim', 'Lehabim', 'Bible', 'm'),
+    ('bible', 'nephtuihim', 'Nephtuihim', 'Bible', 'm'),
+    ('bible', 'pethusim', 'Pethusim', 'Bible', 'm'),
+    ('bible', 'caphtorim', 'Caphtorim', 'Bible', 'm'),
+    ('bible', 'casluhim', 'Casluhim', 'Bible', 'm'),
+    ('bible', 'philstem', 'Philstem', 'Bible', 'm'),
+    ('bible', 'aram', 'Aram', 'Bible', 'm'),
+    ('bible', 'asshur', 'Asshur', 'Bible', 'm'),
+    ('bible', 'lud', 'Lud', 'Bible', 'm'),
+    ('bible', 'elam', 'Elam', 'Bible', 'm'),
+    ('bible', 'hul', 'Hul', 'Bible', 'm'),
+    ('bible', 'mash', 'Mash', 'Bible', 'm'),
+    ('bible', 'uz', 'Uz', 'Bible', 'm'),
+    ('bible', 'gether', 'Gether', 'Bible', 'm'),
+    ('bible', 'jokan', 'Jokan', 'Bible', 'm'),
+    ('bible', 'almodad', 'Almodad', 'Bible', 'm'),
+    ('bible', 'sheleph', 'Sheleph', 'Bible', 'm'),
+    ('bible', 'hazarmaveth', 'Hazarmaveth', 'Bible', 'm'),
+    ('bible', 'jerah', 'Jerah', 'Bible', 'm'),
+    ('bible', 'hadoram', 'Hadoram', 'Bible', 'm'),
+    ('bible', 'uzal', 'Uzal', 'Bible', 'm'),
+    ('bible', 'diklah', 'Diklah', 'Bible', 'm'),
+    ('bible', 'obal', 'Obal', 'Bible', 'm'),
+    ('bible', 'abimael', 'Abimael', 'Bible', 'm'),
+    ('bible', 'sheba-2', 'Sheba', 'Bible', 'm'),
+    ('bible', 'ophir', 'Ophir', 'Bible', 'm'),
+    ('bible', 'havilah-2', 'Havilah', 'Bible', 'm'),
+    ('bible', 'jobab', 'Jobab', 'Bible', 'm'),
+    ('bible', 'haran', 'Haran', 'Bible', 'm'),
+    ('bible', 'milcah', 'Milcah', 'Bible', 'f'),
+    ('bible', 'sarai', 'Sarai (Sarah)', 'Bible', 'f'),
+    ('bible', 'lot', 'Lot', 'Bible', 'm'),
+    ('bible', 'iscah', 'Iscah', 'Bible', 'f'),
+    ('bible', 'tebah', 'Tebah', 'Bible', 'm'),
+    ('bible', 'gaham', 'Gaham', 'Bible', 'm'),
+    ('bible', 'thahash', 'Thahash', 'Bible', 'm'),
+    ('bible', 'maachah', 'Maachah', 'Bible', 'm'),
+    ('bible', 'bethuel', 'Bethuel', 'Bible', 'm'),
+    ('bible', 'moab', 'Moab', 'Bible', 'm'),
+    ('bible', 'benammi', 'Benammi', 'Bible', 'm'),
+    ('bible', 'pildesh', 'Pildesh', 'Bible', 'm'),
+    ('bible', 'jidlaph', 'Jidlaph', 'Bible', 'm'),
+    ('bible', 'kemuel', 'Kemuel', 'Bible', 'm'),
+    ('bible', 'aram-2', 'Aram', 'Bible', 'm'),
+    ('bible', 'rachal', 'Rachal', 'Bible', 'f'),
+    ('bible', 'bilhah', 'Bilhah', 'Bible', 'f'),
+    ('bible', 'zalpah', 'Zalpah', 'Bible', 'f'),
+    ('bible', 'esau', 'Esau', 'Bible', 'm'),
+    ('bible', 'bashemath', 'Bashemath', 'Bible', 'f'),
+    ('bible', 'nahath', 'Nahath', 'Bible', 'm'),
+    ('bible', 'adbeel', 'Adbeel', 'Bible', 'm'),
+    ('bible', 'mibsam', 'Mibsam', 'Bible', 'm'),
+    ('bible', 'nephish', 'Nephish', 'Bible', 'm'),
+    ('bible', 'mishma', 'Mishma', 'Bible', 'm'),
+    ('bible', 'kedemah', 'Kedemah', 'Bible', 'm'),
+    ('bible', 'dumah', 'Dumah', 'Bible', 'm'),
+    ('bible', 'tema', 'Tema', 'Bible', 'm'),
+    ('bible', 'jetur', 'Jetur', 'Bible', 'm'),
+    ('bible', 'kendar', 'Kendar', 'Bible', 'm'),
+    ('bible', 'massa', 'Massa', 'Bible', 'm'),
+    ('bible', 'nebajoth', 'Nebajoth', 'Bible', 'm'),
+    ('bible', 'hadar', 'Hadar', 'Bible', 'm'),
+    ('bible', 'ephah', 'Ephah', 'Bible', 'm'),
+    ('bible', 'epher', 'Epher', 'Bible', 'm'),
+    ('bible', 'hanoch', 'Hanoch', 'Bible', 'm'),
+    ('bible', 'abida', 'Abida', 'Bible', 'm'),
+    ('bible', 'eldaah', 'Eldaah', 'Bible', 'm'),
+    ('bible', 'hagar', 'Hagar', 'Bible', 'f'),
+    ('bible', 'ishmael', 'Ishmael', 'Bible', 'm'),
+    ('bible', 'dedan-2', 'Dedan', 'Bible', 'm'),
+    ('bible', 'shuah', 'Shuah', 'Bible', 'm'),
+    ('bible', 'sheba-3', 'Sheba', 'Bible', 'm'),
+    ('bible', 'madan', 'Madan', 'Bible', 'm'),
+    ('bible', 'ishbak', 'Ishbak', 'Bible', 'm'),
+    ('bible', 'judith', 'Judith', 'Bible', 'f'),
+    ('bible', 'keturah', 'Keturah', 'Bible', 'f'),
+    ('bible', 'zemran', 'Zemran', 'Bible', 'm'),
+    ('bible', 'jokshon', 'Jokshon', 'Bible', 'm'),
+    ('bible', 'eve', 'Eve', 'Bible', 'f'),
+    ('bible', 'cain', 'Cain', 'Bible', 'm'),
+    ('bible', 'nahor-2', 'Nahor', 'Bible', 'm'),
+    ('bible', 'lot-elder-daughter', 'Elder daughter of Lot', 'Bible', 'f'),
+    ('bible', 'lot-younger-daughter', 'Younger daughter of Lot', 'Bible', 'f'),
+    ('bible', 'jubal', 'Jubal', 'Bible', 'm'),
+    ('bible', 'reuel-jethro', 'Reuel (Jethro)', 'Bible', 'm'),
+    ('bible', 'aholitamah', 'Aholitamah', 'Bible', 'f'),
+    ('bible', 'aeush', 'Aeush', 'Bible', 'm'),
+    ('bible', 'jaalam', 'Jaalam', 'Bible', 'm'),
+    ('bible', 'korah', 'Korah', 'Bible', 'm'),
+    ('bible', 'anah', 'Anah', 'Bible', 'm'),
+    ('bible', 'dishon', 'Dishon', 'Bible', 'm'),
+    ('bible', 'hemden', 'Hemden', 'Bible', 'm'),
+    ('bible', 'eshben', 'Eshben', 'Bible', 'm'),
+    ('bible', 'ithran', 'Ithran', 'Bible', 'm'),
+    ('bible', 'cheran', 'Cheran', 'Bible', 'm'),
+    ('bible', 'zibeon', 'Zibeon', 'Bible', 'm'),
+    ('bible', 'ajah', 'Ajah', 'Bible', 'm'),
+    ('bible', 'seir', 'Seir', 'Bible', 'm'),
+    ('bible', 'timna', 'Timna', 'Bible', 'm'),
+    ('bible', 'lotan', 'Lotan', 'Bible', 'm'),
+    ('bible', 'stobal', 'Stobal', 'Bible', 'm'),
+    ('bible', 'ezer', 'Ezer', 'Bible', 'm'),
+    ('bible', 'dishan', 'Dishan', 'Bible', 'm'),
+    ('bible', 'uz-2', 'Uz', 'Bible', 'm'),
+    ('bible', 'aran', 'Aran', 'Bible', 'm'),
+    ('bible', 'bilhan', 'Bilhan', 'Bible', 'm'),
+    ('bible', 'zaavan', 'Zaavan', 'Bible', 'm'),
+    ('bible', 'akan', 'Akan', 'Bible', 'm'),
+    ('bible', 'alvan', 'Alvan', 'Bible', 'm'),
+    ('bible', 'manahath', 'Manahath', 'Bible', 'm'),
+    ('bible', 'ebal', 'Ebal', 'Bible', 'm'),
+    ('bible', 'shepho', 'Shepho', 'Bible', 'm'),
+    ('bible', 'onam', 'Onam', 'Bible', 'm'),
+    ('bible', 'hori', 'Hori', 'Bible', 'm'),
+    ('bible', 'hemam', 'Hemam', 'Bible', 'm'),
+    ('bible', 'zarah', 'Zarah', 'Bible', 'f'),
+    ('bible', 'shanmah', 'Shanmah', 'Bible', 'f'),
+    ('bible', 'zipporah', 'Zipporah', 'Bible', 'f'),
+    ('bible', 'mizzah', 'Mizzah', 'Bible', 'm'),
+    ('bible', 'follian-falach', 'Follian (Falach)', 'Bible', 'm'),
+    ('bible', 'eithriall', 'Eithriall', 'Bible', 'm'),
+    ('bible', 'irial-faidh', 'King Irial Faidh of Ireland', 'Bible', 'm'),
+    ('bible', 'tamar-tephi', 'Princess Tamar Tephi of Judah', 'Bible', 'f'),
+    ('bible', 'mattaniah', 'King Mattaniah (Zedekiah) of Judah', 'Bible', 'm'),
+    ('bible', 'josiah', 'King Josiah of Judah', 'Bible', 'm'),
+    ('bible', 'hammutal', 'Hammutal, daughter of Jeremiah', 'Bible', 'f'),
+    ('bible', 'eochaid-i-heremon-ireland', 'Eochaid I (Heremon) Ireland', 'Bible', 'm'),
+    ('bible', 'jeremiah', 'Jeremiah the Prophet', 'Bible', 'm'),
+    ('bible', 'hilkiah', 'Hilkiah', 'Bible', 'm'),
+    ('bible', 'gemariah', 'Gemariah', 'Bible', 'f'),
+    ('bible', 'elasah', 'Elasah', 'Bible', 'f'),
+    ('bible', 'shaphan', 'Shaphan', 'Bible', 'm'),
+    ('bible', 'ahitub', 'Ahitub', 'Bible', 'm'),
+    ('bible', 'amariah', 'Amariah', 'Bible', 'm'),
+    ('bible', 'holdiah', 'Holdiah', 'Bible', 'f'),
+    ('bible', 'ezra', 'Ezra', 'Bible', 'm'),
+    ('bible', 'hanameel', 'Hanameel', 'Bible', 'm'),
+    ('bible', 'shallum', 'Shallum', 'Bible', 'm'),
+    ('bible', 'zadok', 'Zadok', 'Bible', 'm'),
+    ('bible', 'azariah', 'Azariah', 'Bible', 'm'),
+    ('bible', 'meraioth', 'Meraioth', 'Bible', 'm'),
+    ('bible', 'zerahiah', 'Zerahiah', 'Bible', 'm'),
+    ('bible', 'uzzi', 'Uzzi', 'Bible', 'm'),
+    ('bible', 'bukki', 'Bukki', 'Bible', 'm'),
+    ('bible', 'abishuah', 'Abishuah', 'Bible', 'm'),
+    ('bible', 'phineas', 'Phineas', 'Bible', 'm'),
+    ('bible', 'eleazer', 'Eleazer', 'Bible', 'm'),
+    ('bible', 'aaron', 'Aaron', 'Bible', 'm'),
+    ('bible', 'amram', 'Amram', 'Bible', 'm'),
+    ('bible', 'kohath', 'Kohath', 'Bible', 'm'),
+    ('bible', 'levi', 'Levi', 'Bible', 'm'),
+    ('bible', 'joiadah', 'Joiadah', 'Bible', 'm'),
+    ('bible', 'eliashib', 'Eliashib', 'Bible', 'm'),
+    ('bible', 'joachim', 'Joachim', 'Bible', 'm'),
+    ('bible', 'joshuah', 'Joshuah', 'Bible', 'm'),
+    ('bible', 'josedech', 'Josedech', 'Bible', 'm'),
+    ('bible', 'seriah', 'Seriah', 'Bible', 'm'),
+    ('bible', 'jochebed', 'Jochebed', 'Bible', 'f'),
+    ('bible', 'merari', 'Merari', 'Bible', 'm'),
+    ('bible', 'libni', 'Libni', 'Bible', 'm'),
+    ('bible', 'shimi', 'Shimi', 'Bible', 'm'),
+    ('bible', 'mahali', 'Mahali', 'Bible', 'm'),
+    ('bible', 'mushi', 'Mushi', 'Bible', 'm'),
+    ('bible', 'moses', 'Moses', 'Bible', 'm'),
+    ('bible', 'mirham', 'Mirham', 'Bible', 'f'),
+    ('bible', 'elisheba', 'Elisheba', 'Bible', 'f'),
+    ('bible', 'jehudisah', 'Jehudisah', 'Bible', 'f'),
+    ('bible', 'jether', 'Jether', 'Bible', 'm'),
+    ('bible', 'mered', 'Mered', 'Bible', 'm'),
+    ('bible', 'ephar', 'Ephar', 'Bible', 'm'),
+    ('bible', 'jalon', 'Jalon', 'Bible', 'm'),
+    ('bible', 'mariam', 'Mariam', 'Bible', 'f'),
+    ('bible', 'shammai', 'Shammai', 'Bible', 'm'),
+    ('bible', 'ishbah', 'Ishbah', 'Bible', 'm'),
+    ('bible', 'jerad', 'Jerad', 'Bible', 'm'),
+    ('bible', 'heber', 'Heber', 'Bible', 'm'),
+    ('bible', 'jekuthiel', 'Jekuthiel', 'Bible', 'm'),
+    ('bible', 'eshteemca', 'Eshteemca', 'Bible', 'm'),
+    ('bible', 'gedor', 'Gedor', 'Bible', 'm'),
+    ('bible', 'socho', 'Socho', 'Bible', 'm'),
+    ('bible', 'zanoah', 'Zanoah', 'Bible', 'm'),
+    ('bible', 'reuben', 'Reuben', 'Bible', 'm'),
+    ('bible', 'gershon', 'Gershon', 'Bible', 'm'),
+    ('bible', 'libnah', 'Libnah', 'Bible', 'f'),
+    ('bible', 'shallum-2', 'Shallum', 'Bible', 'm'),
+    ('bible', 'mulek', 'Mulek', 'Bible', 'm'),
+    ('bible', 'azaniah', 'Azaniah', 'Bible', 'm'),
+    ('bible', 'johanan', 'Johanan', 'Bible', 'm'),
+    ('bible', 'jehoiakim', 'Jehoiakim', 'Bible', 'm'),
+    ('bible', 'jeconiah', 'Jeconiah', 'Bible', 'm'),
+    ('bible', 'zedekiah', 'Zedekiah', 'Bible', 'm'),
+    ('bible', 'assir', 'Assir', 'Bible', 'm'),
+    ('bible', 'malchiram', 'Malchiram', 'Bible', 'm'),
+    ('bible', 'pedaiah', 'Pedaiah', 'Bible', 'm'),
+    ('bible', 'shenazar', 'Shenazar', 'Bible', 'm'),
+    ('bible', 'jacamiah', 'Jacamiah', 'Bible', 'm'),
+    ('bible', 'hoshama', 'Hoshama', 'Bible', 'm'),
+    ('bible', 'nedabiah', 'Nedabiah', 'Bible', 'm'),
+    ('bible', 'zerubbabel', 'Zerubbabel', 'Bible', 'm'),
+    ('bible', 'shimei', 'Shimei', 'Bible', 'm'),
+    ('bible', 'meshullam', 'Meshullam', 'Bible', 'm'),
+    ('bible', 'hananiah', 'Hananiah', 'Bible', 'm'),
+    ('bible', 'saeloith', 'Saeloith', 'Bible', 'f'),
+    ('bible', 'rephaiah', 'Rephaiah', 'Bible', 'm'),
+    ('bible', 'miriam', 'Miriam', 'Bible', 'm'),
+    ('bible', 'salathiel', 'Salathiel', 'Bible', 'm'),
+    ('bible', 'gershom', 'Gershom', 'Bible', 'm'),
+    ('bible', 'hanoch-2', 'Hanoch', 'Bible', 'm'),
+    ('bible', 'phallu', 'Phallu', 'Bible', 'm'),
+    ('bible', 'hezron', 'Hezron', 'Bible', 'm'),
+    ('bible', 'carmi', 'Carmi', 'Bible', 'm'),
+    ('bible', 'ohad', 'Ohad', 'Bible', 'm'),
+    ('bible', 'jachin', 'Jachin', 'Bible', 'm'),
+    ('bible', 'zohar', 'Zohar', 'Bible', 'm'),
+    ('bible', 'shaul', 'Shaul', 'Bible', 'm'),
+    ('bible', 'jemeul', 'Jemeul', 'Bible', 'm'),
+    ('bible', 'jamin', 'Jamin', 'Bible', 'm'),
+    ('bible', 'shimea', 'Shimea', 'Bible', 'm'),
+    ('bible', 'simeon', 'Simeon', 'Bible', 'm'),
+    ('bible', 'jehoram', 'King Jehoram (Joram) of Judah', 'Bible', 'm'),
+    ('bible', 'ahaziah', 'Ahaziah', 'Bible', 'm'),
+    ('bible', 'athaliah', 'Athaliah', 'Bible', 'f'),
+    ('bible', 'bathsheba', 'Bathsheba', 'Bible', 'f'),
+    ('bible', 'garcia-ii', 'King García II of Navarre', 'Bible', 'm'),
+    ('bible', 'chimene-ximena', 'Chimene (Ximena)', 'Bible', 'f'),
+    ('bible', 'sancho-iii', 'King Sancho III of Navarre', 'Bible', 'm'),
+    ('bible', 'munia-ninia', 'Munia (Ninia)', 'Bible', 'f'),
+    ('bible', 'sancho-ii', 'Sancho II', 'Bible', 'm'),
+    ('bible', 'urraca', 'Urraca', 'Bible', 'f'),
+    ('bible', 'sancho-i', 'Sancho I', 'Bible', 'm'),
+    ('bible', 'theuda-toda', 'Theuda (Toda)', 'Bible', 'f'),
+    ('bible', 'ram', 'Ram', 'Bible', 'm'),
+    ('bible', 'amminadab', 'Amminadab', 'Bible', 'm'),
+    ('bible', 'morianton', 'Morianton', 'Bible', 'm'),
+    ('bible', 'rahab-rachab', 'Rahab (Rachab)', 'Bible', 'f'),
+    ('bible', 'salmon', 'Salmon', 'Bible', 'm'),
+    ('bible', 'shelah', 'Shelah', 'Bible', 'm'),
+    ('bible', 'ruth', 'Ruth of Moab', 'Bible', 'f'),
+    ('bible', 'onan', 'Onan', 'Bible', 'm'),
+    ('bible', 'boas', 'Boas', 'Bible', 'm'),
+    ('bible', 'obed', 'Obed', 'Bible', 'm'),
+    ('bible', 'riplakish', 'Riplakish', 'Bible', 'm'),
+    ('bible', 'jesse', 'Jesse', 'Bible', 'm'),
+    ('bible', 'pharez', 'Pharez', 'Bible', 'm'),
+    ('bible', 'hezron-2', 'Hezron', 'Bible', 'm'),
+    ('bible', 'vingener', 'Vingener', 'Bible', 'm'),
+    ('bible', 'tror-thor', 'Tror (Thor)', 'Bible', 'm'),
+    ('bible', 'priam-daughter', 'Daughter of Priam', 'Bible', 'f'),
+    ('bible', 'priam', 'King Priam of Troy', 'Bible', 'm'),
+    ('bible', 'lamoedon', 'Lamoedon', 'Bible', 'm'),
+    ('bible', 'ilus', 'Ilus', 'Bible', 'm'),
+    ('bible', 'tros', 'King Tros of Troy', 'Bible', 'm'),
+    ('bible', 'erichthonius', 'Erichthonius', 'Bible', 'm'),
+    ('bible', 'darda', 'Darda', 'Bible', 'm'),
+    ('bible', 'zarah-2', 'Zarah', 'Bible', 'm'),
+    ('bible', 'tamar', 'Tamar', 'Bible', 'f'),
+    ('bible', 'hamul', 'Hamul', 'Bible', 'm'),
+    ('bible', 'memnon', 'Memnon', 'Bible', 'm'),
+    ('bible', 'silvius', 'Silvius', 'Bible', 'm'),
+    ('bible', 'aeneas', 'Aeneas', 'Bible', 'm'),
+    ('bible', 'capps', 'Capps', 'Bible', 'm'),
+    ('bible', 'assaracus', 'Assaracus', 'Bible', 'm'),
+    ('bible', 'shuah-2', 'Shuah', 'Bible', 'f'),
+    ('bible', 'rehoboam-roboam', 'Rehoboam (Roboam)', 'Bible', 'm'),
+    ('bible', 'nathan', 'Nathan', 'Bible', 'm'),
+    ('bible', 'abia', 'Abia', 'Bible', 'm'),
+    ('bible', 'david', 'King David of Judah and Israel', 'Bible', 'm'),
+    ('bible', 'asa', 'King Asa of Judah', 'Bible', 'm'),
+    ('bible', 'shabod', 'Shabod', 'Bible', 'm'),
+    ('bible', 'josaphat', 'Josaphat', 'Bible', 'm'),
+    ('bible', 'nabah', 'Princess Nabah', 'Bible', 'f'),
+    ('bible', 'dinah', 'Dinah', 'Bible', 'f'),
+    ('bible', 'joash', 'King Joash of Judah', 'Bible', 'm'),
+    ('bible', 'amaziah', 'Amaziah', 'Bible', 'm'),
+    ('bible', 'solomon', 'King Solomon of Judah', 'Bible', 'm'),
+    ('bible', 'azuarius', 'Azuarius', 'Bible', 'm'),
+    ('bible', 'nashon-naasson', 'Nashon (Naasson)', 'Bible', 'm'),
+    ('bible', 'er', 'Er', 'Bible', 'm'),
+    ('bible', 'judah-judas', 'Judah (Judas)', 'Bible', 'm'),
+    ('bible', 'brutus', 'Brutus of Britain', 'Bible', 'm'),
+    ('bible', 'anchises', 'Anchises', 'Bible', 'm'),
+    ('bible', 'tola', 'Tola', 'Bible', 'm'),
+    ('bible', 'shimron', 'Shimron', 'Bible', 'm'),
+    ('bible', 'phuvah', 'Phuvah', 'Bible', 'm'),
+    ('bible', 'job', 'Job', 'Bible', 'm'),
+    ('bible', 'issachar', 'Issachar', 'Bible', 'm'),
+    ('bible', 'jahleel', 'Jahleel', 'Bible', 'm'),
+    ('bible', 'sered', 'Sered', 'Bible', 'm'),
+    ('bible', 'elon', 'Elon', 'Bible', 'm'),
+    ('bible', 'zebulun', 'Zebulun', 'Bible', 'm'),
+    ('bible', 'uzziah-azariah', 'Uzziah (Azariah)', 'Bible', 'm'),
+    ('bible', 'jotham', 'King Jotham of Judah', 'Bible', 'm'),
+    ('bible', 'ahaz', 'Ahaz', 'Bible', 'm'),
+    ('bible', 'hezekiah', 'Hezekiah', 'Bible', 'm'),
+    ('bible', 'manasseh', 'Manasseh', 'Bible', 'm'),
+    ('bible', 'milcah-2', 'Milcah', 'Bible', 'f'),
+    ('bible', 'hoglah', 'Hoglah', 'Bible', 'f'),
+    ('bible', 'noah-2', 'Noah', 'Bible', 'f'),
+    ('bible', 'zelophehad', 'Zelophehad', 'Bible', 'm'),
+    ('bible', 'hepher', 'Hepher', 'Bible', 'm'),
+    ('bible', 'bashan', 'Bashan', 'Bible', 'm'),
+    ('bible', 'gilead', 'Gilead', 'Bible', 'm'),
+    ('bible', 'machir', 'MacHir', 'Bible', 'm'),
+    ('bible', 'shemida', 'Shemida', 'Bible', 'm'),
+    ('bible', 'hepher-2', 'Hepher', 'Bible', 'm'),
+    ('bible', 'shechem', 'Shechem', 'Bible', 'm'),
+    ('bible', 'asriel', 'Asriel', 'Bible', 'm'),
+    ('bible', 'helek', 'Helek', 'Bible', 'm'),
+    ('bible', 'abiezer', 'Abiezer', 'Bible', 'm'),
+    ('bible', 'ephraim', 'Ephraim', 'Bible', 'm'),
+    ('bible', 'manasseh-2', 'Manasseh', 'Bible', 'm'),
+    ('bible', 'asenath', 'Asenath', 'Bible', 'f'),
+    ('bible', 'joseph', 'Joseph', 'Bible', 'm'),
+    ('bible', 'shillem', 'Shillem', 'Bible', 'm'),
+    ('bible', 'jezer', 'Jezer', 'Bible', 'm'),
+    ('bible', 'guni', 'Guni', 'Bible', 'm'),
+    ('bible', 'jahzeel', 'Jahzeel', 'Bible', 'm'),
+    ('bible', 'naphtali', 'Naphtali', 'Bible', 'm'),
+    ('bible', 'hushim', 'Hushim', 'Bible', 'm'),
+    ('bible', 'dan', 'Dan', 'Bible', 'm'),
+    ('bible', 'shule', 'Shule', 'Bible', 'm'),
+    ('bible', 'heth-2', 'Heth', 'Bible', 'm'),
+    ('bible', 'shez', 'Shez', 'Bible', 'm'),
+    ('bible', 'malchiel', 'Malchiel', 'Bible', 'm'),
+    ('bible', 'heber-2', 'Heber', 'Bible', 'm'),
+    ('bible', 'amon', 'King Amon of Judah', 'Bible', 'm'),
+    ('bible', 'joseph-2', 'Joseph', 'Bible', 'm'),
+    ('bible', 'mattathias', 'Mattathias', 'Bible', 'm'),
+    ('bible', 'simon-daughter', 'Daughter of Simon the Just', 'Bible', 'f'),
+    ('bible', 'semei', 'Semei', 'Bible', 'm'),
+    ('bible', 'joseph-3', 'Joseph', 'Bible', 'm'),
+    ('bible', 'juda', 'Juda', 'Bible', 'm'),
+    ('bible', 'joanna', 'Joanna', 'Bible', 'm'),
+    ('bible', 'rhesa', 'Rhesa', 'Bible', 'm'),
+    ('bible', 'zorobabel', 'Zorobabel', 'Bible', 'm'),
+    ('bible', 'salathiel-2', 'Salathiel', 'Bible', 'm'),
+    ('bible', 'neri', 'Neri', 'Bible', 'm'),
+    ('bible', 'melchi', 'Melchi', 'Bible', 'm'),
+    ('bible', 'addi', 'Addi', 'Bible', 'm'),
+    ('bible', 'cosam', 'Cosam', 'Bible', 'm'),
+    ('bible', 'elmodam', 'Elmodam', 'Bible', 'm'),
+    ('bible', 'er-2', 'Er', 'Bible', 'm'),
+    ('bible', 'jose', 'Jose', 'Bible', 'm'),
+    ('bible', 'eliezer', 'Eliezer', 'Bible', 'm'),
+    ('bible', 'jorim', 'Jorim', 'Bible', 'm'),
+    ('bible', 'jesus', 'Jesus Christ', 'Bible', 'm'),
+    ('bible', 'levi-2', 'Levi', 'Bible', 'm'),
+    ('bible', 'simeon-2', 'Simeon', 'Bible', 'm'),
+    ('bible', 'juda-2', 'Juda', 'Bible', 'm'),
+    ('bible', 'joseph-4', 'Joseph', 'Bible', 'm'),
+    ('bible', 'eliakim', 'Eliakim', 'Bible', 'm'),
+    ('bible', 'melea', 'Melea', 'Bible', 'm'),
+    ('bible', 'menan', 'Menan', 'Bible', 'm'),
+    ('bible', 'mattatha', 'Mattatha', 'Bible', 'm'),
+    ('bible', 'amalech', 'Amalech', 'Bible', 'm'),
+    ('bible', 'beli', 'King Beli the Great of the Britons', 'Bible', 'm'),
+    ('bible', 'anna', 'Anna, cousin of Joseph', 'Bible', 'f'),
+    ('bible', 'matthat', 'Matthat', 'Bible', 'm'),
+    ('bible', 'melchi-2', 'Melchi', 'Bible', 'm'),
+    ('bible', 'janna', 'Janna', 'Bible', 'm'),
+    ('bible', 'bran', 'Bran the Blessed', 'Bible', 'm'),
+    ('bible', 'penardin', 'Penardin', 'Bible', 'm'),
+    ('bible', 'llyr', 'Llyr Lediaith (King Lear)', 'Bible', 'f'),
+    ('bible', 'azor', 'Azor', 'Bible', 'm'),
+    ('bible', 'mahlah', 'Mahlah', 'Bible', 'f'),
+    ('bible', 'aodh-glas', 'Aodh Glas', 'Bible', 'm'),
+    ('bible', 'manogan', 'Manogan', 'Bible', 'm'),
+    ('bible', 'lud-britons', 'King Lud of the Britons', 'Bible', 'm'),
+    ('bible', 'sadoc', 'Sadoc', 'Bible', 'm'),
+    ('bible', 'eleazar', 'Eleazar', 'Bible', 'm'),
+    ('bible', 'achim', 'Achim', 'Bible', 'm'),
+    ('bible', 'eliud', 'Eliud', 'Bible', 'm'),
+    ('bible', 'heli', 'Heli', 'Bible', 'm'),
+    ('bible', 'jacob-2', 'Jacob', 'Bible', 'm'),
+    ('bible', 'matthan', 'Matthan', 'Bible', 'm'),
+    ('bible', 'abiud', 'Abiud', 'Bible', 'm'),
+    ('bible', 'salathiel-3', 'Salathiel', 'Bible', 'm'),
+    ('bible', 'jechonias', 'Jechonias', 'Bible', 'm'),
+    ('bible', 'josias', 'Josias', 'Bible', 'm'),
+    ('bible', 'amon-2', 'Amon', 'Bible', 'm'),
+    ('bible', 'manasses', 'Manasses', 'Bible', 'm'),
+    ('bible', 'ezekias', 'Ezekias', 'Bible', 'm'),
+    ('bible', 'achaz', 'Achaz', 'Bible', 'm'),
+    ('bible', 'joatham', 'Joatham', 'Bible', 'm'),
+    ('bible', 'ozias', 'Ozias', 'Bible', 'm'),
+    ('bible', 'mattathias-2', 'Mattathias', 'Bible', 'm'),
+    ('bible', 'maath', 'Maath', 'Bible', 'm'),
+    ('bible', 'nagga', 'Nagga', 'Bible', 'm'),
+    ('bible', 'esli', 'Esli', 'Bible', 'm'),
+    ('bible', 'omer', 'Omer', 'Bible', 'm'),
+    ('bible', 'benjaman', 'Benjaman', 'Bible', 'm'),
+    ('bible', 'emer', 'Emer', 'Bible', 'm'),
+    ('bible', 'kib', 'Kib', 'Bible', 'm'),
+    ('bible', 'elon-2', 'Elon', 'Bible', 'm'),
+    ('bible', 'orihah', 'Orihah', 'Bible', 'm'),
+    ('bible', 'ezbon', 'Ezbon', 'Bible', 'm'),
+    ('bible', 'zorobabel-2', 'Zorobabel', 'Bible', 'm'),
+    ('bible', 'shuni', 'Shuni', 'Bible', 'm'),
+    ('bible', 'arodi', 'Arodi', 'Bible', 'm'),
+    ('bible', 'haggi', 'Haggi', 'Bible', 'm'),
+    ('bible', 'eri', 'Eri', 'Bible', 'm'),
+    ('bible', 'ziphion', 'Ziphion', 'Bible', 'm'),
+    ('bible', 'gad', 'Gad', 'Bible', 'm'),
+    ('bible', 'sigurd-i', 'King Sigurd I of Norway', 'Bible', 'm'),
+    ('bible', 'tirzah', 'Tirzah', 'Bible', 'f'),
+    ('bible', 'elizabeth', 'Elizabeth, cousin of Mary', 'Bible', 'f'),
+    ('bible', 'coriantum', 'Coriantum', 'Bible', 'm'),
+    ('bible', 'com', 'Com', 'Bible', 'm'),
+    ('bible', 'isui', 'Isui', 'Bible', 'm'),
+    ('bible', 'ishuah', 'Ishuah', 'Bible', 'm'),
+    ('bible', 'enos-2', 'Enos', 'Bible', 'm'),
+    ('bible', 'beriah', 'Beriah', 'Bible', 'm'),
+    ('bible', 'ashbel', 'Ashbel', 'Bible', 'm'),
+    ('bible', 'jarom', 'Jarom', 'Bible', 'm'),
+    ('bible', 'omni', 'Omni', 'Bible', 'm'),
+    ('bible', 'chemish', 'Chemish', 'Bible', 'm'),
+    ('bible', 'amaron', 'Amaron', 'Bible', 'm'),
+    ('bible', 'mohonria-moriancuma', 'Mohonria Moriancuma', 'Bible', 'm'),
+    ('bible', 'becher', 'Becher', 'Bible', 'm'),
+    ('bible', 'ard', 'Ard', 'Bible', 'm'),
+    ('bible', 'naaman', 'Naaman', 'Bible', 'm'),
+    ('bible', 'huppim', 'Huppim', 'Bible', 'm'),
+    ('bible', 'naum', 'Naum', 'Bible', 'm'),
+    ('bible', 'amos', 'Amos', 'Bible', 'm'),
+    ('bible', 'jonan', 'Jonan', 'Bible', 'm'),
+    ('bible', 'muppim', 'Muppim', 'Bible', 'm'),
+    ('bible', 'eli', 'Eli', 'Bible', 'm'),
+    ('bible', 'gera', 'Gera', 'Bible', 'm'),
+    ('bible', 'lehi', 'Lehi', 'Bible', 'm'),
+    ('bible', 'iddo', 'Iddo', 'Bible', 'm'),
+    ('bible', 'jacob-3', 'Jacob', 'Bible', 'm'),
+    ('bible', 'joeph', 'Joeph', 'Bible', 'm'),
+    ('bible', 'nephi', 'Nephi', 'Bible', 'm'),
+    ('bible', 'sam', 'Sam', 'Bible', 'm'),
+    ('bible', 'lemul', 'Lemul', 'Bible', 'm'),
+    ('bible', 'laman', 'Laman', 'Bible', 'm'),
+    ('bible', 'sariah', 'Sariah', 'Bible', 'f'),
+    ('bible', 'belah', 'Belah', 'Bible', 'm'),
+    ('bible', 'rosh', 'Rosh', 'Bible', 'm'),
+    ('bible', 'sarah', 'Sarah', 'Bible', 'm'),
+    ('bible', 'jimnah', 'Jimnah', 'Bible', 'm'),
+    ('bible', 'asher', 'Asher', 'Bible', 'm'),
+    ('bible', 'zachariah', 'Zachariah', 'Bible', 'm'),
+    ('bible', 'john-baptist', 'John the Baptist', 'Bible', 'm'),
+    ('bible', 'levi-3', 'Levi', 'Bible', 'm'),
+    ('bible', 'joseph-5', 'Joseph', 'Bible', 'm'),
+    ('bible', 'joseph-6', 'Joseph', 'Bible', 'm'),
+    ('bible', 'areli', 'Areli', 'Bible', 'm'),
+    ('bible', 'eliakim-2', 'Eliakim', 'Bible', 'm'),
+    ('bible', 'mary', 'Mary', 'Bible', 'f'),
+    ('bible', 'matthat-2', 'Matthat', 'Bible', 'm'),
+    ('bible', 'kim', 'Kim', 'Bible', 'm'),
+    ('bible', 'levi-4', 'Levi', 'Bible', 'm'),
+    ('bible', 'corom', 'Corom', 'Bible', 'm'),
+    ('bible', 'kish', 'Kish', 'Bible', 'm'),
+    ('bible', 'lib', 'Lib', 'Bible', 'm'),
+    ('bible', 'heth-3', 'Heth', 'Bible', 'm'),
+    ('bible', 'aaron-2', 'Aaron', 'Bible', 'm'),
+    ('bible', 'amnigaddah', 'Amnigaddah', 'Bible', 'm'),
+    ('bible', 'coriantam', 'Coriantam', 'Bible', 'm'),
+    ('bible', 'shiblon', 'Shiblon', 'Bible', 'm'),
+    ('bible', 'seth-2', 'Seth', 'Bible', 'm'),
+    ('bible', 'anah-2', 'Anah', 'Bible', 'm'),
+    ('bible', 'ethem', 'Ethem', 'Bible', 'm'),
+    ('bible', 'moron', 'Moron', 'Bible', 'm'),
+    ('bible', 'coriantor', 'Coriantor', 'Bible', 'm'),
+    ('bible', 'ether', 'Ether', 'Bible', 'm'),
+    ('bible', 'com-2', 'Com', 'Bible', 'm'),
+    ('bible', 'pagag', 'Pagag', 'Bible', 'm'),
+    ('bible', 'jacon', 'Jacon', 'Bible', 'm'),
+    ('bible', 'father-of-jared', 'Father of Jared', 'Bible', 'm'),
+    ('bible', 'corianumr', 'Corianumr', 'Bible', 'm'),
+    ('bible', 'a-daughter-of-jared', 'A Daughter of Jared', 'Bible', 'f'),
+    ('bible', 'jared-2', 'Jared', 'Bible', 'm'),
+    ('bible', 'gilgah', 'Gilgah', 'Bible', 'm'),
+    ('bible', 'mahah', 'Mahah', 'Bible', 'm'),
+    ('bible', 'a-son-of-alish', 'A Son of Alish', 'Bible', 'm'),
+    ('bible', 'jared-3', 'Jared', 'Bible', 'm'),
+    ('bible', 'esrom', 'Esrom', 'Bible', 'm'),
+    ('bible', 'nimrah', 'Nimrah', 'Bible', 'm'),
+    ('bible', 'akish', 'Akish', 'Bible', 'm'),
+    ('bible', 'corihor', 'Corihor', 'Bible', 'm'),
+    ('bible', 'noah-3', 'Noah', 'Bible', 'm'),
+    ('bible', 'cohor', 'Cohor', 'Bible', 'm'),
+    ('bible', 'cohor-2', 'Cohor', 'Bible', 'm'),
+    ('bible', 'nimrod-2', 'Nimrod', 'Bible', 'm');
+
+-- ── Families (317, each followed by its members) ───────────────────────────────────────────────
+-- bible-f1: Mizraim → Ludim, Anamim, Lehabim, Nephtuihim, Pethusim, Caphtorim, Casluhim
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f1', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f1', 'mizraim', 'parent'),
+    ('bible', 'bible-f1', 'ludim', 'child'),
+    ('bible', 'bible-f1', 'anamim', 'child'),
+    ('bible', 'bible-f1', 'lehabim', 'child'),
+    ('bible', 'bible-f1', 'nephtuihim', 'child'),
+    ('bible', 'bible-f1', 'pethusim', 'child'),
+    ('bible', 'bible-f1', 'caphtorim', 'child'),
+    ('bible', 'bible-f1', 'casluhim', 'child');
+-- bible-f2: Ham + Egyptus → Cush, Phut, Canaan, Mizraim
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f2', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f2', 'ham', 'parent'),
+    ('bible', 'bible-f2', 'egyptus', 'parent'),
+    ('bible', 'bible-f2', 'cush', 'child'),
+    ('bible', 'bible-f2', 'phut', 'child'),
+    ('bible', 'bible-f2', 'canaan', 'child'),
+    ('bible', 'bible-f2', 'mizraim', 'child');
+-- bible-f3: Cush → Raamah, Sabtah, Havilah, Sabtecha, Seba, Nimrod
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f3', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f3', 'cush', 'parent'),
+    ('bible', 'bible-f3', 'raamah', 'child'),
+    ('bible', 'bible-f3', 'sabtah', 'child'),
+    ('bible', 'bible-f3', 'havilah', 'child'),
+    ('bible', 'bible-f3', 'sabtecha', 'child'),
+    ('bible', 'bible-f3', 'seba', 'child'),
+    ('bible', 'bible-f3', 'nimrod', 'child');
+-- bible-f4: Raamah → Sheba, Dedan
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f4', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f4', 'raamah', 'parent'),
+    ('bible', 'bible-f4', 'sheba', 'child'),
+    ('bible', 'bible-f4', 'dedan', 'child');
+-- bible-f5: Canaan → Sidon, Heth, Jebusite, Amorite, Girgassite, Hivite, Arkite, Sirite, Arvadite, Zemarite, Hamathite
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f5', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f5', 'canaan', 'parent'),
+    ('bible', 'bible-f5', 'sidon', 'child'),
+    ('bible', 'bible-f5', 'heth', 'child'),
+    ('bible', 'bible-f5', 'jebusite', 'child'),
+    ('bible', 'bible-f5', 'amorite', 'child'),
+    ('bible', 'bible-f5', 'girgassite', 'child'),
+    ('bible', 'bible-f5', 'hivite', 'child'),
+    ('bible', 'bible-f5', 'arkite', 'child'),
+    ('bible', 'bible-f5', 'sirite', 'child'),
+    ('bible', 'bible-f5', 'arvadite', 'child'),
+    ('bible', 'bible-f5', 'zemarite', 'child'),
+    ('bible', 'bible-f5', 'hamathite', 'child');
+-- bible-f6: Nahor + Reumah → Tebah, Gaham, Thahash, Maachah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f6', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f6', 'nahor-2', 'parent'),
+    ('bible', 'bible-f6', 'reumah', 'parent'),
+    ('bible', 'bible-f6', 'tebah', 'child'),
+    ('bible', 'bible-f6', 'gaham', 'child'),
+    ('bible', 'bible-f6', 'thahash', 'child'),
+    ('bible', 'bible-f6', 'maachah', 'child');
+-- bible-f7: Jacob (Israel) + Leah → Levi, Simeon, Judah (Judas), Zebulun, Reuben, Dinah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f7', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f7', 'jacob', 'parent'),
+    ('bible', 'bible-f7', 'leah', 'parent'),
+    ('bible', 'bible-f7', 'levi', 'child'),
+    ('bible', 'bible-f7', 'simeon', 'child'),
+    ('bible', 'bible-f7', 'judah-judas', 'child'),
+    ('bible', 'bible-f7', 'zebulun', 'child'),
+    ('bible', 'bible-f7', 'reuben', 'child'),
+    ('bible', 'bible-f7', 'dinah', 'child');
+-- bible-f8: Leah (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f8', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f8', 'leah', 'parent');
+-- bible-f9: Laban → Leah, Rachal
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f9', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f9', 'laban', 'parent'),
+    ('bible', 'bible-f9', 'leah', 'child'),
+    ('bible', 'bible-f9', 'rachal', 'child');
+-- bible-f10: Jacob (Israel) + Rachal → Joseph, Benjaman
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f10', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f10', 'jacob', 'parent'),
+    ('bible', 'bible-f10', 'rachal', 'parent'),
+    ('bible', 'bible-f10', 'joseph', 'child'),
+    ('bible', 'bible-f10', 'benjaman', 'child');
+-- bible-f11: Jacob (Israel) + Bilhah → Dan, Naphtali
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f11', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f11', 'jacob', 'parent'),
+    ('bible', 'bible-f11', 'bilhah', 'parent'),
+    ('bible', 'bible-f11', 'dan', 'child'),
+    ('bible', 'bible-f11', 'naphtali', 'child');
+-- bible-f12: Jacob (Israel) + Zalpah → Gad, Asher
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f12', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f12', 'jacob', 'parent'),
+    ('bible', 'bible-f12', 'zalpah', 'parent'),
+    ('bible', 'bible-f12', 'gad', 'child'),
+    ('bible', 'bible-f12', 'asher', 'child');
+-- bible-f13: Isaac + Rebekah → Jacob (Israel), Esau
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f13', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f13', 'isaac', 'parent'),
+    ('bible', 'bible-f13', 'rebekah', 'parent'),
+    ('bible', 'bible-f13', 'jacob', 'child'),
+    ('bible', 'bible-f13', 'esau', 'child');
+-- bible-f14: Abraham (Abram) + Sarai (Sarah) → Isaac
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f14', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f14', 'abraham-abram', 'parent'),
+    ('bible', 'bible-f14', 'sarai', 'parent'),
+    ('bible', 'bible-f14', 'isaac', 'child');
+-- bible-f15: Bethuel → Rebekah, Laban
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f15', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f15', 'bethuel', 'parent'),
+    ('bible', 'bible-f15', 'rebekah', 'child'),
+    ('bible', 'bible-f15', 'laban', 'child');
+-- bible-f16: Abraham (Abram) + Hagar → Ishmael
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f16', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f16', 'abraham-abram', 'parent'),
+    ('bible', 'bible-f16', 'hagar', 'parent'),
+    ('bible', 'bible-f16', 'ishmael', 'child');
+-- bible-f17: Abraham (Abram) + Keturah → Zemran, Jokshon, Madan, Ishbak, Shuah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f17', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f17', 'abraham-abram', 'parent'),
+    ('bible', 'bible-f17', 'keturah', 'parent'),
+    ('bible', 'bible-f17', 'zemran', 'child'),
+    ('bible', 'bible-f17', 'jokshon', 'child'),
+    ('bible', 'bible-f17', 'madan', 'child'),
+    ('bible', 'bible-f17', 'ishbak', 'child'),
+    ('bible', 'bible-f17', 'shuah', 'child');
+-- bible-f18: Terah → Abraham (Abram), Haran, Nahor
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f18', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f18', 'terah', 'parent'),
+    ('bible', 'bible-f18', 'abraham-abram', 'child'),
+    ('bible', 'bible-f18', 'haran', 'child'),
+    ('bible', 'bible-f18', 'nahor-2', 'child');
+-- bible-f19: Nahor → Terah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f19', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f19', 'nahor', 'parent'),
+    ('bible', 'bible-f19', 'terah', 'child');
+-- bible-f20: Serug → Nahor
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f20', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f20', 'serug', 'parent'),
+    ('bible', 'bible-f20', 'nahor', 'child');
+-- bible-f21: Reu → Serug
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f21', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f21', 'reu', 'parent'),
+    ('bible', 'bible-f21', 'serug', 'child');
+-- bible-f22: Peleg → Reu
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f22', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f22', 'peleg', 'parent'),
+    ('bible', 'bible-f22', 'reu', 'child');
+-- bible-f23: Eber → Jokan, Peleg
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f23', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f23', 'eber', 'parent'),
+    ('bible', 'bible-f23', 'jokan', 'child'),
+    ('bible', 'bible-f23', 'peleg', 'child');
+-- bible-f24: Salah → Eber
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f24', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f24', 'salah', 'parent'),
+    ('bible', 'bible-f24', 'eber', 'child');
+-- bible-f25: Arphaxad → Salah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f25', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f25', 'arphaxad', 'parent'),
+    ('bible', 'bible-f25', 'salah', 'child');
+-- bible-f26: Shem → Arphaxad, Aram, Asshur, Lud, Elam
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f26', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f26', 'shem', 'parent'),
+    ('bible', 'bible-f26', 'arphaxad', 'child'),
+    ('bible', 'bible-f26', 'aram', 'child'),
+    ('bible', 'bible-f26', 'asshur', 'child'),
+    ('bible', 'bible-f26', 'lud', 'child'),
+    ('bible', 'bible-f26', 'elam', 'child');
+-- bible-f27: Noah + Titea → Shem, Ham, Japheth
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f27', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f27', 'noah', 'parent'),
+    ('bible', 'bible-f27', 'titea', 'parent'),
+    ('bible', 'bible-f27', 'shem', 'child'),
+    ('bible', 'bible-f27', 'ham', 'child'),
+    ('bible', 'bible-f27', 'japheth', 'child');
+-- bible-f28: Lamech → Noah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f28', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f28', 'lamech', 'parent'),
+    ('bible', 'bible-f28', 'noah', 'child');
+-- bible-f29: Methuselah → Lamech
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f29', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f29', 'methuselah', 'parent'),
+    ('bible', 'bible-f29', 'lamech', 'child');
+-- bible-f30: Enoch → Methuselah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f30', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f30', 'enoch', 'parent'),
+    ('bible', 'bible-f30', 'methuselah', 'child');
+-- bible-f31: Jared → Enoch
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f31', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f31', 'jared', 'parent'),
+    ('bible', 'bible-f31', 'enoch', 'child');
+-- bible-f32: Mahalaleel → Jared
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f32', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f32', 'mahalaleel', 'parent'),
+    ('bible', 'bible-f32', 'jared', 'child');
+-- bible-f33: Cainan → Mahalaleel
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f33', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f33', 'cainan', 'parent'),
+    ('bible', 'bible-f33', 'mahalaleel', 'child');
+-- bible-f34: Enos → Cainan
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f34', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f34', 'enos', 'parent'),
+    ('bible', 'bible-f34', 'cainan', 'child');
+-- bible-f35: Seth → Enos
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f35', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f35', 'seth', 'parent'),
+    ('bible', 'bible-f35', 'enos', 'child');
+-- bible-f36: Adam + Eve → Cain, Abel, Seth
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f36', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f36', 'adam', 'parent'),
+    ('bible', 'bible-f36', 'eve', 'parent'),
+    ('bible', 'bible-f36', 'cain', 'child'),
+    ('bible', 'bible-f36', 'abel', 'child'),
+    ('bible', 'bible-f36', 'seth', 'child');
+-- bible-f37: Japheth → Meshech, Magog, Madai, Tubul, Gomor, Tiras, Javan
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f37', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f37', 'japheth', 'parent'),
+    ('bible', 'bible-f37', 'meshech', 'child'),
+    ('bible', 'bible-f37', 'magog', 'child'),
+    ('bible', 'bible-f37', 'madai', 'child'),
+    ('bible', 'bible-f37', 'tubul', 'child'),
+    ('bible', 'bible-f37', 'gomor', 'child'),
+    ('bible', 'bible-f37', 'tiras', 'child'),
+    ('bible', 'bible-f37', 'javan', 'child');
+-- bible-f38: Tait (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f38', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f38', 'tait', 'parent');
+-- bible-f39: Oghaman → Tait
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f39', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f39', 'oghaman', 'parent'),
+    ('bible', 'bible-f39', 'tait', 'child');
+-- bible-f40: Beouman → Oghaman
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f40', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f40', 'beouman', 'parent'),
+    ('bible', 'bible-f40', 'oghaman', 'child');
+-- bible-f41: Heber Scut (Scott) → Beouman
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f41', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f41', 'heber-scut-scott', 'parent'),
+    ('bible', 'bible-f41', 'beouman', 'child');
+-- bible-f42: Sruth → Heber Scut (Scott)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f42', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f42', 'sruth', 'parent'),
+    ('bible', 'bible-f42', 'heber-scut-scott', 'child');
+-- bible-f43: Asruth (Easruth) → Sruth
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f43', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f43', 'asruth-easruth', 'parent'),
+    ('bible', 'bible-f43', 'sruth', 'child');
+-- bible-f44: Gaodhal Glas → Asruth (Easruth)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f44', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f44', 'gaodhal-glas', 'parent'),
+    ('bible', 'bible-f44', 'asruth-easruth', 'child');
+-- bible-f45: Niul + Scota → Gaodhal Glas
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f45', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f45', 'niul', 'parent'),
+    ('bible', 'bible-f45', 'scota', 'parent'),
+    ('bible', 'bible-f45', 'gaodhal-glas', 'child');
+-- bible-f46: Niul (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f46', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f46', 'niul', 'parent');
+-- bible-f47: King Phoeniusa Farsaidh of Scythia → Nenall, Niul
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f47', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f47', 'phoeniusa-farsaidh', 'parent'),
+    ('bible', 'bible-f47', 'nenall', 'child'),
+    ('bible', 'bible-f47', 'niul', 'child');
+-- bible-f48: Boath → King Phoeniusa Farsaidh of Scythia
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f48', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f48', 'boath', 'parent'),
+    ('bible', 'bible-f48', 'phoeniusa-farsaidh', 'child');
+-- bible-f49: Magog → Boath
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f49', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f49', 'magog', 'parent'),
+    ('bible', 'bible-f49', 'boath', 'child');
+-- bible-f50: (parents unknown) → Scota
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f50', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f50', 'scota', 'child');
+-- bible-f51: Nahor + Milcah → Bethuel, Huz, Buz, Kemuel, Chesed, Hazo, Pildesh, Jidlaph
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f51', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f51', 'nahor-2', 'parent'),
+    ('bible', 'bible-f51', 'milcah', 'parent'),
+    ('bible', 'bible-f51', 'bethuel', 'child'),
+    ('bible', 'bible-f51', 'huz', 'child'),
+    ('bible', 'bible-f51', 'buz', 'child'),
+    ('bible', 'bible-f51', 'kemuel', 'child'),
+    ('bible', 'bible-f51', 'chesed', 'child'),
+    ('bible', 'bible-f51', 'hazo', 'child'),
+    ('bible', 'bible-f51', 'pildesh', 'child'),
+    ('bible', 'bible-f51', 'jidlaph', 'child');
+-- bible-f52: Esau + Adah (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f52', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f52', 'esau', 'parent'),
+    ('bible', 'bible-f52', 'adah', 'parent');
+-- bible-f53: Lamech + Zilah → Trbal-Cain, Naamah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f53', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f53', 'lamech-2', 'parent'),
+    ('bible', 'bible-f53', 'zilah', 'parent'),
+    ('bible', 'bible-f53', 'trbal-cain', 'child'),
+    ('bible', 'bible-f53', 'naamah', 'child');
+-- bible-f54: Enoch → Irad
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f54', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f54', 'enoch-2', 'parent'),
+    ('bible', 'bible-f54', 'irad', 'child');
+-- bible-f55: Cain → Enoch
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f55', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f55', 'cain', 'parent'),
+    ('bible', 'bible-f55', 'enoch-2', 'child');
+-- bible-f56: Irad → Mahujael
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f56', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f56', 'irad', 'parent'),
+    ('bible', 'bible-f56', 'mahujael', 'child');
+-- bible-f57: Mahujael → Methusael
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f57', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f57', 'mahujael', 'parent'),
+    ('bible', 'bible-f57', 'methusael', 'child');
+-- bible-f58: Methusael → Lamech
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f58', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f58', 'methusael', 'parent'),
+    ('bible', 'bible-f58', 'lamech-2', 'child');
+-- bible-f59: Lamech + Adah → Jabal, Jubal
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f59', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f59', 'lamech-2', 'parent'),
+    ('bible', 'bible-f59', 'adah-2', 'parent'),
+    ('bible', 'bible-f59', 'jabal', 'child'),
+    ('bible', 'bible-f59', 'jubal', 'child');
+-- bible-f60: Gomor → Ashkeraz, Riphath, Togarmar
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f60', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f60', 'gomor', 'parent'),
+    ('bible', 'bible-f60', 'ashkeraz', 'child'),
+    ('bible', 'bible-f60', 'riphath', 'child'),
+    ('bible', 'bible-f60', 'togarmar', 'child');
+-- bible-f61: Javan → Tarshish, Elisaah, Kittim, Dodanim
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f61', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f61', 'javan', 'parent'),
+    ('bible', 'bible-f61', 'tarshish', 'child'),
+    ('bible', 'bible-f61', 'elisaah', 'child'),
+    ('bible', 'bible-f61', 'kittim', 'child'),
+    ('bible', 'bible-f61', 'dodanim', 'child');
+-- bible-f62: Ashkeraz (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f62', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f62', 'ashkeraz', 'parent');
+-- bible-f63: Casluhim → Philstem
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f63', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f63', 'casluhim', 'parent'),
+    ('bible', 'bible-f63', 'philstem', 'child');
+-- bible-f64: Aram → Hul, Mash, Uz, Gether
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f64', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f64', 'aram', 'parent'),
+    ('bible', 'bible-f64', 'hul', 'child'),
+    ('bible', 'bible-f64', 'mash', 'child'),
+    ('bible', 'bible-f64', 'uz', 'child'),
+    ('bible', 'bible-f64', 'gether', 'child');
+-- bible-f65: Jokan → Almodad, Sheleph, Hazarmaveth, Jerah, Hadoram, Uzal, Diklah, Obal, Abimael, Sheba, Ophir, Havilah, Jobab
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f65', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f65', 'jokan', 'parent'),
+    ('bible', 'bible-f65', 'almodad', 'child'),
+    ('bible', 'bible-f65', 'sheleph', 'child'),
+    ('bible', 'bible-f65', 'hazarmaveth', 'child'),
+    ('bible', 'bible-f65', 'jerah', 'child'),
+    ('bible', 'bible-f65', 'hadoram', 'child'),
+    ('bible', 'bible-f65', 'uzal', 'child'),
+    ('bible', 'bible-f65', 'diklah', 'child'),
+    ('bible', 'bible-f65', 'obal', 'child'),
+    ('bible', 'bible-f65', 'abimael', 'child'),
+    ('bible', 'bible-f65', 'sheba-2', 'child'),
+    ('bible', 'bible-f65', 'ophir', 'child'),
+    ('bible', 'bible-f65', 'havilah-2', 'child'),
+    ('bible', 'bible-f65', 'jobab', 'child');
+-- bible-f66: Haran → Sarai (Sarah), Milcah, Lot, Iscah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f66', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f66', 'haran', 'parent'),
+    ('bible', 'bible-f66', 'sarai', 'child'),
+    ('bible', 'bible-f66', 'milcah', 'child'),
+    ('bible', 'bible-f66', 'lot', 'child'),
+    ('bible', 'bible-f66', 'iscah', 'child');
+-- bible-f67: Lot + Elder daughter of Lot → Moab
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f67', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f67', 'lot', 'parent'),
+    ('bible', 'bible-f67', 'lot-elder-daughter', 'parent'),
+    ('bible', 'bible-f67', 'moab', 'child');
+-- bible-f68: Lot + Younger daughter of Lot → Benammi
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f68', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f68', 'lot', 'parent'),
+    ('bible', 'bible-f68', 'lot-younger-daughter', 'parent'),
+    ('bible', 'bible-f68', 'benammi', 'child');
+-- bible-f69: Lot → Elder daughter of Lot, Younger daughter of Lot
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f69', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f69', 'lot', 'parent'),
+    ('bible', 'bible-f69', 'lot-elder-daughter', 'child'),
+    ('bible', 'bible-f69', 'lot-younger-daughter', 'child');
+-- bible-f70: Kemuel → Aram
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f70', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f70', 'kemuel', 'parent'),
+    ('bible', 'bible-f70', 'aram-2', 'child');
+-- bible-f71: Esau + Bashemath → Reuel (Jethro)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f71', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f71', 'esau', 'parent'),
+    ('bible', 'bible-f71', 'bashemath', 'parent'),
+    ('bible', 'bible-f71', 'reuel-jethro', 'child');
+-- bible-f72: Follian (Falach) (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f72', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f72', 'follian-falach', 'parent');
+-- bible-f73: Esau + Judith (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f73', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f73', 'esau', 'parent'),
+    ('bible', 'bible-f73', 'judith', 'parent');
+-- bible-f74: Anah → Aholitamah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f74', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f74', 'anah', 'parent'),
+    ('bible', 'bible-f74', 'aholitamah', 'child');
+-- bible-f75: Ishmael → Massa, Nebajoth, Hadar, Kendar, Tema, Adbeel, Jetur, Mibsam, Nephish, Mishma, Kedemah, Dumah, Bashemath
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f75', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f75', 'ishmael', 'parent'),
+    ('bible', 'bible-f75', 'massa', 'child'),
+    ('bible', 'bible-f75', 'nebajoth', 'child'),
+    ('bible', 'bible-f75', 'hadar', 'child'),
+    ('bible', 'bible-f75', 'kendar', 'child'),
+    ('bible', 'bible-f75', 'tema', 'child'),
+    ('bible', 'bible-f75', 'adbeel', 'child'),
+    ('bible', 'bible-f75', 'jetur', 'child'),
+    ('bible', 'bible-f75', 'mibsam', 'child'),
+    ('bible', 'bible-f75', 'nephish', 'child'),
+    ('bible', 'bible-f75', 'mishma', 'child'),
+    ('bible', 'bible-f75', 'kedemah', 'child'),
+    ('bible', 'bible-f75', 'dumah', 'child'),
+    ('bible', 'bible-f75', 'bashemath', 'child');
+-- bible-f76: Madan → Ephah, Epher, Hanoch, Abida, Eldaah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f76', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f76', 'madan', 'parent'),
+    ('bible', 'bible-f76', 'ephah', 'child'),
+    ('bible', 'bible-f76', 'epher', 'child'),
+    ('bible', 'bible-f76', 'hanoch', 'child'),
+    ('bible', 'bible-f76', 'abida', 'child'),
+    ('bible', 'bible-f76', 'eldaah', 'child');
+-- bible-f77: Dedan (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f77', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f77', 'dedan-2', 'parent');
+-- bible-f78: Jokshon → Sheba, Dedan
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f78', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f78', 'jokshon', 'parent'),
+    ('bible', 'bible-f78', 'sheba-3', 'child'),
+    ('bible', 'bible-f78', 'dedan-2', 'child');
+-- bible-f79: Esau + Aholitamah → Aeush, Jaalam, Korah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f79', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f79', 'esau', 'parent'),
+    ('bible', 'bible-f79', 'aholitamah', 'parent'),
+    ('bible', 'bible-f79', 'aeush', 'child'),
+    ('bible', 'bible-f79', 'jaalam', 'child'),
+    ('bible', 'bible-f79', 'korah', 'child');
+-- bible-f80: Reuel (Jethro) → Nahath, Zarah, Shanmah, Zipporah, Mizzah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f80', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f80', 'reuel-jethro', 'parent'),
+    ('bible', 'bible-f80', 'nahath', 'child'),
+    ('bible', 'bible-f80', 'zarah', 'child'),
+    ('bible', 'bible-f80', 'shanmah', 'child'),
+    ('bible', 'bible-f80', 'zipporah', 'child'),
+    ('bible', 'bible-f80', 'mizzah', 'child');
+-- bible-f81: Zibeon → Anah, Ajah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f81', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f81', 'zibeon', 'parent'),
+    ('bible', 'bible-f81', 'anah', 'child'),
+    ('bible', 'bible-f81', 'ajah', 'child');
+-- bible-f82: Dishon → Hemden, Eshben, Ithran, Cheran
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f82', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f82', 'dishon', 'parent'),
+    ('bible', 'bible-f82', 'hemden', 'child'),
+    ('bible', 'bible-f82', 'eshben', 'child'),
+    ('bible', 'bible-f82', 'ithran', 'child'),
+    ('bible', 'bible-f82', 'cheran', 'child');
+-- bible-f83: Seir → Timna, Lotan, Stobal, Zibeon, Ezer, Dishan
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f83', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f83', 'seir', 'parent'),
+    ('bible', 'bible-f83', 'timna', 'child'),
+    ('bible', 'bible-f83', 'lotan', 'child'),
+    ('bible', 'bible-f83', 'stobal', 'child'),
+    ('bible', 'bible-f83', 'zibeon', 'child'),
+    ('bible', 'bible-f83', 'ezer', 'child'),
+    ('bible', 'bible-f83', 'dishan', 'child');
+-- bible-f84: Lotan → Hori, Hemam
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f84', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f84', 'lotan', 'parent'),
+    ('bible', 'bible-f84', 'hori', 'child'),
+    ('bible', 'bible-f84', 'hemam', 'child');
+-- bible-f85: Stobal → Alvan, Manahath, Ebal, Shepho, Onam
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f85', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f85', 'stobal', 'parent'),
+    ('bible', 'bible-f85', 'alvan', 'child'),
+    ('bible', 'bible-f85', 'manahath', 'child'),
+    ('bible', 'bible-f85', 'ebal', 'child'),
+    ('bible', 'bible-f85', 'shepho', 'child'),
+    ('bible', 'bible-f85', 'onam', 'child');
+-- bible-f86: Ezer → Bilhan, Zaavan, Akan
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f86', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f86', 'ezer', 'parent'),
+    ('bible', 'bible-f86', 'bilhan', 'child'),
+    ('bible', 'bible-f86', 'zaavan', 'child'),
+    ('bible', 'bible-f86', 'akan', 'child');
+-- bible-f87: Dishan → Uz, Aran
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f87', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f87', 'dishan', 'parent'),
+    ('bible', 'bible-f87', 'uz-2', 'child'),
+    ('bible', 'bible-f87', 'aran', 'child');
+-- bible-f88: Eithriall → Follian (Falach)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f88', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f88', 'eithriall', 'parent'),
+    ('bible', 'bible-f88', 'follian-falach', 'child');
+-- bible-f89: King Irial Faidh of Ireland → Eithriall
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f89', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f89', 'irial-faidh', 'parent'),
+    ('bible', 'bible-f89', 'eithriall', 'child');
+-- bible-f90: Eochaid I (Heremon) Ireland + Princess Tamar Tephi of Judah → King Irial Faidh of Ireland
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f90', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f90', 'eochaid-i-heremon-ireland', 'parent'),
+    ('bible', 'bible-f90', 'tamar-tephi', 'parent'),
+    ('bible', 'bible-f90', 'irial-faidh', 'child');
+-- bible-f91: King Mattaniah (Zedekiah) of Judah → Mulek, Princess Tamar Tephi of Judah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f91', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f91', 'mattaniah', 'parent'),
+    ('bible', 'bible-f91', 'mulek', 'child'),
+    ('bible', 'bible-f91', 'tamar-tephi', 'child');
+-- bible-f92: King Josiah of Judah + Hammutal, daughter of Jeremiah → King Mattaniah (Zedekiah) of Judah, Shallum
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f92', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f92', 'josiah', 'parent'),
+    ('bible', 'bible-f92', 'hammutal', 'parent'),
+    ('bible', 'bible-f92', 'mattaniah', 'child'),
+    ('bible', 'bible-f92', 'shallum-2', 'child');
+-- bible-f93: King Josiah of Judah → Johanan, Jehoiakim
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f93', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f93', 'josiah', 'parent'),
+    ('bible', 'bible-f93', 'johanan', 'child'),
+    ('bible', 'bible-f93', 'jehoiakim', 'child');
+-- bible-f94: Jeremiah the Prophet + Libnah → Hammutal, daughter of Jeremiah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f94', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f94', 'jeremiah', 'parent'),
+    ('bible', 'bible-f94', 'libnah', 'parent'),
+    ('bible', 'bible-f94', 'hammutal', 'child');
+-- bible-f95: Hilkiah → Jeremiah the Prophet, Shaphan, Azaniah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f95', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f95', 'hilkiah', 'parent'),
+    ('bible', 'bible-f95', 'jeremiah', 'child'),
+    ('bible', 'bible-f95', 'shaphan', 'child'),
+    ('bible', 'bible-f95', 'azaniah', 'child');
+-- bible-f96: Shallum → Hilkiah, Hanameel
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f96', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f96', 'shallum', 'parent'),
+    ('bible', 'bible-f96', 'hilkiah', 'child'),
+    ('bible', 'bible-f96', 'hanameel', 'child');
+-- bible-f97: Shaphan + Gemariah → Elasah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f97', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f97', 'shaphan', 'parent'),
+    ('bible', 'bible-f97', 'gemariah', 'parent'),
+    ('bible', 'bible-f97', 'elasah', 'child');
+-- bible-f98: Ahitub → Zadok
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f98', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f98', 'ahitub', 'parent'),
+    ('bible', 'bible-f98', 'zadok', 'child');
+-- bible-f99: Amariah → Ahitub
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f99', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f99', 'amariah', 'parent'),
+    ('bible', 'bible-f99', 'ahitub', 'child');
+-- bible-f100: Azariah → Amariah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f100', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f100', 'azariah', 'parent'),
+    ('bible', 'bible-f100', 'amariah', 'child');
+-- bible-f101: Ezra + Holdiah → Jether, Mered, Ephar, Jalon
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f101', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f101', 'ezra', 'parent'),
+    ('bible', 'bible-f101', 'holdiah', 'parent'),
+    ('bible', 'bible-f101', 'jether', 'child'),
+    ('bible', 'bible-f101', 'mered', 'child'),
+    ('bible', 'bible-f101', 'ephar', 'child'),
+    ('bible', 'bible-f101', 'jalon', 'child');
+-- bible-f102: Ezra + Jehudisah → Miriam, Shammai, Jerad, Heber, Ishbah, Jekuthiel
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f102', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f102', 'ezra', 'parent'),
+    ('bible', 'bible-f102', 'jehudisah', 'parent'),
+    ('bible', 'bible-f102', 'miriam', 'child'),
+    ('bible', 'bible-f102', 'shammai', 'child'),
+    ('bible', 'bible-f102', 'jerad', 'child'),
+    ('bible', 'bible-f102', 'heber', 'child'),
+    ('bible', 'bible-f102', 'ishbah', 'child'),
+    ('bible', 'bible-f102', 'jekuthiel', 'child');
+-- bible-f103: Seriah → Josedech, Ezra
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f103', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f103', 'seriah', 'parent'),
+    ('bible', 'bible-f103', 'josedech', 'child'),
+    ('bible', 'bible-f103', 'ezra', 'child');
+-- bible-f104: Zadok → Shallum
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f104', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f104', 'zadok', 'parent'),
+    ('bible', 'bible-f104', 'shallum', 'child');
+-- bible-f105: Meraioth → Azariah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f105', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f105', 'meraioth', 'parent'),
+    ('bible', 'bible-f105', 'azariah', 'child');
+-- bible-f106: Zerahiah → Meraioth
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f106', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f106', 'zerahiah', 'parent'),
+    ('bible', 'bible-f106', 'meraioth', 'child');
+-- bible-f107: Uzzi → Zerahiah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f107', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f107', 'uzzi', 'parent'),
+    ('bible', 'bible-f107', 'zerahiah', 'child');
+-- bible-f108: Bukki → Uzzi
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f108', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f108', 'bukki', 'parent'),
+    ('bible', 'bible-f108', 'uzzi', 'child');
+-- bible-f109: Abishuah → Bukki
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f109', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f109', 'abishuah', 'parent'),
+    ('bible', 'bible-f109', 'bukki', 'child');
+-- bible-f110: Phineas → Abishuah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f110', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f110', 'phineas', 'parent'),
+    ('bible', 'bible-f110', 'abishuah', 'child');
+-- bible-f111: Eleazer → Phineas
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f111', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f111', 'eleazer', 'parent'),
+    ('bible', 'bible-f111', 'phineas', 'child');
+-- bible-f112: Aaron + Elisheba → Eleazer
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f112', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f112', 'aaron', 'parent'),
+    ('bible', 'bible-f112', 'elisheba', 'parent'),
+    ('bible', 'bible-f112', 'eleazer', 'child');
+-- bible-f113: Amram + Jochebed → Aaron, Mirham, Moses
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f113', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f113', 'amram', 'parent'),
+    ('bible', 'bible-f113', 'jochebed', 'parent'),
+    ('bible', 'bible-f113', 'aaron', 'child'),
+    ('bible', 'bible-f113', 'mirham', 'child'),
+    ('bible', 'bible-f113', 'moses', 'child');
+-- bible-f114: Kohath → Amram
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f114', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f114', 'kohath', 'parent'),
+    ('bible', 'bible-f114', 'amram', 'child');
+-- bible-f115: Levi → Gershon, Kohath, Jochebed, Merari
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f115', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f115', 'levi', 'parent'),
+    ('bible', 'bible-f115', 'gershon', 'child'),
+    ('bible', 'bible-f115', 'kohath', 'child'),
+    ('bible', 'bible-f115', 'jochebed', 'child'),
+    ('bible', 'bible-f115', 'merari', 'child');
+-- bible-f116: Joiadah (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f116', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f116', 'joiadah', 'parent');
+-- bible-f117: Eliashib → Joiadah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f117', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f117', 'eliashib', 'parent'),
+    ('bible', 'bible-f117', 'joiadah', 'child');
+-- bible-f118: Joachim → Eliashib
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f118', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f118', 'joachim', 'parent'),
+    ('bible', 'bible-f118', 'eliashib', 'child');
+-- bible-f119: Joshuah → Joachim
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f119', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f119', 'joshuah', 'parent'),
+    ('bible', 'bible-f119', 'joachim', 'child');
+-- bible-f120: Josedech → Joshuah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f120', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f120', 'josedech', 'parent'),
+    ('bible', 'bible-f120', 'joshuah', 'child');
+-- bible-f121: Azaniah → Seriah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f121', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f121', 'azaniah', 'parent'),
+    ('bible', 'bible-f121', 'seriah', 'child');
+-- bible-f122: Merari → Mahali, Mushi
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f122', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f122', 'merari', 'parent'),
+    ('bible', 'bible-f122', 'mahali', 'child'),
+    ('bible', 'bible-f122', 'mushi', 'child');
+-- bible-f123: Gershon → Libni, Shimi
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f123', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f123', 'gershon', 'parent'),
+    ('bible', 'bible-f123', 'libni', 'child'),
+    ('bible', 'bible-f123', 'shimi', 'child');
+-- bible-f124: Moses + Zipporah → Gershom
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f124', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f124', 'moses', 'parent'),
+    ('bible', 'bible-f124', 'zipporah', 'parent'),
+    ('bible', 'bible-f124', 'gershom', 'child');
+-- bible-f125: Ishbah → Eshteemca
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f125', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f125', 'ishbah', 'parent'),
+    ('bible', 'bible-f125', 'eshteemca', 'child');
+-- bible-f126: Jerad → Gedor
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f126', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f126', 'jerad', 'parent'),
+    ('bible', 'bible-f126', 'gedor', 'child');
+-- bible-f127: Heber → Socho
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f127', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f127', 'heber', 'parent'),
+    ('bible', 'bible-f127', 'socho', 'child');
+-- bible-f128: Jekuthiel → Zanoah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f128', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f128', 'jekuthiel', 'parent'),
+    ('bible', 'bible-f128', 'zanoah', 'child');
+-- bible-f129: Reuben → Hanoch, Phallu, Hezron, Carmi
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f129', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f129', 'reuben', 'parent'),
+    ('bible', 'bible-f129', 'hanoch-2', 'child'),
+    ('bible', 'bible-f129', 'phallu', 'child'),
+    ('bible', 'bible-f129', 'hezron', 'child'),
+    ('bible', 'bible-f129', 'carmi', 'child');
+-- bible-f130: Jehoiakim → Jeconiah, Zedekiah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f130', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f130', 'jehoiakim', 'parent'),
+    ('bible', 'bible-f130', 'jeconiah', 'child'),
+    ('bible', 'bible-f130', 'zedekiah', 'child');
+-- bible-f131: Jeconiah → Assir, Salathiel, Malchiram, Pedaiah, Shenazar, Jacamiah, Hoshama, Nedabiah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f131', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f131', 'jeconiah', 'parent'),
+    ('bible', 'bible-f131', 'assir', 'child'),
+    ('bible', 'bible-f131', 'salathiel', 'child'),
+    ('bible', 'bible-f131', 'malchiram', 'child'),
+    ('bible', 'bible-f131', 'pedaiah', 'child'),
+    ('bible', 'bible-f131', 'shenazar', 'child'),
+    ('bible', 'bible-f131', 'jacamiah', 'child'),
+    ('bible', 'bible-f131', 'hoshama', 'child'),
+    ('bible', 'bible-f131', 'nedabiah', 'child');
+-- bible-f132: Pedaiah → Zerubbabel, Shimei
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f132', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f132', 'pedaiah', 'parent'),
+    ('bible', 'bible-f132', 'zerubbabel', 'child'),
+    ('bible', 'bible-f132', 'shimei', 'child');
+-- bible-f133: Zerubbabel → Meshullam, Hananiah, Saeloith
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f133', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f133', 'zerubbabel', 'parent'),
+    ('bible', 'bible-f133', 'meshullam', 'child'),
+    ('bible', 'bible-f133', 'hananiah', 'child'),
+    ('bible', 'bible-f133', 'saeloith', 'child');
+-- bible-f134: Meshullam (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f134', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f134', 'meshullam', 'parent');
+-- bible-f135: Hananiah (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f135', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f135', 'hananiah', 'parent');
+-- bible-f136: Rephaiah + Saeloith (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f136', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f136', 'rephaiah', 'parent'),
+    ('bible', 'bible-f136', 'saeloith', 'parent');
+-- bible-f137: Simeon → Jemeul, Jamin, Ohad, Jachin, Zohar
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f137', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f137', 'simeon', 'parent'),
+    ('bible', 'bible-f137', 'jemeul', 'child'),
+    ('bible', 'bible-f137', 'jamin', 'child'),
+    ('bible', 'bible-f137', 'ohad', 'child'),
+    ('bible', 'bible-f137', 'jachin', 'child'),
+    ('bible', 'bible-f137', 'zohar', 'child');
+-- bible-f138: Simeon → Shaul, Jachin, Jamin, Jemeul, Ohad, Zohar
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f138', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f138', 'simeon', 'parent'),
+    ('bible', 'bible-f138', 'shaul', 'child'),
+    ('bible', 'bible-f138', 'jachin', 'child'),
+    ('bible', 'bible-f138', 'jamin', 'child'),
+    ('bible', 'bible-f138', 'jemeul', 'child'),
+    ('bible', 'bible-f138', 'ohad', 'child'),
+    ('bible', 'bible-f138', 'zohar', 'child');
+-- bible-f139: King García II of Navarre + Chimene (Ximena) → King Sancho III of Navarre
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f139', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f139', 'garcia-ii', 'parent'),
+    ('bible', 'bible-f139', 'chimene-ximena', 'parent'),
+    ('bible', 'bible-f139', 'sancho-iii', 'child');
+-- bible-f140: Sancho II + Urraca → King García II of Navarre
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f140', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f140', 'sancho-ii', 'parent'),
+    ('bible', 'bible-f140', 'urraca', 'parent'),
+    ('bible', 'bible-f140', 'garcia-ii', 'child');
+-- bible-f141: King Sancho III of Navarre + Munia (Ninia) (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f141', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f141', 'sancho-iii', 'parent'),
+    ('bible', 'bible-f141', 'munia-ninia', 'parent');
+-- bible-f142: Sancho I + Theuda (Toda) → Sancho II
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f142', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f142', 'sancho-i', 'parent'),
+    ('bible', 'bible-f142', 'theuda-toda', 'parent'),
+    ('bible', 'bible-f142', 'sancho-ii', 'child');
+-- bible-f143: (parents unknown) → Urraca
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f143', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f143', 'urraca', 'child');
+-- bible-f144: Azuarius → Theuda (Toda)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f144', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f144', 'azuarius', 'parent'),
+    ('bible', 'bible-f144', 'theuda-toda', 'child');
+-- bible-f145: Ram → Amminadab
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f145', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f145', 'ram', 'parent'),
+    ('bible', 'bible-f145', 'amminadab', 'child');
+-- bible-f146: Hezron → Ram
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f146', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f146', 'hezron-2', 'parent'),
+    ('bible', 'bible-f146', 'ram', 'child');
+-- bible-f147: Amminadab → Nashon (Naasson)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f147', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f147', 'amminadab', 'parent'),
+    ('bible', 'bible-f147', 'nashon-naasson', 'child');
+-- bible-f148: Jesse → King David of Judah and Israel
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f148', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f148', 'jesse', 'parent'),
+    ('bible', 'bible-f148', 'david', 'child');
+-- bible-f149: Salmon + Rahab (Rachab) → Boas
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f149', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f149', 'salmon', 'parent'),
+    ('bible', 'bible-f149', 'rahab-rachab', 'parent'),
+    ('bible', 'bible-f149', 'boas', 'child');
+-- bible-f150: Nashon (Naasson) → Salmon
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f150', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f150', 'nashon-naasson', 'parent'),
+    ('bible', 'bible-f150', 'salmon', 'child');
+-- bible-f151: Judah (Judas) + Shuah → Er, Shelah, Onan
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f151', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f151', 'judah-judas', 'parent'),
+    ('bible', 'bible-f151', 'shuah-2', 'parent'),
+    ('bible', 'bible-f151', 'er', 'child'),
+    ('bible', 'bible-f151', 'shelah', 'child'),
+    ('bible', 'bible-f151', 'onan', 'child');
+-- bible-f152: Boas + Ruth of Moab → Obed
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f152', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f152', 'boas', 'parent'),
+    ('bible', 'bible-f152', 'ruth', 'parent'),
+    ('bible', 'bible-f152', 'obed', 'child');
+-- bible-f153: Obed → Jesse
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f153', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f153', 'obed', 'parent'),
+    ('bible', 'bible-f153', 'jesse', 'child');
+-- bible-f154: Pharez → Hezron, Hamul
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f154', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f154', 'pharez', 'parent'),
+    ('bible', 'bible-f154', 'hezron-2', 'child'),
+    ('bible', 'bible-f154', 'hamul', 'child');
+-- bible-f155: Judah (Judas) + Tamar → Pharez, Zarah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f155', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f155', 'judah-judas', 'parent'),
+    ('bible', 'bible-f155', 'tamar', 'parent'),
+    ('bible', 'bible-f155', 'pharez', 'child'),
+    ('bible', 'bible-f155', 'zarah-2', 'child');
+-- bible-f156: Vingener (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f156', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f156', 'vingener', 'parent');
+-- bible-f157: Tror (Thor) → Vingener
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f157', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f157', 'tror-thor', 'parent'),
+    ('bible', 'bible-f157', 'vingener', 'child');
+-- bible-f158: Memnon + Daughter of Priam → Tror (Thor)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f158', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f158', 'memnon', 'parent'),
+    ('bible', 'bible-f158', 'priam-daughter', 'parent'),
+    ('bible', 'bible-f158', 'tror-thor', 'child');
+-- bible-f159: King Priam of Troy → Daughter of Priam
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f159', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f159', 'priam', 'parent'),
+    ('bible', 'bible-f159', 'priam-daughter', 'child');
+-- bible-f160: Lamoedon → King Priam of Troy
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f160', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f160', 'lamoedon', 'parent'),
+    ('bible', 'bible-f160', 'priam', 'child');
+-- bible-f161: Ilus → Lamoedon
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f161', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f161', 'ilus', 'parent'),
+    ('bible', 'bible-f161', 'lamoedon', 'child');
+-- bible-f162: King Tros of Troy → Assaracus, Ilus
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f162', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f162', 'tros', 'parent'),
+    ('bible', 'bible-f162', 'assaracus', 'child'),
+    ('bible', 'bible-f162', 'ilus', 'child');
+-- bible-f163: Erichthonius → King Tros of Troy
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f163', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f163', 'erichthonius', 'parent'),
+    ('bible', 'bible-f163', 'tros', 'child');
+-- bible-f164: Darda → Erichthonius
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f164', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f164', 'darda', 'parent'),
+    ('bible', 'bible-f164', 'erichthonius', 'child');
+-- bible-f165: Zarah → Darda
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f165', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f165', 'zarah-2', 'parent'),
+    ('bible', 'bible-f165', 'darda', 'child');
+-- bible-f166: Er + Tamar (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f166', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f166', 'er', 'parent'),
+    ('bible', 'bible-f166', 'tamar', 'parent');
+-- bible-f167: Silvius → Brutus of Britain
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f167', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f167', 'silvius', 'parent'),
+    ('bible', 'bible-f167', 'brutus', 'child');
+-- bible-f168: Aeneas → Silvius
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f168', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f168', 'aeneas', 'parent'),
+    ('bible', 'bible-f168', 'silvius', 'child');
+-- bible-f169: Anchises → Aeneas
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f169', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f169', 'anchises', 'parent'),
+    ('bible', 'bible-f169', 'aeneas', 'child');
+-- bible-f170: Capps → Anchises
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f170', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f170', 'capps', 'parent'),
+    ('bible', 'bible-f170', 'anchises', 'child');
+-- bible-f171: Assaracus → Azuarius, Capps
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f171', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f171', 'assaracus', 'parent'),
+    ('bible', 'bible-f171', 'azuarius', 'child'),
+    ('bible', 'bible-f171', 'capps', 'child');
+-- bible-f172: Brutus of Britain (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f172', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f172', 'brutus', 'parent');
+-- bible-f173: Issachar → Tola, Shimron, Phuvah, Job
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f173', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f173', 'issachar', 'parent'),
+    ('bible', 'bible-f173', 'tola', 'child'),
+    ('bible', 'bible-f173', 'shimron', 'child'),
+    ('bible', 'bible-f173', 'phuvah', 'child'),
+    ('bible', 'bible-f173', 'job', 'child');
+-- bible-f174: Zebulun → Sered, Elon, Jahleel
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f174', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f174', 'zebulun', 'parent'),
+    ('bible', 'bible-f174', 'sered', 'child'),
+    ('bible', 'bible-f174', 'elon', 'child'),
+    ('bible', 'bible-f174', 'jahleel', 'child');
+-- bible-f175: King Joash of Judah → Amaziah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f175', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f175', 'joash', 'parent'),
+    ('bible', 'bible-f175', 'amaziah', 'child');
+-- bible-f176: Ahaziah + Athaliah → King Joash of Judah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f176', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f176', 'ahaziah', 'parent'),
+    ('bible', 'bible-f176', 'athaliah', 'parent'),
+    ('bible', 'bible-f176', 'joash', 'child');
+-- bible-f177: Amaziah → Uzziah (Azariah)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f177', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f177', 'amaziah', 'parent'),
+    ('bible', 'bible-f177', 'uzziah-azariah', 'child');
+-- bible-f178: King Solomon of Judah + Princess Nabah → Rehoboam (Roboam)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f178', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f178', 'solomon', 'parent'),
+    ('bible', 'bible-f178', 'nabah', 'parent'),
+    ('bible', 'bible-f178', 'rehoboam-roboam', 'child');
+-- bible-f179: King David of Judah and Israel + Bathsheba → Shimea, Shabod, Nathan, King Solomon of Judah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f179', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f179', 'david', 'parent'),
+    ('bible', 'bible-f179', 'bathsheba', 'parent'),
+    ('bible', 'bible-f179', 'shimea', 'child'),
+    ('bible', 'bible-f179', 'shabod', 'child'),
+    ('bible', 'bible-f179', 'nathan', 'child'),
+    ('bible', 'bible-f179', 'solomon', 'child');
+-- bible-f180: Rehoboam (Roboam) → Abia
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f180', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f180', 'rehoboam-roboam', 'parent'),
+    ('bible', 'bible-f180', 'abia', 'child');
+-- bible-f181: Nathan → Mattatha
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f181', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f181', 'nathan', 'parent'),
+    ('bible', 'bible-f181', 'mattatha', 'child');
+-- bible-f182: Abia → King Asa of Judah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f182', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f182', 'abia', 'parent'),
+    ('bible', 'bible-f182', 'asa', 'child');
+-- bible-f183: King Asa of Judah → Josaphat
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f183', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f183', 'asa', 'parent'),
+    ('bible', 'bible-f183', 'josaphat', 'child');
+-- bible-f184: Josaphat → King Jehoram (Joram) of Judah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f184', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f184', 'josaphat', 'parent'),
+    ('bible', 'bible-f184', 'jehoram', 'child');
+-- bible-f185: King Jehoram (Joram) of Judah → Ozias, Ahaziah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f185', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f185', 'jehoram', 'parent'),
+    ('bible', 'bible-f185', 'ozias', 'child'),
+    ('bible', 'bible-f185', 'ahaziah', 'child');
+-- bible-f186: Uzziah (Azariah) → King Jotham of Judah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f186', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f186', 'uzziah-azariah', 'parent'),
+    ('bible', 'bible-f186', 'jotham', 'child');
+-- bible-f187: King Jotham of Judah → Ahaz
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f187', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f187', 'jotham', 'parent'),
+    ('bible', 'bible-f187', 'ahaz', 'child');
+-- bible-f188: Ahaz → Hezekiah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f188', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f188', 'ahaz', 'parent'),
+    ('bible', 'bible-f188', 'hezekiah', 'child');
+-- bible-f189: Hezekiah → Manasseh
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f189', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f189', 'hezekiah', 'parent'),
+    ('bible', 'bible-f189', 'manasseh', 'child');
+-- bible-f190: Manasseh → King Amon of Judah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f190', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f190', 'manasseh', 'parent'),
+    ('bible', 'bible-f190', 'amon', 'child');
+-- bible-f191: Aodh Glas (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f191', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f191', 'aodh-glas', 'parent');
+-- bible-f192: (parents unknown) → Aodh Glas
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f192', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f192', 'aodh-glas', 'child');
+-- bible-f193: King Amon of Judah → King Josiah of Judah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f193', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f193', 'amon', 'parent'),
+    ('bible', 'bible-f193', 'josiah', 'child');
+-- bible-f194: Joseph → Janna
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f194', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f194', 'joseph-2', 'parent'),
+    ('bible', 'bible-f194', 'janna', 'child');
+-- bible-f195: Mattathias + Daughter of Simon the Just → Joseph
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f195', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f195', 'mattathias', 'parent'),
+    ('bible', 'bible-f195', 'simon-daughter', 'parent'),
+    ('bible', 'bible-f195', 'joseph-2', 'child');
+-- bible-f196: Amos → Mattathias
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f196', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f196', 'amos', 'parent'),
+    ('bible', 'bible-f196', 'mattathias', 'child');
+-- bible-f197: Semei → Mattathias
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f197', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f197', 'semei', 'parent'),
+    ('bible', 'bible-f197', 'mattathias-2', 'child');
+-- bible-f198: Joseph → Semei
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f198', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f198', 'joseph-3', 'parent'),
+    ('bible', 'bible-f198', 'semei', 'child');
+-- bible-f199: Juda → Joseph
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f199', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f199', 'juda', 'parent'),
+    ('bible', 'bible-f199', 'joseph-3', 'child');
+-- bible-f200: Joanna → Juda
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f200', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f200', 'joanna', 'parent'),
+    ('bible', 'bible-f200', 'juda', 'child');
+-- bible-f201: Rhesa → Joanna
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f201', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f201', 'rhesa', 'parent'),
+    ('bible', 'bible-f201', 'joanna', 'child');
+-- bible-f202: Zorobabel → Rhesa
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f202', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f202', 'zorobabel', 'parent'),
+    ('bible', 'bible-f202', 'rhesa', 'child');
+-- bible-f203: Salathiel → Zorobabel
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f203', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f203', 'salathiel-2', 'parent'),
+    ('bible', 'bible-f203', 'zorobabel', 'child');
+-- bible-f204: Neri → Salathiel
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f204', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f204', 'neri', 'parent'),
+    ('bible', 'bible-f204', 'salathiel-2', 'child');
+-- bible-f205: Melchi → Neri
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f205', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f205', 'melchi', 'parent'),
+    ('bible', 'bible-f205', 'neri', 'child');
+-- bible-f206: Addi → Melchi
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f206', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f206', 'addi', 'parent'),
+    ('bible', 'bible-f206', 'melchi', 'child');
+-- bible-f207: Cosam → Addi
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f207', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f207', 'cosam', 'parent'),
+    ('bible', 'bible-f207', 'addi', 'child');
+-- bible-f208: Elmodam → Cosam
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f208', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f208', 'elmodam', 'parent'),
+    ('bible', 'bible-f208', 'cosam', 'child');
+-- bible-f209: Er → Elmodam
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f209', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f209', 'er-2', 'parent'),
+    ('bible', 'bible-f209', 'elmodam', 'child');
+-- bible-f210: Jose → Er
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f210', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f210', 'jose', 'parent'),
+    ('bible', 'bible-f210', 'er-2', 'child');
+-- bible-f211: Eliezer → Jose
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f211', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f211', 'eliezer', 'parent'),
+    ('bible', 'bible-f211', 'jose', 'child');
+-- bible-f212: Jorim → Eliezer
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f212', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f212', 'jorim', 'parent'),
+    ('bible', 'bible-f212', 'eliezer', 'child');
+-- bible-f213: Matthat → Jorim
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f213', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f213', 'matthat-2', 'parent'),
+    ('bible', 'bible-f213', 'jorim', 'child');
+-- bible-f214: Joseph + Mary → Jesus Christ
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f214', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f214', 'joseph-5', 'parent'),
+    ('bible', 'bible-f214', 'mary', 'parent'),
+    ('bible', 'bible-f214', 'jesus', 'child');
+-- bible-f215: Levi → Matthat
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f215', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f215', 'levi-2', 'parent'),
+    ('bible', 'bible-f215', 'matthat-2', 'child');
+-- bible-f216: Simeon → Levi
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f216', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f216', 'simeon-2', 'parent'),
+    ('bible', 'bible-f216', 'levi-2', 'child');
+-- bible-f217: Juda → Simeon
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f217', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f217', 'juda-2', 'parent'),
+    ('bible', 'bible-f217', 'simeon-2', 'child');
+-- bible-f218: Joseph → Juda
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f218', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f218', 'joseph-4', 'parent'),
+    ('bible', 'bible-f218', 'juda-2', 'child');
+-- bible-f219: Jonan → Joseph
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f219', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f219', 'jonan', 'parent'),
+    ('bible', 'bible-f219', 'joseph-4', 'child');
+-- bible-f220: Eliakim → Jonan
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f220', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f220', 'eliakim', 'parent'),
+    ('bible', 'bible-f220', 'jonan', 'child');
+-- bible-f221: Melea → Eliakim
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f221', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f221', 'melea', 'parent'),
+    ('bible', 'bible-f221', 'eliakim', 'child');
+-- bible-f222: Menan → Melea
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f222', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f222', 'menan', 'parent'),
+    ('bible', 'bible-f222', 'melea', 'child');
+-- bible-f223: Mattatha → Menan
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f223', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f223', 'mattatha', 'parent'),
+    ('bible', 'bible-f223', 'menan', 'child');
+-- bible-f224: Amalech (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f224', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f224', 'amalech', 'parent');
+-- bible-f225: King Beli the Great of the Britons → King Lud of the Britons, Amalech
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f225', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f225', 'beli', 'parent'),
+    ('bible', 'bible-f225', 'lud-britons', 'child'),
+    ('bible', 'bible-f225', 'amalech', 'child');
+-- bible-f226: Manogan + Anna, cousin of Joseph → Penardin, King Beli the Great of the Britons
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f226', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f226', 'manogan', 'parent'),
+    ('bible', 'bible-f226', 'anna', 'parent'),
+    ('bible', 'bible-f226', 'penardin', 'child'),
+    ('bible', 'bible-f226', 'beli', 'child');
+-- bible-f227: Joseph → Anna, cousin of Joseph
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f227', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f227', 'joseph-6', 'parent'),
+    ('bible', 'bible-f227', 'anna', 'child');
+-- bible-f228: Matthat → Heli, Joseph
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f228', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f228', 'matthat', 'parent'),
+    ('bible', 'bible-f228', 'heli', 'child'),
+    ('bible', 'bible-f228', 'joseph-6', 'child');
+-- bible-f229: Levi → Matthat
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f229', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f229', 'levi-3', 'parent'),
+    ('bible', 'bible-f229', 'matthat', 'child');
+-- bible-f230: Melchi → Levi
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f230', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f230', 'melchi-2', 'parent'),
+    ('bible', 'bible-f230', 'levi-3', 'child');
+-- bible-f231: Janna → Melchi
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f231', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f231', 'janna', 'parent'),
+    ('bible', 'bible-f231', 'melchi-2', 'child');
+-- bible-f232: Bran the Blessed (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f232', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f232', 'bran', 'parent');
+-- bible-f233: Penardin + Llyr Lediaith (King Lear) → Bran the Blessed
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f233', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f233', 'penardin', 'parent'),
+    ('bible', 'bible-f233', 'llyr', 'parent'),
+    ('bible', 'bible-f233', 'bran', 'child');
+-- bible-f234: Azor → Sadoc
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f234', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f234', 'azor', 'parent'),
+    ('bible', 'bible-f234', 'sadoc', 'child');
+-- bible-f235: Eliakim → Azor
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f235', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f235', 'eliakim-2', 'parent'),
+    ('bible', 'bible-f235', 'azor', 'child');
+-- bible-f236: King Lud of the Britons (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f236', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f236', 'lud-britons', 'parent');
+-- bible-f237: Sadoc → Achim
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f237', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f237', 'sadoc', 'parent'),
+    ('bible', 'bible-f237', 'achim', 'child');
+-- bible-f238: Eleazar → Matthan
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f238', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f238', 'eleazar', 'parent'),
+    ('bible', 'bible-f238', 'matthan', 'child');
+-- bible-f239: Eliud → Eleazar
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f239', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f239', 'eliud', 'parent'),
+    ('bible', 'bible-f239', 'eleazar', 'child');
+-- bible-f240: Achim → Eliud
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f240', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f240', 'achim', 'parent'),
+    ('bible', 'bible-f240', 'eliud', 'child');
+-- bible-f241: Heli → Joseph
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f241', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f241', 'heli', 'parent'),
+    ('bible', 'bible-f241', 'joseph-5', 'child');
+-- bible-f242: Jacob → Mary
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f242', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f242', 'jacob-2', 'parent'),
+    ('bible', 'bible-f242', 'mary', 'child');
+-- bible-f243: Matthan → Elizabeth, cousin of Mary, Jacob
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f243', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f243', 'matthan', 'parent'),
+    ('bible', 'bible-f243', 'elizabeth', 'child'),
+    ('bible', 'bible-f243', 'jacob-2', 'child');
+-- bible-f244: Abiud → Eliakim
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f244', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f244', 'abiud', 'parent'),
+    ('bible', 'bible-f244', 'eliakim-2', 'child');
+-- bible-f245: Zorobabel → Abiud
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f245', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f245', 'zorobabel-2', 'parent'),
+    ('bible', 'bible-f245', 'abiud', 'child');
+-- bible-f246: Salathiel → Zorobabel
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f246', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f246', 'salathiel-3', 'parent'),
+    ('bible', 'bible-f246', 'zorobabel-2', 'child');
+-- bible-f247: Jechonias → Salathiel
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f247', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f247', 'jechonias', 'parent'),
+    ('bible', 'bible-f247', 'salathiel-3', 'child');
+-- bible-f248: Josias → Jechonias
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f248', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f248', 'josias', 'parent'),
+    ('bible', 'bible-f248', 'jechonias', 'child');
+-- bible-f249: Amon → Josias
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f249', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f249', 'amon-2', 'parent'),
+    ('bible', 'bible-f249', 'josias', 'child');
+-- bible-f250: Manasses → Amon
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f250', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f250', 'manasses', 'parent'),
+    ('bible', 'bible-f250', 'amon-2', 'child');
+-- bible-f251: Ezekias → Manasses
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f251', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f251', 'ezekias', 'parent'),
+    ('bible', 'bible-f251', 'manasses', 'child');
+-- bible-f252: Achaz → Ezekias
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f252', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f252', 'achaz', 'parent'),
+    ('bible', 'bible-f252', 'ezekias', 'child');
+-- bible-f253: Joatham → Achaz
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f253', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f253', 'joatham', 'parent'),
+    ('bible', 'bible-f253', 'achaz', 'child');
+-- bible-f254: Ozias → Joatham
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f254', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f254', 'ozias', 'parent'),
+    ('bible', 'bible-f254', 'joatham', 'child');
+-- bible-f255: Mattathias → Maath
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f255', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f255', 'mattathias-2', 'parent'),
+    ('bible', 'bible-f255', 'maath', 'child');
+-- bible-f256: Maath → Nagga
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f256', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f256', 'maath', 'parent'),
+    ('bible', 'bible-f256', 'nagga', 'child');
+-- bible-f257: Nagga → Esli
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f257', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f257', 'nagga', 'parent'),
+    ('bible', 'bible-f257', 'esli', 'child');
+-- bible-f258: Esli → Naum
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f258', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f258', 'esli', 'parent'),
+    ('bible', 'bible-f258', 'naum', 'child');
+-- bible-f259: Elon → Adah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f259', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f259', 'elon-2', 'parent'),
+    ('bible', 'bible-f259', 'adah', 'child');
+-- bible-f260: Naum → Amos
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f260', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f260', 'naum', 'parent'),
+    ('bible', 'bible-f260', 'amos', 'child');
+-- bible-f261: King Sigurd I of Norway (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f261', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f261', 'sigurd-i', 'parent');
+-- bible-f262: Zachariah + Elizabeth, cousin of Mary → John the Baptist
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f262', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f262', 'zachariah', 'parent'),
+    ('bible', 'bible-f262', 'elizabeth', 'parent'),
+    ('bible', 'bible-f262', 'john-baptist', 'child');
+-- bible-f263: Iddo → Zachariah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f263', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f263', 'iddo', 'parent'),
+    ('bible', 'bible-f263', 'zachariah', 'child');
+-- bible-f264: Gad → Ziphion, Eri, Haggi, Arodi, Shuni, Areli, Ezbon
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f264', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f264', 'gad', 'parent'),
+    ('bible', 'bible-f264', 'ziphion', 'child'),
+    ('bible', 'bible-f264', 'eri', 'child'),
+    ('bible', 'bible-f264', 'haggi', 'child'),
+    ('bible', 'bible-f264', 'arodi', 'child'),
+    ('bible', 'bible-f264', 'shuni', 'child'),
+    ('bible', 'bible-f264', 'areli', 'child'),
+    ('bible', 'bible-f264', 'ezbon', 'child');
+-- bible-f265: Asher → Jimnah, Sarah, Ishuah, Isui, Beriah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f265', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f265', 'asher', 'parent'),
+    ('bible', 'bible-f265', 'jimnah', 'child'),
+    ('bible', 'bible-f265', 'sarah', 'child'),
+    ('bible', 'bible-f265', 'ishuah', 'child'),
+    ('bible', 'bible-f265', 'isui', 'child'),
+    ('bible', 'bible-f265', 'beriah', 'child');
+-- bible-f266: Beriah → Heber, Malchiel
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f266', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f266', 'beriah', 'parent'),
+    ('bible', 'bible-f266', 'heber-2', 'child'),
+    ('bible', 'bible-f266', 'malchiel', 'child');
+-- bible-f267: Dan → Hushim
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f267', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f267', 'dan', 'parent'),
+    ('bible', 'bible-f267', 'hushim', 'child');
+-- bible-f268: Naphtali → Jahzeel, Guni, Jezer, Shillem
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f268', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f268', 'naphtali', 'parent'),
+    ('bible', 'bible-f268', 'jahzeel', 'child'),
+    ('bible', 'bible-f268', 'guni', 'child'),
+    ('bible', 'bible-f268', 'jezer', 'child'),
+    ('bible', 'bible-f268', 'shillem', 'child');
+-- bible-f269: Joseph + Asenath → Manasseh, Ephraim
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f269', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f269', 'joseph', 'parent'),
+    ('bible', 'bible-f269', 'asenath', 'parent'),
+    ('bible', 'bible-f269', 'manasseh-2', 'child'),
+    ('bible', 'bible-f269', 'ephraim', 'child');
+-- bible-f270: Manasseh → Abiezer, Helek, Asriel, Shechem, Hepher, Shemida, MacHir
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f270', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f270', 'manasseh-2', 'parent'),
+    ('bible', 'bible-f270', 'abiezer', 'child'),
+    ('bible', 'bible-f270', 'helek', 'child'),
+    ('bible', 'bible-f270', 'asriel', 'child'),
+    ('bible', 'bible-f270', 'shechem', 'child'),
+    ('bible', 'bible-f270', 'hepher-2', 'child'),
+    ('bible', 'bible-f270', 'shemida', 'child'),
+    ('bible', 'bible-f270', 'machir', 'child');
+-- bible-f271: MacHir → Gilead, Bashan
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f271', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f271', 'machir', 'parent'),
+    ('bible', 'bible-f271', 'gilead', 'child'),
+    ('bible', 'bible-f271', 'bashan', 'child');
+-- bible-f272: Gilead → Hepher
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f272', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f272', 'gilead', 'parent'),
+    ('bible', 'bible-f272', 'hepher', 'child');
+-- bible-f273: Hepher → Zelophehad
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f273', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f273', 'hepher', 'parent'),
+    ('bible', 'bible-f273', 'zelophehad', 'child');
+-- bible-f274: Zelophehad → Mahlah, Noah, Hoglah, Milcah, Tirzah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f274', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f274', 'zelophehad', 'parent'),
+    ('bible', 'bible-f274', 'mahlah', 'child'),
+    ('bible', 'bible-f274', 'noah-2', 'child'),
+    ('bible', 'bible-f274', 'hoglah', 'child'),
+    ('bible', 'bible-f274', 'milcah-2', 'child'),
+    ('bible', 'bible-f274', 'tirzah', 'child');
+-- bible-f275: Benjaman → Belah, Rosh, Ashbel, Huppim, Naaman, Ard, Becher, Gera, Eli, Muppim
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f275', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f275', 'benjaman', 'parent'),
+    ('bible', 'bible-f275', 'belah', 'child'),
+    ('bible', 'bible-f275', 'rosh', 'child'),
+    ('bible', 'bible-f275', 'ashbel', 'child'),
+    ('bible', 'bible-f275', 'huppim', 'child'),
+    ('bible', 'bible-f275', 'naaman', 'child'),
+    ('bible', 'bible-f275', 'ard', 'child'),
+    ('bible', 'bible-f275', 'becher', 'child'),
+    ('bible', 'bible-f275', 'gera', 'child'),
+    ('bible', 'bible-f275', 'eli', 'child'),
+    ('bible', 'bible-f275', 'muppim', 'child');
+-- bible-f276: Lehi + Sariah → Laman, Lemul, Sam, Nephi, Joeph, Jacob
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f276', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f276', 'lehi', 'parent'),
+    ('bible', 'bible-f276', 'sariah', 'parent'),
+    ('bible', 'bible-f276', 'laman', 'child'),
+    ('bible', 'bible-f276', 'lemul', 'child'),
+    ('bible', 'bible-f276', 'sam', 'child'),
+    ('bible', 'bible-f276', 'nephi', 'child'),
+    ('bible', 'bible-f276', 'joeph', 'child'),
+    ('bible', 'bible-f276', 'jacob-3', 'child');
+-- bible-f277: Jacob → Enos
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f277', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f277', 'jacob-3', 'parent'),
+    ('bible', 'bible-f277', 'enos-2', 'child');
+-- bible-f278: Enos → Jarom
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f278', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f278', 'enos-2', 'parent'),
+    ('bible', 'bible-f278', 'jarom', 'child');
+-- bible-f279: Jarom → Omni
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f279', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f279', 'jarom', 'parent'),
+    ('bible', 'bible-f279', 'omni', 'child');
+-- bible-f280: Omni → Chemish, Amaron
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f280', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f280', 'omni', 'parent'),
+    ('bible', 'bible-f280', 'chemish', 'child'),
+    ('bible', 'bible-f280', 'amaron', 'child');
+-- bible-f281: Mohonria Moriancuma → Pagag
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f281', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f281', 'mohonria-moriancuma', 'parent'),
+    ('bible', 'bible-f281', 'pagag', 'child');
+-- bible-f282: Father of Jared → Mohonria Moriancuma, Jared
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f282', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f282', 'father-of-jared', 'parent'),
+    ('bible', 'bible-f282', 'mohonria-moriancuma', 'child'),
+    ('bible', 'bible-f282', 'jared-2', 'child');
+-- bible-f283: Orihah → Kib
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f283', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f283', 'orihah', 'parent'),
+    ('bible', 'bible-f283', 'kib', 'child');
+-- bible-f284: Jared → Gilgah, Jacon, Orihah, Mahah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f284', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f284', 'jared-2', 'parent'),
+    ('bible', 'bible-f284', 'gilgah', 'child'),
+    ('bible', 'bible-f284', 'jacon', 'child'),
+    ('bible', 'bible-f284', 'orihah', 'child'),
+    ('bible', 'bible-f284', 'mahah', 'child');
+-- bible-f285: Kib → Corihor, Shule
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f285', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f285', 'kib', 'parent'),
+    ('bible', 'bible-f285', 'corihor', 'child'),
+    ('bible', 'bible-f285', 'shule', 'child');
+-- bible-f286: Shule → Omer
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f286', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f286', 'shule', 'parent'),
+    ('bible', 'bible-f286', 'omer', 'child');
+-- bible-f287: Omer → Emer, Esrom, Corianumr, Jared
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f287', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f287', 'omer', 'parent'),
+    ('bible', 'bible-f287', 'emer', 'child'),
+    ('bible', 'bible-f287', 'esrom', 'child'),
+    ('bible', 'bible-f287', 'corianumr', 'child'),
+    ('bible', 'bible-f287', 'jared-3', 'child');
+-- bible-f288: Emer → Coriantum
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f288', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f288', 'emer', 'parent'),
+    ('bible', 'bible-f288', 'coriantum', 'child');
+-- bible-f289: Coriantum → Com
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f289', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f289', 'coriantum', 'parent'),
+    ('bible', 'bible-f289', 'com', 'child');
+-- bible-f290: Com → Heth
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f290', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f290', 'com', 'parent'),
+    ('bible', 'bible-f290', 'heth-2', 'child');
+-- bible-f291: Heth → Shez
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f291', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f291', 'heth-2', 'parent'),
+    ('bible', 'bible-f291', 'shez', 'child');
+-- bible-f292: Shez → Riplakish
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f292', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f292', 'shez', 'parent'),
+    ('bible', 'bible-f292', 'riplakish', 'child');
+-- bible-f293: Riplakish → Morianton
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f293', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f293', 'riplakish', 'parent'),
+    ('bible', 'bible-f293', 'morianton', 'child');
+-- bible-f294: Morianton → Kim
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f294', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f294', 'morianton', 'parent'),
+    ('bible', 'bible-f294', 'kim', 'child');
+-- bible-f295: Kim → Levi
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f295', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f295', 'kim', 'parent'),
+    ('bible', 'bible-f295', 'levi-4', 'child');
+-- bible-f296: Levi → Corom
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f296', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f296', 'levi-4', 'parent'),
+    ('bible', 'bible-f296', 'corom', 'child');
+-- bible-f297: Corom → Kish
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f297', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f297', 'corom', 'parent'),
+    ('bible', 'bible-f297', 'kish', 'child');
+-- bible-f298: Kish → Lib
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f298', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f298', 'kish', 'parent'),
+    ('bible', 'bible-f298', 'lib', 'child');
+-- bible-f299: Lib → Heth
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f299', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f299', 'lib', 'parent'),
+    ('bible', 'bible-f299', 'heth-3', 'child');
+-- bible-f300: Heth → Aaron
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f300', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f300', 'heth-3', 'parent'),
+    ('bible', 'bible-f300', 'aaron-2', 'child');
+-- bible-f301: Aaron → Amnigaddah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f301', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f301', 'aaron-2', 'parent'),
+    ('bible', 'bible-f301', 'amnigaddah', 'child');
+-- bible-f302: Amnigaddah → Coriantam
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f302', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f302', 'amnigaddah', 'parent'),
+    ('bible', 'bible-f302', 'coriantam', 'child');
+-- bible-f303: Coriantam → Com
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f303', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f303', 'coriantam', 'parent'),
+    ('bible', 'bible-f303', 'com-2', 'child');
+-- bible-f304: Shiblon → Seth
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f304', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f304', 'shiblon', 'parent'),
+    ('bible', 'bible-f304', 'seth-2', 'child');
+-- bible-f305: Com → Shiblon
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f305', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f305', 'com-2', 'parent'),
+    ('bible', 'bible-f305', 'shiblon', 'child');
+-- bible-f306: Seth → Anah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f306', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f306', 'seth-2', 'parent'),
+    ('bible', 'bible-f306', 'anah-2', 'child');
+-- bible-f307: Anah → Ethem
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f307', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f307', 'anah-2', 'parent'),
+    ('bible', 'bible-f307', 'ethem', 'child');
+-- bible-f308: Ethem → Moron
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f308', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f308', 'ethem', 'parent'),
+    ('bible', 'bible-f308', 'moron', 'child');
+-- bible-f309: Moron → Coriantor
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f309', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f309', 'moron', 'parent'),
+    ('bible', 'bible-f309', 'coriantor', 'child');
+-- bible-f310: Coriantor → Ether
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f310', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f310', 'coriantor', 'parent'),
+    ('bible', 'bible-f310', 'ether', 'child');
+-- bible-f311: Akish + A Daughter of Jared → A Son of Alish, Nimrah
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f311', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f311', 'akish', 'parent'),
+    ('bible', 'bible-f311', 'a-daughter-of-jared', 'parent'),
+    ('bible', 'bible-f311', 'a-son-of-alish', 'child'),
+    ('bible', 'bible-f311', 'nimrah', 'child');
+-- bible-f312: Jared → A Daughter of Jared
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f312', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f312', 'jared-3', 'parent'),
+    ('bible', 'bible-f312', 'a-daughter-of-jared', 'child');
+-- bible-f313: Corihor → Noah, Cohor
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f313', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f313', 'corihor', 'parent'),
+    ('bible', 'bible-f313', 'noah-3', 'child'),
+    ('bible', 'bible-f313', 'cohor', 'child');
+-- bible-f314: Noah → Cohor
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f314', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f314', 'noah-3', 'parent'),
+    ('bible', 'bible-f314', 'cohor-2', 'child');
+-- bible-f315: Cohor → Nimrod
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f315', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f315', 'cohor-2', 'parent'),
+    ('bible', 'bible-f315', 'nimrod-2', 'child');
+-- bible-f316: Anah → Dishon   [adoptive]
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f316', TRUE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f316', 'anah', 'parent'),
+    ('bible', 'bible-f316', 'dishon', 'child');
+-- bible-f317: Mariam (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('bible', 'bible-f317', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('bible', 'bible-f317', 'mariam', 'parent');
+
+
+-- =================================================================================================
+-- End of seed: 15 sagas.
 -- =================================================================================================
 COMMIT;

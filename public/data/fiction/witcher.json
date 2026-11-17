@@ -13,48 +13,18 @@
         "Ciri's names trace the Elder Blood: Cirilla, Fiona, Elen, Riannon.",
         "Geralt and Yennefer are Ciri's guardians by destiny, not adoption; modelled as adoptive parents."
     ],
-    "houses": [
-        {
-            "name": "Aen Seidhe",
-            "color": "#9ad8b0"
-        },
-        {
-            "name": "Lod",
-            "color": "#b0a8d8"
-        },
-        {
-            "name": "Cintra",
-            "color": "#d4a72c"
-        },
-        {
-            "name": "Temeria",
-            "color": "#3b6fb6"
-        },
-        {
-            "name": "Kovir",
-            "color": "#7fa8c8"
-        },
-        {
-            "name": "Ebbing",
-            "color": "#a87a4a"
-        },
-        {
-            "name": "Skellige",
-            "color": "#4a8a9a"
-        },
-        {
-            "name": "Nilfgaard",
-            "color": "#2a2a3a"
-        },
-        {
-            "name": "Witchers",
-            "color": "#a8a8b0"
-        },
-        {
-            "name": "Sorceresses",
-            "color": "#6a3a8a"
-        }
-    ],
+    "houses": {
+        "Aen Seidhe": "#9ad8b0",
+        "Lod": "#b0a8d8",
+        "Cintra": "#d4a72c",
+        "Temeria": "#3b6fb6",
+        "Kovir": "#7fa8c8",
+        "Ebbing": "#a87a4a",
+        "Skellige": "#4a8a9a",
+        "Nilfgaard": "#2a2a3a",
+        "Witchers": "#a8a8b0",
+        "Sorceresses": "#6a3a8a"
+    },
     "people": [
         {
             "id": "lara",
@@ -167,186 +137,45 @@
     ],
     "families": [
         {
-            "id": "witcher-f1",
-            "adoptive": false
+            "parents": ["cregennan", "lara"],
+            "children": ["riannon"]
         },
         {
-            "id": "witcher-f2",
-            "adoptive": false
+            "parents": ["goidemar", "riannon"],
+            "children": ["fiona"]
         },
         {
-            "id": "witcher-f3",
-            "adoptive": false
+            "parents": ["fiona"],
+            "children": ["corbett"]
         },
         {
-            "id": "witcher-f4",
-            "adoptive": false
+            "parents": ["corbett", "elen"],
+            "children": ["dagorad", "adalia"]
         },
         {
-            "id": "witcher-f5",
-            "adoptive": false
+            "parents": ["dagorad", "adalia"],
+            "children": ["calanthe"]
         },
         {
-            "id": "witcher-f6",
-            "adoptive": false
+            "parents": ["roegner", "calanthe"],
+            "children": ["pavetta"]
         },
         {
-            "id": "witcher-f7",
-            "adoptive": false
+            "parents": ["eist", "calanthe"],
+            "children": []
         },
         {
-            "id": "witcher-f8",
-            "adoptive": false
+            "parents": ["fergus"],
+            "children": ["duny"]
         },
         {
-            "id": "witcher-f9",
-            "adoptive": false
+            "parents": ["duny", "pavetta"],
+            "children": ["ciri"]
         },
         {
-            "id": "witcher-f10",
+            "parents": ["geralt", "yennefer"],
+            "children": ["ciri"],
             "adoptive": true
-        }
-    ],
-    "members": [
-        {
-            "family": "witcher-f1",
-            "person": "cregennan",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f1",
-            "person": "lara",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f1",
-            "person": "riannon",
-            "role": "child"
-        },
-        {
-            "family": "witcher-f2",
-            "person": "goidemar",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f2",
-            "person": "riannon",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f2",
-            "person": "fiona",
-            "role": "child"
-        },
-        {
-            "family": "witcher-f3",
-            "person": "fiona",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f3",
-            "person": "corbett",
-            "role": "child"
-        },
-        {
-            "family": "witcher-f4",
-            "person": "corbett",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f4",
-            "person": "elen",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f4",
-            "person": "dagorad",
-            "role": "child"
-        },
-        {
-            "family": "witcher-f4",
-            "person": "adalia",
-            "role": "child"
-        },
-        {
-            "family": "witcher-f5",
-            "person": "dagorad",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f5",
-            "person": "adalia",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f5",
-            "person": "calanthe",
-            "role": "child"
-        },
-        {
-            "family": "witcher-f6",
-            "person": "roegner",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f6",
-            "person": "calanthe",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f6",
-            "person": "pavetta",
-            "role": "child"
-        },
-        {
-            "family": "witcher-f7",
-            "person": "eist",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f7",
-            "person": "calanthe",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f8",
-            "person": "fergus",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f8",
-            "person": "duny",
-            "role": "child"
-        },
-        {
-            "family": "witcher-f9",
-            "person": "duny",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f9",
-            "person": "pavetta",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f9",
-            "person": "ciri",
-            "role": "child"
-        },
-        {
-            "family": "witcher-f10",
-            "person": "geralt",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f10",
-            "person": "yennefer",
-            "role": "parent"
-        },
-        {
-            "family": "witcher-f10",
-            "person": "ciri",
-            "role": "child"
         }
     ]
 }

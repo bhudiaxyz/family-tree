@@ -13,36 +13,15 @@
         "Tigraine is both Galad's mother (by Taringail) and Rand's (by Janduin), which links the two halves.",
         "Taringail and Moiraine are cousins, not siblings; Taringail's parents are not named, so he has a parentless entry."
     ],
-    "houses": [
-        {
-            "name": "Mantear",
-            "color": "#d77f3a"
-        },
-        {
-            "name": "Trakand",
-            "color": "#e0b23a"
-        },
-        {
-            "name": "Damodred",
-            "color": "#3f9a4b"
-        },
-        {
-            "name": "Aiel",
-            "color": "#b08a5a"
-        },
-        {
-            "name": "al'Thor",
-            "color": "#5a7fa8"
-        },
-        {
-            "name": "al'Vere",
-            "color": "#8a6ac8"
-        },
-        {
-            "name": "Farshaw",
-            "color": "#c8a8d8"
-        }
-    ],
+    "houses": {
+        "Mantear": "#d77f3a",
+        "Trakand": "#e0b23a",
+        "Damodred": "#3f9a4b",
+        "Aiel": "#b08a5a",
+        "al'Thor": "#5a7fa8",
+        "al'Vere": "#8a6ac8",
+        "Farshaw": "#c8a8d8"
+    },
     "people": [
         {
             "id": "mordrellen",
@@ -149,185 +128,49 @@
     ],
     "families": [
         {
-            "id": "wot-f1",
-            "adoptive": false
+            "parents": ["mordrellen"],
+            "children": ["tigraine", "luc"]
         },
         {
-            "id": "wot-f2",
-            "adoptive": false
+            "parents": ["dalresin"],
+            "children": ["moiraine"]
         },
         {
-            "id": "wot-f3",
-            "adoptive": false
+            "parents": ["taringail", "tigraine"],
+            "children": ["galad"]
         },
         {
-            "id": "wot-f4",
-            "adoptive": false
+            "parents": ["janduin", "tigraine"],
+            "children": ["rand"]
         },
         {
-            "id": "wot-f5",
+            "parents": ["tam", "kari"],
+            "children": ["rand"],
             "adoptive": true
         },
         {
-            "id": "wot-f6",
-            "adoptive": false
+            "parents": ["taringail", "morgase"],
+            "children": ["elayne", "gawyn"]
         },
         {
-            "id": "wot-f7",
-            "adoptive": false
+            "parents": ["rand", "elayne"],
+            "children": []
         },
         {
-            "id": "wot-f8",
-            "adoptive": false
+            "parents": ["rand", "min"],
+            "children": []
         },
         {
-            "id": "wot-f9",
-            "adoptive": false
+            "parents": ["rand", "aviendha"],
+            "children": []
         },
         {
-            "id": "wot-f10",
-            "adoptive": false
+            "parents": ["gawyn", "egwene"],
+            "children": []
         },
         {
-            "id": "wot-f11",
-            "adoptive": false
-        }
-    ],
-    "members": [
-        {
-            "family": "wot-f1",
-            "person": "mordrellen",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f1",
-            "person": "tigraine",
-            "role": "child"
-        },
-        {
-            "family": "wot-f1",
-            "person": "luc",
-            "role": "child"
-        },
-        {
-            "family": "wot-f2",
-            "person": "dalresin",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f2",
-            "person": "moiraine",
-            "role": "child"
-        },
-        {
-            "family": "wot-f3",
-            "person": "taringail",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f3",
-            "person": "tigraine",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f3",
-            "person": "galad",
-            "role": "child"
-        },
-        {
-            "family": "wot-f4",
-            "person": "janduin",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f4",
-            "person": "tigraine",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f4",
-            "person": "rand",
-            "role": "child"
-        },
-        {
-            "family": "wot-f5",
-            "person": "tam",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f5",
-            "person": "kari",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f5",
-            "person": "rand",
-            "role": "child"
-        },
-        {
-            "family": "wot-f6",
-            "person": "taringail",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f6",
-            "person": "morgase",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f6",
-            "person": "elayne",
-            "role": "child"
-        },
-        {
-            "family": "wot-f6",
-            "person": "gawyn",
-            "role": "child"
-        },
-        {
-            "family": "wot-f7",
-            "person": "rand",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f7",
-            "person": "elayne",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f8",
-            "person": "rand",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f8",
-            "person": "min",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f9",
-            "person": "rand",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f9",
-            "person": "aviendha",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f10",
-            "person": "gawyn",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f10",
-            "person": "egwene",
-            "role": "parent"
-        },
-        {
-            "family": "wot-f11",
-            "person": "taringail",
-            "role": "child"
+            "parents": [],
+            "children": ["taringail"]
         }
     ]
 }

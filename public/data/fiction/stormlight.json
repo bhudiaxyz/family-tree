@@ -14,24 +14,12 @@
         "Navani marries Gavilar, then after his death Dalinar.",
         "Aesudan's birth house is not named in the books; she is shown in House Kholin by marriage."
     ],
-    "houses": [
-        {
-            "name": "Kholin",
-            "color": "#2f5fb0"
-        },
-        {
-            "name": "Riran",
-            "color": "#d8c8a8"
-        },
-        {
-            "name": "Davar",
-            "color": "#c44a3a"
-        },
-        {
-            "name": "Khinar",
-            "color": "#6a9a7a"
-        }
-    ],
+    "houses": {
+        "Kholin": "#2f5fb0",
+        "Riran": "#d8c8a8",
+        "Davar": "#c44a3a",
+        "Khinar": "#6a9a7a"
+    },
     "people": [
         {
             "id": "gavilar",
@@ -168,192 +156,40 @@
     ],
     "families": [
         {
-            "id": "stormlight-f1",
-            "adoptive": false
+            "parents": [],
+            "children": ["gavilar", "dalinar"]
         },
         {
-            "id": "stormlight-f2",
-            "adoptive": false
+            "parents": ["gavilar", "navani"],
+            "children": ["elhokar", "jasnah"]
         },
         {
-            "id": "stormlight-f3",
-            "adoptive": false
+            "parents": ["elhokar", "aesudan"],
+            "children": ["gavinor"]
         },
         {
-            "id": "stormlight-f4",
-            "adoptive": false
+            "parents": [],
+            "children": ["evi", "toh"]
         },
         {
-            "id": "stormlight-f5",
-            "adoptive": false
+            "parents": ["dalinar", "evi"],
+            "children": ["adolin", "renarin"]
         },
         {
-            "id": "stormlight-f6",
-            "adoptive": false
+            "parents": ["dalinar", "navani"],
+            "children": []
         },
         {
-            "id": "stormlight-f7",
-            "adoptive": false
+            "parents": ["lin"],
+            "children": ["helaran", "balat", "wikim", "jushu", "shallan"]
         },
         {
-            "id": "stormlight-f8",
-            "adoptive": false
+            "parents": ["adolin", "shallan"],
+            "children": []
         },
         {
-            "id": "stormlight-f9",
-            "adoptive": false
-        }
-    ],
-    "members": [
-        {
-            "family": "stormlight-f1",
-            "person": "gavilar",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f1",
-            "person": "dalinar",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f2",
-            "person": "gavilar",
-            "role": "parent"
-        },
-        {
-            "family": "stormlight-f2",
-            "person": "navani",
-            "role": "parent"
-        },
-        {
-            "family": "stormlight-f2",
-            "person": "elhokar",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f2",
-            "person": "jasnah",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f3",
-            "person": "elhokar",
-            "role": "parent"
-        },
-        {
-            "family": "stormlight-f3",
-            "person": "aesudan",
-            "role": "parent"
-        },
-        {
-            "family": "stormlight-f3",
-            "person": "gavinor",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f4",
-            "person": "evi",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f4",
-            "person": "toh",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f5",
-            "person": "dalinar",
-            "role": "parent"
-        },
-        {
-            "family": "stormlight-f5",
-            "person": "evi",
-            "role": "parent"
-        },
-        {
-            "family": "stormlight-f5",
-            "person": "adolin",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f5",
-            "person": "renarin",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f6",
-            "person": "dalinar",
-            "role": "parent"
-        },
-        {
-            "family": "stormlight-f6",
-            "person": "navani",
-            "role": "parent"
-        },
-        {
-            "family": "stormlight-f7",
-            "person": "lin",
-            "role": "parent"
-        },
-        {
-            "family": "stormlight-f7",
-            "person": "helaran",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f7",
-            "person": "balat",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f7",
-            "person": "wikim",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f7",
-            "person": "jushu",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f7",
-            "person": "shallan",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f8",
-            "person": "adolin",
-            "role": "parent"
-        },
-        {
-            "family": "stormlight-f8",
-            "person": "shallan",
-            "role": "parent"
-        },
-        {
-            "family": "stormlight-f9",
-            "person": "lirin",
-            "role": "parent"
-        },
-        {
-            "family": "stormlight-f9",
-            "person": "hesina",
-            "role": "parent"
-        },
-        {
-            "family": "stormlight-f9",
-            "person": "kaladin",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f9",
-            "person": "tien",
-            "role": "child"
-        },
-        {
-            "family": "stormlight-f9",
-            "person": "oroden",
-            "role": "child"
+            "parents": ["lirin", "hesina"],
+            "children": ["kaladin", "tien", "oroden"]
         }
     ]
 }

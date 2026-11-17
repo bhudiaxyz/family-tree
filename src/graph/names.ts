@@ -7,8 +7,11 @@ import { approach, boundLinks, boundNodes, nameOf } from "./core.ts";
 import { focus } from "./highlight.ts";
 import { siblingLabels } from "./siblings.ts";
 
-const LABEL_NEAR = 110; // relationship labels are fully visible within this distance of the camera…
-const LABEL_FAR = 240; // …and hidden beyond this one
+// Relationship labels are fully visible within LABEL_NEAR of the camera and hidden beyond LABEL_FAR. The whole-tree
+// view of a typical saga is ~300–450 units away, so these keep the labels on at that zoom and only drop them when
+// zoomed well out, where they'd be too small to read anyway. (It was 110–240: they only appeared once zoomed in.)
+const LABEL_NEAR = 220;
+const LABEL_FAR = 480;
 
 // --- Distance fade ----------------------------------------------------------------------------------------------
 const tmp = new THREE.Vector3();

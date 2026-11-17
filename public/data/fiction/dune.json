@@ -13,28 +13,13 @@
         "Jessica is the Baron's daughter by Mohiam (revealed in the novels), so Paul is Harkonnen by blood.",
         "Anirul (Shaddam IV's wife, mother of Irulan and Wensicia) is named in the prequels, not Frank Herbert's novels."
     ],
-    "houses": [
-        {
-            "name": "Atreides",
-            "color": "#2e8b57"
-        },
-        {
-            "name": "Harkonnen",
-            "color": "#8a1c1c"
-        },
-        {
-            "name": "Corrino",
-            "color": "#d4a72c"
-        },
-        {
-            "name": "Bene Gesserit",
-            "color": "#6b4c9a"
-        },
-        {
-            "name": "Fremen",
-            "color": "#c98b4a"
-        }
-    ],
+    "houses": {
+        "Atreides": "#2e8b57",
+        "Harkonnen": "#8a1c1c",
+        "Corrino": "#d4a72c",
+        "Bene Gesserit": "#6b4c9a",
+        "Fremen": "#c98b4a"
+    },
     "people": [
         {
             "id": "paulus",
@@ -177,229 +162,52 @@
     ],
     "families": [
         {
-            "id": "dune-f1",
-            "adoptive": false
+            "parents": ["paulus"],
+            "children": ["leto"]
         },
         {
-            "id": "dune-f2",
-            "adoptive": false
+            "parents": ["dmitri"],
+            "children": ["vladimir", "abulurd"]
         },
         {
-            "id": "dune-f3",
-            "adoptive": false
+            "parents": ["vladimir", "gaius"],
+            "children": ["jessica"]
         },
         {
-            "id": "dune-f4",
-            "adoptive": false
+            "parents": ["abulurd"],
+            "children": ["rabban", "feyd"]
         },
         {
-            "id": "dune-f5",
-            "adoptive": false
+            "parents": ["leto", "jessica"],
+            "children": ["paul", "alia"]
         },
         {
-            "id": "dune-f6",
-            "adoptive": false
+            "parents": ["liet", "faroula"],
+            "children": ["chani"]
         },
         {
-            "id": "dune-f7",
-            "adoptive": false
+            "parents": ["paul", "chani"],
+            "children": ["letoFirst", "leto2", "ghanima"]
         },
         {
-            "id": "dune-f8",
-            "adoptive": false
+            "parents": ["shaddam", "anirul"],
+            "children": ["irulan", "wensicia"]
         },
         {
-            "id": "dune-f9",
-            "adoptive": false
+            "parents": ["paul", "irulan"],
+            "children": []
         },
         {
-            "id": "dune-f10",
-            "adoptive": false
+            "parents": ["wensicia"],
+            "children": ["farad"]
         },
         {
-            "id": "dune-f11",
-            "adoptive": false
+            "parents": ["duncan", "alia"],
+            "children": []
         },
         {
-            "id": "dune-f12",
-            "adoptive": false
-        }
-    ],
-    "members": [
-        {
-            "family": "dune-f1",
-            "person": "paulus",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f1",
-            "person": "leto",
-            "role": "child"
-        },
-        {
-            "family": "dune-f2",
-            "person": "dmitri",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f2",
-            "person": "vladimir",
-            "role": "child"
-        },
-        {
-            "family": "dune-f2",
-            "person": "abulurd",
-            "role": "child"
-        },
-        {
-            "family": "dune-f3",
-            "person": "vladimir",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f3",
-            "person": "gaius",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f3",
-            "person": "jessica",
-            "role": "child"
-        },
-        {
-            "family": "dune-f4",
-            "person": "abulurd",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f4",
-            "person": "rabban",
-            "role": "child"
-        },
-        {
-            "family": "dune-f4",
-            "person": "feyd",
-            "role": "child"
-        },
-        {
-            "family": "dune-f5",
-            "person": "leto",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f5",
-            "person": "jessica",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f5",
-            "person": "paul",
-            "role": "child"
-        },
-        {
-            "family": "dune-f5",
-            "person": "alia",
-            "role": "child"
-        },
-        {
-            "family": "dune-f6",
-            "person": "liet",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f6",
-            "person": "faroula",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f6",
-            "person": "chani",
-            "role": "child"
-        },
-        {
-            "family": "dune-f7",
-            "person": "paul",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f7",
-            "person": "chani",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f7",
-            "person": "letoFirst",
-            "role": "child"
-        },
-        {
-            "family": "dune-f7",
-            "person": "leto2",
-            "role": "child"
-        },
-        {
-            "family": "dune-f7",
-            "person": "ghanima",
-            "role": "child"
-        },
-        {
-            "family": "dune-f8",
-            "person": "shaddam",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f8",
-            "person": "anirul",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f8",
-            "person": "irulan",
-            "role": "child"
-        },
-        {
-            "family": "dune-f8",
-            "person": "wensicia",
-            "role": "child"
-        },
-        {
-            "family": "dune-f9",
-            "person": "paul",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f9",
-            "person": "irulan",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f10",
-            "person": "wensicia",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f10",
-            "person": "farad",
-            "role": "child"
-        },
-        {
-            "family": "dune-f11",
-            "person": "duncan",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f11",
-            "person": "alia",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f12",
-            "person": "farad",
-            "role": "parent"
-        },
-        {
-            "family": "dune-f12",
-            "person": "ghanima",
-            "role": "parent"
+            "parents": ["farad", "ghanima"],
+            "children": []
         }
     ]
 }

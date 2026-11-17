@@ -108,7 +108,7 @@ Any drag, zoom or pan takes the camera back from auto-framing or a fly-to straig
 
 On phones and tablets every control is at least 44 px tall, tapping a person picks the one nearest your finger even where people overlap, and the page itself never zooms or scrolls: pinch and drag always move the 3D view.
 
-Relationship labels (mother, son, sisters…) fade out with distance so the view doesn't clutter; zoom in to read them. Labels on a highlighted line stay readable at any distance.
+Relationship labels (mother, son, sisters…) show at the normal whole-tree view and fade out only when you zoom well out, so the view doesn't clutter. Labels on a highlighted line stay readable at any distance.
 
 **Reading a highlight.** When you select someone, their ancestors glow warm (amber) and their descendants cool (blue), and each generation further away is a little fainter, so you can see at a glance who is above and below them. Couples' marriage rings grow while they're lit. On a relationship path, the people are ringed in gold; when it first appears a pulse runs along it from the first person to the second, and hovering a step in the finder's list lights just that hop.
 

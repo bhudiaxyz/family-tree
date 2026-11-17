@@ -3,41 +3,26 @@
 // input.ts and the panel; the camera moves themselves are in camera.ts.
 import * as THREE from "three";
 import { fitPeople, glideTo, viewState, zoomBy } from "../camera.ts";
+import { immediateFamily } from "../family.ts";
 import { generationRows, nodeById, onRowPicked } from "../graph.ts";
 import { camera, controls } from "../scene.ts";
 import { state } from "./state.ts";
 
 // --- Fit the family: the selected person with their parents, siblings, spouses and children -------------------------
-/** The selected person's immediate family (ids), including themselves. */
-export function immediateFamily(id: string): string[] {
-    const t = state.tree!;
-    const out = new Set([id]);
-    for (const f of t.families) {
-        if (f.children.includes(id)) for (const p of [...f.parents, ...f.children]) out.add(p);
-        if (f.parents.includes(id)) for (const p of [...f.parents, ...f.children]) out.add(p);
-    }
-    return [...out];
-}
-
-/** Frame the selected person's immediate family. */
 export function fitFamily(): void {
     if (!state.selected || !state.tree) return;
-    fitPeople(
-        immediateFamily(state.selected)
-            .map((id) => nodeById(id)!)
-            .filter(Boolean)
-    );
+    fitPeople(immediateFamily(state.tree, state.selected).flatMap((id) => nodeById(id) ?? []));
 }
 
 // --- Zoom by steps (the pad's ± and the + / - keys) --------------------------------------------------------------
-export const ZOOM_STEP = 1.35;
+const ZOOM_STEP = 1.35;
 export const zoomIn = () => zoomBy(1 / ZOOM_STEP);
 export const zoomOut = () => zoomBy(ZOOM_STEP);
 
 // --- A generation at a time --------------------------------------------------------------------------------------
 const aim = new THREE.Vector3();
 /** Glide so the given generation row is in the middle of the view, keeping the current sideways position. */
-export function goToGeneration(row: number): void {
+function goToGeneration(row: number): void {
     const rows = generationRows();
     if (!rows.length) return;
     const g = THREE.MathUtils.clamp(row, 0, rows.length - 1);

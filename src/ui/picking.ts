@@ -1,12 +1,12 @@
 // Picking people on the canvas: hover highlights (mouse only), click/tap selects, double tap flies, long press previews.
 import * as THREE from "three";
 import { drawnZ, graph, isShown, type Node } from "../graph.ts";
+import { relate } from "../relationship.ts";
 import { camera, renderer } from "../scene.ts";
 import { $, relatePanel } from "./dom.ts";
-import { relate } from "../relationship.ts";
+import { setHouse } from "./legend.ts";
 import { deselect, select } from "./panel.ts";
 import { fillRelate } from "./relate.ts";
-import { setHouse } from "./legend.ts";
 import { refreshHighlight, state } from "./state.ts";
 
 const raycaster = new THREE.Raycaster();

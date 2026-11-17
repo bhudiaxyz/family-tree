@@ -36,8 +36,7 @@ export type HighlightOptions = {
 export function highlight(people: Set<string> | null, opts: HighlightOptions = {}): void {
     const { roles, path = [], step = null, hideOthers = false } = opts;
     focus = people;
-    hiding = !!people && hideOthers;
-    const out = hiding ? HIDDEN : DIM;
+    const out = people && hideOthers ? HIDDEN : DIM;
     const { links } = graph.graphData();
     const unionsLit = new Set<string>();
     if (people)
@@ -103,10 +102,7 @@ function linksAlong(links: Link[], path: string[]): Set<Link> {
 }
 
 /** Forget the highlight without touching objects (a new tree's objects start lit). */
-export const clearFocus = () => ((focus = null), (hiding = false));
-
-/** True while focus mode hides everyone outside the highlight (the camera then fits only who's shown). */
-export let hiding = false;
+export const clearFocus = () => (focus = null);
 
 function setTarget(obj: THREE.Object3D | undefined, dim: number) {
     obj?.traverse((o) => (o.userData.dimTarget = dim));

@@ -10,14 +10,13 @@ import { paletteFor, usePalette } from "../palettes.ts";
 import { applyScenePalette, controls, glow, renderer, setGlow, setSky } from "../scene.ts";
 import { setPerson, setSuggestions } from "../suggest.ts";
 import { author, panel, relA, relB, search, title } from "./dom.ts";
-import { clearTrail, onHistoryBack, select, setFocus, setRelativeTo } from "./panel.ts";
 import { mountLegend, setLegend } from "./legend.ts";
 import { onPinsChanged, pinned, rememberView, restoreView } from "./navigate.ts";
-import { onPopState } from "./url.ts";
+import { clearTrail, onHistoryBack, select, setFocus, setRelativeTo } from "./panel.ts";
 import { resetCard } from "./picking.ts";
 import { openRelate, resetRelate } from "./relate.ts";
 import { IMPORTED, state } from "./state.ts";
-import { writeUrl } from "./url.ts";
+import { onPopState, writeUrl } from "./url.ts";
 
 // The manifest (sagas.json), keyed by id. The URL and the menu only carry an id; the entry adds the category that
 // the data file's path needs (data/<category>/<id>.json, see sagaPath in schema.ts).

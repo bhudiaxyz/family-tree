@@ -3,6 +3,24 @@ import type { Tree } from "./data/schema.ts";
 
 type Sex = Tree["people"][string]["sex"];
 const by = (sex: Sex, m: string, f: string) => (sex === "m" ? m : f);
+type Family = Tree["families"][number];
+
+/**
+ * The family a person was born into: one they're a child of, with at least one parent recorded, preferring a birth
+ * family over an adoptive one. Undefined for someone whose parents aren't in the tree.
+ */
+export const birthFamily = (tree: Tree, id: string): Family | undefined =>
+    tree.families.find((f) => f.children.includes(id) && f.parents.length && !f.adoptive) ??
+    tree.families.find((f) => f.children.includes(id) && f.parents.length);
+
+/** The person and their immediate family: parents, siblings, spouses and children (for "Fit family"). */
+export function immediateFamily(tree: Tree, id: string): string[] {
+    const out = new Set([id]);
+    for (const f of tree.families)
+        if (f.children.includes(id) || f.parents.includes(id))
+            for (const p of [...f.parents, ...f.children]) out.add(p);
+    return [...out];
+}
 
 /** How a person in someone's line relates to them: which side, and how many generations away (0 for self/spouse). */
 export type LineRole = { side: "self" | "ancestor" | "descendant" | "spouse"; distance: number };
@@ -47,9 +65,7 @@ export const lineage = (tree: Tree, id: string): Set<string> => new Set(lineageR
  * adoptive ones.
  */
 export function ancestry(tree: Tree, id: string): string[] {
-    const birthOf = (pid: string) =>
-        tree.families.find((f) => f.children.includes(pid) && f.parents.length && !f.adoptive) ??
-        tree.families.find((f) => f.children.includes(pid) && f.parents.length);
+    const birthOf = (pid: string) => birthFamily(tree, pid);
     // Generations of recorded ancestry above each person, memoised; `visiting` stops a cycle in bad data.
     const depth = new Map<string, number>();
     const visiting = new Set<string>();
@@ -111,14 +127,14 @@ export function relatives(tree: Tree, id: string): [string, string[]][] {
 }
 
 /** Label for the link from a parent to their family's union node. */
-export function parentLabel(tree: Tree, parent: string, family: Tree["families"][number]): string {
+export function parentLabel(tree: Tree, parent: string, family: Family): string {
     const sex = tree.people[parent].sex;
     if (!family.children.length) return by(sex, "husband", "wife");
     return (family.adoptive ? "adoptive " : "") + by(sex, "father", "mother");
 }
 
 /** Label for the link from a family's union node to a child. */
-export function childLabel(tree: Tree, child: string, family: Tree["families"][number]): string {
+export function childLabel(tree: Tree, child: string, family: Family): string {
     return (family.adoptive ? "adopted " : "") + by(tree.people[child].sex, "son", "daughter");
 }
 
@@ -137,9 +153,10 @@ export const fold = (s: string) =>
         .replace(/[^\p{L}\p{N}]+/gu, " ")
         .trim();
 
-/** Edit distance, capped: stops early once it exceeds `max` (only small typos matter here). */
-// Counts swapping two neighbouring letters as one edit (optimal string alignment), since that is the commonest typo:
-// "Ghandi" is one edit from "Gandhi", not two.
+/**
+ * Edit distance between two words, counting a swap of two neighbouring letters as one edit (optimal string
+ * alignment), the commonest typo. Returns `max + 1` straight away when the lengths alone differ by more than `max`.
+ */
 function editDistance(a: string, b: string, max: number): number {
     if (Math.abs(a.length - b.length) > max) return max + 1;
     // No early exit inside the loop: a swap is only credited a row later, so a row that looks past `max` can still
@@ -199,7 +216,7 @@ export function distinguish(tree: Tree, id: string): string | null {
     const same = Object.values(tree.people).filter((o) => o.name === p.name).length;
     if (same < 2) return null;
     const name = (pid: string) => tree.people[pid].name;
-    const birth = tree.families.find((f) => f.children.includes(id) && f.parents.length && !f.adoptive);
+    const birth = birthFamily(tree, id);
     if (birth) return `${by(p.sex, "son", "daughter")} of ${birth.parents.map(name).join(" & ")}`;
     const own = tree.families.filter((f) => f.parents.includes(id));
     const child = own.flatMap((f) => f.children)[0];

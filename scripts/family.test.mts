@@ -3,11 +3,13 @@ import assert from "node:assert/strict";
 import type { Tree } from "../src/data/schema.ts";
 import {
     ancestry,
+    birthFamily,
     childLabel,
     descendantCount,
     distinguish,
     findByName,
     houseDepths,
+    immediateFamily,
     lineage,
     lineageRoles,
     parentLabel,
@@ -99,6 +101,16 @@ assert.deepEqual(ancestry(nehru, "rahul-gandhi"), [
 assert.deepEqual(ancestry(got, "rickard").at(-1), "rickard");
 // Jawaharlal, Vijaya Lakshmi, Krishna; Indira, three Pandit and two Hutheesing grandchildren; Rajiv, Sanjay; Rahul, Priyanka, Varun.
 assert.deepEqual(descendantCount(nehru, "motilal-nehru"), { people: 14, generations: 4 });
+
+// birthFamily prefers a birth family over an adoptive one; immediateFamily is parents, siblings, spouses and children.
+assert.deepEqual(birthFamily(sw, "luke")?.parents, ["anakin", "padme"], "Luke's birth family, not Owen and Beru");
+assert.equal(birthFamily(got, "rickard"), undefined, "no recorded parents");
+assert.deepEqual(
+    immediateFamily(got, "eddard").sort(),
+    ["arya", "benjen", "bran", "catelyn", "eddard", "lyanna", "lyarra", "rickard", "rickon", "robb", "sansa"].sort()
+);
+// Alt + Up goes to the parent the line of descent follows: for Rahul, Indira (deeper ancestry), not Feroze.
+assert.equal(ancestry(nehru, "rajiv-gandhi").at(-2), "indira-gandhi");
 
 // House depths: within ±depth/2, the biggest house at the centre, one plane per house.
 const z = houseDepths(got, 240);

@@ -1,7 +1,7 @@
 // Selection and the details panel for the selected person: relatives, a back button through the people visited,
 // focus mode (show only this person's line), and "relative to" mode (tag everyone with how they're related).
 import { fitTree } from "../camera.ts";
-import { ancestry, descendantCount, relatives } from "../family.ts";
+import { ancestry, birthFamily, descendantCount, relatives } from "../family.ts";
 import { setRelativeTags } from "../graph.ts";
 import { labelAll } from "../relationship.ts";
 import { setPerson } from "../suggest.ts";
@@ -27,16 +27,28 @@ const trail: string[] = [];
 
 /** Select a person: light their line, fill the panel, and (unless `fromHistory`) add them to the trail. */
 export function select(id: string, fly = false, fromHistory = false): void {
-    const { tree } = state;
-    if (!tree) return;
+    if (!state.tree) return;
+    // 1. Record the step: the trail and a browser history entry (unless we're walking back through them).
     if (!fromHistory && state.selected !== id) {
         if (state.selected) trail.push(state.selected);
         pushUrl(id);
     }
+    // 2. Show the person.
     state.selected = id;
     state.house = null; // a person's line replaces a legend house highlight
     if (relativeTo) setRelativeTo(id); // tags follow the selection, so they always describe the person shown
     refreshHighlight();
+    fillPanel(id);
+    setPerson(search, id); // keep the search box showing who is selected
+    if (fromHistory) writeUrl();
+    // 3. Move the camera: in focus mode frame the line that's left (fit follows the shown people), else fly if asked.
+    if (state.focus !== "off") fitTree();
+    else if (fly) flyToPerson(id);
+}
+
+/** Fill the details panel for a person and show it. */
+function fillPanel(id: string) {
+    const tree = state.tree!;
     const p = tree.people[id];
     panelName.textContent = p.name;
     panelHouse.textContent = p.house;
@@ -45,13 +57,8 @@ export function select(id: string, fly = false, fromHistory = false): void {
     showTrail(id);
     showCount(id);
     showPin(id);
-    panel.hidden = false;
-    setPerson(search, id); // keep the search box showing who is selected
     updateBack();
-    if (fromHistory) writeUrl();
-    if (state.focus !== "off")
-        fitTree(); // focus mode: frame the line that's left (fit follows the shown people)
-    else if (fly) flyToPerson(id);
+    panel.hidden = false;
 }
 
 function updateBack() {
@@ -125,17 +132,16 @@ export function setRelativeTo(id: string | null): void {
 }
 btnRelativeTo.onclick = () => setRelativeTo(relativeTo === state.selected ? null : state.selected);
 
-// --- Moving between relatives from the keyboard (Alt + arrows) ------------------------------------------------------
-// Up: a parent. Down: a child. Left/right: the previous/next sibling (wrapping), or a spouse when there are none.
+// --- Moving between relatives from the keyboard (Alt + arrows) or a swipe ------------------------------------------
+// Up: the parent the line of descent above the name follows, so the two always agree. Down: the first child.
+// Left/right: the previous/next sibling (wrapping), or a spouse when there are none.
 export function stepToRelative(dir: "up" | "down" | "left" | "right"): void {
     const { tree, selected } = state;
     if (!tree || !selected) return;
-    const birth =
-        tree.families.find((f) => f.children.includes(selected) && !f.adoptive) ??
-        tree.families.find((f) => f.children.includes(selected));
+    const birth = birthFamily(tree, selected);
     const own = tree.families.filter((f) => f.parents.includes(selected));
     let next: string | undefined;
-    if (dir === "up") next = birth?.parents[0];
+    if (dir === "up") next = ancestry(tree, selected).at(-2);
     else if (dir === "down") next = own.flatMap((f) => f.children)[0];
     else {
         const sibs = birth?.children ?? [];

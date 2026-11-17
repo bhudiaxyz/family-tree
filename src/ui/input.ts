@@ -2,11 +2,11 @@
 import { type Dir, fitTree, holdPan, nudgeRotate, releaseAllPans, releasePan } from "../camera.ts";
 import { relatePanel, search } from "./dom.ts";
 import { savePng } from "./files.ts";
+import { setHouse } from "./legend.ts";
+import { toggleMinimap } from "./minimap.ts";
+import { fitFamily, stepGeneration, zoomIn, zoomOut } from "./navigate.ts";
 import { deselect, goBack, setFocus, stepToRelative } from "./panel.ts";
 import { closeRelate, toggleRelate } from "./relate.ts";
-import { setHouse } from "./legend.ts";
-import { fitFamily, stepGeneration, zoomIn, zoomOut } from "./navigate.ts";
-import { toggleMinimap } from "./minimap.ts";
 import { state } from "./state.ts";
 
 // --- Keyboard -------------------------------------------------------------------------------------------------------

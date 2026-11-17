@@ -73,10 +73,20 @@
             <button id="panel-back" hidden aria-label="Back to the previous person" title="Back (Backspace)">
                 &#9664; <span id="panel-back-name"></span>
             </button>
-            <h2 id="panel-name"></h2>
+            <nav id="panel-trail" aria-label="Line of descent"></nav>
+            <h2 id="panel-name">
+                <span id="panel-name-text"></span>
+                <button id="panel-pin" aria-pressed="false" title="Pin this person (they're listed in the menu)">
+                    ☆
+                </button>
+            </h2>
             <p id="panel-house"></p>
+            <p id="panel-count"></p>
             <dl id="panel-list"></dl>
             <p class="panel-actions">
+                <button id="panel-fit" title="Frame this person's parents, siblings, spouses and children (G)">
+                    Fit family
+                </button>
                 <button id="panel-relate">Find how they're related to…</button>
                 <button id="panel-relative-to" aria-pressed="false">Tag everyone's relationship</button>
             </p>
@@ -90,6 +100,14 @@
                 <button data-focus="descendants" role="radio" aria-checked="false" title="Descendants only">
                     Descendants
                 </button>
+                <label class="focus-depth" title="How many generations up and down focus mode shows">
+                    <select id="panel-depth" aria-label="Generations shown in focus mode">
+                        <option value="1">1 generation</option>
+                        <option value="2">2 generations</option>
+                        <option value="3">3 generations</option>
+                        <option value="0" selected>All generations</option>
+                    </select>
+                </label>
             </div>
             <p class="lineage-key" aria-hidden="true">
                 <span class="key-ancestor">ancestors</span> · <span class="key-descendant">descendants</span>
@@ -100,6 +118,8 @@
             <button data-dir="up" aria-label="Pan up">&#9650;</button>
             <button data-dir="left" aria-label="Pan left">&#9664;</button>
             <button data-action="fit" aria-label="Fit whole tree">&#9711;</button>
+            <button data-action="zoom-in" aria-label="Zoom in">+</button>
+            <button data-action="zoom-out" aria-label="Zoom out">&minus;</button>
             <button data-dir="right" aria-label="Pan right">&#9654;</button>
             <button data-dir="down" aria-label="Pan down">&#9660;</button>
         </nav>

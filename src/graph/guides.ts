@@ -62,14 +62,23 @@ const measureHeader = () => (headerEdge = (header?.getBoundingClientRect().botto
 addEventListener("resize", measureHeader);
 const headerBottom = () => headerEdge || measureHeader();
 let lastTops: number[] = [];
+const raws: number[] = [];
+const LABEL_H = 16; // px a label needs before the next one
 export function stepGuides(camera: THREE.PerspectiveCamera, target: THREE.Vector3, viewH: number): void {
     if (!shown || !rowLabels.length) return;
     for (let g = 0; g < rowY.length; g++) {
         pt.set(target.x, rowY[g], target.z).project(camera);
-        const raw = pt.z > 1 || pt.y < -1.05 || pt.y > 1.05 ? -1 : Math.round(((1 - pt.y) / 2) * viewH);
-        // A row under the header (title, search, toolbar) is clamped to just below it, so the top generation stays
-        // labelled at the default view; the next row down hides it once it reaches the same place.
-        const top = raw >= 0 && raw < headerBottom() ? headerBottom() : raw;
+        raws[g] = pt.z > 1 || pt.y < -1.05 || pt.y > 1.05 ? -1 : Math.round(((1 - pt.y) / 2) * viewH);
+    }
+    const edge = headerBottom();
+    for (let g = 0; g < rowY.length; g++) {
+        // A row under the header (title, search, toolbar) is pinned just below it, so the top generation stays
+        // labelled at the default view. Only the lowest such row is pinned, and only while the next row's own label
+        // is far enough down not to collide with it; rows are ordered top to bottom.
+        const raw = raws[g];
+        const next = raws[g + 1] ?? -1;
+        const underHeader = raw >= 0 && raw < edge;
+        const top = !underHeader ? raw : (next >= 0 && next < edge) || (next >= 0 && next < edge + LABEL_H) ? -1 : edge;
         if (top === lastTops[g]) continue;
         lastTops[g] = top;
         const el = rowLabels[g];

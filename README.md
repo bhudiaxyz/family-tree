@@ -81,25 +81,28 @@ The seed runs in one transaction and can be re-run: each saga is deleted first, 
 
 ## Controls
 
-| Input                                     | Action                                                               |
-| ----------------------------------------- | -------------------------------------------------------------------- |
-| Left-drag / one-finger drag               | Orbit                                                                |
-| Scroll / pinch                            | Zoom                                                                 |
-| Right-drag / two-finger drag              | Pan                                                                  |
-| Arrow keys (hold)                         | Pan left, right, up, down                                            |
-| Shift + arrow keys                        | Orbit in small steps                                                 |
-| On-screen arrow pad (touch screens only)  | Hold to pan; the centre button refits the whole tree                 |
-| Hover a person (mouse)                    | Highlight their line: ancestors, descendants and spouses; others dim |
-| Click / tap a person                      | Select them and open a details panel; click empty space to deselect  |
-| Double-click / double-tap a person        | Select them and fly to them                                          |
-| Press and hold a person (touch)           | Preview their line, like hovering with a mouse                       |
-| Click a name in the details panel         | Jump to that relative                                                |
-| Type in **Find a person…** (or press `/`) | Search by name; choosing a result selects and flies to them          |
-| Clear the search (✕) or press `Esc`       | Deselect, and ease back to the whole tree                            |
-| **How are they related?** (or press `R`)  | Open the relationship finder (see below)                             |
-| **Import GEDCOM**, or drop a `.ged` file  | Load your own family tree (see below)                                |
-| **Save PNG** (or press `P`)               | Download the current view as a high-resolution image                 |
-| `F`                                       | Fit the whole tree in view                                           |
+| Input                                                      | Action                                                                       |
+| ---------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Left-drag / one-finger drag                                | Orbit                                                                        |
+| Scroll / pinch                                             | Zoom                                                                         |
+| Right-drag / two-finger drag                               | Pan                                                                          |
+| Arrow keys (hold)                                          | Pan left, right, up, down                                                    |
+| Shift + arrow keys                                         | Orbit in small steps                                                         |
+| On-screen arrow pad (touch screens only)                   | Hold to pan; the centre button refits the whole tree                         |
+| Hover a person (mouse)                                     | Highlight their line; with someone selected, a card says how they're related |
+| Click / tap a person                                       | Select them and open a details panel; click empty space to deselect          |
+| Double-click / double-tap a person                         | Select them and fly to them                                                  |
+| Press and hold a person (touch)                            | Preview their line, like hovering with a mouse                               |
+| Click a name in the details panel                          | Jump to that relative                                                        |
+| ◀ in the details panel, `Backspace`, or the browser's Back | Return to the person you were looking at before                              |
+| `Alt` + arrow keys                                         | Move to the selected person's parent (↑), child (↓) or sibling (← →)         |
+| **Focus** in the details panel (or `L`)                    | Show only this person's line, or just their ancestors or descendants         |
+| Type in **Find a person…** (or press `/`)                  | Search by name; choosing a result selects and flies to them                  |
+| Clear the search (✕) or press `Esc`                        | Deselect (or clear a house), and ease back to the whole tree                 |
+| **How are they related?** (or press `R`)                   | Open the relationship finder (see below)                                     |
+| **Import GEDCOM**, or drop a `.ged` file                   | Load your own family tree (see below)                                        |
+| **Save PNG** (or press `P`)                                | Download the current view as a high-resolution image                         |
+| `F`                                                        | Fit the whole tree in view                                                   |
 
 Any drag, zoom or pan takes the camera back from auto-framing or a fly-to straight away. If your system is set to reduce motion, camera moves jump straight to their end instead of animating.
 
@@ -107,14 +110,17 @@ On phones and tablets every control is at least 44 px tall, tapping a person pic
 
 Relationship labels (mother, son, sisters…) fade out with distance so the view doesn't clutter; zoom in to read them. Labels on a highlighted line stay readable at any distance.
 
+**Reading a highlight.** When you select someone, their ancestors glow warm (amber) and their descendants cool (blue), and each generation further away is a little fainter, so you can see at a glance who is above and below them. Couples' marriage rings grow while they're lit. On a relationship path, the people are ringed in gold; when it first appears a pulse runs along it from the first person to the second, and hovering a step in the finder's list lights just that hop.
+
 ### Display options
 
 The **Sagas** menu (top right) also has:
 
 - **Glow:** a soft bloom on the highlighted path and lit spheres. On by default only on fast GPUs.
-- **Generation guides:** faint horizontal lines and "Generation n" labels at each row.
+- **Generation guides:** faint horizontal lines at each row, and "Generation n" labels that stay on the left edge of the screen however you pan or zoom.
 - **2D:** flattens the tree onto one plane (animated both ways) and turns the camera to face it. Rotation is off; drag to pan, scroll or pinch to zoom. The nebula sky is unaffected.
 - **Nebula sky:** a faint procedural nebula behind the tree, different for each saga. Turn it off for a plain dark background.
+- **Houses:** every house with its colour and number of people. Click one to light up the whole house; click it again, choose **✕ Show all houses**, press `Esc` or click empty space to clear it.
 
 Your choices are remembered on this device.
 

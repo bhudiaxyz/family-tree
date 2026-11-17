@@ -49,9 +49,13 @@ export function flyTo(node: Pos): void {
 // in perspective, which reads as closer and more immersive; the 5–95% box (peopleBbox) already trims stragglers.
 // On a portrait phone the width is the constraint; the header takes the top of the screen, so leave a little room.
 const FIT_MARGIN = 1.02;
+// Scratch vectors, reused every frame: allocating new ones per frame made garbage-collection pauses on phones.
+const center = new THREE.Vector3();
+const goal = new THREE.Vector3();
+const offset = new THREE.Vector3();
 function stepFit(bbox: Bbox, dt: number) {
     const { x, y, z } = bbox;
-    const center = new THREE.Vector3((x[0] + x[1]) / 2, (y[0] + y[1]) / 2, (z[0] + z[1]) / 2);
+    center.set((x[0] + x[1]) / 2, (y[0] + y[1]) / 2, (z[0] + z[1]) / 2);
     const tanHalf = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2);
     const portrait = camera.aspect < 1;
     const fitH = (y[1] - y[0]) / 2 / tanHalf;
@@ -61,7 +65,7 @@ function stepFit(bbox: Bbox, dt: number) {
     center.y += (y[1] - y[0]) * 0.04;
     const k = ease(6, dt);
     controls.target.lerp(center, k);
-    camera.position.lerp(center.clone().add(new THREE.Vector3(0, 0, dist)), k);
+    camera.position.lerp(goal.copy(center).setZ(center.z + dist), k);
 }
 
 const FLY_SECONDS = 1;
@@ -71,9 +75,9 @@ function stepFlight(dt: number) {
     const { node, dir } = flight;
     flight.t = Math.min(1, flight.t + dt / FLY_SECONDS);
     const k = ease(2.4 + 12 * flight.t ** 2, dt); // gentle start, firm finish
-    const target = new THREE.Vector3(node.x, node.y, drawnZ(node.z!)); // as drawn (2D mode squashes z)
-    controls.target.lerp(target, k);
-    camera.position.lerp(target.clone().addScaledVector(dir, FLY_DISTANCE), k);
+    center.set(node.x!, node.y!, drawnZ(node.z!)); // as drawn (2D mode squashes z)
+    controls.target.lerp(center, k);
+    camera.position.lerp(goal.copy(center).addScaledVector(dir, FLY_DISTANCE), k);
     if (flight.t === 1) flight = null;
 }
 
@@ -109,7 +113,7 @@ export function setFlatView(on: boolean): void {
 const FRONT = new THREE.Vector3(0, 0, 1);
 function stepFlatView(dt: number) {
     if (!flat) return;
-    const offset = camera.position.clone().sub(controls.target);
+    offset.subVectors(camera.position, controls.target);
     const dist = offset.length();
     offset.normalize().lerp(FRONT, ease(5, dt)).normalize();
     camera.position.copy(controls.target).addScaledVector(offset, dist);

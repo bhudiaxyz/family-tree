@@ -1,0 +1,14 @@
+{
+    "_about": "Name corrections for Nehru-Ghandi+Family.ged, applied by scripts/gedcom-to-saga.mts --rename. Keyed by GEDCOM record id; each value is [display name, person id] or [display name, person id, house]. Two wives have the given name in the surname slot (\"/Rameshwari/ Raina\", \"/Swarup/ Rani\"), which also made each a one-person house; they're given their husbands' family, as the file does for the other wives who married in. Indira is filed under her birth name: she stays in the Nehru house but is shown as Indira Gandhi, the name she's known and searched by. Vijaya Lakshmi's daughters are written \"<given> <married name> /Pandit/\" (e.g. \"Nayantara Sahgal /Pandit/\"); they're shown by the name they're known by and stay in the Pandit house. Priyanka's surname is written twice. Also spells Gangadhar, Nandlal, Shyamlal and Brijlal as one word, as they usually are.",
+    "I1": ["Gangadhar Nehru", "gangadhar-nehru"],
+    "I3": ["Nandlal Nehru", "nandlal-nehru"],
+    "I5": ["Shyamlal Nehru", "shyamlal-nehru"],
+    "I9": ["Brijlal Nehru", "brijlal-nehru"],
+    "I10": ["Rameshwari Raina", "rameshwari-raina", "Nehru"],
+    "I12": ["Swarup Rani", "swarup-rani", "Nehru"],
+    "I17": ["Indira Gandhi", "indira-gandhi"],
+    "I23": ["Priyanka Gandhi", "priyanka-gandhi"],
+    "I27": ["Nayantara Sahgal", "nayantara-sahgal"],
+    "I28": ["Chandralekha Mehta", "chandralekha-mehta"],
+    "I29": ["Rita Dar", "rita-dar"]
+}

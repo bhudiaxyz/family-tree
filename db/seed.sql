@@ -1,7 +1,7 @@
 -- =================================================================================================
 -- Family Tree: database seed
 -- Generated from public/data/*.json by scripts/seed-sql.mts. Do not edit: run `npm run db:seed`.
--- Contents: 15 sagas, 1655 people, 887 families, 2583 family-member rows.
+-- Contents: 17 sagas, 1716 people, 908 families, 2666 family-member rows.
 -- =================================================================================================
 --
 -- Load after db/schema.sql:
@@ -27,12 +27,14 @@
 --   13. Norse Gods               mythology norse-gods
 --   14. Roman Gods               mythology roman-gods
 --   15. The Bible                religion  bible
+--   16. Babylonian Gods          mythology babylonian-gods
+--   17. Nehru–Gandhi Family      history   nehru-gandhi
 
 BEGIN;
 
 
 -- =================================================================================================
--- SAGA 1 of 15: GAME OF THRONES   [id: got, category: fiction]
+-- SAGA 1 of 17: GAME OF THRONES   [id: got, category: fiction]
 -- Author:  David Benioff & D. B. Weiss; novels by George R. R. Martin
 -- Medium:  Television series (HBO, 2011–2019), based on A Song of Ice and Fire
 -- Canon:   TV show (where it differs from the books, the show is followed)
@@ -243,7 +245,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 2 of 15: FIRE & BLOOD   [id: fireblood, category: fiction]
+-- SAGA 2 of 17: FIRE & BLOOD   [id: fireblood, category: fiction]
 -- Author:  George R. R. Martin
 -- Medium:  Novel (2018), a fictional history; adapted as HBO's House of the Dragon (2022–)
 -- Canon:   Book (where it differs from the show, the book is followed)
@@ -466,7 +468,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 3 of 15: THE LORD OF THE RINGS   [id: lotr, category: fiction]
+-- SAGA 3 of 17: THE LORD OF THE RINGS   [id: lotr, category: fiction]
 -- Author:  J. R. R. Tolkien
 -- Medium:  Novel (1954–1955), with its appendices; The Silmarillion for the earliest generations
 -- Canon:   Books, chiefly Appendix A ("Annals of the Kings and Rulers")
@@ -646,7 +648,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 4 of 15: THE SILMARILLION   [id: silmarillion, category: fiction]
+-- SAGA 4 of 17: THE SILMARILLION   [id: silmarillion, category: fiction]
 -- Author:  J. R. R. Tolkien, edited by Christopher Tolkien
 -- Medium:  Mythopoeic history of Middle-earth (1977, published posthumously)
 -- Canon:   The published Silmarillion (not Tolkien's later, conflicting notes)
@@ -862,7 +864,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 5 of 15: DUNE   [id: dune, category: fiction]
+-- SAGA 5 of 17: DUNE   [id: dune, category: fiction]
 -- Author:  Frank Herbert; Dmitri, Abulurd and Anirul from the prequels by Brian Herbert & Kevin
 -- J. Anderson
 -- Medium:  Novel series (1965–1985); Dune, Dune Messiah, Children of Dune
@@ -1014,7 +1016,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 6 of 15: HARRY POTTER   [id: potter, category: fiction]
+-- SAGA 6 of 17: HARRY POTTER   [id: potter, category: fiction]
 -- Author:  J. K. Rowling
 -- Medium:  Novel series (1997–2007)
 -- Canon:   Novels, including the epilogue of Deathly Hallows, plus Rowling's published family
@@ -1224,7 +1226,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 7 of 15: STAR WARS   [id: starwars, category: fiction]
+-- SAGA 7 of 17: STAR WARS   [id: starwars, category: fiction]
 -- Author:  Created by George Lucas; sequel trilogy by J. J. Abrams and Rian Johnson
 -- Medium:  Film series, the Skywalker saga (1977–2019), Episodes I–IX
 -- Canon:   Films (current Disney canon)
@@ -1363,7 +1365,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 8 of 15: THE WHEEL OF TIME   [id: wot, category: fiction]
+-- SAGA 8 of 17: THE WHEEL OF TIME   [id: wot, category: fiction]
 -- Author:  Robert Jordan; final three books completed by Brandon Sanderson
 -- Medium:  Novel series (1990–2013), 14 books
 -- Canon:   Novels
@@ -1502,7 +1504,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 9 of 15: THE STORMLIGHT ARCHIVE   [id: stormlight, category: fiction]
+-- SAGA 9 of 17: THE STORMLIGHT ARCHIVE   [id: stormlight, category: fiction]
 -- Author:  Brandon Sanderson
 -- Medium:  Novel series (2010–), set in the Cosmere
 -- Canon:   Novels (up to Wind and Truth)
@@ -1632,7 +1634,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 10 of 15: THE WITCHER   [id: witcher, category: fiction]
+-- SAGA 10 of 17: THE WITCHER   [id: witcher, category: fiction]
 -- Author:  Andrzej Sapkowski
 -- Medium:  Novel and short-story series (1986–2013), the Witcher saga
 -- Canon:   Books (not the games or the Netflix series)
@@ -1778,7 +1780,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 11 of 15: ENGLISH ROYAL FAMILY (TUDORS)   [id: english-royal, category: history]
+-- SAGA 11 of 17: ENGLISH ROYAL FAMILY (TUDORS)   [id: english-royal, category: history]
 -- Author:  Compiled by Chris Phillips
 -- Medium:  GEDCOM genealogy (English+Tudor+Royal+Family.ged)
 -- Canon:   Sources cited: The Complete Peerage; Scots Peerage; Mary Boleyn's Carey children  -
@@ -3275,7 +3277,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 12 of 15: GREEK GODS   [id: greek-gods, category: mythology]
+-- SAGA 12 of 17: GREEK GODS   [id: greek-gods, category: mythology]
 -- Author:  Unknown compiler
 -- Medium:  GEDCOM genealogy (Greek+Gods.ged)
 -- Canon:   As recorded in the GEDCOM file
@@ -3683,7 +3685,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 13 of 15: NORSE GODS   [id: norse-gods, category: mythology]
+-- SAGA 13 of 17: NORSE GODS   [id: norse-gods, category: mythology]
 -- Author:  Unknown compiler
 -- Medium:  GEDCOM genealogy (Norse+Gods.ged)
 -- Canon:   Sources cited: RCKarnes; World Family Tree Vol. 5; Aderholt Hillman Hughes Solomon
@@ -4230,7 +4232,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 14 of 15: ROMAN GODS   [id: roman-gods, category: mythology]
+-- SAGA 14 of 17: ROMAN GODS   [id: roman-gods, category: mythology]
 -- Author:  Unknown compiler
 -- Medium:  GEDCOM genealogy (Roman+Gods.ged)
 -- Canon:   As recorded in the GEDCOM file
@@ -5755,7 +5757,7 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- SAGA 15 of 15: THE BIBLE   [id: bible, category: religion]
+-- SAGA 15 of 17: THE BIBLE   [id: bible, category: religion]
 -- Author:  Compiled by Jeffrey Philip Stoker
 -- Medium:  GEDCOM genealogy (Bible+Family+Tree.ged)
 -- Canon:   As recorded in the GEDCOM file
@@ -5774,7 +5776,7 @@ INSERT INTO saga (id, category, position, title, work, medium, author, canon, ge
 INSERT INTO saga_note (saga_id, position, note) VALUES
     ('bible', 0, 'Imported from Bible+Family+Tree.ged (UTF-8; PAF 5.2.18.0; file dated 9 Aug 2002) by scripts/gedcom-to-saga.mts.'),
     ('bible', 1, 'Display names are the person''s name only; a monarch is shown by their regnal name (e.g. King Henry VIII). Titles, title dates and life dates are not imported.'),
-    ('bible', 2, '36 display names were corrected from bible.json, where the file put titles or epithets in the name (e.g. "Jacob (Israel)").'),
+    ('bible', 2, '36 names were corrected from bible.json, where the file writes them badly (e.g. "Jacob (Israel)"); the reasons are in that file.'),
     ('bible', 3, 'Everyone is in one house, "Bible": the file has no real surnames to group by.'),
     ('bible', 4, '1 people have no recorded relatives in the source and are shown on their own: Mariam.'),
     ('bible', 5, 'Import warnings: Heth: sex not recorded as M or F, shown as male; Hivite: sex not recorded as M or F, shown as male; Isui: sex not recorded as M or F, shown as male; Ishuah: sex not recorded as M or F, shown as male; Sarah: sex not recorded as M or F, shown as male');
@@ -8553,6 +8555,321 @@ INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
 
 
 -- =================================================================================================
--- End of seed: 15 sagas.
+-- SAGA 16 of 17: BABYLONIAN GODS   [id: babylonian-gods, category: mythology]
+-- Author:  Compiled by Juan Ignacio Pucheu
+-- Medium:  GEDCOM genealogy (Babylonian+Gods.ged)
+-- Canon:   As recorded in the GEDCOM file
+-- Covers:  29 people and 9 families, imported from a public GEDCOM sample.
+-- Rows:    1 houses, 29 people, 9 families, 40 members
+-- =================================================================================================
+
+-- ── Reset (removes this saga and, by cascade, all of its rows) ─────────────────────────────────
+DELETE FROM saga WHERE id = 'babylonian-gods';
+
+-- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
+INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
+    ('babylonian-gods', 'mythology', 15, 'Babylonian Gods', 'Babylonian Gods', 'GEDCOM genealogy (Babylonian+Gods.ged)', 'Compiled by Juan Ignacio Pucheu', 'As recorded in the GEDCOM file', 'Mythology', '29 people and 9 families, imported from a public GEDCOM sample.');
+
+-- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
+INSERT INTO saga_note (saga_id, position, note) VALUES
+    ('babylonian-gods', 0, 'Imported from Babylonian+Gods.ged (UTF-8; PAF 5.2.18.0; file dated 22 Jul 2008) by scripts/gedcom-to-saga.mts.'),
+    ('babylonian-gods', 1, 'Names are read in mythology mode: the deity''s name is the GEDCOM surname part, and descriptive text in the given-name part (e.g. "queen of the Gods") is dropped.'),
+    ('babylonian-gods', 2, '1 display names were corrected from babylonian-gods.json, where the file put titles or epithets in the name (e.g. "(42 further names of Marduk)").'),
+    ('babylonian-gods', 3, 'Everyone is in one house, "Babylonian pantheon": the file has no real surnames to group by.');
+
+-- ── Houses (1) ─────────────────────────────────────────────────────────────────────────────────
+INSERT INTO house (saga_id, name, color) VALUES
+    ('babylonian-gods', 'Babylonian pantheon', '#4aa8c8');
+
+-- ── People (29, grouped by house) ──────────────────────────────────────────────────────────────
+-- Babylonian pantheon (29)
+INSERT INTO person (saga_id, id, name, house, sex) VALUES
+    ('babylonian-gods', 'primal-wasteland', 'Primal wasteland', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'apsu', 'Apsû', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'tiamat', 'Tiamat', 'Babylonian pantheon', 'f'),
+    ('babylonian-gods', 'mummu', 'Mummu', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'lahmu', 'Lahmu', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'lahamu', 'Lahamu', 'Babylonian pantheon', 'f'),
+    ('babylonian-gods', 'kingu', 'Kingu', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'sky-arch', 'Sky arch', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'world-of-men', 'World of men', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'dust', 'Dust', 'Babylonian pantheon', 'f'),
+    ('babylonian-gods', 'man', 'Man', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'anshar', 'Anshar', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'kishar', 'Kishar', 'Babylonian pantheon', 'f'),
+    ('babylonian-gods', 'ea', 'Ea', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'anu', 'Anu', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'anatu', 'Anatu', 'Babylonian pantheon', 'f'),
+    ('babylonian-gods', 'marduk', 'Marduk', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'sarpanitum', 'Sarpanitum', 'Babylonian pantheon', 'f'),
+    ('babylonian-gods', 'nabu', 'Nabu', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'tashmetum', 'Tashmetum', 'Babylonian pantheon', 'f'),
+    ('babylonian-gods', 'asaru', 'Asaru', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'asarualim', 'Asarualim', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'asarualimnunna', 'Asarualimnunna', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'asaruludu', 'Asaruludu', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'en-ki', 'En-Ki', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'namru', 'Namru', 'Babylonian pantheon', 'f'),
+    ('babylonian-gods', 'namtillaku', 'Namtillaku', 'Babylonian pantheon', 'f'),
+    ('babylonian-gods', 'tutu', 'Tutu', 'Babylonian pantheon', 'm'),
+    ('babylonian-gods', 'marduk-names', '(42 further names of Marduk)', 'Babylonian pantheon', 'm');
+
+-- ── Families (9, each followed by its members) ─────────────────────────────────────────────────
+-- babylonian-gods-f1: Primal wasteland → Apsû, Tiamat, Mummu
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('babylonian-gods', 'babylonian-gods-f1', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('babylonian-gods', 'babylonian-gods-f1', 'primal-wasteland', 'parent'),
+    ('babylonian-gods', 'babylonian-gods-f1', 'apsu', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f1', 'tiamat', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f1', 'mummu', 'child');
+-- babylonian-gods-f2: Apsû + Tiamat → Lahmu, Lahamu, Kingu, Sky arch, World of men
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('babylonian-gods', 'babylonian-gods-f2', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('babylonian-gods', 'babylonian-gods-f2', 'apsu', 'parent'),
+    ('babylonian-gods', 'babylonian-gods-f2', 'tiamat', 'parent'),
+    ('babylonian-gods', 'babylonian-gods-f2', 'lahmu', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f2', 'lahamu', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f2', 'kingu', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f2', 'sky-arch', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f2', 'world-of-men', 'child');
+-- babylonian-gods-f3: Kingu + Dust → Man
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('babylonian-gods', 'babylonian-gods-f3', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('babylonian-gods', 'babylonian-gods-f3', 'kingu', 'parent'),
+    ('babylonian-gods', 'babylonian-gods-f3', 'dust', 'parent'),
+    ('babylonian-gods', 'babylonian-gods-f3', 'man', 'child');
+-- babylonian-gods-f4: Lahmu + Lahamu → Anshar, Kishar
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('babylonian-gods', 'babylonian-gods-f4', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('babylonian-gods', 'babylonian-gods-f4', 'lahmu', 'parent'),
+    ('babylonian-gods', 'babylonian-gods-f4', 'lahamu', 'parent'),
+    ('babylonian-gods', 'babylonian-gods-f4', 'anshar', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f4', 'kishar', 'child');
+-- babylonian-gods-f5: Anshar + Kishar → Ea, Anu, Anatu
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('babylonian-gods', 'babylonian-gods-f5', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('babylonian-gods', 'babylonian-gods-f5', 'anshar', 'parent'),
+    ('babylonian-gods', 'babylonian-gods-f5', 'kishar', 'parent'),
+    ('babylonian-gods', 'babylonian-gods-f5', 'ea', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f5', 'anu', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f5', 'anatu', 'child');
+-- babylonian-gods-f6: Ea → Marduk
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('babylonian-gods', 'babylonian-gods-f6', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('babylonian-gods', 'babylonian-gods-f6', 'ea', 'parent'),
+    ('babylonian-gods', 'babylonian-gods-f6', 'marduk', 'child');
+-- babylonian-gods-f7: Marduk + Sarpanitum → Nabu
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('babylonian-gods', 'babylonian-gods-f7', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('babylonian-gods', 'babylonian-gods-f7', 'marduk', 'parent'),
+    ('babylonian-gods', 'babylonian-gods-f7', 'sarpanitum', 'parent'),
+    ('babylonian-gods', 'babylonian-gods-f7', 'nabu', 'child');
+-- babylonian-gods-f8: Nabu + Tashmetum (no children)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('babylonian-gods', 'babylonian-gods-f8', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('babylonian-gods', 'babylonian-gods-f8', 'nabu', 'parent'),
+    ('babylonian-gods', 'babylonian-gods-f8', 'tashmetum', 'parent');
+-- babylonian-gods-f9: Anu → Asaru, Asarualim, Asarualimnunna, Asaruludu, En-Ki, Namru, Namtillaku, Tutu, (42 further names of Marduk)
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('babylonian-gods', 'babylonian-gods-f9', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('babylonian-gods', 'babylonian-gods-f9', 'anu', 'parent'),
+    ('babylonian-gods', 'babylonian-gods-f9', 'asaru', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f9', 'asarualim', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f9', 'asarualimnunna', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f9', 'asaruludu', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f9', 'en-ki', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f9', 'namru', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f9', 'namtillaku', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f9', 'tutu', 'child'),
+    ('babylonian-gods', 'babylonian-gods-f9', 'marduk-names', 'child');
+
+
+-- =================================================================================================
+-- SAGA 17 of 17: NEHRU–GANDHI FAMILY   [id: nehru-gandhi, category: history]
+-- Author:  Compiled by Juan Ignacio Pucheu
+-- Medium:  GEDCOM genealogy (Nehru-Ghandi+Family.ged)
+-- Canon:   As recorded in the GEDCOM file
+-- Covers:  32 people and 12 families, imported from a public GEDCOM sample.
+-- Rows:    7 houses, 32 people, 12 families, 43 members
+-- =================================================================================================
+
+-- ── Reset (removes this saga and, by cascade, all of its rows) ─────────────────────────────────
+DELETE FROM saga WHERE id = 'nehru-gandhi';
+
+-- ── Saga ───────────────────────────────────────────────────────────────────────────────────────
+INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
+    ('nehru-gandhi', 'history', 16, 'Nehru–Gandhi Family', 'Nehru–Gandhi Family', 'GEDCOM genealogy (Nehru-Ghandi+Family.ged)', 'Compiled by Juan Ignacio Pucheu', 'As recorded in the GEDCOM file', 'History', '32 people and 12 families, imported from a public GEDCOM sample.');
+
+-- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
+INSERT INTO saga_note (saga_id, position, note) VALUES
+    ('nehru-gandhi', 0, 'Imported from Nehru-Ghandi+Family.ged (UTF-8; PAF 5.2.18.0; file dated 10 Jul 2008) by scripts/gedcom-to-saga.mts.'),
+    ('nehru-gandhi', 1, 'Display names are the person''s name only; a monarch is shown by their regnal name (e.g. King Henry VIII). Titles, title dates and life dates are not imported.'),
+    ('nehru-gandhi', 2, '11 names were corrected from nehru-gandhi.json, where the file writes them badly (e.g. "Gangadhar Nehru"); the reasons are in that file.'),
+    ('nehru-gandhi', 3, 'Houses are surnames; only the 7 largest keep their own colour, the rest are grouped as "Other families".'),
+    ('nehru-gandhi', 4, 'Import warnings: Bansi Dhar Nehru: sex not recorded as M or F, shown as male; Harsha Hutheesing: sex not recorded as M or F, shown as male');
+
+-- ── Houses (7) ─────────────────────────────────────────────────────────────────────────────────
+INSERT INTO house (saga_id, name, color) VALUES
+    ('nehru-gandhi', 'Nehru', '#c8102e'),
+    ('nehru-gandhi', 'Gandhi', '#e0b23a'),
+    ('nehru-gandhi', 'Pandit', '#3b6fb6'),
+    ('nehru-gandhi', 'Hutheesing', '#3f9a4b'),
+    ('nehru-gandhi', 'Kaul', '#8a5fd0'),
+    ('nehru-gandhi', 'Maino', '#e07a2e'),
+    ('nehru-gandhi', 'Anand', '#4aa8c8');
+
+-- ── People (32, grouped by house) ──────────────────────────────────────────────────────────────
+-- Nehru (16)
+INSERT INTO person (saga_id, id, name, house, sex) VALUES
+    ('nehru-gandhi', 'gangadhar-nehru', 'Gangadhar Nehru', 'Nehru', 'm'),
+    ('nehru-gandhi', 'bansi-dhar-nehru', 'Bansi Dhar Nehru', 'Nehru', 'm'),
+    ('nehru-gandhi', 'nandlal-nehru', 'Nandlal Nehru', 'Nehru', 'm'),
+    ('nehru-gandhi', 'motilal-nehru', 'Motilal Nehru', 'Nehru', 'm'),
+    ('nehru-gandhi', 'shyamlal-nehru', 'Shyamlal Nehru', 'Nehru', 'm'),
+    ('nehru-gandhi', 'uma-nehru', 'Uma Nehru', 'Nehru', 'f'),
+    ('nehru-gandhi', 'shyam-kumari-nehru', 'Shyam Kumari Nehru', 'Nehru', 'f'),
+    ('nehru-gandhi', 'arun-nehru', 'Arun Nehru', 'Nehru', 'm'),
+    ('nehru-gandhi', 'brijlal-nehru', 'Brijlal Nehru', 'Nehru', 'm'),
+    ('nehru-gandhi', 'rameshwari-raina', 'Rameshwari Raina', 'Nehru', 'f'),
+    ('nehru-gandhi', 'braj-kumar-nehru', 'Braj Kumar Nehru', 'Nehru', 'm'),
+    ('nehru-gandhi', 'swarup-rani', 'Swarup Rani', 'Nehru', 'f'),
+    ('nehru-gandhi', 'jawaharlal-nehru', 'Jawaharlal Nehru', 'Nehru', 'm'),
+    ('nehru-gandhi', 'vijaya-lakshmi-nehru', 'Vijaya Lakshmi Nehru', 'Nehru', 'f'),
+    ('nehru-gandhi', 'krishna-nehru', 'Krishna Nehru', 'Nehru', 'f'),
+    ('nehru-gandhi', 'indira-gandhi', 'Indira Gandhi', 'Nehru', 'f');
+-- Gandhi (6)
+INSERT INTO person (saga_id, id, name, house, sex) VALUES
+    ('nehru-gandhi', 'feroze-gandhi', 'Feroze Gandhi', 'Gandhi', 'm'),
+    ('nehru-gandhi', 'rajiv-gandhi', 'Rajiv Gandhi', 'Gandhi', 'm'),
+    ('nehru-gandhi', 'sanjay-gandhi', 'Sanjay Gandhi', 'Gandhi', 'm'),
+    ('nehru-gandhi', 'rahul-gandhi', 'Rahul Gandhi', 'Gandhi', 'm'),
+    ('nehru-gandhi', 'priyanka-gandhi', 'Priyanka Gandhi', 'Gandhi', 'f'),
+    ('nehru-gandhi', 'feroze-varun-gandhi', 'Feroze Varun Gandhi', 'Gandhi', 'm');
+-- Pandit (4)
+INSERT INTO person (saga_id, id, name, house, sex) VALUES
+    ('nehru-gandhi', 'ranjit-sitaram-pandit', 'Ranjit Sitaram Pandit', 'Pandit', 'm'),
+    ('nehru-gandhi', 'nayantara-sahgal', 'Nayantara Sahgal', 'Pandit', 'f'),
+    ('nehru-gandhi', 'chandralekha-mehta', 'Chandralekha Mehta', 'Pandit', 'f'),
+    ('nehru-gandhi', 'rita-dar', 'Rita Dar', 'Pandit', 'f');
+-- Hutheesing (3)
+INSERT INTO person (saga_id, id, name, house, sex) VALUES
+    ('nehru-gandhi', 'gunottam-hutheesing', 'Gunottam Hutheesing', 'Hutheesing', 'm'),
+    ('nehru-gandhi', 'harsha-hutheesing', 'Harsha Hutheesing', 'Hutheesing', 'm'),
+    ('nehru-gandhi', 'ajit-hutheesing', 'Ajit Hutheesing', 'Hutheesing', 'm');
+-- Kaul (1)
+INSERT INTO person (saga_id, id, name, house, sex) VALUES
+    ('nehru-gandhi', 'kamala-kaul', 'Kamala Kaul', 'Kaul', 'f');
+-- Maino (1)
+INSERT INTO person (saga_id, id, name, house, sex) VALUES
+    ('nehru-gandhi', 'sonia-maino', 'Sonia Maino', 'Maino', 'f');
+-- Anand (1)
+INSERT INTO person (saga_id, id, name, house, sex) VALUES
+    ('nehru-gandhi', 'maneka-anand', 'Maneka Anand', 'Anand', 'f');
+
+-- ── Families (12, each followed by its members) ────────────────────────────────────────────────
+-- nehru-gandhi-f1: Gangadhar Nehru → Bansi Dhar Nehru, Nandlal Nehru, Motilal Nehru
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f1', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f1', 'gangadhar-nehru', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f1', 'bansi-dhar-nehru', 'child'),
+    ('nehru-gandhi', 'nehru-gandhi-f1', 'nandlal-nehru', 'child'),
+    ('nehru-gandhi', 'nehru-gandhi-f1', 'motilal-nehru', 'child');
+-- nehru-gandhi-f2: Nandlal Nehru → Shyamlal Nehru, Brijlal Nehru
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f2', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f2', 'nandlal-nehru', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f2', 'shyamlal-nehru', 'child'),
+    ('nehru-gandhi', 'nehru-gandhi-f2', 'brijlal-nehru', 'child');
+-- nehru-gandhi-f3: Shyamlal Nehru + Uma Nehru → Shyam Kumari Nehru
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f3', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f3', 'shyamlal-nehru', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f3', 'uma-nehru', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f3', 'shyam-kumari-nehru', 'child');
+-- nehru-gandhi-f4: Shyam Kumari Nehru → Arun Nehru
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f4', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f4', 'shyam-kumari-nehru', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f4', 'arun-nehru', 'child');
+-- nehru-gandhi-f5: Brijlal Nehru + Rameshwari Raina → Braj Kumar Nehru
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f5', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f5', 'brijlal-nehru', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f5', 'rameshwari-raina', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f5', 'braj-kumar-nehru', 'child');
+-- nehru-gandhi-f6: Motilal Nehru + Swarup Rani → Jawaharlal Nehru, Vijaya Lakshmi Nehru, Krishna Nehru
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f6', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f6', 'motilal-nehru', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f6', 'swarup-rani', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f6', 'jawaharlal-nehru', 'child'),
+    ('nehru-gandhi', 'nehru-gandhi-f6', 'vijaya-lakshmi-nehru', 'child'),
+    ('nehru-gandhi', 'nehru-gandhi-f6', 'krishna-nehru', 'child');
+-- nehru-gandhi-f7: Jawaharlal Nehru + Kamala Kaul → Indira Gandhi
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f7', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f7', 'jawaharlal-nehru', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f7', 'kamala-kaul', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f7', 'indira-gandhi', 'child');
+-- nehru-gandhi-f8: Feroze Gandhi + Indira Gandhi → Rajiv Gandhi, Sanjay Gandhi
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f8', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f8', 'feroze-gandhi', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f8', 'indira-gandhi', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f8', 'rajiv-gandhi', 'child'),
+    ('nehru-gandhi', 'nehru-gandhi-f8', 'sanjay-gandhi', 'child');
+-- nehru-gandhi-f9: Rajiv Gandhi + Sonia Maino → Rahul Gandhi, Priyanka Gandhi
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f9', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f9', 'rajiv-gandhi', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f9', 'sonia-maino', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f9', 'rahul-gandhi', 'child'),
+    ('nehru-gandhi', 'nehru-gandhi-f9', 'priyanka-gandhi', 'child');
+-- nehru-gandhi-f10: Sanjay Gandhi + Maneka Anand → Feroze Varun Gandhi
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f10', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f10', 'sanjay-gandhi', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f10', 'maneka-anand', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f10', 'feroze-varun-gandhi', 'child');
+-- nehru-gandhi-f11: Ranjit Sitaram Pandit + Vijaya Lakshmi Nehru → Nayantara Sahgal, Chandralekha Mehta, Rita Dar
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f11', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f11', 'ranjit-sitaram-pandit', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f11', 'vijaya-lakshmi-nehru', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f11', 'nayantara-sahgal', 'child'),
+    ('nehru-gandhi', 'nehru-gandhi-f11', 'chandralekha-mehta', 'child'),
+    ('nehru-gandhi', 'nehru-gandhi-f11', 'rita-dar', 'child');
+-- nehru-gandhi-f12: Gunottam Hutheesing + Krishna Nehru → Harsha Hutheesing, Ajit Hutheesing
+INSERT INTO family (saga_id, id, adoptive) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f12', FALSE);
+INSERT INTO family_member (saga_id, family_id, person_id, role) VALUES
+    ('nehru-gandhi', 'nehru-gandhi-f12', 'gunottam-hutheesing', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f12', 'krishna-nehru', 'parent'),
+    ('nehru-gandhi', 'nehru-gandhi-f12', 'harsha-hutheesing', 'child'),
+    ('nehru-gandhi', 'nehru-gandhi-f12', 'ajit-hutheesing', 'child');
+
+
+-- =================================================================================================
+-- End of seed: 17 sagas.
 -- =================================================================================================
 COMMIT;

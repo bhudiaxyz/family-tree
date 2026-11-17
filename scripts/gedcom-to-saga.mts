@@ -43,18 +43,21 @@ const singleHouse = flag("house");
 // --color "<css colour>" for that one house (default the first import colour, a strong red).
 // --genre "<text>" for the saga's source.genre (default History).
 const genre = flag("genre") ?? "History";
-// --rename <file.json>: display-name corrections keyed by GEDCOM record id ("I10": "Jacob (Israel)"), for files that
-// put titles or epithets in the NAME field. Keys starting with "_" are comments. See scripts/gedcom-renames/.
-// A value is either the display name, or [display name, id] to also choose the person's id (short ids make tidy
-// links: "david" rather than "king-david-of-judah-and-israel").
+// --rename <file.json>: corrections keyed by GEDCOM record id, for files that write some names badly (titles in the
+// NAME field, a given name in the surname slot, a repeated surname). Keys starting with "_" are comments. A value is
+// the display name, or [display name, id] to also choose the person's id (short ids make tidy links: "david" rather
+// than "king-david-of-judah-and-israel"), or [display name, id, house] to also set their house, where the surname
+// slot was wrong (that house replaces the GEDCOM surname everywhere, including when sizing houses). See
+// scripts/gedcom-renames/.
 const renameFile = flag("rename");
 const renameEntries = renameFile
-    ? Object.entries(JSON.parse(fs.readFileSync(renameFile, "utf8")) as Record<string, string | [string, string]>)
+    ? Object.entries(JSON.parse(fs.readFileSync(renameFile, "utf8")) as Record<string, string | string[]>)
           .filter(([k]) => !k.startsWith("_"))
           .map(([k, v]) => [k, typeof v === "string" ? [v] : v] as const)
     : [];
 const renames = new Map(renameEntries.map(([k, v]) => [k, v[0]]));
 const renameIds = new Map(renameEntries.filter(([, v]) => v[1]).map(([k, v]) => [k, v[1]!]));
+const renameHouses = new Map(renameEntries.filter(([, v]) => v[2]).map(([k, v]) => [k, v[2]!]));
 if (!file || !id || !category || !title)
     throw new Error(
         `usage: gedcom-to-saga <file.ged | https://url> --id <id> --category <${CATEGORIES.join("|")}> --title "<title>" [--names person|mythology] [--house "<name>" [--color "<css>"]] [--genre "<text>"] [--rename <file.json>]`
@@ -196,6 +199,8 @@ const HOUSE_COLOURS = [
 ];
 const KEEP_HOUSES = HOUSE_COLOURS.length;
 const OTHER = "Other families";
+// A house set by --rename replaces the surname before houses are sized, so a fixed name doesn't leave a stray house.
+for (const [gid, house] of renameHouses) tree.people[gid].house = house;
 const size = new Map<string, number>();
 for (const p of Object.values(tree.people)) size.set(p.house, (size.get(p.house) ?? 0) + 1);
 const major = [...size]
@@ -261,7 +266,7 @@ const saga: SagaRecord = {
             : "Display names are the person's name only; a monarch is shown by their regnal name (e.g. King Henry VIII). Titles, title dates and life dates are not imported.",
         ...(renames.size
             ? [
-                  `${renames.size} display names were corrected from ${path.basename(renameFile!)}, where the file put titles or epithets in the name (e.g. "${[...renames.values()][0]}").`,
+                  `${renames.size} names were corrected from ${path.basename(renameFile!)}, where the file writes them badly (e.g. "${[...renames.values()][0]}"); the reasons are in that file.`,
               ]
             : []),
         singleHouse

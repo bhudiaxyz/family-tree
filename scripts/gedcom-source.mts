@@ -53,9 +53,17 @@ export async function readSource(input: string): Promise<Uint8Array> {
     let at = 0;
     for (const c of chunks) (bytes.set(c, at), (at += c.length));
     // A GitHub page or an error page served as 200 would otherwise be parsed as an empty family tree.
-    if (!/^\s*(?:﻿)?0\s+HEAD\b/.test(new TextDecoder().decode(bytes.subarray(0, 64))))
+    if (!/^\s*(?:﻿)?0\s+HEAD\b/.test(new TextDecoder().decode(bytes.subarray(0, 64)))) {
+        // A web page instead of the file: usually a proxy or web filter's "blocked" page (it redirects there and
+        // answers 200), or a login page. Say so, since the URL itself may be fine.
+        const html = /html/i.test(res.headers.get("content-type") ?? "");
+        const moved = res.redirected && new URL(res.url).hostname !== url.hostname;
         throw new Error(
-            `${url} isn't a GEDCOM file (it doesn't start with "0 HEAD"); for GitHub, link to the file itself`
+            html || moved
+                ? `${url} returned a web page, not a GEDCOM file${moved ? ` (redirected to ${new URL(res.url).hostname})` : ""}. ` +
+                      "A proxy or web filter may be blocking the download: download the file another way and import the local copy."
+                : `${url} isn't a GEDCOM file (it doesn't start with "0 HEAD")`
         );
+    }
     return bytes;
 }

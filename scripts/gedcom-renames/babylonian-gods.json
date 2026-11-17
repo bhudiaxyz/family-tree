@@ -1,0 +1,4 @@
+{
+    "_about": "Display-name corrections for Babylonian+Gods.ged, applied by scripts/gedcom-to-saga.mts --rename. Keyed by GEDCOM record id; each value is [display name, person id]. The file lists one of Anu's children as \"/42/\": the other children listed (Asaru, Asarualim, Tutu, Namtillaku, …) are among the Fifty Names of Marduk in the Enuma Elish, so the number stands for the rest of those names, not one deity.",
+    "I29": ["(42 further names of Marduk)", "marduk-names"]
+}

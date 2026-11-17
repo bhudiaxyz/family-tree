@@ -103,5 +103,19 @@
         "title": "The Bible",
         "work": "The Bible",
         "author": "Compiled by Jeffrey Philip Stoker"
+    },
+    {
+        "id": "babylonian-gods",
+        "category": "mythology",
+        "title": "Babylonian Gods",
+        "work": "Babylonian Gods",
+        "author": "Compiled by Juan Ignacio Pucheu"
+    },
+    {
+        "id": "nehru-gandhi",
+        "category": "history",
+        "title": "Nehru–Gandhi Family",
+        "work": "Nehru–Gandhi Family",
+        "author": "Compiled by Juan Ignacio Pucheu"
     }
 ]

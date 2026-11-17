@@ -1,0 +1,245 @@
+{
+    "id": "babylonian-gods",
+    "title": "Babylonian Gods",
+    "source": {
+        "work": "Babylonian Gods",
+        "medium": "GEDCOM genealogy (Babylonian+Gods.ged)",
+        "author": "Compiled by Juan Ignacio Pucheu",
+        "canon": "As recorded in the GEDCOM file",
+        "genre": "Mythology",
+        "covers": "29 people and 9 families, imported from a public GEDCOM sample."
+    },
+    "notes": [
+        "Imported from Babylonian+Gods.ged (UTF-8; PAF 5.2.18.0; file dated 22 Jul 2008) by scripts/gedcom-to-saga.mts.",
+        "Names are read in mythology mode: the deity's name is the GEDCOM surname part, and descriptive text in the given-name part (e.g. \"queen of the Gods\") is dropped.",
+        "1 display names were corrected from babylonian-gods.json, where the file put titles or epithets in the name (e.g. \"(42 further names of Marduk)\").",
+        "Everyone is in one house, \"Babylonian pantheon\": the file has no real surnames to group by."
+    ],
+    "houses": {
+        "Babylonian pantheon": "#4aa8c8"
+    },
+    "people": [
+        {
+            "id": "primal-wasteland",
+            "name": "Primal wasteland",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "apsu",
+            "name": "Apsû",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "tiamat",
+            "name": "Tiamat",
+            "house": "Babylonian pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "mummu",
+            "name": "Mummu",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "lahmu",
+            "name": "Lahmu",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "lahamu",
+            "name": "Lahamu",
+            "house": "Babylonian pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "kingu",
+            "name": "Kingu",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "sky-arch",
+            "name": "Sky arch",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "world-of-men",
+            "name": "World of men",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "dust",
+            "name": "Dust",
+            "house": "Babylonian pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "man",
+            "name": "Man",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "anshar",
+            "name": "Anshar",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "kishar",
+            "name": "Kishar",
+            "house": "Babylonian pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "ea",
+            "name": "Ea",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "anu",
+            "name": "Anu",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "anatu",
+            "name": "Anatu",
+            "house": "Babylonian pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "marduk",
+            "name": "Marduk",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "sarpanitum",
+            "name": "Sarpanitum",
+            "house": "Babylonian pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "nabu",
+            "name": "Nabu",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "tashmetum",
+            "name": "Tashmetum",
+            "house": "Babylonian pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "asaru",
+            "name": "Asaru",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "asarualim",
+            "name": "Asarualim",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "asarualimnunna",
+            "name": "Asarualimnunna",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "asaruludu",
+            "name": "Asaruludu",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "en-ki",
+            "name": "En-Ki",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "namru",
+            "name": "Namru",
+            "house": "Babylonian pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "namtillaku",
+            "name": "Namtillaku",
+            "house": "Babylonian pantheon",
+            "sex": "f"
+        },
+        {
+            "id": "tutu",
+            "name": "Tutu",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        },
+        {
+            "id": "marduk-names",
+            "name": "(42 further names of Marduk)",
+            "house": "Babylonian pantheon",
+            "sex": "m"
+        }
+    ],
+    "families": [
+        {
+            "parents": ["primal-wasteland"],
+            "children": ["apsu", "tiamat", "mummu"]
+        },
+        {
+            "parents": ["apsu", "tiamat"],
+            "children": ["lahmu", "lahamu", "kingu", "sky-arch", "world-of-men"]
+        },
+        {
+            "parents": ["kingu", "dust"],
+            "children": ["man"]
+        },
+        {
+            "parents": ["lahmu", "lahamu"],
+            "children": ["anshar", "kishar"]
+        },
+        {
+            "parents": ["anshar", "kishar"],
+            "children": ["ea", "anu", "anatu"]
+        },
+        {
+            "parents": ["ea"],
+            "children": ["marduk"]
+        },
+        {
+            "parents": ["marduk", "sarpanitum"],
+            "children": ["nabu"]
+        },
+        {
+            "parents": ["nabu", "tashmetum"],
+            "children": []
+        },
+        {
+            "parents": ["anu"],
+            "children": [
+                "asaru",
+                "asarualim",
+                "asarualimnunna",
+                "asaruludu",
+                "en-ki",
+                "namru",
+                "namtillaku",
+                "tutu",
+                "marduk-names"
+            ]
+        }
+    ]
+}

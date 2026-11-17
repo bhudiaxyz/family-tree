@@ -12,7 +12,7 @@
     "notes": [
         "Imported from Bible+Family+Tree.ged (UTF-8; PAF 5.2.18.0; file dated 9 Aug 2002) by scripts/gedcom-to-saga.mts.",
         "Display names are the person's name only; a monarch is shown by their regnal name (e.g. King Henry VIII). Titles, title dates and life dates are not imported.",
-        "36 display names were corrected from bible.json, where the file put titles or epithets in the name (e.g. \"Jacob (Israel)\").",
+        "36 names were corrected from bible.json, where the file writes them badly (e.g. \"Jacob (Israel)\"); the reasons are in that file.",
         "Everyone is in one house, \"Bible\": the file has no real surnames to group by.",
         "1 people have no recorded relatives in the source and are shown on their own: Mariam.",
         "Import warnings: Heth: sex not recorded as M or F, shown as male; Hivite: sex not recorded as M or F, shown as male; Isui: sex not recorded as M or F, shown as male; Ishuah: sex not recorded as M or F, shown as male; Sarah: sex not recorded as M or F, shown as male"

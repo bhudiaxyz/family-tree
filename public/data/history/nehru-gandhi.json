@@ -1,0 +1,272 @@
+{
+    "id": "nehru-gandhi",
+    "title": "Nehru–Gandhi Family",
+    "source": {
+        "work": "Nehru–Gandhi Family",
+        "medium": "GEDCOM genealogy (Nehru-Ghandi+Family.ged)",
+        "author": "Compiled by Juan Ignacio Pucheu",
+        "canon": "As recorded in the GEDCOM file",
+        "genre": "History",
+        "covers": "32 people and 12 families, imported from a public GEDCOM sample."
+    },
+    "notes": [
+        "Imported from Nehru-Ghandi+Family.ged (UTF-8; PAF 5.2.18.0; file dated 10 Jul 2008) by scripts/gedcom-to-saga.mts.",
+        "Display names are the person's name only; a monarch is shown by their regnal name (e.g. King Henry VIII). Titles, title dates and life dates are not imported.",
+        "11 names were corrected from nehru-gandhi.json, where the file writes them badly (e.g. \"Gangadhar Nehru\"); the reasons are in that file.",
+        "Houses are surnames; only the 7 largest keep their own colour, the rest are grouped as \"Other families\".",
+        "Import warnings: Bansi Dhar Nehru: sex not recorded as M or F, shown as male; Harsha Hutheesing: sex not recorded as M or F, shown as male"
+    ],
+    "houses": {
+        "Nehru": "#c8102e",
+        "Gandhi": "#e0b23a",
+        "Pandit": "#3b6fb6",
+        "Hutheesing": "#3f9a4b",
+        "Kaul": "#8a5fd0",
+        "Maino": "#e07a2e",
+        "Anand": "#4aa8c8"
+    },
+    "people": [
+        {
+            "id": "gangadhar-nehru",
+            "name": "Gangadhar Nehru",
+            "house": "Nehru",
+            "sex": "m"
+        },
+        {
+            "id": "bansi-dhar-nehru",
+            "name": "Bansi Dhar Nehru",
+            "house": "Nehru",
+            "sex": "m"
+        },
+        {
+            "id": "nandlal-nehru",
+            "name": "Nandlal Nehru",
+            "house": "Nehru",
+            "sex": "m"
+        },
+        {
+            "id": "motilal-nehru",
+            "name": "Motilal Nehru",
+            "house": "Nehru",
+            "sex": "m"
+        },
+        {
+            "id": "shyamlal-nehru",
+            "name": "Shyamlal Nehru",
+            "house": "Nehru",
+            "sex": "m"
+        },
+        {
+            "id": "uma-nehru",
+            "name": "Uma Nehru",
+            "house": "Nehru",
+            "sex": "f"
+        },
+        {
+            "id": "shyam-kumari-nehru",
+            "name": "Shyam Kumari Nehru",
+            "house": "Nehru",
+            "sex": "f"
+        },
+        {
+            "id": "arun-nehru",
+            "name": "Arun Nehru",
+            "house": "Nehru",
+            "sex": "m"
+        },
+        {
+            "id": "brijlal-nehru",
+            "name": "Brijlal Nehru",
+            "house": "Nehru",
+            "sex": "m"
+        },
+        {
+            "id": "rameshwari-raina",
+            "name": "Rameshwari Raina",
+            "house": "Nehru",
+            "sex": "f"
+        },
+        {
+            "id": "braj-kumar-nehru",
+            "name": "Braj Kumar Nehru",
+            "house": "Nehru",
+            "sex": "m"
+        },
+        {
+            "id": "swarup-rani",
+            "name": "Swarup Rani",
+            "house": "Nehru",
+            "sex": "f"
+        },
+        {
+            "id": "jawaharlal-nehru",
+            "name": "Jawaharlal Nehru",
+            "house": "Nehru",
+            "sex": "m"
+        },
+        {
+            "id": "vijaya-lakshmi-nehru",
+            "name": "Vijaya Lakshmi Nehru",
+            "house": "Nehru",
+            "sex": "f"
+        },
+        {
+            "id": "krishna-nehru",
+            "name": "Krishna Nehru",
+            "house": "Nehru",
+            "sex": "f"
+        },
+        {
+            "id": "kamala-kaul",
+            "name": "Kamala Kaul",
+            "house": "Kaul",
+            "sex": "f"
+        },
+        {
+            "id": "indira-gandhi",
+            "name": "Indira Gandhi",
+            "house": "Nehru",
+            "sex": "f"
+        },
+        {
+            "id": "feroze-gandhi",
+            "name": "Feroze Gandhi",
+            "house": "Gandhi",
+            "sex": "m"
+        },
+        {
+            "id": "rajiv-gandhi",
+            "name": "Rajiv Gandhi",
+            "house": "Gandhi",
+            "sex": "m"
+        },
+        {
+            "id": "sanjay-gandhi",
+            "name": "Sanjay Gandhi",
+            "house": "Gandhi",
+            "sex": "m"
+        },
+        {
+            "id": "sonia-maino",
+            "name": "Sonia Maino",
+            "house": "Maino",
+            "sex": "f"
+        },
+        {
+            "id": "rahul-gandhi",
+            "name": "Rahul Gandhi",
+            "house": "Gandhi",
+            "sex": "m"
+        },
+        {
+            "id": "priyanka-gandhi",
+            "name": "Priyanka Gandhi",
+            "house": "Gandhi",
+            "sex": "f"
+        },
+        {
+            "id": "maneka-anand",
+            "name": "Maneka Anand",
+            "house": "Anand",
+            "sex": "f"
+        },
+        {
+            "id": "feroze-varun-gandhi",
+            "name": "Feroze Varun Gandhi",
+            "house": "Gandhi",
+            "sex": "m"
+        },
+        {
+            "id": "ranjit-sitaram-pandit",
+            "name": "Ranjit Sitaram Pandit",
+            "house": "Pandit",
+            "sex": "m"
+        },
+        {
+            "id": "nayantara-sahgal",
+            "name": "Nayantara Sahgal",
+            "house": "Pandit",
+            "sex": "f"
+        },
+        {
+            "id": "chandralekha-mehta",
+            "name": "Chandralekha Mehta",
+            "house": "Pandit",
+            "sex": "f"
+        },
+        {
+            "id": "rita-dar",
+            "name": "Rita Dar",
+            "house": "Pandit",
+            "sex": "f"
+        },
+        {
+            "id": "gunottam-hutheesing",
+            "name": "Gunottam Hutheesing",
+            "house": "Hutheesing",
+            "sex": "m"
+        },
+        {
+            "id": "harsha-hutheesing",
+            "name": "Harsha Hutheesing",
+            "house": "Hutheesing",
+            "sex": "m"
+        },
+        {
+            "id": "ajit-hutheesing",
+            "name": "Ajit Hutheesing",
+            "house": "Hutheesing",
+            "sex": "m"
+        }
+    ],
+    "families": [
+        {
+            "parents": ["gangadhar-nehru"],
+            "children": ["bansi-dhar-nehru", "nandlal-nehru", "motilal-nehru"]
+        },
+        {
+            "parents": ["nandlal-nehru"],
+            "children": ["shyamlal-nehru", "brijlal-nehru"]
+        },
+        {
+            "parents": ["shyamlal-nehru", "uma-nehru"],
+            "children": ["shyam-kumari-nehru"]
+        },
+        {
+            "parents": ["shyam-kumari-nehru"],
+            "children": ["arun-nehru"]
+        },
+        {
+            "parents": ["brijlal-nehru", "rameshwari-raina"],
+            "children": ["braj-kumar-nehru"]
+        },
+        {
+            "parents": ["motilal-nehru", "swarup-rani"],
+            "children": ["jawaharlal-nehru", "vijaya-lakshmi-nehru", "krishna-nehru"]
+        },
+        {
+            "parents": ["jawaharlal-nehru", "kamala-kaul"],
+            "children": ["indira-gandhi"]
+        },
+        {
+            "parents": ["feroze-gandhi", "indira-gandhi"],
+            "children": ["rajiv-gandhi", "sanjay-gandhi"]
+        },
+        {
+            "parents": ["rajiv-gandhi", "sonia-maino"],
+            "children": ["rahul-gandhi", "priyanka-gandhi"]
+        },
+        {
+            "parents": ["sanjay-gandhi", "maneka-anand"],
+            "children": ["feroze-varun-gandhi"]
+        },
+        {
+            "parents": ["ranjit-sitaram-pandit", "vijaya-lakshmi-nehru"],
+            "children": ["nayantara-sahgal", "chandralekha-mehta", "rita-dar"]
+        },
+        {
+            "parents": ["gunottam-hutheesing", "krishna-nehru"],
+            "children": ["harsha-hutheesing", "ajit-hutheesing"]
+        }
+    ]
+}

@@ -104,7 +104,7 @@ The seed runs in one transaction and can be re-run: each saga is deleted first, 
 | Type in **Find a person…** (or press `/`)                  | Search by name, ignoring accents and small typos (`apsu` finds Apsû, `Ghandi` finds Gandhi); people who share a name are told apart (_Lamech · son of Methushael_). Choosing a result selects and flies to them |
 | Clear the search (✕) or press `Esc`                        | Deselect (or clear a house), and ease back to the whole tree                                                                                                                                                    |
 | **How are they related?** (or press `R`)                   | Open the relationship finder (see below)                                                                                                                                                                        |
-| **Import** (upload icon), or drop a `.ged` file            | Load your own family tree (see below)                                                                                                                                                                           |
+| **Import** (upload icon), or drop a `.ged` or `.json` file | Load your own family tree (see below)                                                                                                                                                                           |
 | **Save image** (picture icon, or press `P`)                | Save the current view as a high-resolution image, choosing its name (and folder, in Chrome or Edge)                                                                                                             |
 | `F`                                                        | Fit the whole tree in view                                                                                                                                                                                      |
 | **Fit family** in the details panel (or `G`)               | Frame the selected person with their parents, siblings, spouses and children                                                                                                                                    |
@@ -158,6 +158,8 @@ Select a person and press **Tag everyone's relationship** in their details panel
 ### Importing your own family (GEDCOM)
 
 GEDCOM (`.ged`) is the standard export format of genealogy software and sites: Ancestry, FamilySearch, MyHeritage, Gramps, Family Tree Maker and others. Use the **Import** (upload icon) button, or drag a file onto the page. Everything happens in your browser, and nothing is uploaded.
+
+A saga file in the app's own JSON format (like `public/data/fiction/dune.json`) can be dropped onto the page the same way. It is checked as the built-in sagas are (unknown people, missing houses, empty families), shown for the current visit only, and not added to the menu; to add one permanently, put it in `public/data/<category>/` and list it in `sagas.json`.
 
 - **Supported:** GEDCOM 5.5, 5.5.1 and 7. People, marriages and children are imported, and adoptions are recognised whether they're marked on the child's family link or with Ancestry/FTM's `_FREL`/`_MREL` tags.
 - **Houses:** people are grouped and coloured by surname.

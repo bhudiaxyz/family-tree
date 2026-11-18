@@ -1,5 +1,6 @@
-// Files in and out: save the view as a PNG, and import a GEDCOM file (file picker, or drag a .ged onto the window).
+// Files in and out: save the view as a PNG, and import a GEDCOM or saga JSON file (file picker, or drag a .ged or .json onto the window).
 import { parseGedcom } from "../data/gedcom.ts";
+import { toRecord, toTree } from "../data/source.ts";
 import { palette } from "../palettes.ts";
 import { captureView } from "../scene.ts";
 import { $ } from "./dom.ts";
@@ -85,6 +86,16 @@ async function importFile(file: File) {
     if (file.size > 20 * 1024 * 1024)
         return notify("That file is larger than 20 MB; GEDCOM files are usually far smaller.", true);
     try {
+        // A saga file in the app's own JSON format (public/data/<category>/<id>.json), checked as the app's own are.
+        if (/\.json$/i.test(file.name)) {
+            const data = JSON.parse(await file.text());
+            if (!Array.isArray(data?.people) || !Array.isArray(data?.families) || typeof data.houses !== "object")
+                throw new Error("not a saga file (expected people, families and houses)");
+            const t = toTree(toRecord(data));
+            showImported(t);
+            const n = Object.keys(t.people).length;
+            return notify(`Opened ${t.title}: ${n} ${n === 1 ? "person" : "people"} from ${file.name}.`);
+        }
         const { tree: t, warnings } = parseGedcom(await file.text(), file.name.replace(/\.(ged|gedcom)$/i, ""));
         showImported(t);
         const n = Object.keys(t.people).length;

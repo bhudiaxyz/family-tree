@@ -35,17 +35,19 @@ async function openSaga(id: string, person?: string | null, withPerson?: string 
         const t = await loadSaga(entry);
         if (mine !== request) return;
         show(t);
-        // A linked house lights straight away (a linked person, below, replaces it).
-        if (house && Object.values(t.people).some((p) => p.house === house)) setHouse(house);
-        // Give the layout a moment to place nodes before selecting a linked person and flying to them.
-        if (person && t.people[person])
+        // Give the layout a moment to place nodes (and build their objects, which a highlight dims) before selecting
+        // a linked person and flying to them, or lighting a linked house. A person takes precedence over a house.
+        const linkedHouse = house && Object.values(t.people).some((p) => p.house === house) ? house : null;
+        if ((person && t.people[person]) || linkedHouse)
             setTimeout(() => {
                 if (mine !== request) return;
-                if (withPerson && t.people[withPerson]) {
-                    setPerson(relA, person);
-                    setPerson(relB, withPerson);
-                    openRelate();
-                } else select(person, true);
+                if (person && t.people[person]) {
+                    if (withPerson && t.people[withPerson]) {
+                        setPerson(relA, person);
+                        setPerson(relB, withPerson);
+                        openRelate();
+                    } else select(person, true);
+                } else setHouse(linkedHouse);
             }, 1500);
     } catch (e) {
         if (mine === request) title.textContent = `Could not load saga: ${(e as Error).message}`;

@@ -181,6 +181,7 @@ The address bar tracks what you're looking at, so any view can be shared or book
 - `?saga=dune` opens a saga.
 - `?saga=starwars&person=leia` opens a saga with a person selected.
 - `?saga=got&person=jon&with=daenerys` opens the relationship finder for two people.
+- `?saga=got&house=Stark` lights up one house, as if picked in the **Houses** menu (a person in the link takes precedence).
 - `&view=2d` (on any of these) opens in 2D; `view=3d` is the default.
 
 Unknown sagas fall back to the first one, and unknown people are ignored.

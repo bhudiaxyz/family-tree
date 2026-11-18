@@ -10,7 +10,7 @@ import { paletteFor, usePalette } from "../palettes.ts";
 import { applyScenePalette, controls, glow, renderer, setGlow, setSky } from "../scene.ts";
 import { setPerson, setSuggestions } from "../suggest.ts";
 import { author, panel, relA, relB, search, title } from "./dom.ts";
-import { mountLegend, setLegend } from "./legend.ts";
+import { mountLegend, setHouse, setLegend } from "./legend.ts";
 import { onPinsChanged, pinned, rememberView, restoreView } from "./navigate.ts";
 import { clearTrail, onHistoryBack, select, setFocus, setRelativeTo } from "./panel.ts";
 import { resetCard } from "./picking.ts";
@@ -23,7 +23,7 @@ import { onPopState, writeUrl } from "./url.ts";
 const sagaIndex = new Map<string, SagaIndexEntry>();
 
 let request = 0; // ignore a slow response if the user has already picked another saga
-async function openSaga(id: string, person?: string | null, withPerson?: string | null) {
+async function openSaga(id: string, person?: string | null, withPerson?: string | null, house?: string | null) {
     const mine = ++request;
     rememberView(state.sagaId); // so switching back here returns to this view
     state.sagaId = id;
@@ -35,6 +35,8 @@ async function openSaga(id: string, person?: string | null, withPerson?: string 
         const t = await loadSaga(entry);
         if (mine !== request) return;
         show(t);
+        // A linked house lights straight away (a linked person, below, replaces it).
+        if (house && Object.values(t.people).some((p) => p.house === house)) setHouse(house);
         // Give the layout a moment to place nodes before selecting a linked person and flying to them.
         if (person && t.people[person])
             setTimeout(() => {
@@ -129,7 +131,7 @@ export function start(): void {
             const wanted = params.get("saga");
             const first = sagas.some((s) => s.id === wanted) ? wanted! : sagas[0].id;
             buildMenu(sagas, first, params);
-            return openSaga(first, params.get("person"), params.get("with"));
+            return openSaga(first, params.get("person"), params.get("with"), params.get("house"));
         })
         .catch((e) => {
             title.textContent = `Could not load saga list: ${(e as Error).message}`;

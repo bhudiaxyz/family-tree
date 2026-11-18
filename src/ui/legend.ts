@@ -4,6 +4,7 @@ import type GUI from "lil-gui";
 import type { Tree } from "../data/schema.ts";
 import { deselect } from "./panel.ts";
 import { refreshHighlight, state } from "./state.ts";
+import { writeUrl } from "./url.ts";
 
 const list = Object.assign(document.createElement("ul"), { id: "legend-list" });
 list.setAttribute("aria-label", "Houses");
@@ -55,4 +56,5 @@ export function setHouse(house: string | null): void {
         b.setAttribute("aria-pressed", String(b.dataset.house === house));
     list.classList.toggle("has-house", !!house);
     refreshHighlight();
+    if (state.tree) writeUrl(); // ?house= (only once a tree is up: setLegend clears it while a saga is being shown)
 }

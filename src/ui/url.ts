@@ -1,4 +1,4 @@
-// Shareable links: ?saga=<id>&person=<id>&with=<id>&view=2d|3d. Most changes update the current history entry
+// Shareable links: ?saga=<id>&person=<id>&with=<id>&house=<name>&view=2d|3d. Most changes update the current history entry
 // (replaceState); selecting a new person adds an entry (pushUrl), so the browser's Back walks through the people
 // visited. Read once at start-up by sagas.ts.
 import { IMPORTED, state } from "./state.ts";
@@ -11,6 +11,7 @@ function query(): string {
         q.set("person", state.relPair[0]);
         q.set("with", state.relPair[1]);
     } else if (state.selected) q.set("person", state.selected);
+    else if (state.house) q.set("house", state.house);
     return `?${q}`;
 }
 

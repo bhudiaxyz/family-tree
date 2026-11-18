@@ -15,6 +15,10 @@ const LABEL_FAR = 480;
 
 // --- Distance fade ----------------------------------------------------------------------------------------------
 const tmp = new THREE.Vector3();
+// Text outside a highlight fades further than the spheres: a faint sphere still shows the tree's shape, but faint
+// text is only clutter around the line you're reading. Squaring the dim factor leaves lit labels (1) as they are and
+// takes a 12% dim to ~1.5% and a 6% one to ~0.4%. Within a line (dims of 0.55–1 by distance) labels stay readable.
+const textDim = (dim: number) => (dim < 0.5 ? dim * dim : dim);
 // Relationship labels fade out with distance; those on the highlighted line stay readable at any distance.
 export function fadeLabels(camera: THREE.Camera): void {
     const fade = (s: SpriteText) => {
@@ -22,7 +26,7 @@ export function fadeLabels(camera: THREE.Camera): void {
         const d = camera.position.distanceTo(s.getWorldPosition(tmp));
         const near = focus !== null && dim === 1 ? 1 : (LABEL_FAR - d) / (LABEL_FAR - LABEL_NEAR);
         s.material.transparent = true;
-        s.material.opacity = dim * THREE.MathUtils.clamp(near, 0, 1);
+        s.material.opacity = textDim(dim) * THREE.MathUtils.clamp(near, 0, 1);
         s.visible = s.material.opacity > 0.02;
     };
     for (const l of boundLinks()) {
@@ -52,7 +56,7 @@ export function declutter(camera: THREE.PerspectiveCamera, viewW: number, viewH:
         const s = nameOf(n);
         if (!s) continue;
         const target = (n.__threeObj!.userData.dimTarget ?? 1) as number;
-        if (target === 0) continue; // hidden by focus mode: doesn't take up room
+        if (textDim(target) < 0.02) continue; // hidden, or faded past reading: doesn't take up room
         s.getWorldPosition(p);
         const depth = p.distanceTo(camera.position);
         edge.copy(p).project(camera);
@@ -92,14 +96,14 @@ export function stepNames(dt: number): void {
         const shown = (s.userData.shown = approach((s.userData.shown ?? 1) as number, nameShown.get(s) ?? 1, k));
         s.material.transparent = true;
         const dim = (n.__threeObj!.userData.dim ?? 1) as number;
-        s.material.opacity = shown * dim;
+        s.material.opacity = shown * textDim(dim);
         s.visible = s.material.opacity > 0.02;
         // "Relative to" tags fade with their person too (focus mode hides them with the person).
         const tag = n.__threeObj!.children.find((c) => c.userData.isTag) as SpriteText | undefined;
         if (tag?.userData.text) {
             tag.material.transparent = true;
-            tag.material.opacity = dim;
-            tag.visible = dim > 0.02;
+            tag.material.opacity = textDim(dim);
+            tag.visible = tag.material.opacity > 0.02;
         }
     }
 }

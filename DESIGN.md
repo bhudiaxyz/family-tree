@@ -333,9 +333,11 @@ All highlighting runs through one function and one easing pass.
 **`refreshHighlight()`** in `ui/state.ts` is the single place that decides what's lit, from `state`, in priority order:
 
 1. a relationship pair → its connecting path, in gold;
-2. a group (a relationship search or namesakes) → those people, the rest faded to 4%;
-3. a house → its members, the rest faded to 4%;
-4. the selected (or hovered) person → their line with roles, the rest dimmed to 12%, filtered by focus mode.
+2. a group (a relationship search or namesakes) → those people;
+3. a house → its members;
+4. the selected (or hovered) person → their line with roles, filtered by focus mode.
+
+A selection, a house or a group fades everything else to `FADED` (6%), so what you chose reads clearly. A hover preview dims the rest only to the default 12%, so moving the mouse across the tree doesn't keep blanking it out.
 
 Before any of that it collects every descendant of each collapsed person into a "folded" set (`setFolded`), hidden whatever else is lit. Every UI action that changes what should be lit changes `state` and calls `refreshHighlight()`; nothing else calls `highlight()`.
 
@@ -347,7 +349,7 @@ Before any of that it collects every descendant of each collapsed person into a 
 - **Colour.** Each side with a colour (`palette().lineage`: ancestor amber, descendant blue, sibling green, cousin violet) gets a faint emissive tint _and_ a ring sprite in exactly that colour. The tint alone was mixed into the house colour and couldn't match the panel key; the ring always does. The panel's Focus buttons are the key: each is drawn in its side's colour with a shape (▲ ▼ ◆ ◇) so it doesn't rely on colour alone. The CSS variables must match `palettes.ts`.
 - **Path.** Path people get a gold ring and glow; path links are drawn brighter and thicker, the hovered step more so. A step passes through a union node, so `linksAlong()` marks both halves.
 
-**`stepFades(dt)`** eases every object's opacity, glow and tint towards its target each frame (settling in about 0.3 s), so highlights fade rather than snap. Anything fully faded is made invisible, and `isShown()` (target > 0) is what picking, name de-overlap, the minimap and `peopleBbox()` test, so focus mode and collapsed branches drop out of all of them, and the camera frames only what's left, with no extra code in those modules. Labels keep the factor in `userData.dim`, which `names.ts` combines with its distance fade.
+**`stepFades(dt)`** eases every object's opacity, glow and tint towards its target each frame (settling in about 0.3 s), so highlights fade rather than snap. Anything fully faded is made invisible, and `isShown()` (target > 0) is what picking, name de-overlap, the minimap and `peopleBbox()` test, so focus mode and collapsed branches drop out of all of them, and the camera frames only what's left, with no extra code in those modules. Labels keep the factor in `userData.dim`, which `names.ts` combines with its distance fade. **Text fades further than spheres:** below 0.5 the factor is squared for names, link labels, sibling labels and tags (`textDim`), so 12% becomes about 1.5% and 6% about 0.4%. A faint sphere still shows the tree's shape, but faint text is only clutter around the line you're reading. Lit labels (1, or 0.55–1 by distance within a line) are unchanged, and faded names don't take up room in name de-overlap.
 
 **Per-link materials.** three-forcegraph shares one material per link colour by default, so dimming one gold link dimmed them all. `linkMaterial()` gives each link its own, at a resting opacity of 0.45.
 

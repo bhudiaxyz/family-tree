@@ -7,6 +7,9 @@ import { highlight, nodeById, setFolded } from "../graph.ts";
 import { relate } from "../relationship.ts";
 import { $ } from "./dom.ts";
 
+/** How far a selection, house or group fades everything else (the default dim, for hovering, is 12%). */
+const FADED = 0.06;
+
 export const IMPORTED = "imported"; // saga id used in the URL / GUI for a GEDCOM file loaded from disk
 
 /** Focus mode: show only the highlighted line ("all"), or just one side of it; "off" dims the rest instead. */
@@ -42,12 +45,12 @@ export function refreshHighlight(): void {
         const path = r?.path ?? [];
         return highlight(new Set(path.length ? path : relPair), { path, step: state.relStep, hideOthers });
     }
-    if (state.group) return highlight(new Set(state.group.ids), { hideOthers, dim: 0.04 });
+    if (state.group) return highlight(new Set(state.group.ids), { hideOthers, dim: FADED });
     if (state.house) {
         const house = state.house;
         const ids = Object.keys(tree.people).filter((id) => tree.people[id].house === house);
         // Fade the other houses well back, so the picked house's spread across the tree stands out.
-        return highlight(new Set(ids), { hideOthers, dim: 0.04 });
+        return highlight(new Set(ids), { hideOthers, dim: FADED });
     }
     const id = state.selected ?? state.hovered;
     if (!id) return highlight(null);
@@ -72,7 +75,10 @@ export function refreshHighlight(): void {
         for (const [pid, r] of roles)
             if (r.side !== side && r.side !== "self" && r.side !== "spouse") roles.delete(pid);
     }
-    highlight(new Set(roles.keys()), { roles, hideOthers: hideOthers && id === state.selected });
+    // A selected person fades the rest well back (like a house), so their line reads clearly; a hover preview dims
+    // more lightly, so moving the mouse across the tree doesn't keep blanking it out.
+    const selected = id === state.selected;
+    highlight(new Set(roles.keys()), { roles, hideOthers: hideOthers && selected, dim: selected ? FADED : undefined });
 }
 
 const toast = $("toast");

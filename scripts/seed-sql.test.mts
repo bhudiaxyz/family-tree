@@ -23,10 +23,10 @@ const all = (sql: string, ...args: (string | number)[]) =>
         .all(...args)
         .map((r) => ({ ...r })) as Record<string, unknown>[];
 
-// Manifest: saga order and fields.
+// Manifest: saga order and category (sagas.json is id → category); the rest of each saga row is checked below.
 const index = readIndex();
-const dbIndex = all("SELECT id, category, title, work, author FROM saga ORDER BY position");
-assert.deepEqual(dbIndex, index, "saga table differs from sagas.json (order or fields)");
+const dbIndex = all("SELECT id, category FROM saga ORDER BY position");
+assert.deepEqual(dbIndex, index, "saga table differs from sagas.json (order or category)");
 
 for (const { id } of index) {
     const s = readSaga(index.find((e) => e.id === id)!);

@@ -2,7 +2,7 @@
 // missing or stray), every reference resolves, everyone is in a family, and toTree() produces a usable tree.
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { CATEGORIES, compactSaga, expandSaga, type SagaFile, sagaPath } from "../src/data/schema.ts";
+import { CATEGORIES, compactSaga, expandSaga, readManifest, type SagaFile, sagaPath } from "../src/data/schema.ts";
 import { toTree } from "../src/data/source.ts";
 import { dataDir, readIndex, readSaga } from "./data.mts";
 
@@ -11,7 +11,20 @@ const index = readIndex();
 // Every manifest entry has a known category, and ids are unique across categories.
 for (const s of index)
     assert.ok((CATEGORIES as readonly string[]).includes(s.category), `${s.id}: unknown category "${s.category}"`);
-assert.equal(new Set(index.map((s) => s.id)).size, index.length, "duplicate saga id in sagas.json");
+// sagas.json is a map of id → category, so ids are unique by construction. readManifest() keeps its order and rejects
+// bad ids, an all-digit id (JavaScript would sort it first, reordering the menu) and unknown categories.
+assert.deepEqual(
+    readManifest({ b: "fiction", a: "history" }).map((e) => e.id),
+    ["b", "a"],
+    "menu order is the order written"
+);
+for (const [bad, why] of [
+    [{ "Bad Id": "fiction" }, "upper case and spaces"],
+    [{ "2024": "fiction" }, "all digits"],
+    [{ "../x": "fiction" }, "a path"],
+    [{ ok: "poetry" }, "unknown category"],
+] as const)
+    assert.throws(() => readManifest(bad as never), undefined, `sagas.json rejects ${why}`);
 
 // Files on disk ↔ manifest, per category folder: no saga missing its file, no file missing from the manifest, and no
 // saga files left in the data root (they belong in a category folder).
@@ -37,7 +50,7 @@ for (const entry of index) {
     // empty families, someone being their own parent, and anyone in no family; the checks below restate the key ones.
     const s = readSaga(entry);
     assert.equal(s.id, entry.id);
-    assert.equal(s.title, entry.title, `${s.id}: title differs from sagas.json`);
+    assert.ok(s.title.trim(), `${s.id}: no title (the menu shows it)`);
     const houses = new Set(s.houses.map((h) => h.name));
     const people = new Set(s.people.map((p) => p.id));
     const families = new Set(s.families.map((f) => f.id));

@@ -17,7 +17,8 @@ import {
     type Category,
     compactSaga,
     expandSaga,
-    type SagaIndexEntry,
+    readManifest,
+    type SagaManifest,
     type SagaRecord,
 } from "../src/data/schema.ts";
 import { parseGedcom } from "../src/data/gedcom.ts";
@@ -294,15 +295,15 @@ const sagaFile = compactSaga(saga);
 expandSaga(sagaFile);
 fs.writeFileSync(out, JSON.stringify(sagaFile, null, 4) + "\n");
 
+// The manifest is saga id → category, in menu order: re-importing keeps the saga's place, a new one goes last.
 const manifestUrl = new URL("sagas.json", dataDir);
-const manifest: SagaIndexEntry[] = JSON.parse(fs.readFileSync(manifestUrl, "utf8"));
-const entry: SagaIndexEntry = { id, category, title, work: saga.source.work, author: saga.source.author };
-const at = manifest.findIndex((s) => s.id === id);
-if (at >= 0) manifest[at] = entry;
-else manifest.push(entry);
+const manifest: SagaManifest = JSON.parse(fs.readFileSync(manifestUrl, "utf8"));
+const known = id in manifest;
+manifest[id] = category;
+readManifest(manifest); // the same checks the app makes
 fs.writeFileSync(manifestUrl, JSON.stringify(manifest, null, 4) + "\n");
 
 console.log(
     `wrote ${category}/${id}.json: ${people.length} people, ${families.length} families, ${houses.length} houses` +
-        ` (${encoding}${warnings.length ? `, ${warnings.length} warnings` : ""}); sagas.json ${at >= 0 ? "updated" : "extended"}`
+        ` (${encoding}${warnings.length ? `, ${warnings.length} warnings` : ""}); sagas.json ${known ? "updated" : "extended"}`
 );

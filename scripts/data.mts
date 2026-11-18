@@ -3,8 +3,10 @@
 import fs from "node:fs";
 import {
     expandSaga,
+    readManifest,
     type SagaFile,
     type SagaIndexEntry,
+    type SagaManifest,
     type SagaRecord,
     sagaPath,
     type Tree,
@@ -16,8 +18,8 @@ export const dataDir = new URL("../public/data/", import.meta.url);
 
 const readJson = <T,>(relative: string): T => JSON.parse(fs.readFileSync(new URL(relative, dataDir), "utf8"));
 
-/** The manifest, sagas.json, in drop-down order. */
-export const readIndex = (): SagaIndexEntry[] => readJson<SagaIndexEntry[]>("sagas.json");
+/** The manifest, sagas.json (saga id → category), as entries in menu order, checked as the app checks it. */
+export const readIndex = (): SagaIndexEntry[] => readManifest(readJson<SagaManifest>("sagas.json"));
 
 /** One saga's data file as written, from <category>/<id>.json. */
 export const readSagaFile = (entry: SagaIndexEntry): SagaFile => readJson<SagaFile>(sagaPath(entry));

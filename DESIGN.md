@@ -1,5 +1,7 @@
 # Family Tree: Design and Architecture
 
+How the app is built: what each module does, how saga data flows from JSON to the screen, and why it works the way it does. The [README](README.md) is the user-facing summary; this document is for anyone changing the code.
+
 ## Contents
 
 - [1. Overview](#1-overview)
@@ -7,97 +9,113 @@
 - [3. Data model](#3-data-model)
     - [The data file: `SagaFile`](#the-data-file-sagafile)
     - [Database tables: `SagaRecord`](#database-tables-sagarecord)
-    - [In-memory format: Tree](#in-memory-format-tree)
+    - [In-memory format: `Tree`](#in-memory-format-tree)
+    - [Where the data comes from](#where-the-data-comes-from)
 - [4. Graph construction: union nodes](#4-graph-construction-union-nodes)
 - [5. Layout](#5-layout)
-    - [Generations (src/generations.ts)](#generations-srcgenerationsts)
+    - [Generations (`src/generations.ts`)](#generations-srcgenerationsts)
     - [Forces](#forces)
-    - [Switching trees and camera framing](#switching-trees-and-camera-framing)
-- [5a. Interaction (src/ui/, src/family.ts)](#5a-interaction-srcui-srcfamilyts)
-- [5b. Relationship finder (src/relationship.ts)](#5b-relationship-finder-srcrelationshipts)
-- [5c. GEDCOM import (src/data/gedcom.ts)](#5c-gedcom-import-srcdatagedcomts)
-    - [Importing a GEDCOM file as a saga (scripts/gedcom-to-saga.mts)](#importing-a-gedcom-file-as-a-saga-scriptsgedcom-to-sagamts)
-- [5d. PNG export and no-WebGL](#5d-png-export-and-no-webgl)
-- [6. Rendering](#6-rendering)
-    - [6a. Palettes (src/palettes.ts)](#6a-palettes-srcpalettests)
-    - [6b. Nebula sky (src/nebula.ts)](#6b-nebula-sky-srcnebulats)
-    - [Frame loop](#frame-loop)
-- [7. Build and dependencies](#7-build-and-dependencies)
-- [8. Devices and GPU tiers (src/tier.ts, src/device.ts)](#8-devices-and-gpu-tiers-srctierts-srcdevicets)
-- [9. Extension points](#9-extension-points)
+    - [2D mode (`src/graph/flat.ts`)](#2d-mode-srcgraphflatts)
+    - [Switching trees and the camera](#switching-trees-and-the-camera)
+- [6. Highlighting (`src/graph/highlight.ts`, `src/ui/state.ts`)](#6-highlighting-srcgraphhighlightts-srcuistatets)
+- [7. Interaction (`src/ui/`)](#7-interaction-srcui)
+- [8. Navigation features](#8-navigation-features)
+- [9. Relationship finder (`src/relationship.ts`)](#9-relationship-finder-srcrelationshipts)
+- [10. GEDCOM import](#10-gedcom-import)
+- [11. Files in and out: images, local files, no-WebGL](#11-files-in-and-out-images-local-files-no-webgl)
+- [12. Rendering](#12-rendering)
+- [13. Devices and GPU tiers (`src/tier.ts`, `src/device.ts`)](#13-devices-and-gpu-tiers-srctierts-srcdevicets)
+- [14. Build, tests and dependencies](#14-build-tests-and-dependencies)
+- [15. Extension points](#15-extension-points)
 
 ## 1. Overview
 
-The app turns a list of people and families into a 3D graph and draws it with three.js. It is a static site: saga data is fetched as JSON, and layout and rendering run in the browser.
+The app turns a list of people and families into a 3D graph and draws it with three.js. It is a static site: saga data is fetched as JSON, and layout, rendering and every query run in the browser. There is no server code.
 
 ```
-public/data/<category>/*.json ──fetch──► src/data/source.ts ──► src/ui/sagas.ts show() ──► three-forcegraph ──► three.js scene
- (or VITE_DATA_URL)  expandSaga(): file→tables, toTree(): tables→Tree   graph build   d3-force-3d   OrbitControls
-                                     ▲
-                         lil-gui "Saga" drop-down (from sagas.json)
+public/data/<category>/<id>.json ─fetch─► data/source.ts ─────────► ui/sagas.ts show() ─► graph.ts showTree() ─► three.js scene
+ (or VITE_DATA_URL)            expandSaga(): file → tables         reset UI state          union-node graph,      OrbitControls,
+                               toTree():     tables → Tree         palette, legend         pinned generations,    frame loop in app.ts
+                                                                                           d3-force-3d layout
 ```
+
+The code splits into four layers, and dependencies only point downwards:
+
+| Layer     | Modules                                                                                 | Knows about                              |
+| --------- | --------------------------------------------------------------------------------------- | ---------------------------------------- |
+| UI        | `src/ui/*`, `suggest.ts`                                                                | the DOM, app state, everything below     |
+| Rendering | `graph.ts`, `graph/*`, `scene.ts`, `camera.ts`, `labels.ts`, `nebula.ts`, `palettes.ts` | three.js; the `Tree` shape; no DOM UI    |
+| Logic     | `family.ts`, `relationship.ts`, `generations.ts`                                        | the `Tree` shape only: pure, unit-tested |
+| Data      | `data/schema.ts`, `data/source.ts`, `data/gedcom.ts`                                    | file formats and where data lives        |
+
+The logic layer has no three.js or DOM imports, so `npm test` runs it directly in Node against every saga.
 
 ## 2. Source layout
 
-| File                               | Role                                                                                                                                                                                                                                                                  |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `index.html`                       | Page markup only: header (title, author, search, toolbar), details panel, relationship finder, toast, touch pad and the no-WebGL notice. Loads Roboto and Roboto Condensed from Google Fonts and `src/main.ts`. `viewport-fit=cover` for iPhone safe areas.           |
-| `src/style.css`                    | All UI styling, with the UI palette and fonts as CSS variables. Includes the touch rules (44 px targets, safe areas, `100dvh`, no page zoom).                                                                                                                         |
-| `src/main.ts`                      | Entry point (about 1 kB). Dynamically imports `app.ts`; if that fails (no WebGL, or the chunk won't download) it shows the no-WebGL notice instead of a blank page.                                                                                                   |
-| `src/app.ts`                       | Starts the UI, handles GPU context loss, and runs the frame loop with idle throttling (§5a).                                                                                                                                                                          |
-| `src/ui/state.ts`                  | Shared app state (tree, saga id, selected, hovered, relationship pair, 2D flag), `refreshHighlight()`, the toast, person links and fly-to.                                                                                                                            |
-| `src/ui/dom.ts`                    | The page elements, looked up once; attaches name suggestions before any other listener.                                                                                                                                                                               |
-| `src/ui/url.ts`                    | `writeUrl()`: keeps `?saga`, `person`, `with` and `view` in sync.                                                                                                                                                                                                     |
-| `src/ui/panel.ts`                  | Selection, the details panel and "Relative to" tags.                                                                                                                                                                                                                  |
-| `src/ui/relate.ts`                 | The relationship finder (§5b).                                                                                                                                                                                                                                        |
-| `src/ui/legend.ts`                 | The house legend, a "Houses" folder in the menu: click a house to highlight it.                                                                                                                                                                                       |
-| `src/ui/navigate.ts`               | Getting around: fit the immediate family, step zoom, move a generation at a time, pinned people (per saga, in `localStorage`), and the view remembered per saga for the visit.                                                                                        |
-| `src/ui/minimap.ts`                | The overview map: a 2D canvas, not a second 3D render, redrawn only when the view or layout changes; shaped to the tree (portrait for tall ones); click or drag to move.                                                                                              |
-| `src/ui/search.ts`                 | The "Find a person" box.                                                                                                                                                                                                                                              |
-| `src/ui/files.ts`                  | PNG export and GEDCOM import, including drag-and-drop (§5c).                                                                                                                                                                                                          |
-| `src/ui/input.ts`                  | Keyboard shortcuts and the touch pad.                                                                                                                                                                                                                                 |
-| `src/ui/picking.ts`                | Mouse and touch picking: hover, tap, double tap, long press.                                                                                                                                                                                                          |
-| `src/ui/sagas.ts`                  | Saga loading, `show()`, the nebula schedule, the menu and start-up.                                                                                                                                                                                                   |
-| `src/suggest.ts`                   | Suggestion list for the search and finder boxes (replaces `<datalist>`, which many mobile browsers ignore). Each entry is a person, not a name: the picked id is kept on the box, so namesakes can't be confused.                                                     |
-| `src/tier.ts`                      | Pure GPU tier logic: `classify(gpu)` → low / medium / high, the `QUALITY` table, and `probe()` / `detect()` (§8).                                                                                                                                                     |
-| `src/device.ts`                    | The detected tier and its `quality` settings, shared by every module. Its own module so `scene.ts` and `nebula.ts` can both read it without importing each other (§8).                                                                                                |
-| `src/scene.ts`                     | Renderer (tier-chosen antialias, pixel ratio), lights and fog from the palette, background (vignette or baked nebula), camera, OrbitControls, the optional bloom composer, resize, `captureView()` for PNG export, and context-loss events. No family-tree knowledge. |
-| `src/graph.ts`                     | Public entry for the tree as a three.js object: `showTree(tree)` builds nodes and links and pins generation heights, `peopleBbox()` for framing, `stepGraph()` per frame. Re-exports the parts below (§5).                                                            |
-| `src/graph/core.ts`                | The `ThreeForceGraph` instance, node and link objects, the force layout and convergence settings, shared types and helpers.                                                                                                                                           |
-| `src/graph/siblings.ts`            | The sibling overlay (dashed lines and labels).                                                                                                                                                                                                                        |
-| `src/graph/guides.ts`              | Generation guides.                                                                                                                                                                                                                                                    |
-| `src/graph/flat.ts`                | 2D mode: the depth squash, row spacing and sibling clustering forces.                                                                                                                                                                                                 |
-| `src/graph/highlight.ts`           | `highlight(people, { roles, path, step, hideOthers })` and the eased fades: direction tint and distance fade from `lineageRoles()`, focus mode (hide instead of dim), the gold path with rings, and the brighter hovered step.                                        |
-| `src/graph/names.ts`               | Label distance fade, name de-overlap and "Relative to" tags.                                                                                                                                                                                                          |
-| `src/camera.ts`                    | Camera behaviour on top of OrbitControls: auto-fit, fly-to, held-direction panning and reduced motion. Frame-rate independent.                                                                                                                                        |
-| `src/nebula.ts`                    | Procedural nebula sky baked into a cube texture per saga, dim by design (§6b).                                                                                                                                                                                        |
-| `src/nebula.frag`                  | The nebula fragment shader, imported as a string with `?raw` (§6b).                                                                                                                                                                                                   |
-| `src/palettes.ts`                  | Colour themes for the 3D scene (links, labels, lights, fog, background, nebula, PNG stamp, imported houses). `paletteFor(sagaId)` and the active palette (§6a).                                                                                                       |
-| `src/labels.ts`                    | Name and relationship labels (`SpriteText`), house badges, `fontsReady`, and disposal.                                                                                                                                                                                |
-| `src/family.ts`                    | Pure family queries: `lineage`, `lineageRoles`, `ancestry` (one line back to the oldest ancestor), `descendantCount`, `relatives`, link labels, `searchPeople` / `findByName` (accent-insensitive, typo-tolerant), `distinguish` (namesake hints), `houseDepths`.     |
-| `src/relationship.ts`              | `relate(tree, a, b)` and `labelAll(tree, centre)`: blood, step and in-law names, common ancestors, every route, and the connecting path (§5b).                                                                                                                        |
-| `src/generations.ts`               | `generations(tree)`: a generation number for every person (§5).                                                                                                                                                                                                       |
-| `src/data/schema.ts`               | `SagaFile` (the hand-written JSON format) and `SagaRecord` (the same data as database tables), with `expandSaga()` / `compactSaga()` between them; `Tree` (the in-memory format the renderer uses); `SagaIndexEntry` and `sagaPath()` (§3).                           |
-| `src/data/source.ts`               | `listSagas()` and `loadSaga(entry)` fetch from the data base URL; `toRecord()` accepts a `SagaFile` or a `SagaRecord`, and `toTree()` turns the record into a `Tree`. The only file that knows where the data comes from.                                             |
-| `src/data/gedcom.ts`               | `parseGedcom(text)`: GEDCOM 5.5, 5.5.1 and 7 → `Tree`, plus warnings (§5c).                                                                                                                                                                                           |
-| `src/d3-force-3d.d.ts`             | Types for the one `d3-force-3d` export used (`forceZ`).                                                                                                                                                                                                               |
-| `public/data/sagas.json`           | Manifest: `{ id, category, title, work, author }` per saga. Sets the drop-down order; the first entry loads at startup.                                                                                                                                               |
-| `public/data/<category>/<id>.json` | One saga each as a `SagaFile`: houses, people, and families with their members inline, plus `source` and `notes`, in its category's folder. Written for people to edit (§3).                                                                                          |
-| `db/schema.sql`, `db/seed.sql`     | Relational tables matching `SagaRecord`, and a seed generated from the JSON files with every saga (§3).                                                                                                                                                               |
-| `scripts/*.test.mts`               | `npm test`: saga data, family queries, relationships, GEDCOM, generations, GPU tiers, and the SQL seed round-trip.                                                                                                                                                    |
-| `scripts/data.mts`                 | Shared by the scripts and tests: `readIndex()`, `readSagaFile(entry)` (the file as written), `readSaga(entry)` (expanded to a `SagaRecord`) and `treeById(id)`, reading through `sagaPath()` and `expandSaga()` exactly as the app does.                              |
-| `scripts/seed-sql.mts`             | Generates `db/seed.sql`; with `--check`, fails if it is out of date.                                                                                                                                                                                                  |
-| `vite.config.ts`, `tsconfig.json`  | Dev server and base path, vendor chunk; strict TypeScript, type-check only.                                                                                                                                                                                           |
+| File                               | Role                                                                                                                                                                                                                                                                 |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `index.html`                       | Page markup only: header (title, author, search, toolbar), help and chart dialogs, tour bar, relationship finder, details panel, toast, hover card, touch pad, no-WebGL notice. Loads the fonts, the favicon and `src/main.ts`.                                      |
+| `src/style.css`                    | All UI styling. Shared design values at the top (`--control-bg`, `--hover-bg`, `--radius`, `--panel-border`, …) and the highlight colours (`--ancestor`, `--descendant`, `--sibling`, `--cousin`), which must match `palettes.ts`. Touch and phone rules at the end. |
+| `src/main.ts`                      | Entry point (about 1 kB). Dynamically imports `app.ts`; if that fails (no WebGL, or the chunk won't download) it shows the no-WebGL notice instead of a blank page.                                                                                                  |
+| `src/app.ts`                       | Starts the UI, handles GPU context loss, and runs the frame loop with idle throttling (§7).                                                                                                                                                                          |
+| **UI**                             |                                                                                                                                                                                                                                                                      |
+| `src/ui/state.ts`                  | Shared app state (`state`: tree, saga, selected, hovered, relationship pair, house, group, collapsed, focus, 2D) and `refreshHighlight()`, which turns that state into one highlight (§6). Also the toast, person links and fly-to.                                  |
+| `src/ui/dom.ts`                    | Page elements, looked up once. Attaches name suggestions before any other listener, so an open suggestion list gets Escape first.                                                                                                                                    |
+| `src/ui/sagas.ts`                  | Saga loading (`openSaga`), `show()` (resets every per-tree state), the nebula schedule, the lil-gui menu, pinned list and start-up from the URL.                                                                                                                     |
+| `src/ui/panel.ts`                  | Selection (`select` / `deselect`), the details panel, browsing history, recently viewed, focus mode, "relative to" tags, collapse, group highlights, Alt+arrow moves and panel swipes.                                                                               |
+| `src/ui/guide.ts`                  | The help dialog (`?`), the chart dialog (`C`) and the guided tour (`T`) (§8).                                                                                                                                                                                        |
+| `src/ui/legend.ts`                 | The house legend in the menu: light, frame or clear a house.                                                                                                                                                                                                         |
+| `src/ui/navigate.ts`               | Fit family, step zoom, generation steps, pinned people (`localStorage`), and the view remembered per saga for the visit.                                                                                                                                             |
+| `src/ui/relate.ts`                 | The relationship finder panel (§9).                                                                                                                                                                                                                                  |
+| `src/ui/search.ts`                 | The "Find a person" box: a name, or a relationship query (§8).                                                                                                                                                                                                       |
+| `src/ui/picking.ts`                | Mouse and touch picking: hover, tap, double tap, long press, and the hover card.                                                                                                                                                                                     |
+| `src/ui/input.ts`                  | Keyboard shortcuts and the touch pad.                                                                                                                                                                                                                                |
+| `src/ui/minimap.ts`                | The overview map: a 2D canvas, redrawn only when the view, layout or highlight changes.                                                                                                                                                                              |
+| `src/ui/files.ts`                  | Image export, and loading GEDCOM or saga JSON files by picker or drag-and-drop (§11).                                                                                                                                                                                |
+| `src/ui/url.ts`                    | Shareable URLs: `writeUrl()` (replace) and `pushUrl()` (a history entry per person visited).                                                                                                                                                                         |
+| `src/suggest.ts`                   | The suggestion list shared by the search and finder boxes (replaces `<datalist>`, which many mobile browsers ignore). Each entry is a person id, so namesakes can't be confused.                                                                                     |
+| **Rendering**                      |                                                                                                                                                                                                                                                                      |
+| `src/graph.ts`                     | Public entry for the tree as a three.js object: `showTree(tree)` builds nodes and links and pins generation heights, `generationOf()`, `peopleBbox()` for framing, `stepGraph()` per frame. Re-exports the parts below.                                              |
+| `src/graph/core.ts`                | The `ThreeForceGraph` instance, person and union objects, link materials, the force layout and convergence settings, shared types (`Node`, `Link`) and `isShown()`.                                                                                                  |
+| `src/graph/highlight.ts`           | `highlight(people, opts)` sets per-object targets; `stepFades()` eases towards them each frame (§6).                                                                                                                                                                 |
+| `src/graph/names.ts`               | Label distance fade, name de-overlap, and the tag above each person ("relative to" words and collapse badges).                                                                                                                                                       |
+| `src/graph/siblings.ts`            | The sibling overlay: dashed lines and labels between consecutive siblings.                                                                                                                                                                                           |
+| `src/graph/guides.ts`              | Generation guide lines, and the "Generation n" labels pinned to the left edge of the screen.                                                                                                                                                                         |
+| `src/graph/flat.ts`                | 2D mode: the depth squash and the two forces that only act while flat (§5).                                                                                                                                                                                          |
+| `src/scene.ts`                     | Renderer, lights, fog, background, camera, OrbitControls, the optional bloom composer, resize, `captureView()` for image export, context-loss events. No family-tree knowledge.                                                                                      |
+| `src/camera.ts`                    | Camera behaviour on top of OrbitControls: auto-fit, fly-to, fit-to-people, glide, held-direction pan, reduced motion. Frame-rate independent.                                                                                                                        |
+| `src/labels.ts`                    | Name and relationship labels (`SpriteText`), house badges, `fontsReady`, and disposal.                                                                                                                                                                               |
+| `src/palettes.ts`                  | Every colour the 3D scene uses, as one `Palette`; `paletteFor(sagaId)` (§12).                                                                                                                                                                                        |
+| `src/nebula.ts`, `src/nebula.frag` | The procedural nebula sky, baked into a cube texture per saga (§12).                                                                                                                                                                                                 |
+| `src/tier.ts`, `src/device.ts`     | GPU tier detection and the quality table; the detected result shared with every module (§13).                                                                                                                                                                        |
+| **Logic**                          |                                                                                                                                                                                                                                                                      |
+| `src/family.ts`                    | Pure family queries: lineage and roles, siblings, cousins, descendants, ancestry, tour route, relatives, link labels, search (fuzzy and by relationship), namesakes, forgiving house names, house depths.                                                            |
+| `src/relationship.ts`              | `relate(tree, a, b)` and `labelAll(tree, centre)` (§9).                                                                                                                                                                                                              |
+| `src/generations.ts`               | `generations(tree)`: a generation row for every person (§5).                                                                                                                                                                                                         |
+| **Data**                           |                                                                                                                                                                                                                                                                      |
+| `src/data/schema.ts`               | `SagaFile`, `SagaRecord` and `Tree`, `expandSaga()` / `compactSaga()` between the first two, `SagaIndexEntry`, `CATEGORIES` and `sagaPath()` (§3).                                                                                                                   |
+| `src/data/source.ts`               | `listSagas()`, `loadSaga(entry)`, `toRecord()`, `toTree()`. The only file that knows where data comes from.                                                                                                                                                          |
+| `src/data/gedcom.ts`               | `parseGedcom(text)`: GEDCOM 5.5, 5.5.1 and 7 → `Tree`, plus warnings (§10).                                                                                                                                                                                          |
+| `src/d3-force-3d.d.ts`             | Types for the one `d3-force-3d` export used (`forceZ`).                                                                                                                                                                                                              |
+| **Data files and scripts**         |                                                                                                                                                                                                                                                                      |
+| `public/data/sagas.json`           | The manifest: `{ id, category, title, work, author }` per saga, in menu order; the first loads at start-up.                                                                                                                                                          |
+| `public/data/<category>/<id>.json` | One `SagaFile` per saga, in its category's folder.                                                                                                                                                                                                                   |
+| `db/schema.sql`, `db/seed.sql`     | Relational tables matching `SagaRecord`, and a seed generated from the JSON.                                                                                                                                                                                         |
+| `scripts/data.mts`                 | Shared by scripts and tests: reads the manifest and sagas through `sagaPath()` and `expandSaga()`, exactly as the app does.                                                                                                                                          |
+| `scripts/seed-sql.mts`             | Generates `db/seed.sql`; `--check` fails if it is out of date.                                                                                                                                                                                                       |
+| `scripts/gedcom-to-saga.mts`       | The GEDCOM importer, with `gedcom-source.mts` (file or URL) and `gedcom-names.mts` (display names); corrections in `gedcom-renames/` (§10).                                                                                                                          |
+| `scripts/*.test.mts`               | `npm test` (§14).                                                                                                                                                                                                                                                    |
+| `vite.config.ts`, `tsconfig.json`  | Base path `/family-tree/`, the three.js vendor chunk; strict TypeScript, type-check only.                                                                                                                                                                            |
 
 ## 3. Data model
 
 Saga data has three shapes, each built from the one before:
 
-| Shape        | Where                              | For                                        | Built by                   |
-| ------------ | ---------------------------------- | ------------------------------------------ | -------------------------- |
-| `SagaFile`   | `public/data/<category>/<id>.json` | people writing and editing family trees    | hand, or the GEDCOM import |
-| `SagaRecord` | the database (`db/schema.sql`)     | storage: one array per table               | `expandSaga(file)`         |
-| `Tree`       | in memory                          | the renderer, layout and relationship code | `toTree(record)`           |
+| Shape        | Where                              | For                                     | Built by                   |
+| ------------ | ---------------------------------- | --------------------------------------- | -------------------------- |
+| `SagaFile`   | `public/data/<category>/<id>.json` | people writing and editing family trees | hand, or the GEDCOM import |
+| `SagaRecord` | the database (`db/schema.sql`)     | storage: one array per table            | `expandSaga(file)`         |
+| `Tree`       | in memory                          | the renderer, layout and logic          | `toTree(record)`           |
 
 You only ever edit `SagaFile`s. The database seed and everything the app shows are generated from them.
 
@@ -118,10 +136,7 @@ One JSON file per saga, named after its id, in its category's folder. A trimmed 
         "covers": "Houses Atreides, Harkonnen and Corrino, the Fremen, and the Bene Gesserit, through Leto II and Ghanima.",
     },
     "notes": ["Jessica is the Baron's daughter by Mohiam (revealed in the novels), so Paul is Harkonnen by blood."],
-    "houses": {
-        "Atreides": "#2e8b57",
-        "Harkonnen": "#8a1c1c",
-    },
+    "houses": { "Atreides": "#2e8b57", "Harkonnen": "#8a1c1c" },
     "people": [
         { "id": "leto", "name": "Duke Leto Atreides", "house": "Atreides", "sex": "m" },
         { "id": "jessica", "name": "Lady Jessica", "house": "Bene Gesserit", "sex": "f" },
@@ -135,14 +150,14 @@ One JSON file per saga, named after its id, in its category's folder. A trimmed 
 }
 ```
 
-| Field         | Meaning                                                                                                                                                                                                                                                    |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`, `title` | The saga's id (its file name) and display title. Both must match its entry in `sagas.json`.                                                                                                                                                                |
-| `source`      | Where the family comes from: `work`, `medium`, `author`, `canon` (which sources count), `genre`, and `covers` (what part of the story the tree spans). All plain text.                                                                                     |
-| `notes`       | Caveats for readers, e.g. where sources disagree or a name comes from a later book. An empty list if there are none.                                                                                                                                       |
-| `houses`      | House (or family name, or pantheon) → its colour, any CSS colour. Every person's `house` must be one of these. The order is kept in the database.                                                                                                          |
-| `people`      | Everyone in the tree. `id` is short, lower-case and unique within the saga (`eddard`, `jon`); families and shareable links (`?person=jon`) refer to it. `name` is what the tree shows. `sex` is `"m"` or `"f"`, and picks words like _father_ or _mother_. |
-| `families`    | Everyone's relationships, as a list of families (below).                                                                                                                                                                                                   |
+| Field         | Meaning                                                                                                                                                                                                                   |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`, `title` | The saga's id (its file name) and display title. Both must match its entry in `sagas.json`.                                                                                                                               |
+| `source`      | `work`, `medium`, `author`, `canon` (which sources count), `genre` and `covers` (what the tree spans). Plain text; `author` is shown under the title.                                                                     |
+| `notes`       | Caveats for readers, e.g. where sources disagree. An empty list if there are none.                                                                                                                                        |
+| `houses`      | House (family name, or pantheon) → any CSS colour. Every person's `house` must be listed. The order is kept in the database.                                                                                              |
+| `people`      | `id` is short, lower-case and unique within the saga (`eddard`, `jon`); families and links (`?person=jon`) refer to it. `name` is what the tree shows. `sex` is `"m"` or `"f"` and picks words like _father_ or _mother_. |
+| `families`    | Everyone's relationships, as a list of families (below).                                                                                                                                                                  |
 
 **Families.** A family is one union: `parents` (zero, one or two person ids) and `children` (zero or more). People are never linked to each other directly; everything goes through a family. That one rule covers every case:
 
@@ -157,25 +172,25 @@ One JSON file per saga, named after its id, in its category's folder. A trimmed 
 | Adoption or fostering              | a separate family with `"adoptive": true`; the child stays in their birth family | Leia: Anakin + Padmé, and Bail + Breha      |
 | Someone with no known relatives    | a one-person family: `{ "parents": ["a"], "children": [] }`                      | Skuld (Norse gods)                          |
 
-Leave `adoptive` out unless it's true. The order of families doesn't matter to the app, but keeping related families together makes the file easier to read.
+Leave `adoptive` out unless it's true. A one-person family exists only so that "everyone is in a family" holds; the graph doesn't draw it (§4).
 
-**Rules.** `expandSaga()` checks these whenever a file is loaded, by the app and by `npm test`, and stops with a message naming the saga and family (e.g. `dune: family 7: unknown person "chanii"`):
+**Rules.** `expandSaga()` checks these whenever a file is loaded, by the app, by a dropped file and by `npm test`, and stops with a message naming the saga and family (e.g. `dune: family 7: unknown person "chanii"`):
 
 - person ids are unique, and every `house` is listed in `houses`;
 - every id in a family is a person in the file;
 - a family has at most two parents and isn't empty;
 - nobody is both a parent and a child of the same family;
-- everyone is in at least one family (use a one-person family for someone with no known relatives).
+- everyone is in at least one family.
 
 `trees.test.mts` also checks that the files and `sagas.json` agree: the same ids and titles, each file in its category's folder, and nothing missing or stray.
 
 **Adding or changing a saga.**
 
-1. Edit or create `public/data/<category>/<id>.json`. For a new saga, also add `{ id, category, title, work, author }` to `public/data/sagas.json`; its position there is its place in the drop-down.
+1. Edit or create `public/data/<category>/<id>.json`. For a new saga, also add `{ id, category, title, work, author }` to `public/data/sagas.json`; its position is its place in the menu.
 2. Run `npm run db:seed` to regenerate `db/seed.sql`, and commit it with the data.
 3. Run `npm test`. It fails on any of the mistakes above, and if `seed.sql` wasn't regenerated.
 
-To bring in a family from a genealogy program instead, use `npm run import:gedcom` (§5c), which writes a `SagaFile` and its `sagas.json` entry.
+To bring in a family from a genealogy program instead, use `npm run import:gedcom` (§10), which writes the file and its manifest entry.
 
 ### Database tables: `SagaRecord`
 
@@ -190,52 +205,62 @@ To bring in a family from a genealogy program instead, use `npm run import:gedco
 | `families` | `{ id, adoptive }`         | `family`                                               | one row per family; the id is generated |
 | `members`  | `{ family, person, role }` | `family_member`                                        | one row per parent, then one per child  |
 
-Family ids are generated from each family's position in the file (`dune-f1`, `dune-f2`, …), so they're never written by hand. They stay the same as long as families aren't reordered, and nothing outside the database uses them. `members` is the join table: one row per person per family, with `role` set to `parent` or `child`. Ids are scoped to the saga (the SQL primary keys are `(saga_id, id)`), so the same character id can appear in several sagas. `compactSaga()` does the reverse; the GEDCOM importer uses it to write the `SagaRecord` it builds as a file.
+Family ids are generated from position (`dune-f1`, `dune-f2`, …), so they're never written by hand and nothing outside the database uses them. `members` is the join table, with `role` set to `parent` or `child`. Ids are scoped to the saga (the SQL primary keys are `(saga_id, id)`), so the same character id can appear in several sagas. `compactSaga()` does the reverse; the GEDCOM importer uses it to write the record it builds as a file.
 
-**Database seed.** `scripts/seed-sql.mts` (`npm run db:seed`) generates `db/seed.sql` from the JSON:
+**Loading it into a database.** Both files work in PostgreSQL and SQLite:
+
+```sh
+createdb family_tree && psql -d family_tree -f db/schema.sql -f db/seed.sql
+sqlite3 family_tree.db "PRAGMA foreign_keys = ON;" ".read db/schema.sql" ".read db/seed.sql"   # FKs need the pragma
+```
+
+**The seed.** `scripts/seed-sql.mts` (`npm run db:seed`) generates `db/seed.sql` from the JSON:
 
 - one `BEGIN … COMMIT` transaction;
-- sagas in `sagas.json` order, with that order stored in `saga.position`, so a database API can return the drop-down order with `ORDER BY position`;
-- for each saga, `DELETE FROM saga` first, then `INSERT`s in dependency order (saga → notes → houses → people → families → members), so every foreign key holds at every statement;
-- laid out for reading: a file header with the saga list, a boxed banner per saga (title, id, author, medium, canon, coverage and row counts), and a `── Section ──` heading per table. People are grouped under a comment for each house. Each family is its own block, headed by a readable summary such as `-- got-f3: Rhaegar Targaryen + Lyanna Stark → Jon Snow`, and marked `[adoptive]`, `(no children)` or `(parents unknown)` where those apply. Because people are grouped by house, their row order differs from the JSON, so the round-trip test compares people as a set;
-- values written as SQL string literals with `'` doubled. Booleans are `TRUE`/`FALSE`, which PostgreSQL and SQLite (3.23+) both accept.
+- sagas in `sagas.json` order, stored in `saga.position`, so an API can return the menu order with `ORDER BY position`;
+- per saga, `DELETE FROM saga` first, then `INSERT`s in dependency order (saga → notes → houses → people → families → members), so every foreign key holds at every statement. `ON DELETE CASCADE` on every link to `saga` (and from `family_member` to `family` and `person`) makes the delete-then-insert re-runnable, and removing a saga removes all its rows;
+- laid out for reading: a header listing the sagas, a banner per saga, a heading per table, people grouped by house, and each family as its own block headed by a summary such as `-- got-f3: Rhaegar Targaryen + Lyanna Stark → Jon Snow`;
+- SQL string literals with `'` doubled; booleans as `TRUE`/`FALSE`, which PostgreSQL and SQLite 3.23+ both accept.
 
-The schema has `ON DELETE CASCADE` on every table's link to `saga` (and from `family_member` to `family` and `person`). That makes the delete-then-insert re-runnable, and removing a saga removes all its rows. The file is excluded from Prettier (`.prettierignore`) because it is generated.
+It is excluded from Prettier because it is generated. `npm test` checks it two ways: `seed-sql.mts --check` fails if it differs from what the JSON would generate, and `seed-sql.test.mts` loads it twice into an in-memory SQLite database (Node's built-in `node:sqlite`) with foreign keys on, rebuilds every saga from the tables, asserts each matches its JSON and the manifest order, then deletes a saga and asserts nothing is left.
 
-`npm test` checks it in two ways:
-
-- `seed-sql.mts --check` fails if `seed.sql` differs from what the JSON would generate now, so the two can't drift apart.
-- `seed-sql.test.mts` loads `schema.sql` and `seed.sql` into an in-memory SQLite database (Node's built-in `node:sqlite`, so no database install) with `PRAGMA foreign_keys = ON`. It loads the seed twice, rebuilds every saga from the tables, and asserts each is identical to its JSON file and to the `sagas.json` order. Finally it deletes a saga and asserts nothing is left in any table.
-
-**Categories and paths.** Each manifest entry has a `category`, one of `CATEGORIES` in `schema.ts` (`fiction`, `history`, `mythology`), which is also the sub-folder its data file lives in. `sagaPath(entry)` builds `<category>/<id>.json`, and it is the only place that path is built: the app's loader and every script and test (through `scripts/data.mts`) use it, so they can't disagree about where files live. It throws on an unknown category instead of building a path from it, so a bad manifest entry can't make the loader request something like `../x`. The list is closed on purpose: adding a category means adding it to `CATEGORIES`, to the `CHECK` constraint on `saga.category` in `db/schema.sql`, and creating the folder. `trees.test.mts` checks that every file is in its category's folder, that the manifest and folders match exactly, and that no saga file is left in the data root. `seed-sql.test.mts` checks that the database rejects an unknown category.
-
-Because the URL and the menu carry only a saga id, `ui/sagas.ts` keeps the manifest as a map from id to entry, and `loadSaga(entry)` takes the entry, which includes the category.
-
-**Data source.** `source.ts` fetches `${base}/sagas.json` and `${base}/<category>/<id>.json`. `base` is `VITE_DATA_URL` if it is set at build time. Otherwise it is `${BASE_URL}data`, the files in `public/data/`, which Vite copies into `dist/`. To switch to an object store, upload the same files and set `VITE_DATA_URL`. To switch to a database, put an API in front of `db/schema.sql`: the loader's `toRecord()` accepts a `SagaFile` or an already normalised `SagaRecord` (told apart by its `members` array), so the API can return the rows as they are. In both cases nothing outside `source.ts` changes. Whichever host you use must send CORS headers if it is on a different origin from the site.
-
-**Selection.** `select(id)` in `main.ts` shows "Loading…" and ignores any response that arrives after a newer selection. On failure it shows the error in the title instead of leaving a blank screen.
+**Categories and paths.** `CATEGORIES` in `schema.ts` is `fiction`, `history`, `mythology`, `religion`; each is a folder and a value of `saga.category`. `sagaPath(entry)` builds `<category>/<id>.json` and is the only place that path is built, so the app, scripts and tests can't disagree. It throws on an unknown category rather than build a path from it, so a bad manifest entry can't make the loader request `../x`. Adding a category means adding it to `CATEGORIES`, to the `CHECK` constraint in `db/schema.sql`, and creating the folder.
 
 ### In-memory format: `Tree`
 
-`toTree()` groups `members` by family back into `parents` and `children` arrays and turns `houses` into a colour lookup, giving the renderer, layout and relationship code the same family shape as the file:
+`toTree()` groups `members` back into `parents` and `children` and turns `houses` into a colour lookup:
 
 ```ts
 type Tree = {
     title: string;
+    author: string;
     people: Record<id, { name: string; house: string; sex: "m" | "f" }>;
     families: { parents: id[]; children: id[]; adoptive?: boolean }[];
     houseColors: Record<house, cssColor>;
 };
 ```
 
-Families mean the same as in the file (see _Families_ above). Adoption only changes the labels (_adoptive father_, _adopted son_); the layout treats an adoptive family like any other.
+Families mean the same as in the file. Adoption only changes labels and relationship words; the layout treats an adoptive family like any other.
+
+### Where the data comes from
+
+`source.ts` fetches `${base}/sagas.json` and `${base}/<category>/<id>.json`. `base` is `VITE_DATA_URL` if set at build time, otherwise `${BASE_URL}data`, the files in `public/data/`, which Vite copies into `dist/`:
+
+```sh
+VITE_DATA_URL=https://my-bucket.example.com/sagas npm run build
+```
+
+- **Object store** (S3, Azure Blob, GCS): upload the same files and set `VITE_DATA_URL`.
+- **Database:** put an API in front of `db/schema.sql`. `toRecord()` accepts a `SagaFile` or an already normalised `SagaRecord` (told apart by its `members` array), so the API can return rows as they are.
+
+Either way nothing outside `source.ts` changes; a host on another origin must send CORS headers. Because the URL and the menu carry only a saga id, `ui/sagas.ts` keeps the manifest as a map from id to entry, and `loadSaga(entry)` takes the entry, which includes the category. `openSaga()` shows "Loading…", ignores a response that arrives after a newer request, and on failure shows the error in the title.
 
 ## 4. Graph construction: union nodes
 
-`main.ts` turns the data into a directed graph with two kinds of node:
+`showTree()` in `graph.ts` turns a `Tree` into a directed graph with two kinds of node:
 
 - a **person node** for each entry in `people`;
-- a **union node** (`family<i>`) for each entry in `families`.
+- a **union node** (`family<i>`) for each family with at least two members.
 
 and two kinds of link:
 
@@ -248,7 +273,11 @@ Rhaegar ─spouse─┐                 ┌─child─► Jon
 Lyanna  ─spouse─┘
 ```
 
-This is the usual way to model genealogy as a graph. Linking people directly (spouse ↔ spouse, parent → child) creates cycles and duplicate parent edges. With union nodes, every edge points from an older generation to a younger one, so the graph is a **DAG** (directed acyclic graph). The layout below depends on that.
+This is the usual way to model genealogy as a graph. Linking people directly (spouse ↔ spouse, parent → child) creates cycles and duplicate parent edges. With union nodes every edge points from an older generation to a younger one, so the graph is a **DAG**, which the layout depends on.
+
+A family with one parent and no children (common in imported GEDCOM files, 45 across the sagas) is skipped: drawn, it was a "father" or "mother" link to a dot leading nowhere. It stays in the data, where it keeps "everyone is in a family" true.
+
+Sibling lines are not graph links (they'd pull siblings together and distort the layout); see §12.
 
 ## 5. Layout
 
@@ -256,86 +285,132 @@ This is the usual way to model genealogy as a graph. Linking people directly (sp
 
 ### Generations (`src/generations.ts`)
 
-`generations(tree)` gives every person a generation number, and `showTree()` (in `graph.ts`) pins each node's `fy` to `GEN_GAP` (80) × generation. Union nodes sit half a row below their parents. This replaces the library's `dagMode`, which counted depth from the roots: anyone with no parents in the data was a root, so married-in spouses (Elia Martell, Khal Drogo, Selyse Florent) floated up to the top row.
+`generations(tree)` gives every person a row, and `showTree()` pins each node's `fy` to `GEN_GAP` (80) × row, with union nodes half a row below their parents. `generationOf(id)` exposes the result to the UI ("Generation 3 of 8" in the panel). This replaces the library's `dagMode`, which counted depth from the roots, so married-in spouses with no parents in the data (Elia Martell, Khal Drogo) floated up to the top row.
 
-The algorithm:
+1. **Merge spouses.** A union-find joins each family's co-parents into one group, so spouses share a row.
+2. **Longest-path layering.** Kahn's algorithm runs over parent-group → child-group edges, giving every group a level below all its ancestors.
+3. **Pull down.** Groups are pushed down as far as their children allow, so an in-law's parents sit just above their child, not in the oldest row.
+4. **Fallbacks.** Families with no parents add no edges. A child who married into their own parents' group, or any cycle, can't be layered and falls back rather than throwing.
+5. **Descent repair.** In a densely intermarried pantheon, step 1 chains generations together: Jupiter partners Venus, Venus partners Mars, and Mars is Jupiter's son, so the Roman gods had 55 parents on or below their own child. A pass walks parents before children and pushes any child not below _every_ parent to one row below the deepest. Only those children move; the other sagas were measured unchanged.
+6. **Sibling alignment** (`alignSiblings`). A sibling who married into another generation can sit a row away from their brothers and sisters. Each is tried on a sibling's row, moving together with any spouses on their row; a move is kept only if every parent stays above every child and fewer sibling sets end up split. It aligned 18 of the 37 split sets. The rest can't move without splitting a couple: Ginny married Harry, a generation below the Weasleys; Tyrion married Sansa, whose father is level with Tyrion's siblings.
 
-1. **Merge spouses.** A union-find joins each family's co-parents into one group, so spouses always share a row.
-2. **Longest-path layering.** Kahn's algorithm runs over the parent-group → child-group edges, giving every group a level below all of its ancestors.
-3. **Pull down.** Groups are then pushed down as far as their children allow, so an in-law's parents sit just above their child, not in the oldest row.
-4. **Fallbacks.** Families with no parents add no edges. A child who married into their own parents' group, or any cycle, can't be layered and falls back gracefully rather than throwing.
-5. **Descent repair.** Merging co-parents (step 1) is right for ordinary families, but in a densely intermarried pantheon it chains generations together: Jupiter partners Venus, Venus partners Mars, and Mars is Jupiter's son, so father and son can land in groups the layering can't order. The Roman gods had 55 parents on or below their own child. A final pass walks parents before children and pushes any child that isn't below _every_ parent to one row below the deepest one. Only those children move, so every other saga's layout is unchanged; this was measured against the previous algorithm on all 14 sagas, with identical results for the 13 that were already valid.
-6. **Sibling alignment.** A sibling who married into another generation can sit a row away from their brothers and sisters. Each is tried on a sibling's row, moving with any spouses on their row; a move is kept only if every parent stays above every child and fewer sibling sets end up split. It aligned 18 of 37 split sets. The rest can't move without splitting a couple: Ginny married Harry, a generation below the Weasleys, and Tyrion married Sansa, whose father is level with Tyrion's siblings.
+**Priorities:** descent always holds, then couples share a row, then siblings share a row. In the Roman gods 32 couples are split because no layout could keep them together and parents above children; that tree is 31 generations deep. An attempt to make descent primary and spouses soft fixed Rome but broke sagas that had been right (the Tudors went from 16 long parent-to-child links to 82, with 7 split couples), so it was rejected.
 
-Descent always holds; marriage is the rule that gives way. In the Roman gods, 32 couples are split across rows because no layout could keep them together and also keep parents above children. The repaired tree is 31 generations deep, so it draws as a tall, narrow column. `generations.test.mts` checks descent against _every_ parent (it used to check only the first, which is how this went unnoticed), and allows split couples only in sagas listed in `INTERMARRIED`.
-
-An attempt to replace step 1 with "descent first, align spouses softly" was measured and rejected: it fixed the Roman tree but split couples and lengthened links in sagas that had been correct. The Tudors went from 16 long parent-to-child links to 82, with 7 split couples where there had been none.
-
-`scripts/generations.test.mts` (part of `npm test`) checks on every saga that co-parents share a row, that children sit below their parents, and that the three GoT spouses above now line up with their partners.
+`generations.test.mts` checks on every saga that every child is below _every_ parent, that co-parents share a row except in sagas listed in `INTERMARRIED` (Roman gods, the Bible), that the GoT married-in spouses line up, and that no more than 19 sibling sets are split (a ratchet: lower it when the layout improves).
 
 ### Forces
 
-- The many-body repulsion (`charge`) has `distanceMax(120)`. Every saga contains families that aren't connected to each other. With unlimited repulsion they push each other apart forever, and a tree grew from about 175 to over 700 units wide within 8 seconds.
-- **Depth for parallax.** A `forceZ` ("depth") pulls each house towards its own z plane, spread over `DEPTH` (240) units. The planes are ordered by house size, biggest in the middle, alternating front and back. The pull is weak (strength 0.08), so links and repulsion still shape the layout, and in practice the tree ends up about 175 units deep. That depth is what gives panning real perspective parallax: in a measured pan, the nearest people moved about 1.24× as far on screen as the farthest. A stronger effect needs a stronger pull (which starts to fight the links) or a closer camera.
+- **Bounded repulsion.** `charge` has `distanceMax(120)`. Every saga contains families that aren't connected, and with unlimited repulsion they pushed each other apart forever (a tree grew from 175 to over 700 units wide in 8 s).
+- **Depth for parallax.** A `forceZ` pulls each house towards its own z plane, spread over `DEPTH` (240): biggest houses in the middle, alternating front and back (`houseDepths()`). It is weak (0.08), so links still shape the layout; the tree ends up about 175 deep, which is what gives panning real parallax (nearest people move about 1.24× as far as the farthest).
+- **Convergence.** The library defaults (`cooldownTicks = Infinity`, `cooldownTime = 15 s`) kept the physics, auto-fit and full-rate rendering running for 15 s per load. With heights pinned there's little left to solve: `d3AlphaDecay(0.045)` and `d3VelocityDecay(0.5)` settle it in about 4 s, and `cooldownTicks(300)` / `cooldownTime(5000)` stop it hard, after which idle throttling takes over (§7).
 
-- **Convergence.** The library defaults are `cooldownTicks = Infinity` and `cooldownTime = 15 s`, so every saga load ran the physics, and through auto-fit moved the camera and forced full-rate rendering, for 15 seconds: nodes were measured still drifting 3 units per second at 12 s. Heights are pinned and the depth pull is weak, so there's little left to solve: `d3AlphaDecay(0.045)` and `d3VelocityDecay(0.5)` settle it in about 4 s, and `cooldownTicks(300)` / `cooldownTime(5000)` stop it hard. Once stopped, nothing moves, so idle throttling can take over (§5a).
+### 2D mode (`src/graph/flat.ts`)
 
-### Switching trees and camera framing
+The menu's 2D toggle (or `?view=2d`) eases the graph's z scale towards about 0, squashing the house planes flat. Each person object is counter-scaled so spheres stay round; links, sibling lines and guides simply flatten. Not exactly 0, which would make the matrices singular for raycasting. Two forces act only while flat: one spreads each generation row so names don't overlap, the other clusters siblings together. The camera turns to face the plane and rotation is disabled (`setFlatView`). Everything else, picking included, uses `drawnZ()` for the flattened depth.
 
-`show(tree)` in `ui/sagas.ts` resets the selection, panel and search list and calls `showTree(tree)` in `graph.ts`. That builds new nodes and links and calls `graph.graphData()`, which reheats the simulation. Before that it frees the previous tree's per-person materials and all label textures, because `SpriteText` makes a canvas texture per label, and these used to build up with every saga switch. It also rebuilds the sibling overlay, keeping its one shared material.
+### Switching trees and the camera
 
-The camera (`camera.ts`) has three modes, and the user always wins. All its motion is frame-rate independent: easing closes `1 - exp(-rate × dt)` of the gap each frame and panning scales with `dt`, so a 120 Hz screen behaves like a 60 Hz one. Before, both ran per frame, so on a 120 Hz screen they went twice as fast.
+`show(tree)` in `ui/sagas.ts` resets every per-tree state (selection, relationship, group, collapsed branches, history, focus, tags), applies the palette, then calls `showTree()`. That frees the previous tree's per-person materials and label textures first (`SpriteText` makes a canvas texture per label, and these used to build up with every switch), rebuilds the sibling overlay and guides, and calls `graph.graphData()`.
 
-| Mode      | When                                            | What it does                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| --------- | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `autoFit` | After `load()`, after deselecting, pad ◯ button | Each frame, `stepFit()` eases towards a view that fits `peopleBbox()`: the people only (not union nodes or guides), 5th–95th percentile in width on wide screens so one stray family doesn't zoom everyone out, but every person in portrait (where width is the constraint), and every generation in height. It is measured to the box centre; fitting the front face, as at first, pushed the camera back by the whole house-plane depth and made the first view far too zoomed out. |
-| `flight`  | Search result or panel link                     | `stepFlight()` eases towards the person's **live** position (the layout may still be moving) for about a second, then stops.                                                                                                                                                                                                                                                                                                                                                           |
-| user      | Any OrbitControls `start`, arrow key or pad     | Both modes above are cancelled at once, so they never pull the camera back while you're exploring.                                                                                                                                                                                                                                                                                                                                                                                     |
+The camera (`camera.ts`) has these modes, and the user always wins. All motion is frame-rate independent: easing closes `1 - exp(-rate × dt)` of the gap per frame and panning scales with `dt`, so 120 Hz behaves like 60 Hz.
 
-## 5a. Interaction (`src/ui/`, `src/family.ts`)
+| Mode       | When                                                | What it does                                                                                                                                                                                                                              |
+| ---------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| auto-fit   | after a load or deselect, `F`, the pad's ◯          | eases towards a view fitting `peopleBbox()`: people only, the 5th–95th percentile in width on wide screens (one stray family doesn't zoom everyone out), every person in portrait, every generation in height, measured to the box centre |
+| fit people | Fit family, a framed house, a group, focus mode     | `fitPeople(nodes)`: the same fit for a chosen set                                                                                                                                                                                         |
+| flight     | selecting with `fly`, search, panel links, the tour | eases towards the person's **live** position (the layout may still be moving) for about a second                                                                                                                                          |
+| glide      | generation steps, the minimap, a restored view      | eases the orbit target (and optionally distance) to a point                                                                                                                                                                               |
+| user       | any OrbitControls drag, arrow key or pad press      | cancels all of the above at once, so they never pull the camera back while you're exploring                                                                                                                                               |
 
-**Picking.** Each person's sphere has `userData.personId`.
+With reduced motion on (the OS setting), every move jumps to its end. Switching to another saga and back restores the view you left (`rememberView` / `restoreView`, kept in memory only, so a fresh visit or a shared link starts from the whole tree).
 
-- **Mouse and pen:** an exact `Raycaster` hit; the nearest sphere wins.
-- **Touch:** a fingertip covers about 7 mm and hides what's beneath it, so a raycast often hit a sphere _in front of_ the intended one where people overlap (measured: 2 of 14 taps chose the wrong person on a phone). Touch picks the person whose on-screen centre is nearest the tap, within 28 px, falling back to the raycast. Measured afterwards: 14 of 14.
+## 6. Highlighting (`src/graph/highlight.ts`, `src/ui/state.ts`)
 
-**Taps, double-taps and long-press** are handled the same way for every pointer type. A tap counts only if it started on the canvas, used one pointer, and moved less than a per-type slop (5 px mouse, 8 pen, 12 touch; 5 px was too tight for fingers). A second finger turns it into a pinch, never a tap, and `pointercancel` (the browser took over) abandons it. Two taps on the same person within 350 ms fly to them, because `dblclick` is unreliable on mobile. Holding a touch for 450 ms previews that person's line (the touch equivalent of hover), with a short vibration where supported. `downAt` is cleared after every `pointerup`, so a tap on a panel can never also select whoever is behind it.
+All highlighting runs through one function and one easing pass.
 
-**Highlight.** `lineage(tree, id)` in `family.ts` walks the families upwards and downwards to collect all ancestors and descendants, plus the person's spouses. `highlight()` in `graph/highlight.ts` sets a target for everything outside that set of 12% opacity, including union nodes, links and sibling lines; a union stays lit when any of its members is in the line. `stepFades()` eases every object towards its target, settling in about 0.3 s, so highlights fade rather than snap. For labels, the eased `dim` factor is combined each frame with the distance fade.
+**`refreshHighlight()`** in `ui/state.ts` is the single place that decides what's lit, from `state`, in priority order:
 
-**Direction and focus.** `lineageRoles(tree, id)` returns each person in the line with its side (ancestor, descendant, spouse) and generation distance, found breadth-first so a cousin marriage counts the shorter route. Ancestors get a warm emissive tint and descendants a cool one, on top of the house colour, and brightness falls by 12% a generation down to 55%. The panel key pairs each colour with ▲/▼ so it doesn't rely on colour alone, as do the gold rings round path people. Focus mode sets the outside target to 0 instead of 12%; anything fully faded is made invisible, and picking, name de-overlap and `peopleBbox()` skip it, so the camera frames only the line. All of it runs through the existing target/ease mechanism, so it adds no per-frame work beyond the fades already there.
+1. a relationship pair → its connecting path, in gold;
+2. a group (a relationship search or namesakes) → those people, the rest faded to 4%;
+3. a house → its members, the rest faded to 4%;
+4. the selected (or hovered) person → their line with roles, the rest dimmed to 12%, filtered by focus mode.
 
-**Per-link materials.** By default three-forcegraph shares one material per link colour. Dimming one gold spouse link therefore dimmed them all, and the last link processed set every link's opacity. `linkMaterial()` now gives each link its own material, at a resting opacity of 0.45 (the library's default 0.2 was too faint).
+Before any of that it collects every descendant of each collapsed person into a "folded" set (`setFolded`), hidden whatever else is lit. Every UI action that changes what should be lit changes `state` and calls `refreshHighlight()`; nothing else calls `highlight()`.
 
-**Label fade.** `fadeLabels()` fades relationship labels from fully visible at 110 units from the camera to hidden at 240, and turns them off entirely once almost transparent. Labels on the highlighted line skip the fade. Person names are never faded.
+**`highlight(people, { roles, path, step, hideOthers, dim })`** sets a target per object and returns; it never animates.
 
-**Details panel and search.** `select(id)` fills the panel from `relatives(tree, id)` (parents or adoptive parents, siblings or foster siblings, spouse, children or adopted children). Each name is a link to that person. `select` also puts the person's name in the search box and writes the URL. `deselect()` is the single way out (close button, Esc, an empty click, or clearing the search): it calls `fitTree()`, which stops any flight and eases back to the whole tree, empties the search and URL, and clears the highlight. Search listens to `change` to select, and to `input` so the clear (✕) button deselects immediately instead of waiting for blur.
+- **Targets.** Everything outside `people` gets `dim` (12% by default; `hideOthers`, i.e. focus mode, gives 0). Links and sibling lines take the lower of their two ends. Folded people and anything touching them get 0.
+- **Union nodes** light only when at least two of their members are lit (a couple, or a parent and child). With "any member" a lit parent dragged in a link to a dot leading to nobody lit: Robert's "father" link to Gendry stayed bright while only Robert was shown.
+- **Direction and distance.** `lineageRoles(tree, id)` gives each person in the line its side (`self`, `ancestor`, `descendant`, `spouse`) and generation distance, breadth-first so a cousin marriage counts the shorter route. Brightness falls 12% a generation, down to 55%. Siblings and cousins focus modes build their own roles (`sibling`, `cousin`, distance 0).
+- **Colour.** Each side with a colour (`palette().lineage`: ancestor amber, descendant blue, sibling green, cousin violet) gets a faint emissive tint _and_ a ring sprite in exactly that colour. The tint alone was mixed into the house colour and couldn't match the panel key; the ring always does. The panel's Focus buttons are the key: each is drawn in its side's colour with a shape (▲ ▼ ◆ ◇) so it doesn't rely on colour alone. The CSS variables must match `palettes.ts`.
+- **Path.** Path people get a gold ring and glow; path links are drawn brighter and thicker, the hovered step more so. A step passes through a union node, so `linksAlong()` marks both halves.
 
-**Panning.** Arrow keys and the on-screen pad call `holdPan()` and `releasePan()` in `camera.ts`, and `stepPan()` calls `controls.pan()` every frame, by 540 px per second scaled by `dt`, while any direction is held. That gives smooth movement instead of OrbitControls' own handler, which steps once per key-repeat. Arrows are ignored while typing in an input, Shift/Ctrl/Cmd plus an arrow rotates instead, and losing window focus clears `held`. The pad appears only for `(pointer: coarse)`, and it uses pointer capture so a finger sliding off a button still releases it.
+**`stepFades(dt)`** eases every object's opacity, glow and tint towards its target each frame (settling in about 0.3 s), so highlights fade rather than snap. Anything fully faded is made invisible, and `isShown()` (target > 0) is what picking, name de-overlap, the minimap and `peopleBbox()` test, so focus mode and collapsed branches drop out of all of them, and the camera frames only what's left, with no extra code in those modules. Labels keep the factor in `userData.dim`, which `names.ts` combines with its distance fade.
 
-**"Relative to" mode.** The details panel's _Tag everyone's relationship_ button calls `labelAll(tree, id)` and shows each person's relationship to the selected one as a small tag above their name. It takes under 1 ms for a whole saga, even the intermarried Fire & Blood. The tags follow the selection, so they always describe the person shown, and are cleared on deselect or saga change.
+**Per-link materials.** three-forcegraph shares one material per link colour by default, so dimming one gold link dimmed them all. `linkMaterial()` gives each link its own, at a resting opacity of 0.45.
 
-**Idle throttling (battery).** A settled tree that nobody touches was redrawn 60 times a second for nothing, the biggest drain on phones and laptops. Each frame compares a cheap fingerprint (camera, orbit target and a stride of node positions, to one decimal place); while it changes, or for 600 ms after any input, frames run at full rate. Once still, whole frames (simulation and draw) are skipped down to `quality.idleFps`. Any pointer, key, wheel or resize wakes it at once. Comparing real state rather than trusting "moving" flags means a forgotten flag can never freeze the view. Measured idle frames over 2 s: low 19–20 (10 fps target; it was 48–51 before), medium 37, high 25.
+## 7. Interaction (`src/ui/`)
 
-**URL state.** `writeUrl()` keeps `?saga=…&person=…&view=2d|3d` in sync using `history.replaceState`, so there is no history entry for every click. On startup, `?saga` picks the saga and `?person` is selected once the layout has had 1.5 s to place it.
+**Picking.** Each person's sphere has `userData.personId`. Mouse and pen use an exact `Raycaster` hit. A fingertip covers about 7 mm and hides what's beneath it, so a raycast often hit a sphere _in front of_ the intended one (2 of 14 test taps were wrong); touch instead picks the person whose screen centre is nearest the tap, within 28 px, falling back to the raycast (14 of 14 afterwards).
 
-**Mobile and touch.**
+**Taps, double taps and long press** work the same for every pointer type. A tap counts only if it started on the canvas, used one pointer, and moved less than a per-type slop (5 px mouse, 8 pen, 12 touch). A second finger makes it a pinch, and `pointercancel` abandons it. Two taps on one person within 350 ms fly to them (`dblclick` is unreliable on mobile). A 450 ms touch hold previews that person's line, with a short vibration where supported. `downAt` is cleared after every `pointerup`, so a tap on a panel can never also select whoever is behind it.
 
-- **No page zoom or scroll:** `html, body { touch-action: none }` gives pinch and drag to the 3D view, and double-tap selects instead of zooming the page. Panels set `touch-action: pan-y` and `overscroll-behavior: contain` so they still scroll with a finger without moving the view behind them.
-- **Touch targets:** at least 44 px on coarse pointers (Apple and Material guidance), and inputs at 16 px so iOS Safari doesn't zoom when they're focused.
-- **Safe areas and viewport:** overlays use `env(safe-area-inset-*)` for the iPhone notch and home bar, and `100dvh` so the mobile URL bar can't cut panels off. `visualViewport` resize events are followed as well as `window` ones.
-- **Layout:** below 600 px lil-gui starts collapsed (its `.lil-root` sets an inline width, so the stylesheet needs `!important`); panels span the width; the pad moves up when a panel is open. In landscape on a phone the header shrinks and panels move to the side.
-- **Verified with real touch input** (Chrome DevTools-protocol touch events, which run the browser's own gesture handling, unlike synthetic events) on an emulated Pixel 7: tap, tap-empty, one-finger orbit, two-finger pinch, double-tap, long-press, panel scroll and toolbar taps.
+**Hover card.** With a mouse, hovering previews a person's line; with someone selected, a small card says how the hovered person relates to them (`relate()`).
 
-**Search.** `searchPeople()` folds names (lower case, accents and punctuation removed, so `apsu` matches _Apsû_) and ranks exact name, then a word starting with the query, then containing it, then a close spelling. Close means within one edit from 4 letters and two from 6, by optimal-string-alignment distance, which counts swapping two neighbouring letters as one edit; _Ghandi_ is two edits from _Gandhi_ (the h moves three places), hence two from 6 letters. Short queries don't fuzz-match, as they'd hit too much. Within a tier the file's order is kept, so the saga's main figures come first, as before. Checked across all 1,716 people: searching anyone's exact name puts them first (one tie, the Roman file's stray "Tethys)", folds to the same text). Suggestions are people, not names: the picked id is stored on the box, and two people sharing a name get a hint from `distinguish()` (parents, else a child, else a spouse), so the Bible's two Lamechs are both reachable.
+**Selection and history.** `select(id, fly)` in `panel.ts` is the one way in: it records the previous person in the panel's trail, pushes a browser history entry (`pushUrl`), clears any house or group, refreshes the highlight, fills the panel, and flies or refits. `deselect()` is the one way out (✕, Escape, an empty click, clearing the search). The panel's ◀ and `Backspace` walk the trail; the browser's Back walks the same entries through `popstate`.
 
-**Navigation.** The panel's line of descent comes from `ancestry()`, which follows, at each step, the parent with the deeper recorded ancestry (the father on a tie, birth before adoptive): Rahul Gandhi's line runs through Indira to the Nehrus rather than ending at Feroze, whose parents aren't recorded. Fit family, step zoom and generation steps are camera moves in `camera.ts` (`fitPeople`, `zoomBy`, `glideTo`), each cancelled by any drag like the others. The minimap frames the 2nd–98th percentile sideways (one outlier, like the Bible's Mariam with no relatives, would squash the tree into a sliver) and keeps every generation; clicks are clamped to the tree. It's hidden while the details panel is open on phones, where there's no free corner, and sits above the touch pad (`--pad-h`) on touch screens. The view per saga is kept in memory only, so a fresh visit or a shared link still starts from the whole tree.
+**Details panel.** Filled from `relatives()` (parents or adoptive parents, siblings or foster siblings, spouses, children). Above the name: recently viewed people as chips (the last 3 distinct people in the trail) and the line of descent from `ancestry()`, which at each step follows the parent with the deeper recorded ancestry (father on a tie, birth before adoptive), so Rahul Gandhi's line runs through Indira to the Nehrus, not to Feroze. Long lines collapse to head, an expandable "… n more …", and tail. Under the house: the generation (click to go to that row), the number sharing the name, and the descendant count (click to show only them). Swiping the panel sideways on touch moves between siblings, as `Alt` + ← → does.
 
-## 5b. Relationship finder (`src/relationship.ts`)
+**Search** (`search.ts`, `suggest.ts`, `family.ts`). `searchPeople()` folds names (lower case, accents and punctuation removed) and ranks exact, then a word starting with the query, then containing it, then a close spelling: one edit from 4 letters, two from 6, by optimal-string-alignment distance (a swap of neighbours is one edit). Within a tier the file's order is kept, so main figures come first. Suggestions are people, not names: the picked id is stored on the box, and namesakes get a hint from `distinguish()` (parents, else a child, else a spouse). Relationship queries are in §8.
+
+**Keyboard** (`input.ts`). One `keydown` handler; keys are ignored while typing in an input, except Escape. Arrow keys call `holdPan()` / `releasePan()` in `camera.ts`, which pans by 540 px a second while held, smoother than OrbitControls' own per-key-repeat step; losing window focus releases everything. A separate capture-phase listener lets Escape end a tour before an input or its suggestion list can take the key, and stops it there, so one Escape does one thing.
+
+**Escape**, in order: end a tour, close a suggestion list, close the finder, deselect, clear a house, clear a group. Dialogs close themselves (native `<dialog>`).
+
+**URL state** (`url.ts`). `?saga`, `person`, `with`, `house` and `view=2d|3d`. Selecting a new person adds a history entry; everything else uses `replaceState`. A person (or pair) wins over a house. At start-up, `?saga` picks the saga; a person, pair or house is applied after 1.5 s, once the layout has placed nodes and built the objects a highlight dims. An imported file has nothing shareable, so its URL keeps only `view`.
+
+**Idle throttling.** A settled tree that nobody touches was redrawn 60 times a second for nothing. Each frame `app.ts` compares a cheap fingerprint (camera, orbit target and a stride of node positions, to one decimal); while it changes, or for 600 ms after any input, frames run at full rate. Once still, whole frames are skipped down to `quality.idleFps`. Any pointer, key, wheel or resize wakes it. Comparing real state rather than trusting "moving" flags means a forgotten flag can never freeze the view. Measured idle frames over 2 s: low 19–20 (was 48–51), medium 37, high 25.
+
+**Touch and phones.**
+
+- `html, body { touch-action: none }` gives pinch and drag to the 3D view, and double tap selects instead of zooming the page. Panels set `touch-action: pan-y` and `overscroll-behavior: contain`, so they scroll without moving the view.
+- Controls are at least 44 px on coarse pointers, and inputs 16 px so iOS Safari doesn't zoom on focus.
+- `env(safe-area-inset-*)` keeps overlays clear of the notch and home bar; `100dvh` stops the mobile URL bar cutting panels off; `visualViewport` resizes are followed.
+- Below 600 px the menu starts collapsed (lil-gui sets an inline width, so the CSS needs `!important`), panels span the width, and the pad, tour bar and minimap move or hide around the open panel. In landscape the header shrinks and panels move to the side.
+- Verified with real touch input (DevTools-protocol touch events, which run the browser's own gesture handling) on an emulated Pixel 7.
+
+**Menu** (`sagas.ts`, lil-gui). The saga list, Glow, Generation guides, 2D and Nebula sky (remembered in `localStorage`, except 2D, which comes from the URL so links share it), the Houses folder and the Pinned folder. The stylesheet themes lil-gui through its CSS variables to match the panels.
+
+## 8. Navigation features
+
+These are small and mostly reuse the highlight, camera and panel machinery above.
+
+| Feature             | How it works                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Focus mode          | `state.focus` is `off`, `all` (the line), `ancestors`, `descendants`, `siblings` or `cousins`; `refreshHighlight()` filters the roles and sets `hideOthers`. `focusDepth` (1, 2, 3 or all) drops anyone further than that many generations. `L` toggles the line.                                                                                                                                                                                                                                                                           |
+| Siblings, cousins   | `siblingsOf()`: anyone sharing a family as a child, half and foster siblings included. `cousinsOf()`: children of a parent's siblings, minus the person and their own siblings.                                                                                                                                                                                                                                                                                                                                                             |
+| Fit family (`G`)    | `immediateFamily()` (parents, siblings, spouses, children) → `fitPeople()`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Generation steps    | `Page Up`/`Page Down` and the "Generation n" edge labels `glideTo()` that row's height, keeping the sideways position. The panel's "Generation n of N" calls the same `goToGeneration()`.                                                                                                                                                                                                                                                                                                                                                   |
+| Houses              | The legend button cycles: first click lights the house (`state.house`), the second frames all its members (`frameHouse` → `fitPeople`), the third clears. `?house=` is matched by `houseNamed()`, which folds case, accents and punctuation and accepts a leading "House", so `stark`, `STARK` and `House%20Stark` all find "Stark"; the URL is rewritten with the real name.                                                                                                                                                               |
+| Groups              | `showGroup(ids, label)` sets `state.group`, refits and toasts the count; `Esc` or selecting anyone clears it. Used by relationship search and namesakes.                                                                                                                                                                                                                                                                                                                                                                                    |
+| Relationship search | `searchRelation(tree, query)` recognises "X's word" and "word of X", singularises the word (`children` → `child`, `sons` → `son`) and maps it to a composition of hops (`up`, `down`, siblings, filtered by sex): `grandmother` is up, then up filtered to `f`. Of the people the name could mean (up to 10 search matches), the one with the most such relatives wins, so "sons of Jacob" finds Jacob (Israel)'s eleven rather than a minor Jacob with none. A query of neither shape, or an unknown word, falls through to a name search. |
+| Namesakes           | `namesakes()`: everyone with the exact same name, offered in the panel only when there's more than one.                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| Collapse branch     | `state.collapsed` holds people whose descendants are folded. `refreshFolds()` sets the "+ n" tags (`setFoldBadges`, sharing the tag sprite with "relative to" words, which they override) and refreshes the highlight, which hides the folded set (§6). It's all opacity, so the layout doesn't move and expanding is instant. Cleared on saga change.                                                                                                                                                                                      |
+| Recently viewed     | The last 3 distinct people in the panel's trail, as chips.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Chart (`C`)         | A native `<dialog>` with the line of descent above and descendants as nested `<details>` (first two levels open), so the browser does the folding. A `seen` set lists anyone reachable twice through intermarriage only once. Adam's 448 descendants build in about 17 ms.                                                                                                                                                                                                                                                                  |
+| Guided tour (`T`)   | `tourLine(tree, id)`: the selected person's `ancestry()`, then on down through the child with the deepest line of descendants at each step; with nobody selected, `longestLine()` over the whole tree. Each stop calls `select(id, true)` and captions it; 4 s per stop, with pause, previous, next and end. Ending the tour (`Esc`, End tour, the play button) returns to the person it started from, or deselects, so the selection a tour leaves behind never becomes the next tour's start.                                             |
+| Help (`?`)          | A native `<dialog>` with the shortcut list written once in `index.html`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| Pins                | ☆ in the panel; per saga in `localStorage` under `ft.pins.<saga>`, listed in the menu's Pinned folder (hidden while empty).                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Minimap (`M`)       | A 2D canvas: one dot per person in their house colour, from the front, plus a frame for the view. It frames the 2nd–98th percentile sideways (one outlier, like the Bible's Mariam, would squash the tree into a sliver), redraws only when a fingerprint of the view and highlight changes, and click or drag `glideTo()`s there.                                                                                                                                                                                                          |
+| "Relative to" tags  | `labelAll(tree, id)` tags every person with their relationship to the selected one; under 1 ms for a whole saga, even Fire & Blood. Follows the selection.                                                                                                                                                                                                                                                                                                                                                                                  |
+
+The dialogs use native `<dialog>` with `showModal()`, which gives Escape, focus trapping and a backdrop for free; a click on the backdrop (the dialog element itself) closes it.
+
+## 9. Relationship finder (`src/relationship.ts`)
 
 `relate(tree, a, b)` returns `{ summary, label, kind, path, steps, commonAncestors, routes, adoptive }`, or `null` if the two aren't connected. `kind` is `self`, `blood`, `spouse`, `step`, `in-law` or `path`. Graph indexes (parents, spouses) are built once per tree and cached in a `WeakMap`.
 
-- **Blood relationships** use the standard genealogical method. Breadth-first search finds every ancestor of each person with its distance. The **closest common ancestor** gives the generations up from each side, `(ga, gb)`, and those are named:
+- **Blood relationships** use the standard genealogical method. The closest common ancestor gives the generations up from each side, `(ga, gb)`, which are named:
 
     | `ga`, `gb`  | Label                                                     |
     | ----------- | --------------------------------------------------------- |
@@ -343,140 +418,130 @@ The camera (`camera.ts`) has three modes, and the user always wins. All its moti
     | n, 0        | son/daughter, grand-, great-grand-…                       |
     | 1, 1        | brother/sister                                            |
     | n, 1 / 1, n | nephew/niece, uncle/aunt: grand- at 3, great-grand- at 4… |
-    | otherwise   | cousin of degree `min(ga, gb) − 1`, removed `             | ga − gb | ` times |
+    | otherwise   | cousin of degree `min − 1`, removed `\|ga − gb\|` times   |
 
-- **Half-relations:** the route meets at a single ancestor who had a partner, and that partner isn't also a common ancestor at the same distance. This covers half-siblings, half-uncles/aunts and half-nephews/nieces (Aegon II is Aegon III's _half-uncle_) as well as half-cousins.
-- **Common ancestors:** the lowest meeting point(s), usually a couple (Jon and Daenerys: _Aerys II & Rhaella_), shown in the panel and highlighted.
-- **Every route:** heavily intermarried families such as the Targaryens are related through several routes. `allDistances()` keeps every distance to every ancestor (not just the shortest), and a meeting point counts only if no other common ancestor sits below it on both lines at those distances. The closest route is the headline, so Aegon III is Baelon's _grandson_ through Daemon; the panel adds "Also related as: great-grandson" through Rhaenyra. When routes tie, a birth route is preferred over an adoptive one.
-- **Adoption** counts as parenthood but is flagged _(by adoption)_.
-- **Step-relations:** a parent's spouse who isn't your parent (_step-mother_), a spouse's child who isn't yours (_step-son_), and children of a parent's spouse with no parent in common (_step-brother_). Cersei is Gendry's step-mother.
-- **In-laws:** one marriage plus a blood relationship, in either order: a relative of your spouse (_mother-in-law_) or the spouse of your relative (_sister-in-law_). Catelyn is Benjen's sister-in-law. The blood label is re-gendered for the first person. Across the Game of Thrones tree this names 151 in-law and 20 step pairs that were previously only described as "connected by marriage".
-- **Further marriage-only connections** (e.g. two wives of the same man, Elia and Lyanna) have no standard word. They are found by a shortest path over parent, child and spouse links and described step by step.
-- **`path`** is always that shortest chain, which `highlight(people, { path })` lights in gold. Path people glow in their house colour and path links are drawn brighter and thicker. A path step between two people passes through their family's union node, so both halves are marked.
-- **Tests:** `relationship.test.mts` checks facts from the sagas and a synthetic tree laid out like the standard cousin chart. The synthetic test caught an off-by-one in the nephew line (grand- one generation too late) that no saga test would have.
+- **Half-relations:** the route meets at a single ancestor who had a partner, and that partner isn't also a common ancestor at the same distance (Aegon II is Aegon III's _half-uncle_).
+- **Every route.** Intermarried families are related several ways. `allDistances()` keeps every distance to every ancestor, not just the shortest, and a meeting point counts only if no other common ancestor sits below it on both lines at those distances. The closest route is the headline (Aegon III is Baelon's _grandson_ through Daemon); the others are listed (_also great-grandson_, through Rhaenyra). Ties prefer a birth route to an adoptive one.
+- **Common ancestors:** the lowest meeting points, usually a couple (Jon and Daenerys: _Aerys II & Rhaella_).
+- **Step-relations:** a parent's spouse who isn't your parent (_step-mother_), a spouse's child (_step-son_), children of a parent's spouse with no parent in common (_step-brother_).
+- **In-laws:** one marriage plus a blood relationship, either way round: a spouse's relative (_mother-in-law_) or a relative's spouse (_sister-in-law_), re-gendered for the first person. This named 151 in-law and 20 step pairs in Game of Thrones that were previously just "connected by marriage".
+- **Further connections** only by marriage have no standard word; they're described step by step along the shortest path over parent, child and spouse links.
+- **`path`** is always that shortest chain, which the highlight draws in gold (§6).
 
-## 5c. GEDCOM import (`src/data/gedcom.ts`)
+`relationship.test.mts` checks facts from the sagas and a synthetic tree laid out like the standard cousin chart; the synthetic test caught an off-by-one in the nephew line that no saga test would have.
 
-GEDCOM is line based: `LEVEL [@XREF@] TAG [VALUE]`. `parseGedcom()` builds the record tree from the levels and then maps the records:
+## 10. GEDCOM import
 
-| GEDCOM                                                         | Tree                                                                                     |
-| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `INDI` with `NAME "Given /Surname/"` (or `GIVN`/`SURN`), `SEX` | person. The house is the surname, and `SEX` other than M or F becomes `m` with a warning |
-| `FAM` with `HUSB`, `WIFE`, `CHIL`                              | family (at most two parents)                                                             |
-| `CHIL` + `PEDI adopted`/`foster`, or `_FREL`/`_MREL`           | a separate `adoptive` family with the same parents                                       |
-| `INDI` → `FAMC` + `PEDI adopted`                               | the same, when the marker is on the person's side                                        |
+### In the browser (`src/data/gedcom.ts`)
 
-It tolerates a BOM, CRLF line endings, lower-case tags, indentation and malformed lines. Only the first `NAME` of a record is read: later ones are alternate names (the Norse file gives Sibil a second `NAME Sibil /(Sif)/`). A pointer to a missing person is dropped with a warning, and a birth family left empty only because its children were all adopted is dropped too. It throws only if there are no `INDI` records at all. The 20 MB size check happens before parsing, in `ui/files.ts`.
+GEDCOM is line based: `LEVEL [@XREF@] TAG [VALUE]`. `parseGedcom()` builds the record tree from the levels, then maps records:
 
-### Importing a GEDCOM file as a saga (`scripts/gedcom-to-saga.mts`)
+| GEDCOM                                                         | Tree                                                                                   |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `INDI` with `NAME "Given /Surname/"` (or `GIVN`/`SURN`), `SEX` | person; the house is the surname; a `SEX` other than M or F becomes `m` with a warning |
+| `FAM` with `HUSB`, `WIFE`, `CHIL`                              | family (at most two parents)                                                           |
+| `CHIL` + `PEDI adopted`/`foster`, or `_FREL`/`_MREL`           | a separate `adoptive` family with the same parents                                     |
+| `INDI` → `FAMC` + `PEDI adopted`                               | the same, when the marker is on the person's side                                      |
 
-The in-browser parser builds the family structure. The importer reuses it and adds what a stored saga needs:
+It tolerates a BOM, CRLF, lower-case tags, indentation and malformed lines. Only the first `NAME` is read (later ones are alternates). A pointer to a missing person is dropped with a warning, and a birth family left empty because all its children were adopted is dropped. It throws only if there are no `INDI` records. Houses are coloured from `palette().importHouses`. Warnings go to the console.
 
-- **Input** (`scripts/gedcom-source.mts`): a local path or an `https://` URL. A `github.com/<owner>/<repo>/blob/<ref>/<path>` page link is rewritten to `raw.githubusercontent.com`. Only `https:` is accepted. Both kinds of input are capped at 20 MB, the same limit as the in-app import; a download is also cut off at 30 s, and its size is counted as it streams, so a missing or wrong `Content-Length` can't get past the cap. A download that doesn't start with `0 HEAD` is refused, with a message that names a proxy or web filter when the response was HTML or was redirected to another host. That is what a blocked request looks like: a filter answers with a redirect to its own "not allowed" page, served with status 200, which would otherwise parse as an empty tree. The readable file name (`Babylonian+Gods.ged`) goes into the notes either way. Tested offline in `gedcom-source.test.mts`.
+### As a saga (`scripts/gedcom-to-saga.mts`)
 
-- **Encoding:** strict UTF-8 first, then Windows-1252 (many GEDCOM 5.5 files say `CHAR ANSI`). Decoding those as UTF-8 would corrupt names such as Old Norse _Auðr_ and _Þrúðr_.
-- **Display names** come from `scripts/gedcom-names.mts`, which is pure and tested in `gedcom-names.test.mts` against the real name patterns in the sample files. Names are kept clean: no peerage titles, title dates or life years. A monarch is shown by regnal name, taken from a `TITL` of the form King/Queen + name + Roman numeral ("King Ferdinand V of Castile and Aragon" becomes "Ferdinand V"; "Queen Consort" is a role and doesn't match). Only the person's own `TITL` lines are read; `SOUR` records also have `TITL`, which are book titles.
-- **Mythology mode** (`--names mythology`): the name is the `/…/` part. A description in front is dropped. That covers lower-case text, a leading article, two or more words, or a role word ("queen of the Gods /Hera/", "Trojan Hero /Aeneas/", "Cyclops /Polyphemus/"). A real one-word given name is kept ("Numa /Pompilius/"). A placeholder ("A /Giantess/", "Gilling's /Wife/") is the only name the file gives, so it's kept whole. The Wikipedia links in the Norse file were checked as a possible source of names and rejected: most point to a related figure's page (Bára to Ægir), so using them would rename people.
-- **Unnamed people:** a placeholder given name ("... /Tudor/") becomes "(unnamed son) Tudor".
-- **Ids** are slugs of the display name (`henry-viii`, `unnamed-son-tudor`), numbered in file order where they repeat, so re-importing gives the same ids.
-- **Corrections** (`--rename`, files in `scripts/gedcom-renames/`): for a source that writes some names badly, a reviewed list keyed by GEDCOM record id gives the display name, optionally the id, and optionally the house. Ids chosen there are reserved before anyone else is numbered, so a generated id steps past them (the Bible's King Lud is `lud-britons`, Shem's son keeps `lud`); a chosen id that clashes, or a record id that isn't in the file, stops the import. A house set there replaces the GEDCOM surname before houses are sized, so a name with the given name in the surname slot (`/Swarup/ Rani`) doesn't become a one-person house. Without `--rename` nothing changes: re-importing the English, Greek, Norse and Roman files with these changes gave identical data.
-- **Houses:** one per surname, with only the 12 largest coloured individually and the rest grouped as "Other families"; or one house for everyone with `--house` (pantheons have no real surnames).
-- **People with no relatives** get a one-person family, so they stay visible and "everyone is in a family" holds. These are listed in the notes. In the Norse file, 13 figures (Skuld, Gefjun, Sága and others) are only linked to 19 people the file never defines, which is a defect in the source. A repair of those broken ids was tried and found no matches, so the links are dropped rather than guessed.
-- **Source details:** the compiler (`SUBM`), the file's software and date, and the titles of its `SOUR` records go into `source` and `notes`.
+```sh
+npm run import:gedcom -- "English+Tudor+Royal+Family.ged" --id english-royal --category history --title "English Royal Family (Tudors)"
+npm run import:gedcom -- "Greek+Gods.ged" --id greek-gods --category mythology --title "Greek Gods" --names mythology --house "Greek pantheon" --genre Mythology
+npm run import:gedcom -- "https://github.com/D-Jeffrey/gedcom-samples/blob/main/…/Babylonian%2BGods.ged" --id babylonian-gods --category mythology --title "Babylonian Gods" --names mythology --house "Babylonian pantheon" --rename scripts/gedcom-renames/babylonian-gods.json
+npm run db:seed    # then refresh the database seed
+```
 
-## 5d. PNG export and no-WebGL
+It writes `public/data/<category>/<id>.json` and the `sagas.json` entry; re-running replaces both.
 
-- **`captureView(scale, overlay)`** renders one frame at `scale` × the screen resolution (capped at 4×) and copies the canvas into a 2D canvas in the same step, before the browser can clear WebGL's buffer. It then encodes the copy as a PNG. This avoids `preserveDrawingBuffer: true`, which would cost performance on every frame just to allow an occasional export. The overlay stamps the saga title and author in the corner.
-- **No WebGL.** `main.ts` is a tiny entry point that dynamically imports `app.ts`. `scene.ts` checks for a WebGL 2 context and throws `NoWebGLError`, as it does if `WebGLRenderer` itself fails (e.g. a blocklisted GPU). `main.ts` catches the error and shows the notice, hiding the header and pad, instead of a blank page. A failed chunk download, such as offline, gets the same notice with that reason.
-- **Context loss** at runtime pauses the frame loop and shows a message. On `webglcontextrestored` the tree is rebuilt, because textures and materials don't survive a lost context.
+| Option                          | Meaning                                                                                                                                                                                                                                                                     |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--id`, `--title`, `--category` | The saga's id (lower-case letters, digits, hyphens), menu title and folder.                                                                                                                                                                                                 |
+| `--names person` (default)      | "Given Surname"; monarchs by regnal name (`Henry VIII`, not `Henry Tudor`); no titles or dates.                                                                                                                                                                             |
+| `--names mythology`             | For deity files that put the name in the surname slot and a description in front ("queen of the Gods /Hera/"): drop the description, keep real two-part names ("Numa Pompilius").                                                                                           |
+| `--house`, `--color`            | Put everyone in one house (a pantheon) instead of one per surname, and its colour.                                                                                                                                                                                          |
+| `--genre`                       | The saga's genre (default `History`).                                                                                                                                                                                                                                       |
+| `--rename <file.json>`          | Reviewed corrections keyed by GEDCOM record id: `"I364": ["King David of Judah and Israel", "david"]` sets the name and id; a third value sets the house. Stops if a record id isn't in the file or an id is taken. Examples, each explained, in `scripts/gedcom-renames/`. |
 
-## 6. Rendering
+How it works:
 
-| Element      | Implementation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Person       | `Group` of a `SphereGeometry(4, …quality.sphereSegments)` (48×24 on high, 20×12 on low) with a matte `MeshStandardMaterial` in the house colour (roughness 0.78, no metalness, no clearcoat), so the shape comes from the gradient between lit and shadowed sides rather than a glossy hotspot, plus a `SpriteText` name label above it that always faces the camera. The geometry is shared. Each person gets its own material.                                                                                                                   |
-| Union        | Small `SphereGeometry(1.2)` with a shared white `MeshBasicMaterial`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| Spouse link  | Gold (`#c9ad73`), labelled at its midpoint: father/mother when the family has children, otherwise husband/wife. "Adoptive " is added in front for `adoptive` families.                                                                                                                                                                                                                                                                                                                                                                             |
-| Child link   | Grey (`#667`), with two particles moving towards the child to show the direction of descent. Labelled son/daughter, or adopted son/daughter.                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Sibling line | Dashed green `LineSegments` between consecutive children of a family, labelled brothers/sisters/brother & sister. These are not graph links: as links they would pull siblings together and distort the layout. They sit in `graph` and are moved to the live node positions every frame by `updateSiblings()`.                                                                                                                                                                                                                                    |
-| Labels       | All labels use `SpriteText`. Names are Roboto Condensed 700 at height 4; relationship labels are Roboto 500 at height 2, on a translucent dark background. `SpriteText` draws its text to a canvas once, so the first saga loads only after `document.fonts.load()` has the web fonts (up to 3 s, then the fallback fonts are used). Link labels use `linkThreeObjectExtend(true)` so the library still draws the line, and `linkPositionUpdate` places the label at the midpoint.                                                                 |
-| Lighting     | ACES filmic tone mapping, set up for depth. A strong warm key `DirectionalLight` (3.4) from upper left gives each sphere a clear lit side, terminator and shadow side. A low `HemisphereLight` fill (0.22) keeps the shadow side dark but not black. A faint `RoomEnvironment` (0.12) adds only an ambient tint, because more would flatten the gradient. A cool blue rim light from behind separates the spheres from the background. The background is a faint radial vignette (lighter in the middle) rather than flat black, which adds depth. |
-| Camera       | `PerspectiveCamera` (50°) with `OrbitControls` damping. 50° keeps perspective, and so pan parallax, visible without fish-eye distortion at the edges. It starts at z = 320 and then auto-fits the tree (see §5).                                                                                                                                                                                                                                                                                                                                   |
+- **Input** (`gedcom-source.mts`): a local path or an `https://` URL; a GitHub `blob` page link is rewritten to `raw.githubusercontent.com`. Both are capped at 20 MB (the same as in the app); downloads are cut off at 30 s and counted as they stream, so a wrong `Content-Length` can't get past the cap. A download that doesn't start with `0 HEAD` is refused, naming a proxy or web filter when the response was HTML or redirected to another host: a filter answers with its own page, status 200, which would otherwise parse as an empty tree. Tested offline.
+- **Encoding:** strict UTF-8 first, then Windows-1252 (many 5.5 files say `CHAR ANSI`); decoding those as UTF-8 would corrupt names like _Auðr_.
+- **Display names** (`gedcom-names.mts`, pure and tested against the samples' real patterns): no peerage titles or dates; a regnal name from a `TITL` like "King Ferdinand V of Castile and Aragon" → "Ferdinand V" ("Queen Consort" is a role and doesn't match). Only the person's own `TITL` is read; `SOUR` records also have `TITL`, which are book titles. Placeholder first names ("... /Tudor/") become "(unnamed son) Tudor".
+- **Ids** are slugs of the display name, numbered in file order where they repeat, so re-importing gives the same ids. Ids chosen in `--rename` are reserved first.
+- **Houses:** one per surname, the 12 largest coloured individually and the rest grouped as "Other families"; or one house with `--house`.
+- **People with no relatives** get a one-person family and are listed in the notes. In the Norse file, 13 figures are linked only to 19 people the file never defines, a defect in the source; the links are dropped rather than guessed.
+- **Source details:** the compiler (`SUBM`), software, date and `SOUR` titles go into `source` and `notes`.
 
-| House badge | A small camera-facing disc in the house colour with the house's initial, below each person. One cached canvas texture per house; ink is dark on light houses and light on dark ones. Original artwork, no franchise sigils. |
-| Guides | A faint horizontal cross and a "Generation n" label at each row, toggled from the menu. |
-| Depth fog | `THREE.Fog` in the palette's fog colour, its range following the camera's distance to the orbit target (`updateFog()`), so it fades the far side of whatever you look at, in the overview and close up. The nebula background is drawn at infinity and isn't fogged. |
-| Glow | Optional `UnrealBloomPass` (menu toggle; on by default only on the high tier). The composer is built lazily the first time glow is on, and `ScaledBloomPass` renders its blur buffers at `quality.bloomScale` of the screen, because the composer otherwise resizes the pass to full resolution. `OutputPass` tone-maps, so the renderer's own tone mapping is switched off while the composer runs. |
-| Name de-overlap | A few times a second (`quality.labelDeclutterMs`), names are projected to screen boxes and sorted by priority (highlighted first, then nearest); a name whose box overlaps one already placed fades out. O(n²) on a few hundred names, marked with a `ponytail:` note for very large trees. |
+## 11. Files in and out: images, local files, no-WebGL
 
-The graph is one `Object3D` added to the app's own scene. The app keeps control of the renderer, camera and controls. This is why it uses `three-forcegraph` rather than `3d-force-graph`, which brings its own renderer and camera. Later 3D additions, such as picking, custom shaders or extra scene objects, can then use plain three.js.
+- **Image export** (`savePng`, `P`). The save location is asked for _first_, because `showSaveFilePicker` needs the click or keypress that started it, and that permission expires during capture. Chromium gets a real Save dialog (name and folder); other browsers get a name prompt and a normal download. Cancelling either saves nothing. `captureView(scale, overlay)` then renders one frame at 2× the screen (capped by the GPU's max texture size) and copies the canvas into a 2D canvas in the same step, before WebGL can clear its buffer. This avoids `preserveDrawingBuffer: true`, which would cost performance every frame for an occasional export. The overlay stamps the saga title and author.
+- **Loading a file** (folder button, or drag onto the page). `.json` goes through `toRecord()` and `toTree()` after a shape check (people, families and houses present), so it gets exactly the built-in sagas' validation; anything else goes to `parseGedcom()`. Files over 20 MB are refused before reading. Either is shown with `showImported()` as saga id `imported`, for the visit only, and the URL keeps only `view`.
+- **No WebGL.** `main.ts` dynamically imports `app.ts`. `scene.ts` throws `NoWebGLError` if there's no WebGL 2 context or `WebGLRenderer` fails (e.g. a blocklisted GPU); `main.ts` catches it and shows the notice. A failed chunk download gets the same notice with that reason.
+- **Context loss** pauses the frame loop and shows a message; on `webglcontextrestored` the tree and sky are rebuilt, because GPU resources don't survive it.
 
-### 6a. Palettes (`src/palettes.ts`)
+## 12. Rendering
 
-Every colour the 3D scene uses lives in one `Palette`: links and the path glow, label colours, sibling and guide lines, badges, lights, fog, the fallback vignette, the nebula's colours and brightness, the PNG stamp, and the colours handed to imported GEDCOM houses. House colours are part of each saga's data and stay there. The HTML UI keeps its own CSS variables; where the two must agree (gold, ink) the matching variable is noted on the palette field.
+| Element         | Implementation                                                                                                                                                                                                                                                                                                                                              |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Person          | A `Group`: a shared `SphereGeometry(4, …)` (48×24 on high, 20×12 on low) with its own matte `MeshStandardMaterial` in the house colour (roughness 0.78), so shape comes from the light-to-shadow gradient, not a hotspot; a `SpriteText` name above; a house badge below; a tag above the name; a gold path ring and a lineage ring, both hidden until lit. |
+| Union           | A small dot in a ring; the ring grows (×1.35) while its couple is lit.                                                                                                                                                                                                                                                                                      |
+| Spouse link     | Gold, labelled father/mother when the family has children, otherwise husband/wife; "adoptive" in front for adoptive families.                                                                                                                                                                                                                               |
+| Child link      | Grey, with two particles moving towards the child to show direction; labelled son/daughter or adopted son/daughter.                                                                                                                                                                                                                                         |
+| Sibling line    | Dashed green `LineSegments` between consecutive children, labelled brothers/sisters/brother & sister. Not graph links (they'd distort the layout); `updateSiblings()` moves them to the live positions each frame.                                                                                                                                          |
+| Labels          | `SpriteText`, drawn to a canvas once, so the first saga waits for `document.fonts.load()` (up to 3 s). Names are Roboto Condensed 700, relationship labels Roboto 500 on a translucent dark background. Relationship labels fade from 110 to 240 units from the camera, except on a highlighted line.                                                       |
+| Name de-overlap | A few times a second (`quality.labelDeclutterMs`) names are projected to screen boxes, sorted by priority (highlighted first, then nearest), and any overlapping one already placed fades out. O(n²) on a few hundred names, marked with a `ponytail:` note for very large trees.                                                                           |
+| House badge     | A camera-facing disc in the house colour with the house's initial; one cached texture per house, ink chosen for contrast. Original artwork, no franchise sigils.                                                                                                                                                                                            |
+| Guides          | A faint horizontal cross at each row, and "Generation n" labels kept on the left edge of the screen at each row's height, so they're there however you pan or zoom.                                                                                                                                                                                         |
+| Lighting        | ACES filmic tone mapping. A strong warm key light from upper left (3.4), a low hemisphere fill (0.22), a faint `RoomEnvironment` (0.12) and a cool rim light from behind. The fallback background is a faint radial vignette.                                                                                                                               |
+| Fog             | `THREE.Fog` whose range follows the camera's distance to the orbit target (`updateFog()`), fading the far side of whatever you look at. The nebula is at infinity and isn't fogged.                                                                                                                                                                         |
+| Glow            | Optional `UnrealBloomPass`, built lazily the first time glow is on; its blur buffers render at `quality.bloomScale`. `OutputPass` tone-maps, so the renderer's own tone mapping is off while the composer runs.                                                                                                                                             |
+| Camera          | `PerspectiveCamera` (50°) with damped `OrbitControls`: enough perspective for pan parallax without fish-eye at the edges.                                                                                                                                                                                                                                   |
 
-`paletteFor(sagaId)` returns `DEFAULT_PALETTE` merged one level deep with that saga's entry in `SAGA_PALETTES` (empty for now), so a saga can later get its own theme by overriding a few fields. Colours are baked into materials, labels, badges and the sky when they're built, so `show()` in `ui/sagas.ts` calls `usePalette()`, `resetBadges()` and `applyScenePalette()` _before_ building the tree, and re-bakes the sky afterwards.
+The graph is one `Object3D` in the app's own scene, which is why the app uses `three-forcegraph` rather than `3d-force-graph` (which brings its own renderer and camera): the app keeps control of the renderer, camera, controls and frame loop.
 
-### 6b. Nebula sky (`src/nebula.ts`)
+**Palettes** (`palettes.ts`). Every colour the 3D scene uses lives in one `Palette`: links, path glow, the four lineage colours, labels, sibling and guide lines, badges, lights, fog, the vignette, the nebula, the image stamp and imported house colours. House colours come from each saga's data. `paletteFor(sagaId)` merges `DEFAULT_PALETTE` with that saga's entry in `SAGA_PALETTES` (empty for now). Colours are baked into materials and textures when built, so `show()` calls `usePalette()`, `resetBadges()` and `applyScenePalette()` _before_ building the tree. The HTML UI has its own CSS variables; where they must agree the field is commented.
 
-A port of procedural-worlds' nebula technique, baked once per saga into a cube texture used as `scene.background`:
+**Nebula sky** (`nebula.ts`). A shader on the inside of a sphere, rendered by a `CubeCamera` into a cube render target once per saga and used as `scene.background`, so it's drawn at infinity: it never moves when you pan and isn't fogged.
 
-- **How it's drawn:** a shader on the inside of a sphere, rendered by a `CubeCamera` into a `WebGLCubeRenderTarget`. Each fragment's position is its view direction, so there's no per-face maths and no seams. As a background it's drawn at infinity: it never moves when you pan, can't be clipped by the far plane, and isn't fogged.
-- **Dust, coloured like real nebulae:** separate warped noise fields for hydrogen-alpha emission (crimson), oxygen-III (teal) and reflection nebulae (pale blue), so the colours sit side by side instead of averaging to brown; magenta where hydrogen and oxygen overlap; finer noise cuts dark dust lanes through the glow. Thresholds sit above the noise's central cluster (~0.5), so clouds cover a minority of the sky and the rest is dark space.
-- **Stars and galaxies:** sparse Worley-style cells where only a small fraction hold a star (8% bright, 1% faint, ×1.25 by `starDensity`), and about a dozen soft, cloud-like galaxies seeded per saga: mostly spirals (two or three clumpy, dust-laned arms, warm core to bluer outskirts) seen at random tilts from face-on to edge-on, plus a few smooth ellipticals. Galaxies, like stars, are added after the cap with their own ceiling (about 26% on screen at a core). Stars are added _after_ the brightness cap, with their own small ceiling; added before it, the cap squashed them flat on top of clouds.
-- **Dim by design:** the sky is a faint backdrop and the tree is the focal point. `brightness` scales everything down, then a soft-knee cap holds the brightest pixel under `maxLuma` _on screen_. The texture is sRGB, so the cap converts the on-screen limit to linear (`pow(maxLuma, 2.2)`); a linear cap of 0.12 had shown as about 38%. Measured with the tree hidden: brightest pixel under 10% on every saga, star cores up to about 25%.
-- **Deterministic and per tier:** the seed comes from the saga id, so each saga has its own sky, the same every visit. Size, octaves and mipmaps come from the tier (256 px / 5 octaves / no mipmaps on low, about 1.6 MB; 1024 px / 10 octaves on high, about 34 MB). The bake runs two frames after the tree appears, so the tree draws first; a newer request supersedes an older one; a failed bake falls back to the vignette. The menu's _Nebula sky_ toggle turns it off.
+- Separate warped noise fields for hydrogen-alpha (crimson), oxygen-III (teal) and reflection (pale blue) dust, so colours sit side by side instead of averaging to brown, with dark dust lanes cut through.
+- Sparse stars and about a dozen soft galaxies (mostly spirals at random tilts), added after the brightness cap with their own ceiling.
+- **Dim by design:** a soft-knee cap holds the brightest pixel under `maxLuma` on screen, converted to linear because the texture is sRGB (a linear cap of 0.12 had shown as about 38%). Measured with the tree hidden: brightest pixel under 10% on every saga.
+- Seeded from the saga id (the same sky every visit); size, octaves and mipmaps from the tier (256 px / 5 octaves on low, about 1.6 MB; 1024 px / 10 on high, about 34 MB). The bake runs two frames after the tree appears so the tree draws first, a newer request supersedes an older one, and a failed bake falls back to the vignette.
 
-### Frame loop
+**Frame loop** (`app.ts`):
 
 ```ts
 renderer.setAnimationLoop((now) => {
-    // skip the whole frame if idle and under quality.idleFps (§5a)
-    stepGraph(camera, dt, now, w, h); // graph.ts: physics, sibling overlay, highlight fades, label fade, name de-overlap
-    stepCamera(dt, peopleBbox); // camera.ts: auto-fit, fly-to, held-direction pan, then OrbitControls damping
-    updateFog(); // scene.ts: fog band follows the camera
-    draw(); // scene.ts: with or without the glow composer
+    // skip the whole frame if idle and under quality.idleFps (§7)
+    stepGraph(camera, target, dt, now, w, h); // physics, 2D squash, sibling overlay, fades, label fade, de-overlap, names, guides
+    stepCamera(dt, peopleBbox); // auto-fit, flights, glides, held pan, then OrbitControls damping
+    updateFog();
+    draw(); // with or without the glow composer
 });
 ```
 
-In dev builds only (`import.meta.env.DEV`), `window.__ft` exposes `{ camera, controls, graph, scene, renderer }` so browser tests can measure the camera and node positions. Production builds strip it out.
+The simulation stops after about 4 s; after that `tickFrame` only animates link particles and idle throttling drops the rate. In dev builds only, `window.__ft` exposes `{ camera, controls, graph, scene, renderer }` for browser tests.
 
-The simulation stops after about 4 s (§5). After that, `tickFrame` only animates the link particles, and idle throttling drops the frame rate.
+## 13. Devices and GPU tiers (`src/tier.ts`, `src/device.ts`)
 
-## 7. Build and dependencies
+The target is devices up to about seven years old (2018+): iPhone XR / iPad 6th gen, Galaxy S9, laptops with Intel UHD 620. **Tiers only change optional visual effects and cost; every feature works on every tier.**
 
-| Package            | Purpose                                                                                                                                                                                  |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `three`            | Rendering.                                                                                                                                                                               |
-| `three-forcegraph` | Graph as a three.js object; force layout via `d3-force-3d`.                                                                                                                              |
-| `d3-force-3d`      | `forceZ` for the house depth planes. It is already a dependency of `three-forcegraph`, declared directly because the app imports it; `src/d3-force-3d.d.ts` types the one function used. |
-| `prettier`         | Formatting (`npm run format`). YAML is kept at 2-space indents by an override in `.prettierrc`.                                                                                          |
-| `three-spritetext` | Name labels that face the camera.                                                                                                                                                        |
-| `lil-gui`          | The "Saga" drop-down.                                                                                                                                                                    |
-| `typescript`       | Type-checking (`npm run build` runs `tsc --noEmit` first).                                                                                                                               |
-| `vite`             | Dev server and bundler.                                                                                                                                                                  |
+**Detection** runs once, synchronously, before the renderer is created (antialiasing can only be chosen at context creation), on a throwaway WebGL2 context. Signals, most reliable first:
 
-`manualChunks` puts every module whose path contains `three` into one cached vendor chunk. That covers three.js and both graph libraries, about 720 kB minified or 190 kB gzipped, so `chunkSizeWarningLimit` is set to 800.
+1. **Capabilities:** max texture size, float render targets, MSAA samples. Under 4096 px textures or no float targets means low, whatever the GPU name says.
+2. **Renderer string** (`WEBGL_debug_renderer_info`) matched against GPU families: discrete NVIDIA/AMD, Intel Iris Xe/Arc, Apple M-series and "Apple GPU" → high; Intel UHD/Iris and AMD APUs → medium; older Intel HD → low; Adreno 650+ → high, 630–640 → medium; Mali G710+ → high, G5x–G7x → medium; Xclipse, PowerVR → medium; software renderers → low. Firefox and Safari may mask the string, so it only refines the capability check.
+3. **`deviceMemory` and `hardwareConcurrency`** for unknown GPUs and as a cap: ≤ 2 GB forces low, ≤ 4 GB keeps mobiles out of high.
 
-## 8. Devices and GPU tiers (`src/tier.ts`, `src/device.ts`)
-
-The app targets devices up to about seven years old (2018+): for example iPhone XR / iPad 6th gen (A10–A12), Galaxy S9 (Mali-G72 or Adreno 630) and 2017–18 laptops with Intel UHD 620. Those get a fully usable app; newer and discrete GPUs get extra fidelity. **Tiers only ever change optional visual effects and cost; every feature works at every tier.**
-
-**Detection** runs once, synchronously, before the renderer is created (antialiasing can only be chosen at context creation), on a throwaway WebGL2 context that is released straight away. Signals, most reliable first:
-
-1. **Capabilities:** max texture size, float render targets (`EXT_color_buffer_float` / half-float), MSAA samples. Hard limits that are never wrong: under 4096 px textures or no float targets means low, whatever the GPU name says.
-2. **Renderer string** (`WEBGL_debug_renderer_info`) matched against GPU families: NVIDIA/AMD discrete, Intel Iris Xe/Arc, Apple M-series and "Apple GPU" → high; Intel UHD/Iris, AMD APUs → medium; older Intel HD → low; Adreno 650+ → high, 630–640 → medium, older → low; Mali G710+ → high, G5x–G7x → medium, older → low; Xclipse, PowerVR → medium; software renderers (SwiftShader, llvmpipe) → low. Firefox and Safari may mask the string (Safari reports every Apple GPU as "Apple GPU"), so it only refines the capability check.
-3. **`deviceMemory` and `hardwareConcurrency`** for unknown GPUs, and as a cap: ≤ 2 GB forces low, ≤ 4 GB keeps mobiles out of high.
-
-`?tier=low|medium|high` forces a tier for testing, and the result is logged (`[family-tree] quality tier: …`). `classify()` is pure, and `scripts/tier.test.mts` checks it against renderer strings real devices report, including the Galaxy S22 Ultra in both its Snapdragon (Adreno 730 → high) and Exynos (Xclipse 920 → medium) versions, plus a check that the quality table never gets cheaper as the tier rises.
-
-**`QUALITY`** holds every cost-bearing setting in one table:
+`?tier=low|medium|high` forces a tier, and the result is logged. `classify()` is pure; `tier.test.mts` checks it against real devices' renderer strings (including both Galaxy S22 Ultra variants) and that the quality table never gets cheaper as the tier rises.
 
 | Setting                   | Low    | Medium | High     |
 | ------------------------- | ------ | ------ | -------- |
 | Max pixel ratio           | 1.25   | 2      | 2        |
 | MSAA                      | off    | on     | on       |
-| Glow (bloom) by default   | off    | off    | on       |
+| Glow by default           | off    | off    | on       |
 | Bloom buffer scale        | 1/3    | 1/2    | 1/2      |
 | Nebula face size, octaves | 256, 5 | 512, 7 | 1024, 10 |
 | Nebula mipmaps            | off    | on     | on       |
@@ -484,17 +549,53 @@ The app targets devices up to about seven years old (2018+): for example iPhone 
 | Name de-overlap interval  | 300 ms | 180 ms | 120 ms   |
 | Idle frame rate           | 10 fps | 20 fps | 30 fps   |
 
-**Other device-dependent costs:** the renderer asks for `powerPreference: "high-performance"` above low (dual-GPU laptops get the discrete GPU) and no stencil buffer. PNG export is capped by the GPU's real max texture size rather than a guess about phones. Bloom can only be enabled where half-float targets exist, so it can't render black on an unsupported GPU.
+Above low the renderer asks for `powerPreference: "high-performance"`; there's no stencil buffer; bloom is only offered where half-float targets exist. `device.ts` holds the result in its own module so `scene.ts`, `nebula.ts`, `graph.ts` and `app.ts` can read it without importing each other (`scene` imports `nebula`, so nebula reading from scene would be circular). Measured on emulated devices: first content in about 0.9–1.0 s on low and 1.3–2 s on high.
 
-**`device.ts`** holds the result (`device`, `quality`) in its own module, so `scene.ts`, `nebula.ts`, `graph.ts` and `app.ts` all read it without importing each other: `scene.ts` imports `nebula.ts`, so nebula reading the tier from scene would be a circular import. The import graph is one-way: `tier` → `device` → `nebula`/`scene` → `camera`/`graph` → `app`.
+## 14. Build, tests and dependencies
 
-**Measured on emulated devices** (with `?tier=`): the phone renders at 2× instead of its native 3.75× (768 × 1648 for a 384 × 824 screen), and the low-tier phone at 1.25× (400 × 822). First content: about 0.9–1.0 s on low and 1.3–2 s on high (the larger sky bake). No errors on any tier.
+```sh
+npm run dev             # Vite dev server, http://localhost:5173/family-tree/
+npm run build           # tsc --noEmit, then the production bundle in dist/
+npm run preview         # serve dist/
+npm test                # every scripts/*.test.mts, plus seed-sql.mts --check
+npm run db:seed         # regenerate db/seed.sql
+npm run import:gedcom   # §10
+npm run format          # Prettier (format:check to verify only)
+```
 
-## 9. Extension points
+**Tests** run TypeScript directly with Node's `--experimental-strip-types`, with no test framework: each file is plain `assert` calls that print an `ok` line per group.
 
-- **Data loading:** an API over `db/schema.sql` (see §3). Committed GEDCOM imports already go through `scripts/gedcom-to-saga.mts` (§5c).
-- **Tall trees:** a tree as deep as the Roman gods (31 generations) fits the screen as a narrow column; the camera fit could weight width over height, or the generation gap could shrink with depth.
-- **Stronger parallax:** a stronger depth pull, a closer camera, or a narrower FOV with the camera moved in to compensate (see §5).
-- **Per-saga themes:** add entries to `SAGA_PALETTES` in `palettes.ts` (e.g. warmer dust for Dune).
-- **Relationship finder:** more in-law and step names (step-grandparents, co-parents-in-law).
-- **Large trees:** for more than about 5k nodes, switch `forceEngine("ngraph")` or use instanced meshes in place of per-node objects.
+| Test                    | Checks                                                                                                                                      |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `trees.test.mts`        | every saga expands; files and manifest agree; folders match categories                                                                      |
+| `family.test.mts`       | lineage, relatives, ancestry, labels, fuzzy search, namesakes, siblings, cousins, descendants, tour route, relationship search, house names |
+| `relationship.test.mts` | relationship words on saga facts and a synthetic cousin chart                                                                               |
+| `generations.test.mts`  | descent under every parent, spouses on one row, the sibling-split ratchet                                                                   |
+| `gedcom*.test.mts`      | the parser, display names, and file/URL input (offline)                                                                                     |
+| `tier.test.mts`         | GPU classification and the quality table                                                                                                    |
+| `seed-sql.test.mts`     | the SQL seed round-trip in SQLite                                                                                                           |
+
+UI behaviour (panels, dialogs, the tour) is checked by driving the dev build in headless Chrome over the DevTools protocol; `window.__ft` exists for that.
+
+| Package            | Purpose                                                                                                         |
+| ------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `three`            | Rendering.                                                                                                      |
+| `three-forcegraph` | The graph as a three.js object; force layout via `d3-force-3d`.                                                 |
+| `d3-force-3d`      | `forceZ` for the house planes. Already a dependency of `three-forcegraph`; declared because the app imports it. |
+| `three-spritetext` | Camera-facing labels.                                                                                           |
+| `lil-gui`          | The menu.                                                                                                       |
+| `typescript`       | Type-checking only (`noEmit`; Vite strips types).                                                               |
+| `vite`             | Dev server and bundler.                                                                                         |
+| `prettier`         | Formatting.                                                                                                     |
+
+`manualChunks` puts every module whose path contains `three` into one cached vendor chunk: three.js and both graph libraries, about 720 kB minified or 190 kB gzipped, hence `chunkSizeWarningLimit: 800`. The base path is `/family-tree/`, for GitHub Pages; `dist/` runs on any static host.
+
+## 15. Extension points
+
+- **Data:** an API over `db/schema.sql`, or an object store, via `VITE_DATA_URL` (§3).
+- **Siblings over couples:** `alignSiblings()` keeps a move only if couples stay together; relaxing that would align the remaining 19 split sibling sets at the cost of slanted marriage links.
+- **Tall trees:** a 31-generation tree fits as a narrow column; the fit could weight width over height, or the row gap could shrink with depth.
+- **Per-saga themes:** add entries to `SAGA_PALETTES`.
+- **Relationship words:** more in-law and step names (step-grandparents, co-parents-in-law), and more words for relationship search (`RELATION_WORDS` in `family.ts`).
+- **Tours:** `tourLine()` follows one line; scripted tours with captions per saga could replace it where a saga has a story to tell.
+- **Large trees:** beyond about 5k nodes, switch to `forceEngine("ngraph")` or instanced meshes instead of an object per person; name de-overlap would need a spatial index.

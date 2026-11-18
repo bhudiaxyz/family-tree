@@ -1,8 +1,10 @@
 # Family Tree
 
-An interactive 3D family tree visualizer that runs in the browser. Each person is a sphere coloured by house, marriages and parentage are links, and every generation sits on its own layer. You can orbit around the tree, zoom in and pan.
+An interactive 3D family tree that runs in the browser. Each person is a sphere coloured by house, marriages and parentage are links, and every generation sits on its own row. Orbit, zoom and pan around the tree, or flatten it to 2D, then search, trace lines of descent and ask how any two people are related.
 
-Fourteen sample trees are included: ten from science fiction and fantasy, a historical royal family, and three pantheons. Use the **Saga** drop-down at the top right to switch between them:
+## Sagas
+
+Seventeen trees are included. Pick one from the **Saga** menu at the top right.
 
 | Saga                          | Author                                                 | Families                                                                            |
 | ----------------------------- | ------------------------------------------------------ | ----------------------------------------------------------------------------------- |
@@ -24,217 +26,84 @@ Fourteen sample trees are included: ten from science fiction and fantasy, a hist
 | Nehru–Gandhi Family           | Juan Ignacio Pucheu (GEDCOM)                           | Six generations from Gangadhar Nehru to Rahul, Priyanka and Varun Gandhi: 32 people |
 | The Bible                     | Jeffrey Philip Stoker (GEDCOM)                         | Adam to Jesus, and the medieval lines traced from Noah: 583 people                  |
 
-Each saga's `source` field gives the work, medium, author, which canon it follows, genre and what it covers. `notes` records modelling choices, such as where the sources disagree or where generations were skipped.
+The ten fiction sagas were written from memory and reviewed against fan wikis that cite the books; treat them as carefully reviewed rather than authoritative. The seven GEDCOM sagas reproduce public sample files collected by D-Jeffrey, gaps included. Each saga records its sources and modelling choices in its `source` and `notes` fields.
 
-The last seven were imported from public GEDCOM sample files collected by D-Jeffrey (see [Importing a GEDCOM file as a saga](#importing-a-gedcom-file-as-a-saga)); they reproduce those files, including their gaps. The ten fiction sagas were written from memory and then reviewed saga by saga against fan wikis that cite the books (A Wiki of Ice and Fire, Tolkien Gateway, Coppermind and others). Most of those sites block automated access, so only Coppermind could actually be fetched; the rest of the review was also done from memory. One real error was found and fixed: Taringail and Moiraine Damodred are cousins, not siblings. Several house labels were corrected too. Treat the data as carefully reviewed rather than authoritative.
+## Highlights
 
-Built with [three.js](https://threejs.org/), [three-forcegraph](https://github.com/vasturiano/three-forcegraph), [three-spritetext](https://github.com/vasturiano/three-spritetext), TypeScript and Vite.
-
-## Running
-
-```sh
-npm install
-npm run dev        # development server on http://localhost:5173/family-tree/
-npm run build      # type-check + production bundle in dist/
-npm run preview    # serve the production bundle
-npm test           # check saga data, generation layout, and that db/seed.sql loads and matches the JSON
-npm run db:seed    # regenerate db/seed.sql from the saga files in public/data/
-npm run import:gedcom -- <file.ged or https URL> --id <id> --category <c> --title "…"   # add a GEDCOM file as a saga
-npm run format     # format everything with Prettier (format:check to verify only)
-```
-
-### Deploying and data location
-
-The saga data is static JSON in [public/data/](public/data/):
-
-```
-public/data/
-├── sagas.json            the manifest: every saga, in drop-down order
-├── fiction/              one folder per category: fiction, history, mythology, religion
-│   ├── got.json
-│   └── …
-├── history/              historical families
-├── mythology/            pantheons
-└── religion/             religious genealogies
-```
-
-Each saga's `category` in `sagas.json` (`fiction`, `history`, `mythology` or `religion`) says which folder its file is in. Vite copies the whole folder to `dist/data/`, so GitHub Pages or any static host serves it alongside the app with no extra setup.
-
-To load data from somewhere else, such as an object store bucket (S3, Azure Blob, GCS) or an API in front of a database, set `VITE_DATA_URL` at build time:
-
-```sh
-VITE_DATA_URL=https://my-bucket.example.com/sagas npm run build
-```
-
-That base URL must serve `sagas.json` and `<category>/<id>.json` in the same shape, with CORS allowing the site's origin.
-
-### Loading the data into a database
-
-[db/schema.sql](db/schema.sql) creates the tables, and [db/seed.sql](db/seed.sql) fills them with every saga in `public/data/`. Both work in PostgreSQL and SQLite:
-
-```sh
-# PostgreSQL
-createdb family_tree
-psql -d family_tree -f db/schema.sql -f db/seed.sql
-
-# SQLite (foreign keys are checked only with the pragma on)
-sqlite3 family_tree.db "PRAGMA foreign_keys = ON;" ".read db/schema.sql" ".read db/seed.sql"
-```
-
-The seed runs in one transaction and can be re-run: each saga is deleted first, and the schema's `ON DELETE CASCADE` rules remove its rows from every table. `seed.sql` is generated, so edit the JSON and run `npm run db:seed` rather than editing it by hand. `npm test` fails if it is out of date.
+- **Generations on rows.** Everyone sits on their generation's row, spouses beside each other, and siblings together wherever marriage allows. Ancestors glow amber and descendants blue, fading with each generation away.
+- **Search that forgives.** Accents and small typos don't matter (`apsu` finds Apsû, `Ghandi` finds Gandhi), and people who share a name are told apart. Type a relationship to find people by it: _Arya's cousins_, _children of Zeus_, _sons of Jacob_.
+- **How are they related?** Pick any two people for a plain-English answer (_Jon Snow is the nephew of Daenerys Targaryen_): cousins by degree and removal, half-, step- and in-law relations, adoption, common ancestors, and every route between intermarried houses, with the path drawn in gold.
+- **Focus on part of the tree.** Show just one person's line, ancestors, descendants, siblings or first cousins, limited to a few generations if you like. Collapse a branch to fold its descendants away.
+- **Find your way around.** The details panel shows the line of descent, the generation, recently viewed people and pinned favourites. There's an outline chart for each person, an overview map, a guided tour down a line, and Back to retrace your steps.
+- **Houses.** Light up a house to see how it spreads through the tree, then frame all its members.
+- **Your own family.** Load a GEDCOM file from any genealogy program, or a saga JSON file, straight in the browser. Nothing is uploaded.
+- **Share a view.** The address bar tracks the saga, person, relationship, house and 2D/3D, so any view can be bookmarked or shared.
+- **Runs on most devices.** Desktops, tablets and phones from about 2018 onwards. Quality adjusts to the device's graphics, every feature works everywhere, and it redraws rarely when idle to save battery.
 
 ## Controls
 
-| Input                                                      | Action                                                                                                                                                                                                                |
-| ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Left-drag / one-finger drag                                | Orbit                                                                                                                                                                                                                 |
-| Scroll / pinch                                             | Zoom                                                                                                                                                                                                                  |
-| Right-drag / two-finger drag                               | Pan                                                                                                                                                                                                                   |
-| Arrow keys (hold)                                          | Pan left, right, up, down                                                                                                                                                                                             |
-| Shift + arrow keys                                         | Orbit in small steps                                                                                                                                                                                                  |
-| On-screen arrow pad (touch screens only)                   | Hold to pan; the centre button refits the whole tree                                                                                                                                                                  |
-| Hover a person (mouse)                                     | Highlight their line; with someone selected, a card says how they're related                                                                                                                                          |
-| Click / tap a person                                       | Select them and open a details panel; click empty space to deselect                                                                                                                                                   |
-| Double-click / double-tap a person                         | Select them and fly to them                                                                                                                                                                                           |
-| Press and hold a person (touch)                            | Preview their line, like hovering with a mouse                                                                                                                                                                        |
-| Click a name in the details panel                          | Jump to that relative                                                                                                                                                                                                 |
-| ◀ in the details panel, `Backspace`, or the browser's Back | Return to the person you were looking at before                                                                                                                                                                       |
-| `Alt` + arrow keys                                         | Move to the selected person's parent (↑), child (↓) or sibling (← →)                                                                                                                                                  |
-| **Focus** in the details panel (or `L`)                    | Show only this person's line, or just their ancestors, descendants, siblings or first cousins; each side's button is the colour of its highlight rings                                                                |
-| Type in **Find a person…** (or press `/`)                  | Search by name, ignoring accents and small typos (`apsu` finds Apsû, `Ghandi` finds Gandhi); people who share a name are told apart (_Lamech · son of Methushael_). Choosing a result selects and flies to them       |
-| Type a relationship in the search box                      | _Arya's cousins_, _children of Zeus_, _sons of Jacob_: lights up who that finds and frames them (`Esc` clears). Where a name is shared, it uses the person the relationship fits best                                 |
-| Clear the search (✕) or press `Esc`                        | Deselect (or clear a house), and ease back to the whole tree                                                                                                                                                          |
-| **How are they related?** (or press `R`)                   | Open the relationship finder (see below)                                                                                                                                                                              |
-| **Import** (folder icon), or drop a `.ged` or `.json` file | Load your own family tree (see below)                                                                                                                                                                                 |
-| **Save image** (camera icon, or press `P`)                 | Save the current view as a high-resolution image, choosing its name (and folder, in Chrome or Edge)                                                                                                                   |
-| `F`                                                        | Fit the whole tree in view                                                                                                                                                                                            |
-| **Fit family** in the details panel (or `G`)               | Frame the selected person with their parents, siblings, spouses and children                                                                                                                                          |
-| `+` / `-`, or **+** / **−** on the touch pad               | Zoom in and out                                                                                                                                                                                                       |
-| `Page Up` / `Page Down`, or click a **Generation n** label | Move the view a generation up or down, or to that generation                                                                                                                                                          |
-| The overview map (bottom right), or `M` to show or hide it | See the whole tree and the part on screen; click or drag on it to move there                                                                                                                                          |
-| Swipe the details panel left or right (touch)              | Move to the next or previous sibling                                                                                                                                                                                  |
-| ☆ beside the name in the details panel                     | Pin the person; pinned people are listed in the menu's **Pinned** folder for this saga                                                                                                                                |
-| **Generation n of N** in the details panel                 | Go to that person's generation row                                                                                                                                                                                    |
-| **n named …** in the details panel                         | Light up everyone who shares the person's name                                                                                                                                                                        |
-| Recently viewed chips in the details panel                 | Jump straight back to one of the last people you looked at                                                                                                                                                            |
-| **Chart** in the details panel (or `C`)                    | The person's line of descent and all their descendants as a foldable outline; click a name to go to them                                                                                                              |
-| **Collapse branch** in the details panel                   | Fold away the person's descendants, leaving a **+ n** tag on them; **Expand branch** brings them back                                                                                                                 |
-| **Tour** (play icon, or `T`)                               | Fly down the selected person's line, from their oldest ancestor through them to their longest line of descendants (or the saga's longest line, with nobody selected); `Esc` or **End tour** returns to where you were |
-| **Help** (? icon, or `?`)                                  | Every keyboard shortcut                                                                                                                                                                                               |
+Press `?` in the app for the full list of keyboard shortcuts.
 
-Any drag, zoom or pan takes the camera back from auto-framing or a fly-to straight away. If your system is set to reduce motion, camera moves jump straight to their end instead of animating.
+### Mouse and keyboard
 
-On phones and tablets every control is at least 44 px tall, tapping a person picks the one nearest your finger even where people overlap, and the page itself never zooms or scrolls: pinch and drag always move the 3D view.
+| Do this                            | To                                                                 |
+| ---------------------------------- | ------------------------------------------------------------------ |
+| Drag                               | Orbit (in 2D: pan)                                                 |
+| Right-drag, or arrow keys          | Pan                                                                |
+| Scroll, or `+` / `-`               | Zoom                                                               |
+| `Shift` + arrow keys               | Orbit in small steps                                               |
+| Hover a person                     | Preview their line; with someone selected, see how they relate     |
+| Click a person                     | Select them and open their details; click empty space to deselect  |
+| Double-click a person              | Select them and fly to them                                        |
+| `/`                                | Find a person, or a relationship                                   |
+| `Alt` + arrow keys                 | Go to the selected person's parent (↑), child (↓) or sibling (← →) |
+| `Backspace`, or the browser's Back | Back to the person before                                          |
+| `G`                                | Frame the selected person's immediate family                       |
+| `C`                                | Chart of the selected person's ancestors and descendants           |
+| `L`                                | Show only the selected person's line (again for everyone)          |
+| `R`                                | How are two people related?                                        |
+| `T`                                | Guided tour down the selected person's line                        |
+| `F`                                | Fit the whole tree                                                 |
+| `Page Up` / `Page Down`            | Move a generation up or down                                       |
+| `M`                                | Show or hide the overview map                                      |
+| `P`                                | Save the view as an image                                          |
+| `Esc`                              | Close, deselect, end a tour, or clear a highlight                  |
+| `?`                                | Keyboard shortcuts                                                 |
 
-Relationship labels (mother, son, sisters…) show at the normal whole-tree view and fade out only when you zoom well out, so the view doesn't clutter. Labels on a highlighted line stay readable at any distance.
+### Touch
 
-**Getting around.** The details panel shows the person's line of descent above their name (_Adam › Seth › … › Lamech ›_), each name a link; long lines collapse, and the ellipsis expands them. Under the house it counts their descendants (_428 descendants over 66 generations_); click that to show only them. **Focus** has a generations setting (1, 2, 3 or all) to limit how far up and down the line it reaches, which helps in very deep trees. Switching to another saga and back returns to where you were.
+| Do this                      | To                                                     |
+| ---------------------------- | ------------------------------------------------------ |
+| One-finger drag              | Orbit (in 2D: pan)                                     |
+| Two-finger drag              | Pan                                                    |
+| Pinch                        | Zoom                                                   |
+| Tap a person                 | Select them; tap empty space to deselect               |
+| Double-tap a person          | Select them and fly to them                            |
+| Press and hold a person      | Preview their line                                     |
+| Swipe the details panel ← →  | Next or previous sibling                               |
+| On-screen pad (bottom right) | Hold an arrow to pan, ◯ to fit the tree, + / − to zoom |
 
-**Reading a highlight.** When you select someone, their ancestors glow warm (amber) and their descendants cool (blue), and each generation further away is a little fainter, so you can see at a glance who is above and below them. Couples' marriage rings grow while they're lit. On a relationship path, the people are ringed in gold; when it first appears a pulse runs along it from the first person to the second, and hovering a step in the finder's list lights just that hop.
+On touch screens every control is at least 44 px tall, a tap picks the nearest person even where people overlap, and the page itself never zooms or scrolls, so pinch and drag always move the tree.
 
-### Display options
+### On screen
 
-The **Sagas** menu (top right) also has:
+- **Toolbar** (top left): _How are they related?_, load a file (folder), save an image (camera), tour (play) and help (?).
+- **Details panel** (bottom left, once someone is selected): their relatives as links, line of descent, generation, recent people, a ☆ to pin them, _Fit family_, _Chart_, _Collapse branch_, _Tag everyone's relationship_, and the **Focus** buttons.
+- **Menu** (top right): the saga, display options (glow, generation guides, 2D, nebula sky), the **Houses** list (click a house to light it, again to frame it, a third time to clear it) and your **Pinned** people.
+- **Overview map** (bottom right): the whole tree and the part on screen; click or drag on it to move there.
 
-- **Glow:** a soft bloom on the highlighted path and lit spheres. On by default only on fast GPUs.
-- **Generation guides:** faint horizontal lines at each row, and "Generation n" labels that stay on the left edge of the screen however you pan or zoom.
-- **2D:** flattens the tree onto one plane (animated both ways) and turns the camera to face it. Rotation is off; drag to pan, scroll or pinch to zoom. The nebula sky is unaffected.
-- **Nebula sky:** a faint procedural nebula behind the tree, different for each saga. Turn it off for a plain dark background.
-- **Houses:** every house with its colour and number of people. Click one to light up the whole house (the rest fades right back); click it again to frame all its members; a third click, **✕ Show all houses**, `Esc` or clicking empty space clears it.
-
-Your choices are remembered on this device.
-
-### Relationship finder
-
-Pick two people, by typing their names or by clicking them in the 3D view while the finder is open. It tells you how the first person is related to the second, e.g. _"Jon Snow is the nephew of Daenerys Targaryen"_, lists each step of the connection, and highlights the path in gold. It names:
-
-- direct lines: son, grandmother, great-great-grandson…
-- siblings and half-siblings;
-- aunts, uncles, nieces and nephews, including grand- and great-grand-;
-- cousins by degree and removal, e.g. _second cousin once removed_;
-- in-laws: mother-in-law, sister-in-law, uncle by marriage…;
-- step-relations: step-mother, step-son, step-brother…;
-- spouses, and longer connections only by marriage, which it describes step by step;
-- adoption, flagged as _(by adoption)_.
-
-It also shows their **closest common ancestors** (e.g. _Aerys II & Rhaella_ for Jon and Daenerys). When two people are related in more than one way, which is common among the Targaryens, the closest relationship is the headline and the others are listed too, e.g. _"Also related as: great-grandson"_. ⇅ swaps the two people, and the link `?saga=got&person=jon&with=daenerys` opens straight to a relationship.
-
-### Everyone's relationship to one person
-
-Select a person and press **Tag everyone's relationship** in their details panel: every other person in the tree gets a small tag saying how they relate to them (uncle, second cousin, sister-in-law…). The tags follow your selection; press the button again to hide them.
-
-### Importing your own family (GEDCOM)
-
-GEDCOM (`.ged`) is the standard export format of genealogy software and sites: Ancestry, FamilySearch, MyHeritage, Gramps, Family Tree Maker and others. Use the **Import** (folder icon) button, or drag a file onto the page. Everything happens in your browser, and nothing is uploaded.
-
-A saga file in the app's own JSON format (like `public/data/fiction/dune.json`) can be dropped onto the page the same way. It is checked as the built-in sagas are (unknown people, missing houses, empty families), shown for the current visit only, and not added to the menu; to add one permanently, put it in `public/data/<category>/` and list it in `sagas.json`.
-
-- **Supported:** GEDCOM 5.5, 5.5.1 and 7. People, marriages and children are imported, and adoptions are recognised whether they're marked on the child's family link or with Ancestry/FTM's `_FREL`/`_MREL` tags.
-- **Houses:** people are grouped and coloured by surname.
-- **Problems are reported, not fatal:** a missing sex (shown as male, because the labels need one), or a link to a person who isn't in the file, is listed in the browser console after import.
-- An imported tree isn't saved and can't be shared by link. Choosing a saga from the menu replaces it.
-
-### Devices
-
-It runs on desktops, laptops, tablets and phones up to about seven years old (2018 and later: for example an iPhone XR or iPad 6th generation, a Galaxy S9, or a laptop with Intel UHD 620 graphics). On start-up it checks the device's graphics and picks a quality tier, low, medium or high. That sets the render resolution, antialiasing, the glow default, the sky's detail and how often it redraws when nothing is moving. Every feature works on every tier; only optional visual effects differ. Older devices get a lighter, smoother version, and newer ones get the extra detail. Add `?tier=low`, `?tier=medium` or `?tier=high` to the address to force a tier, e.g. to preview how it looks on an older phone.
-
-When nothing is moving, it redraws far less often to save battery, and wakes instantly when you touch, click or press a key.
-
-### When 3D isn't available
-
-The app needs WebGL 2. Without it, for example with hardware acceleration turned off, an old browser or a blocklisted GPU, it shows an explanation and what to try instead of a blank page. If the graphics context is lost mid-session (a driver reset or too many tabs), it pauses and resumes once the browser restores it.
-
-### Shareable links
-
-The address bar tracks what you're looking at, so any view can be shared or bookmarked:
-
-- `?saga=dune` opens a saga.
-- `?saga=starwars&person=leia` opens a saga with a person selected.
-- `?saga=got&person=jon&with=daenerys` opens the relationship finder for two people.
-- `?saga=got&house=Stark` lights up one house, as if picked in the **Houses** menu (a person in the link takes precedence). The name is matched forgivingly: `house=stark` and `house=House%20Stark` work too.
-- `&view=2d` (on any of these) opens in 2D; `view=3d` is the default.
-
-Unknown sagas fall back to the first one, and unknown people are ignored.
-
-## Using your own family
-
-Copy one of the saga files, for example [fiction/got.json](public/data/fiction/got.json), into the folder for its category (`public/data/fiction/` or `public/data/history/`) as `<id>.json`. Then add `{ id, category, title, work, author }` to [sagas.json](public/data/sagas.json), with `category` matching the folder. The order of `sagas.json` sets the drop-down order, and the first entry loads at startup. `npm test` checks that every file is in its category's folder and that nothing is missing or left over. Each saga file holds normalised tables, one row per item, ready to map onto a database:
-
-- `id`, `title`, `source` (work, medium, author, canon, genre, covers) and `notes`. The title is shown at the top left, with `source.author` in smaller italics beneath it.
-- `houses`: `{ name, color }`, where `color` is any CSS colour.
-- `people`: `{ id, name, house, sex }`. `sex` (`"m"` or `"f"`) picks the link labels: father/mother, son/daughter, brothers/sisters.
-- `families`: `{ id, adoptive }`. Each family is one union. A remarriage is another family. `adoptive: true` changes the labels to adoptive father/mother and adopted son/daughter.
-- `members`: `{ family, person, role }`, where `role` is `"parent"` (0–2 per family) or `"child"`. A family with no parent rows groups siblings whose parents are unknown.
-
-Run `npm test` afterwards to catch typos in ids.
-
-See [DESIGN.md](DESIGN.md) for how the data becomes a 3D graph.
-
-### Importing a GEDCOM file as a saga
-
-The in-app **Import** (folder icon) button shows a file for the current visit only. To add a GEDCOM file to the app permanently, as a saga in the menu, run the importer. It reads a local file or an `https://` URL, writes `public/data/<category>/<id>.json` and adds the saga to `sagas.json`, and re-running it replaces both:
+## Getting started
 
 ```sh
-npm run import:gedcom -- "English+Tudor+Royal+Family.ged" --id english-royal --category history --title "English Royal Family (Tudors)"
-npm run import:gedcom -- "Greek+Gods.ged" --id greek-gods --category mythology --title "Greek Gods" --names mythology --house "Greek pantheon" --genre Mythology
-npm run import:gedcom -- "Bible+Family+Tree.ged" --id bible --category religion --title "The Bible" --house Bible --color "#c9ad73" --genre Religion --rename scripts/gedcom-renames/bible.json
-npm run import:gedcom -- "https://github.com/D-Jeffrey/gedcom-samples/blob/main/famous%20family%20trees/religious%20figures%20and%20systems/Babylonian%2BGods.ged" --id babylonian-gods --category mythology --title "Babylonian Gods" --names mythology --house "Babylonian pantheon" --color "#4aa8c8" --genre Mythology --rename scripts/gedcom-renames/babylonian-gods.json
-npm run db:seed    # then refresh the database seed
+npm install
+npm run dev        # http://localhost:5173/family-tree/
+npm test           # data, layout, relationships, GEDCOM, database seed
+npm run build      # type-check and build into dist/
 ```
 
-| Option                          | Meaning                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--id`, `--title`, `--category` | The saga's id (lower-case letters, digits, hyphens), its menu title, and its folder.                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `--names person` (default)      | Names are "Given Surname". Monarchs are shown by regnal name, e.g. `Henry VIII` rather than `Henry Tudor`. Titles and dates are left out to keep names clean.                                                                                                                                                                                                                                                                                                                            |
-| `--names mythology`             | For deity files, which put the god's name in the surname slot and a description in front ("queen of the Gods /Hera/"): the description is dropped and real two-part names ("Numa Pompilius") are kept.                                                                                                                                                                                                                                                                                   |
-| `--house`                       | Put everyone in one house (e.g. a pantheon), instead of one house per surname.                                                                                                                                                                                                                                                                                                                                                                                                           |
-| `--color`                       | The colour for that one house (default a strong red).                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| `--genre`                       | The saga's genre (default `History`).                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| `--rename <file.json>`          | Corrections for names the file writes badly, keyed by GEDCOM record id. `"I364": ["King David of Judah and Israel", "david"]` sets the display name and the person's id (used in links); a third value, `["Swarup Rani", "swarup-rani", "Nehru"]`, also sets their house, for a name with the given name in the surname slot. The importer stops if a record id isn't in the file or a chosen id is already taken. Examples, each explaining its corrections: `scripts/gedcom-renames/`. |
+Built with [three.js](https://threejs.org/), [three-forcegraph](https://github.com/vasturiano/three-forcegraph), [three-spritetext](https://github.com/vasturiano/three-spritetext), TypeScript and Vite. The output is a static site: `dist/` runs on GitHub Pages or any static host.
 
-**From a URL.** Give an `https://` address instead of a file. A GitHub page link (`github.com/…/blob/…`) is fetched as the raw file, so you can paste the address from the browser. Downloads are limited to 20 MB and 30 seconds. If what comes back isn't a GEDCOM file, the importer stops rather than import an empty tree; the usual cause is a proxy or company web filter that blocks file-hosting sites (including `raw.githubusercontent.com`) and returns its own web page instead. In that case download the file another way and import the local copy.
-
-The importer handles GEDCOM 5.5 to 7 and both UTF-8 and older "ANSI" (Windows-1252) files. Unrecorded first names ("... Tudor") become "(unnamed son) Tudor". People with no recorded relatives are kept, on their own. Anything it couldn't resolve, such as a link to someone the file never defines, is listed in the saga's notes.
+To add a saga of your own, write a JSON file or import a GEDCOM file with `npm run import:gedcom`. [DESIGN.md](DESIGN.md) covers the data format, the importer, loading data from a database or object store, and how the app works inside.
 
 ## Licence
 

@@ -12,14 +12,33 @@
 export const CATEGORIES = ["fiction", "history", "mythology", "religion"] as const;
 export type Category = (typeof CATEGORIES)[number];
 
-export type SagaIndexEntry = { id: string; category: Category; title: string; work: string; author: string };
+/**
+ * One saga in the manifest. sagas.json is a map of saga id → category, in menu order (`{ "got": "fiction", … }`);
+ * everything else about a saga (title, author, …) is in its own data file. Read it with readManifest().
+ */
+export type SagaIndexEntry = { id: string; category: Category };
+export type SagaManifest = Record<string, Category>;
+
+/**
+ * The manifest as entries, in menu order (the first is opened at start-up), checked as it's read. Saga ids are
+ * lower-case slugs; an all-digit id is rejected because JavaScript orders integer-like object keys first, which
+ * would silently reorder the menu.
+ */
+export function readManifest(manifest: SagaManifest): SagaIndexEntry[] {
+    return Object.entries(manifest).map(([id, category]) => {
+        if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(id) || /^\d+$/.test(id))
+            throw new Error(`sagas.json: "${id}" isn't a valid saga id (lower-case letters, digits and hyphens)`);
+        sagaPath({ id, category }); // throws on an unknown category
+        return { id, category };
+    });
+}
 
 /**
  * Path of a saga's data file, relative to the data directory: `<category>/<id>.json`. The ONE place this path is
  * built, used by the app's loader and by every script and test, so they can never disagree about where files live.
  * Throws on an unknown category rather than building a path from it.
  */
-export function sagaPath(entry: Pick<SagaIndexEntry, "id" | "category">): string {
+export function sagaPath(entry: SagaIndexEntry): string {
     if (!(CATEGORIES as readonly string[]).includes(entry.category))
         throw new Error(
             `Saga "${entry.id}" has unknown category "${entry.category}" (expected ${CATEGORIES.join(" or ")})`

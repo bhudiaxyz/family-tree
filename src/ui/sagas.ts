@@ -2,7 +2,7 @@
 import GUI from "lil-gui";
 import { fitTree, setFlatView } from "../camera.ts";
 import type { SagaIndexEntry, Tree } from "../data/schema.ts";
-import { listSagas, loadSaga } from "../data/source.ts";
+import { listSagas, loadSaga, sagaTitle } from "../data/source.ts";
 import { setFlat, setGuidesVisible, showTree } from "../graph.ts";
 import { fontsReady, resetBadges } from "../labels.ts";
 import { bakeNebula } from "../nebula.ts";
@@ -147,9 +147,20 @@ export function start(): void {
 
 function buildMenu(sagas: SagaIndexEntry[], first: string, params: URLSearchParams) {
     const gui = new GUI({ title: "Sagas" });
-    gui.add({ saga: first }, "saga", Object.fromEntries(sagas.map((s) => [s.title, s.id])))
+    // sagas.json has only ids, so the menu starts with ids as labels and takes each saga's title from its own file
+    // as it arrives. Nothing waits for these: the first saga opens straight away (and its file is one of them).
+    const names = new Map(sagas.map((s) => [s.id, s.id]));
+    const menu = gui
+        .add({ saga: first }, "saga", Object.fromEntries(sagas.map((s) => [s.id, s.id])))
         .name("Saga")
         .onChange((id: string) => openSaga(id));
+    for (const s of sagas)
+        sagaTitle(s)
+            .then((title) => {
+                names.set(s.id, title);
+                menu.options(Object.fromEntries(sagas.map((x) => [names.get(x.id)!, x.id])));
+            })
+            .catch(() => {}); // an unreadable saga keeps its id as the label; opening it shows the error
     // Display options. Glow defaults off on touch devices (GPU/battery); these are remembered between visits.
     const stored = (k: string, dflt: boolean) => (localStorage.getItem(k) ?? String(dflt)) === "true";
     const view = { glow: stored("ft.glow", glow), guides: stored("ft.guides", true) };

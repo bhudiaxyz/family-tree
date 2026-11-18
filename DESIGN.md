@@ -93,12 +93,12 @@ The logic layer has no three.js or DOM imports, so `npm test` runs it directly i
 | `src/relationship.ts`              | `relate(tree, a, b)` and `labelAll(tree, centre)` (§9).                                                                                                                                                                                                              |
 | `src/generations.ts`               | `generations(tree)`: a generation row for every person (§5).                                                                                                                                                                                                         |
 | **Data**                           |                                                                                                                                                                                                                                                                      |
-| `src/data/schema.ts`               | `SagaFile`, `SagaRecord` and `Tree`, `expandSaga()` / `compactSaga()` between the first two, `SagaIndexEntry`, `CATEGORIES` and `sagaPath()` (§3).                                                                                                                   |
-| `src/data/source.ts`               | `listSagas()`, `loadSaga(entry)`, `toRecord()`, `toTree()`. The only file that knows where data comes from.                                                                                                                                                          |
+| `src/data/schema.ts`               | `SagaFile`, `SagaRecord` and `Tree`, `expandSaga()` / `compactSaga()` between the first two, `SagaIndexEntry` and `readManifest()`, `CATEGORIES` and `sagaPath()` (§3).                                                                                              |
+| `src/data/source.ts`               | `listSagas()`, `sagaTitle(entry)`, `loadSaga(entry)`, `toRecord()`, `toTree()`. The only file that knows where data comes from.                                                                                                                                      |
 | `src/data/gedcom.ts`               | `parseGedcom(text)`: GEDCOM 5.5, 5.5.1 and 7 → `Tree`, plus warnings (§10).                                                                                                                                                                                          |
 | `src/d3-force-3d.d.ts`             | Types for the one `d3-force-3d` export used (`forceZ`).                                                                                                                                                                                                              |
 | **Data files and scripts**         |                                                                                                                                                                                                                                                                      |
-| `public/data/sagas.json`           | The manifest: `{ id, category, title, work, author }` per saga, in menu order; the first loads at start-up.                                                                                                                                                          |
+| `public/data/sagas.json`           | The manifest: a map of saga id → category (`{ "got": "fiction", … }`), in menu order; the first loads at start-up.                                                                                                                                                   |
 | `public/data/<category>/<id>.json` | One `SagaFile` per saga, in its category's folder.                                                                                                                                                                                                                   |
 | `db/schema.sql`, `db/seed.sql`     | Relational tables matching `SagaRecord`, and a seed generated from the JSON.                                                                                                                                                                                         |
 | `scripts/data.mts`                 | Shared by scripts and tests: reads the manifest and sagas through `sagaPath()` and `expandSaga()`, exactly as the app does.                                                                                                                                          |
@@ -125,8 +125,8 @@ One JSON file per saga, named after its id, in its category's folder. A trimmed 
 
 ```jsonc
 {
-    "id": "dune", // lower-case; matches the file name and the sagas.json entry
-    "title": "Dune", // must match the sagas.json entry
+    "id": "dune", // lower-case; matches the file name and the key in sagas.json
+    "title": "Dune", // shown in the menu and at the top left
     "source": {
         "work": "Dune",
         "medium": "Novel series (1965–1985); Dune, Dune Messiah, Children of Dune",
@@ -152,7 +152,7 @@ One JSON file per saga, named after its id, in its category's folder. A trimmed 
 
 | Field         | Meaning                                                                                                                                                                                                                   |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`, `title` | The saga's id (its file name) and display title. Both must match its entry in `sagas.json`.                                                                                                                               |
+| `id`, `title` | The saga's id (its file name and its key in `sagas.json`) and display title, which the menu shows.                                                                                                                        |
 | `source`      | `work`, `medium`, `author`, `canon` (which sources count), `genre` and `covers` (what the tree spans). Plain text; `author` is shown under the title.                                                                     |
 | `notes`       | Caveats for readers, e.g. where sources disagree. An empty list if there are none.                                                                                                                                        |
 | `houses`      | House (family name, or pantheon) → any CSS colour. Every person's `house` must be listed. The order is kept in the database.                                                                                              |
@@ -182,11 +182,11 @@ Leave `adoptive` out unless it's true. A one-person family exists only so that "
 - nobody is both a parent and a child of the same family;
 - everyone is in at least one family.
 
-`trees.test.mts` also checks that the files and `sagas.json` agree: the same ids and titles, each file in its category's folder, and nothing missing or stray.
+`trees.test.mts` also checks that the files and `sagas.json` agree: each listed saga's file exists in its category's folder, and there are no files the manifest doesn't list.
 
 **Adding or changing a saga.**
 
-1. Edit or create `public/data/<category>/<id>.json`. For a new saga, also add `{ id, category, title, work, author }` to `public/data/sagas.json`; its position is its place in the menu.
+1. Edit or create `public/data/<category>/<id>.json`. For a new saga, also add `"<id>": "<category>"` to `public/data/sagas.json`; its position is its place in the menu.
 2. Run `npm run db:seed` to regenerate `db/seed.sql`, and commit it with the data.
 3. Run `npm test`. It fails on any of the mistakes above, and if `seed.sql` wasn't regenerated.
 
@@ -253,7 +253,9 @@ VITE_DATA_URL=https://my-bucket.example.com/sagas npm run build
 - **Object store** (S3, Azure Blob, GCS): upload the same files and set `VITE_DATA_URL`.
 - **Database:** put an API in front of `db/schema.sql`. `toRecord()` accepts a `SagaFile` or an already normalised `SagaRecord` (told apart by its `members` array), so the API can return rows as they are.
 
-Either way nothing outside `source.ts` changes; a host on another origin must send CORS headers. Because the URL and the menu carry only a saga id, `ui/sagas.ts` keeps the manifest as a map from id to entry, and `loadSaga(entry)` takes the entry, which includes the category. `openSaga()` shows "Loading…", ignores a response that arrives after a newer request, and on failure shows the error in the title.
+Either way nothing outside `source.ts` changes; a host on another origin must send CORS headers. **The manifest** is only `{ "<id>": "<category>" }`, in menu order: the category locates the file, and everything else about a saga lives in that file, so there is nothing to keep in step. `readManifest()` turns it into `{ id, category }` entries and checks them (lower-case slug ids, known categories). An all-digit id is rejected because JavaScript orders integer-like object keys first, which would silently reorder the menu. The menu is built straight away with ids as labels; `sagaTitle()` then fetches every saga file in the background and each label switches to the saga's `title` as its file arrives (`OptionController.options()` refills the `<select>` in place, keeping the handler and selection). Nothing waits on those fetches: the first saga opens at once, and the browser caches the responses, so switching sagas later costs no extra download. All 17 files together are about 42 KB gzipped.
+
+Because the URL and the menu carry only a saga id, `ui/sagas.ts` keeps the entries in a map by id, and `loadSaga(entry)` takes the entry, which includes the category. `openSaga()` shows "Loading…", ignores a response that arrives after a newer request, and on failure shows the error in the title.
 
 ## 4. Graph construction: union nodes
 
@@ -454,7 +456,7 @@ npm run import:gedcom -- "https://github.com/D-Jeffrey/gedcom-samples/blob/main/
 npm run db:seed    # then refresh the database seed
 ```
 
-It writes `public/data/<category>/<id>.json` and the `sagas.json` entry; re-running replaces both.
+It writes `public/data/<category>/<id>.json` and adds `"<id>": "<category>"` to `sagas.json` (at the end for a new saga, in place on a re-import).
 
 | Option                          | Meaning                                                                                                                                                                                                                                                                     |
 | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

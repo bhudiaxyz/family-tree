@@ -39,7 +39,8 @@ export function refreshHighlight(): void {
     if (state.house) {
         const house = state.house;
         const ids = Object.keys(tree.people).filter((id) => tree.people[id].house === house);
-        return highlight(new Set(ids), { hideOthers });
+        // Fade the other houses well back, so the picked house's spread across the tree stands out.
+        return highlight(new Set(ids), { hideOthers, dim: 0.04 });
     }
     const id = state.selected ?? state.hovered;
     if (!id) return highlight(null);

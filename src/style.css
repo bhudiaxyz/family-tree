@@ -15,6 +15,15 @@
     --gold: #c9ad73;
     --gold-bright: #e6cf95;
     --line: rgba(201, 173, 115, 0.3);
+
+    /* Shared look for every panel, menu and control, so they all read as one set. */
+    --control-bg: rgba(20, 19, 24, 0.85); /* buttons, inputs, selects */
+    --hover-bg: rgba(201, 173, 115, 0.12); /* a list row under the pointer */
+    --selected-bg: rgba(201, 173, 115, 0.2); /* the chosen row */
+    --radius: 4px; /* controls */
+    --radius-panel: 6px; /* panels, menu, minimap, cards */
+    --text: 12px; /* controls and lists */
+    --panel-border: rgba(201, 173, 115, 0.25); /* panels, menu, minimap */
     /* Highlight direction tints; must match palette().lineage in src/palettes.ts. */
     --ancestor: #ffb066;
     --descendant: #6fc6ff;
@@ -67,12 +76,13 @@ header {
     padding: 7px 10px;
     font: 14px var(--fb);
     color: var(--ink);
-    background: rgba(20, 19, 24, 0.85);
+    background: var(--control-bg);
     border: 1px solid var(--line);
-    border-radius: 4px;
+    border-radius: var(--radius);
     color-scheme: dark;
 }
-#search:focus {
+#search:focus,
+#relate input:focus {
     outline: none;
     border-color: var(--gold);
 }
@@ -95,7 +105,7 @@ header {
     color: var(--ink);
     background: var(--surface-solid);
     border: 1px solid var(--line);
-    border-radius: 4px;
+    border-radius: var(--radius-panel);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
 }
 #suggest[hidden] {
@@ -107,7 +117,7 @@ header {
 }
 #suggest li:hover,
 #suggest li[aria-selected="true"] {
-    background: rgba(201, 173, 115, 0.18);
+    background: var(--hover-bg);
     color: var(--gold-bright);
 }
 @media (pointer: coarse) {
@@ -129,7 +139,7 @@ header {
     overflow: auto;
     padding: 14px 16px;
     background: var(--surface);
-    border: 1px solid rgba(201, 173, 115, 0.25);
+    border: 1px solid var(--panel-border);
     border-radius: 6px;
     color: var(--ink);
     font-size: 13px;
@@ -198,7 +208,7 @@ header {
     padding: 2px 4px;
     font: 500 11px var(--fb);
     color: var(--ink);
-    background: rgba(20, 19, 24, 0.85);
+    background: var(--control-bg);
     border: 1px solid var(--line);
     border-radius: 12px;
     color-scheme: dark;
@@ -222,7 +232,7 @@ header {
     display: block;
     width: 100%;
     padding: 4px 8px;
-    font: 12px var(--fb);
+    font: var(--text) var(--fb);
     text-align: left;
     color: var(--ink);
     background: none;
@@ -230,7 +240,7 @@ header {
     cursor: pointer;
 }
 #pin-list button:hover {
-    background: rgba(201, 173, 115, 0.12);
+    background: var(--hover-bg);
     color: var(--gold-bright);
 }
 #panel-house {
@@ -271,7 +281,7 @@ header {
     border: 0;
     font-size: 18px;
     line-height: 1;
-    color: rgba(232, 220, 193, 0.6);
+    color: var(--ink-faint);
     cursor: pointer;
 }
 .close:hover {
@@ -293,12 +303,12 @@ header {
 .panel-actions button,
 #rel-swap {
     padding: 5px 10px;
-    font: 500 12px var(--fb);
+    font: 500 var(--text) var(--fb);
     letter-spacing: 0.02em;
     color: var(--ink);
-    background: rgba(20, 19, 24, 0.85);
+    background: var(--control-bg);
     border: 1px solid var(--line);
-    border-radius: 4px;
+    border-radius: var(--radius);
     cursor: pointer;
     transition:
         border-color 0.15s,
@@ -348,7 +358,7 @@ header {
     overflow: auto;
     padding: 14px 16px;
     background: var(--surface);
-    border: 1px solid rgba(201, 173, 115, 0.25);
+    border: 1px solid var(--panel-border);
     border-radius: 6px;
     color: var(--ink);
     font-size: 13px;
@@ -359,7 +369,7 @@ header {
 }
 #relate h2 {
     margin: 0 24px 10px 0;
-    font: 700 18px var(--fd);
+    font: 700 20px var(--fd);
     letter-spacing: 0.03em;
     color: var(--gold-bright);
 }
@@ -377,10 +387,10 @@ header {
     flex: 1;
     min-width: 0;
     box-sizing: border-box;
-    padding: 6px 8px;
-    font: 13px var(--fb);
+    padding: 7px 10px;
+    font: 14px var(--fb);
     color: var(--ink);
-    background: rgba(7, 7, 10, 0.6);
+    background: var(--control-bg);
     border: 1px solid var(--line);
     border-radius: 4px;
     color-scheme: dark;
@@ -414,7 +424,7 @@ header {
     padding: 8px 14px;
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: 4px;
+    border-radius: var(--radius-panel);
     color: var(--ink);
     font-size: 13px;
 }
@@ -463,7 +473,7 @@ header {
     padding: 3px 8px;
     font: 500 11px var(--fb);
     color: var(--ink);
-    background: rgba(20, 19, 24, 0.85);
+    background: var(--control-bg);
     border: 1px solid var(--line);
     border-radius: 12px;
     cursor: pointer;
@@ -531,7 +541,7 @@ header {
     padding: 6px 10px;
     background: var(--surface-solid);
     border: 1px solid var(--line);
-    border-radius: 4px;
+    border-radius: var(--radius-panel);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
     font-size: 12px;
     color: var(--ink);
@@ -570,7 +580,7 @@ header {
     gap: 8px;
     width: 100%;
     padding: 4px 8px;
-    font: 12px var(--fb);
+    font: var(--text) var(--fb);
     color: var(--ink);
     text-align: left;
     background: none;
@@ -578,10 +588,11 @@ header {
     cursor: pointer;
 }
 #legend-list button:hover {
-    background: rgba(201, 173, 115, 0.07);
+    background: var(--hover-bg);
+    color: var(--gold-bright);
 }
 #legend-list button[aria-pressed="true"] {
-    background: rgba(201, 173, 115, 0.2);
+    background: var(--selected-bg);
     color: var(--gold-bright);
     font-weight: 500;
 }
@@ -716,7 +727,7 @@ body.no-3d #pad {
 #pad button {
     font-size: 18px;
     color: var(--ink);
-    background: rgba(20, 19, 24, 0.8);
+    background: var(--control-bg);
     border: 1px solid var(--line);
     border-radius: 6px;
     touch-action: none;
@@ -758,7 +769,7 @@ body.no-3d #pad {
     bottom: max(16px, env(safe-area-inset-bottom));
     /* width and height are set by ui/minimap.ts, which shapes the map to the tree */
     background: rgba(20, 19, 24, 0.78);
-    border: 1px solid var(--line);
+    border: 1px solid var(--panel-border);
     border-radius: 6px;
     overflow: hidden;
 }
@@ -779,9 +790,9 @@ body.no-3d #pad {
     padding: 0;
     font-size: 13px;
     color: var(--ink-faint);
-    background: rgba(20, 19, 24, 0.78);
+    background: var(--control-bg);
     border: 1px solid var(--line);
-    border-radius: 4px;
+    border-radius: var(--radius);
     cursor: pointer;
 }
 #minimap-toggle[aria-pressed="false"] {
@@ -821,21 +832,46 @@ body.no-3d #pad {
 }
 
 /* ── lil-gui theme; color-scheme also makes the native <select> option list dark ─────────────────────────── */
+/* Styled to match the details panel: same surface, gold border, corners, fonts and hover highlight. */
 .lil-gui {
     color-scheme: dark;
     --font-family: var(--fb);
-    --background-color: var(--surface-solid);
-    --title-background-color: #0c0b0f;
-    --title-text-color: var(--gold);
+    --font-size: var(--text);
+    --input-font-size: var(--text);
+    --widget-height: 22px;
+    --padding: 6px;
+    --background-color: var(--surface);
+    --title-background-color: transparent;
+    --title-text-color: var(--gold-bright);
     --text-color: var(--ink);
-    --widget-color: #1e1c23;
+    --widget-color: var(--control-bg);
     --hover-color: #2a2730;
     --focus-color: #35303e;
+    --widget-border-radius: var(--radius);
+}
+.lil-gui.lil-root {
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-panel);
+    overflow: hidden;
+}
+/* Menu and folder headings in the display font, like the panels' headings. */
+.lil-gui .lil-title {
+    font: 700 13px var(--fd);
+    letter-spacing: 0.04em;
+}
+.lil-gui.lil-root > .lil-children > .lil-gui > .lil-title {
+    border-color: var(--line);
+}
+.lil-gui .lil-title:hover {
+    color: var(--gold-bright);
 }
 .lil-gui select,
 .lil-gui select option {
     background-color: var(--surface-solid);
     color: var(--ink);
+}
+.lil-gui select {
+    border: 1px solid var(--line);
 }
 
 /* ── Narrow screens (phones): keep the header clear of the menu, panel full width, pad above the panel ─────── */

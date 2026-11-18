@@ -30,13 +30,15 @@ export type HighlightOptions = {
     step?: [string, string] | null;
     /** Hide everything outside the highlight instead of dimming it. */
     hideOthers?: boolean;
+    /** How far to dim everything outside the highlight (default DIM); a house view fades the rest further. */
+    dim?: number;
 };
 
 /** Dim everything outside `people` (null clears it); see HighlightOptions for the extras. */
 export function highlight(people: Set<string> | null, opts: HighlightOptions = {}): void {
-    const { roles, path = [], step = null, hideOthers = false } = opts;
+    const { roles, path = [], step = null, hideOthers = false, dim = DIM } = opts;
     focus = people;
-    const out = people && hideOthers ? HIDDEN : DIM;
+    const out = people && hideOthers ? HIDDEN : dim;
     const { links } = graph.graphData();
     // A family's dot lights only when two of its members are lit (a couple, or a parent and child), so a lit parent
     // doesn't drag in a "father" link that leads to nobody lit (Robert's link to Gendry when only Robert is shown).

@@ -34,6 +34,8 @@ export function showTree(t: Tree): void {
     const links: Link[] = [];
     const pairs: [string, string][] = [];
     t.families.forEach((f, i) => {
+        // One parent and no children (common in imported GEDCOM files) is a link to a dot leading nowhere: skip it.
+        if (f.parents.length + f.children.length < 2) return;
         const u = `family${i}`;
         const parentRow = f.parents.length
             ? gen.get(f.parents[0])!

@@ -100,12 +100,12 @@ The seed runs in one transaction and can be re-run: each saga is deleted first, 
 | Click a name in the details panel                          | Jump to that relative                                                                                                                                                                                           |
 | ◀ in the details panel, `Backspace`, or the browser's Back | Return to the person you were looking at before                                                                                                                                                                 |
 | `Alt` + arrow keys                                         | Move to the selected person's parent (↑), child (↓) or sibling (← →)                                                                                                                                            |
-| **Focus** in the details panel (or `L`)                    | Show only this person's line, or just their ancestors or descendants                                                                                                                                            |
+| **Focus** in the details panel (or `L`)                    | Show only this person's line, or just their ancestors, descendants or siblings                                                                                                                                  |
 | Type in **Find a person…** (or press `/`)                  | Search by name, ignoring accents and small typos (`apsu` finds Apsû, `Ghandi` finds Gandhi); people who share a name are told apart (_Lamech · son of Methushael_). Choosing a result selects and flies to them |
 | Clear the search (✕) or press `Esc`                        | Deselect (or clear a house), and ease back to the whole tree                                                                                                                                                    |
 | **How are they related?** (or press `R`)                   | Open the relationship finder (see below)                                                                                                                                                                        |
-| **Import GEDCOM**, or drop a `.ged` file                   | Load your own family tree (see below)                                                                                                                                                                           |
-| **Save PNG** (or press `P`)                                | Download the current view as a high-resolution image                                                                                                                                                            |
+| **Import** (upload icon), or drop a `.ged` file            | Load your own family tree (see below)                                                                                                                                                                           |
+| **Save image** (picture icon, or press `P`)                | Save the current view as a high-resolution image, choosing its name (and folder, in Chrome or Edge)                                                                                                             |
 | `F`                                                        | Fit the whole tree in view                                                                                                                                                                                      |
 | **Fit family** in the details panel (or `G`)               | Frame the selected person with their parents, siblings, spouses and children                                                                                                                                    |
 | `+` / `-`, or **+** / **−** on the touch pad               | Zoom in and out                                                                                                                                                                                                 |
@@ -157,7 +157,7 @@ Select a person and press **Tag everyone's relationship** in their details panel
 
 ### Importing your own family (GEDCOM)
 
-GEDCOM (`.ged`) is the standard export format of genealogy software and sites: Ancestry, FamilySearch, MyHeritage, Gramps, Family Tree Maker and others. Use **Import GEDCOM**, or drag a file onto the page. Everything happens in your browser, and nothing is uploaded.
+GEDCOM (`.ged`) is the standard export format of genealogy software and sites: Ancestry, FamilySearch, MyHeritage, Gramps, Family Tree Maker and others. Use the **Import** (upload icon) button, or drag a file onto the page. Everything happens in your browser, and nothing is uploaded.
 
 - **Supported:** GEDCOM 5.5, 5.5.1 and 7. People, marriages and children are imported, and adoptions are recognised whether they're marked on the child's family link or with Ancestry/FTM's `_FREL`/`_MREL` tags.
 - **Houses:** people are grouped and coloured by surname.
@@ -201,7 +201,7 @@ See [DESIGN.md](DESIGN.md) for how the data becomes a 3D graph.
 
 ### Importing a GEDCOM file as a saga
 
-The in-app **Import GEDCOM** button shows a file for the current visit only. To add a GEDCOM file to the app permanently, as a saga in the menu, run the importer. It reads a local file or an `https://` URL, writes `public/data/<category>/<id>.json` and adds the saga to `sagas.json`, and re-running it replaces both:
+The in-app **Import** (upload icon) button shows a file for the current visit only. To add a GEDCOM file to the app permanently, as a saga in the menu, run the importer. It reads a local file or an `https://` URL, writes `public/data/<category>/<id>.json` and adds the saga to `sagas.json`, and re-running it replaces both:
 
 ```sh
 npm run import:gedcom -- "English+Tudor+Royal+Family.ged" --id english-royal --category history --title "English Royal Family (Tudors)"

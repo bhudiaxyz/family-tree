@@ -79,5 +79,59 @@ export function generations(t: Tree): Map<string, number> {
             if (remaining.get(c) === 0) ready.push(c);
         }
     }
+    alignSiblings(t, gen, kidsOf);
     return gen;
+}
+
+/**
+ * Siblings on one row where possible. A sibling who married into another generation (or whose parents were pushed
+ * apart by intermarriage) can end up a row or more from their brothers and sisters. Try moving them, with their
+ * spouses on the same row, to a sibling's row; keep a move only if every parent stays above every child, couples
+ * stay together, and fewer sibling sets are split overall. Greedy and bounded, so it always ends.
+ */
+function alignSiblings(t: Tree, gen: Map<string, number>, kidsOf: Map<string, string[]>): void {
+    const parentsOf = new Map<string, string[]>([...kidsOf.keys()].map((id) => [id, []]));
+    const spousesOf = new Map<string, Set<string>>([...kidsOf.keys()].map((id) => [id, new Set()]));
+    for (const [p, kids] of kidsOf) for (const c of kids) parentsOf.get(c)!.push(p);
+    for (const f of t.families)
+        for (const a of f.parents) for (const b of f.parents) if (a !== b) spousesOf.get(a)?.add(b);
+    const sets = t.families.filter((f) => f.children.length > 1).map((f) => f.children.filter((c) => gen.has(c)));
+    const splits = () => sets.reduce((n, s) => n + new Set(s.map((c) => gen.get(c))).size - 1, 0);
+
+    // A person and every spouse (transitively) on their row: they move together so couples stay aligned.
+    const groupOf = (id: string) => {
+        const row = gen.get(id)!;
+        const group = new Set([id]);
+        for (const g of group) for (const s of spousesOf.get(g)!) if (gen.get(s) === row) group.add(s);
+        return group;
+    };
+    const fits = (group: Set<string>) =>
+        [...group].every(
+            (g) =>
+                parentsOf.get(g)!.every((p) => gen.get(p)! < gen.get(g)!) &&
+                kidsOf.get(g)!.every((c) => gen.get(c)! > gen.get(g)!)
+        );
+
+    let best = splits();
+    for (let pass = 0; pass < 5 && best > 0; pass++) {
+        let moved = false;
+        for (const s of sets)
+            for (const c of s)
+                for (const row of new Set(s.map((x) => gen.get(x)!))) {
+                    const delta = row - gen.get(c)!;
+                    if (!delta) continue;
+                    const group = groupOf(c);
+                    for (const g of group) gen.set(g, gen.get(g)! + delta);
+                    const now = splits();
+                    if (fits(group) && now < best) {
+                        best = now;
+                        moved = true;
+                        break;
+                    }
+                    for (const g of group) gen.set(g, gen.get(g)! - delta); // undo
+                }
+        if (!moved) break;
+    }
+    const min = Math.min(...gen.values());
+    if (min) for (const [id, g] of gen) gen.set(id, g - min); // keep the oldest row at 0
 }

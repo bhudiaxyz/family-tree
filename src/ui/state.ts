@@ -2,7 +2,7 @@
 // Plain data plus the few helpers every feature needs (highlight, toast, links to people, fly-to).
 import { flyTo } from "../camera.ts";
 import type { Tree } from "../data/schema.ts";
-import { lineageRoles } from "../family.ts";
+import { type LineRole, lineageRoles, siblingsOf } from "../family.ts";
 import { highlight, nodeById } from "../graph.ts";
 import { relate } from "../relationship.ts";
 import { $ } from "./dom.ts";
@@ -10,7 +10,7 @@ import { $ } from "./dom.ts";
 export const IMPORTED = "imported"; // saga id used in the URL / GUI for a GEDCOM file loaded from disk
 
 /** Focus mode: show only the highlighted line ("all"), or just one side of it; "off" dims the rest instead. */
-export type Focus = "off" | "all" | "ancestors" | "descendants";
+export type Focus = "off" | "all" | "ancestors" | "descendants" | "siblings";
 
 export const state = {
     tree: null as Tree | null,
@@ -43,7 +43,14 @@ export function refreshHighlight(): void {
     }
     const id = state.selected ?? state.hovered;
     if (!id) return highlight(null);
-    const roles = lineageRoles(tree, id);
+    // Siblings: just the person and their brothers and sisters (they're not in the line, so no depth or side).
+    const roles: Map<string, LineRole> =
+        focus === "siblings"
+            ? new Map([
+                  [id, { side: "self", distance: 0 }],
+                  ...siblingsOf(tree, id).map((s): [string, LineRole] => [s, { side: "sibling", distance: 0 }]),
+              ])
+            : lineageRoles(tree, id);
     // Focus on one side: keep that side, the person and their spouses (so the couple at the top/bottom stays whole).
     // Focus depth: keep only people within that many generations (spouses and the person count as distance 0).
     if (focus !== "off" && state.focusDepth > 0)

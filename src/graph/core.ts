@@ -104,7 +104,13 @@ export const graph = new ThreeForceGraph<Node, Link>()
         pathRing.userData.isPathRing = true;
         pathRing.userData.dim = pathRing.userData.dimTarget = 0;
         pathRing.visible = false;
-        return new THREE.Group().add(sphere, label, badge, tag, pathRing);
+        // Ring in the lineage key's colour (amber ancestor / blue descendant) while in a selected person's line, so the
+        // direction reads whatever the house colour; recoloured by highlight.ts.
+        const lineRing = ring(palette().lineage.ancestor, 10, 0.85);
+        lineRing.userData.isLineRing = true;
+        lineRing.userData.dim = lineRing.userData.dimTarget = 0;
+        lineRing.visible = false;
+        return new THREE.Group().add(sphere, label, badge, tag, pathRing, lineRing);
     })
     // One material per link. The library otherwise shares one material per colour, so dimming one link dimmed every
     // link of that colour and the last one processed decided them all.

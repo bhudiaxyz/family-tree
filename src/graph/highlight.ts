@@ -38,12 +38,17 @@ export function highlight(people: Set<string> | null, opts: HighlightOptions = {
     focus = people;
     const out = people && hideOthers ? HIDDEN : DIM;
     const { links } = graph.graphData();
+    // A family's dot lights only when two of its members are lit (a couple, or a parent and child), so a lit parent
+    // doesn't drag in a "father" link that leads to nobody lit (Robert's link to Gendry when only Robert is shown).
     const unionsLit = new Set<string>();
-    if (people)
+    if (people) {
+        const litMembers = new Map<string, number>();
         for (const l of links) {
-            if (l.kind === "spouse" && people.has(endId(l.source))) unionsLit.add(endId(l.target));
-            if (l.kind === "child" && people.has(endId(l.target))) unionsLit.add(endId(l.source));
+            const [person, union] = l.kind === "spouse" ? [l.source, l.target] : [l.target, l.source];
+            if (people.has(endId(person))) litMembers.set(endId(union), (litMembers.get(endId(union)) ?? 0) + 1);
         }
+        for (const [u, n] of litMembers) if (n >= 2) unionsLit.add(u);
+    }
     const lit = (id: string) => !people || people.has(id) || unionsLit.has(id);
     // A person's brightness within the line: full at the centre, fading with generations away.
     const level = (id: string) => {
@@ -69,7 +74,21 @@ export function highlight(people: Set<string> | null, opts: HighlightOptions = {
         sphere.userData.glow = onStep.has(n.id) ? 1.6 : onPath.has(n.id) && path.length > 1 ? 1 : 0;
         // Direction tint (only for a person's line, not a relationship path, which has its own gold).
         const side = path.length ? undefined : roles?.get(n.id)?.side;
-        sphere.userData.tint = side === "ancestor" ? p.ancestor : side === "descendant" ? p.descendant : null;
+        const tint =
+            side === "ancestor"
+                ? p.ancestor
+                : side === "descendant"
+                  ? p.descendant
+                  : side === "sibling"
+                    ? p.sibling
+                    : null;
+        sphere.userData.tint = tint;
+        // The same colour as a ring, matching the panel's key exactly (the tint alone is mixed into the house colour).
+        const lineRing = obj!.children.find((c) => c.userData.isLineRing) as THREE.Sprite | undefined;
+        if (lineRing) {
+            if (tint != null) lineRing.material.color.set(tint); // keep the old colour while fading out
+            lineRing.userData.dimTarget = tint != null && lit(n.id) ? level(n.id) : 0;
+        }
     }
     for (const l of boundLinks()) {
         const on = pathLinks.has(l) || (lit(endId(l.source)) && lit(endId(l.target)));

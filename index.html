@@ -27,8 +27,29 @@
                 <button id="btn-relate" aria-pressed="false" title="How are two people related? (R)">
                     How are they related?
                 </button>
-                <button id="btn-import" title="Load a family from a GEDCOM file (.ged)">Import GEDCOM</button>
-                <button id="btn-png" title="Save the current view as a PNG image (P)">Save PNG</button>
+                <button
+                    id="btn-import"
+                    class="icon"
+                    disabled
+                    title="Load a family from a GEDCOM file (.ged)"
+                    aria-label="Load a family from a GEDCOM file (.ged)"
+                >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                    </svg>
+                </button>
+                <button
+                    id="btn-png"
+                    class="icon"
+                    title="Save the current view as a PNG image (P)"
+                    aria-label="Save the current view as a PNG image (P)"
+                >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <circle cx="9" cy="9" r="2" />
+                        <path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21" />
+                    </svg>
+                </button>
                 <input id="file" type="file" accept=".ged,.gedcom,text/plain" hidden />
             </div>
         </header>
@@ -94,12 +115,6 @@
                 <span>Focus</span>
                 <button data-focus="off" role="radio" aria-checked="true" title="Dim everyone else">Off</button>
                 <button data-focus="all" role="radio" aria-checked="false" title="Show only this line (L)">Line</button>
-                <button data-focus="ancestors" role="radio" aria-checked="false" title="Ancestors only">
-                    Ancestors
-                </button>
-                <button data-focus="descendants" role="radio" aria-checked="false" title="Descendants only">
-                    Descendants
-                </button>
                 <label class="focus-depth" title="How many generations up and down focus mode shows">
                     <select id="panel-depth" aria-label="Generations shown in focus mode">
                         <option value="1">1 generation</option>
@@ -108,10 +123,23 @@
                         <option value="0" selected>All generations</option>
                     </select>
                 </label>
+                <i class="focus-break" aria-hidden="true"></i>
+                <button class="key" data-focus="ancestors" role="radio" aria-checked="false" title="Ancestors only">
+                    Ancestors
+                </button>
+                <button class="key" data-focus="descendants" role="radio" aria-checked="false" title="Descendants only">
+                    Descendants
+                </button>
+                <button
+                    class="key"
+                    data-focus="siblings"
+                    role="radio"
+                    aria-checked="false"
+                    title="Brothers and sisters only"
+                >
+                    Siblings
+                </button>
             </div>
-            <p class="lineage-key" aria-hidden="true">
-                <span class="key-ancestor">ancestors</span> · <span class="key-descendant">descendants</span>
-            </p>
         </aside>
 
         <nav id="pad" aria-label="Pan the view">

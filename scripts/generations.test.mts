@@ -40,6 +40,19 @@ for (const entry of readIndex()) {
     );
 }
 
+// Siblings share a row where descent and marriage allow. What's left split is a sibling married into another
+// generation (Ginny and Harry, Tyrion and Sansa) or the intermarried pantheons. 37 sets were split before
+// alignSiblings; this is a ratchet, so lower it when the layout improves.
+let siblingSplits = 0;
+for (const entry of readIndex()) {
+    const t = treeById(entry.id);
+    const gen = generations(t);
+    for (const f of t.families) if (new Set(f.children.map((c) => gen.get(c))).size > 1) siblingSplits++;
+}
+assert.ok(siblingSplits <= 19, `${siblingSplits} sibling sets split across rows (was 19)`);
+assert.equal(generations(treeById("silmarillion")).get("elros"), generations(treeById("silmarillion")).get("elrond"));
+console.log(`ok  siblings share a row where possible (${siblingSplits} sets still split)`);
+
 // The originally reported problem: married-in spouses with no parents in the data.
 const got = treeById("got");
 const g = generations(got);

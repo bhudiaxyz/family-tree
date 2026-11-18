@@ -7,8 +7,32 @@ import { showImported } from "./sagas.ts";
 import { notify, state } from "./state.ts";
 
 // --- PNG export -----------------------------------------------------------------------------------------------------
+type SaveHandle = { createWritable(): Promise<{ write(b: Blob): Promise<void>; close(): Promise<void> }> };
+type SavePicker = (o: object) => Promise<SaveHandle>;
+
 export async function savePng(): Promise<void> {
     const { tree } = state;
+    const suggested = `${(tree?.title ?? "family-tree").replace(/[^\w-]+/g, "-").toLowerCase()}.png`;
+    // Ask where to save first: the picker needs the click/keypress that started this, which expires during capture.
+    // Chromium has a real Save dialog (name + folder); elsewhere, ask for a name and download to the usual folder.
+    const picker = (window as unknown as { showSaveFilePicker?: SavePicker }).showSaveFilePicker;
+    let handle: SaveHandle | undefined;
+    let name = suggested;
+    try {
+        if (picker)
+            handle = await picker({
+                suggestedName: suggested,
+                types: [{ description: "PNG image", accept: { "image/png": [".png"] } }],
+            });
+        else {
+            const answer = prompt("Save the image as:", suggested)?.trim();
+            if (!answer) return;
+            name = /\.png$/i.test(answer) ? answer : `${answer}.png`;
+        }
+    } catch (e) {
+        if ((e as Error).name === "AbortError") return; // cancelled the dialog
+        return notify(`Couldn't save the image: ${(e as Error).message}`, true);
+    }
     try {
         const blob = await captureView(2, (g, w) => {
             // Stamp the saga title and author in the corner so a saved image is self-explanatory.
@@ -23,12 +47,15 @@ export async function savePng(): Promise<void> {
             g.font = `italic ${13 * s}px Roboto, Arial, sans-serif`;
             g.fillText(tree?.author ?? "", 20 * s, 46 * s);
         });
-        const a = Object.assign(document.createElement("a"), {
-            href: URL.createObjectURL(blob),
-            download: `${(tree?.title ?? "family-tree").replace(/[^\w-]+/g, "-").toLowerCase()}.png`,
-        });
-        a.click();
-        setTimeout(() => URL.revokeObjectURL(a.href), 10_000);
+        if (handle) {
+            const out = await handle.createWritable();
+            await out.write(blob);
+            await out.close();
+        } else {
+            const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: name });
+            a.click();
+            setTimeout(() => URL.revokeObjectURL(a.href), 10_000);
+        }
         notify("Saved the current view as a PNG.");
     } catch (e) {
         notify(`Couldn't save the image: ${(e as Error).message}`, true);

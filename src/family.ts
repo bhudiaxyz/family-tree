@@ -22,8 +22,16 @@ export function immediateFamily(tree: Tree, id: string): string[] {
     return [...out];
 }
 
+/** Brothers and sisters: anyone sharing a family as a child (half and foster siblings included), without the person. */
+export function siblingsOf(tree: Tree, id: string): string[] {
+    const out = new Set<string>();
+    for (const f of tree.families) if (f.children.includes(id)) for (const c of f.children) out.add(c);
+    out.delete(id);
+    return [...out];
+}
+
 /** How a person in someone's line relates to them: which side, and how many generations away (0 for self/spouse). */
-export type LineRole = { side: "self" | "ancestor" | "descendant" | "spouse"; distance: number };
+export type LineRole = { side: "self" | "ancestor" | "descendant" | "spouse" | "sibling"; distance: number };
 
 /**
  * The person, all their ancestors and descendants, and their spouses, each with its side and generation distance.

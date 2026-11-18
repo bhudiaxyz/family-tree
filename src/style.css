@@ -18,6 +18,7 @@
     /* Highlight direction tints; must match palette().lineage in src/palettes.ts. */
     --ancestor: #ffb066;
     --descendant: #6fc6ff;
+    --sibling: #7ee08a;
 
     --narrow: 600px; /* documentation only: media queries can't read custom properties */
 }
@@ -303,6 +304,26 @@ header {
         border-color 0.15s,
         color 0.15s;
 }
+#toolbar button.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 7px;
+}
+#toolbar button.icon svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+#toolbar button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
 #toolbar button:hover,
 .panel-actions button:hover,
 #rel-swap:hover,
@@ -447,28 +468,43 @@ header {
     border-radius: 12px;
     cursor: pointer;
 }
+/* Ancestors / Descendants / Siblings start their own row. */
+.panel-focus .focus-break {
+    flex-basis: 100%;
+    height: 0;
+}
 .panel-focus button[aria-checked="true"] {
     color: var(--bg);
     background: var(--gold);
     border-color: var(--gold);
 }
-/* Colour key for the direction tint, with a shape cue (▲ up, ▼ down) so it doesn't rely on colour alone. */
-.lineage-key {
-    margin: 8px 0 0;
-    font-size: 11px;
-    color: var(--ink-faint);
+/* The side buttons double as the colour key for the highlight rings, with a shape cue (▲ up, ▼ down, ◆ same
+   generation) so it doesn't rely on colour alone. Chosen, they fill with their own colour instead of gold. */
+.panel-focus button.key {
+    color: var(--key);
+    border-color: var(--key);
 }
-.key-ancestor {
-    color: var(--ancestor);
+.panel-focus button.key[aria-checked="true"] {
+    color: var(--bg);
+    background: var(--key);
 }
-.key-ancestor::before {
+.panel-focus button[data-focus="ancestors"] {
+    --key: var(--ancestor);
+}
+.panel-focus button[data-focus="ancestors"]::before {
     content: "▲ ";
 }
-.key-descendant {
-    color: var(--descendant);
+.panel-focus button[data-focus="descendants"] {
+    --key: var(--descendant);
 }
-.key-descendant::before {
+.panel-focus button[data-focus="descendants"]::before {
     content: "▼ ";
+}
+.panel-focus button[data-focus="siblings"] {
+    --key: var(--sibling);
+}
+.panel-focus button[data-focus="siblings"]::before {
+    content: "◆ ";
 }
 /* The finder's steps: hovering one lights that hop in the tree. */
 #rel-steps li {

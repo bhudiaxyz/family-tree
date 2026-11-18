@@ -13,6 +13,7 @@ import {
     lineage,
     lineageRoles,
     parentLabel,
+    siblingsOf,
     relatives,
     searchPeople,
     siblingLabel,
@@ -109,6 +110,8 @@ assert.deepEqual(
     immediateFamily(got, "eddard").sort(),
     ["arya", "benjen", "bran", "catelyn", "eddard", "lyanna", "lyarra", "rickard", "rickon", "robb", "sansa"].sort()
 );
+assert.deepEqual(siblingsOf(got, "eddard").sort(), ["benjen", "lyanna"].sort(), "Eddard's siblings");
+assert.deepEqual(siblingsOf(got, "rickard"), [], "no recorded parents, so no siblings");
 // Alt + Up goes to the parent the line of descent follows: for Rahul, Indira (deeper ancestry), not Feroze.
 assert.equal(ancestry(nehru, "rajiv-gandhi").at(-2), "indira-gandhi");
 

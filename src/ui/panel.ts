@@ -1,19 +1,21 @@
 // Selection and the details panel for the selected person: relatives, a back button through the people visited,
 // focus mode (show only this person's line), and "relative to" mode (tag everyone with how they're related).
-import { fitTree } from "../camera.ts";
-import { ancestry, birthFamily, descendantCount, relatives } from "../family.ts";
-import { setRelativeTags } from "../graph.ts";
+import { fitPeople, fitTree } from "../camera.ts";
+import { ancestry, birthFamily, descendantCount, descendantsOf, namesakes, relatives } from "../family.ts";
+import { generationOf, nodeById, setFoldBadges, setRelativeTags } from "../graph.ts";
 import { labelAll } from "../relationship.ts";
 import { setPerson } from "../suggest.ts";
 import { $, panel, search } from "./dom.ts";
-import { fitFamily, isPinned, onPinsChanged, togglePin } from "./navigate.ts";
+import { fitFamily, goToGeneration, isPinned, onPinsChanged, togglePin } from "./navigate.ts";
 import { openRelate } from "./relate.ts";
-import { type Focus, flyToPerson, personLink, refreshHighlight, state } from "./state.ts";
+import { type Focus, flyToPerson, notify, personLink, refreshHighlight, state } from "./state.ts";
 import { pushUrl, writeUrl } from "./url.ts";
 
 const panelName = $("panel-name-text");
 const panelTrail = $("panel-trail");
 const panelCount = $("panel-count");
+const panelRecent = $("panel-recent");
+const btnCollapse = $<HTMLButtonElement>("panel-collapse");
 const pinButton = $<HTMLButtonElement>("panel-pin");
 const panelHouse = $("panel-house");
 const panelList = $("panel-list");
@@ -36,6 +38,7 @@ export function select(id: string, fly = false, fromHistory = false): void {
     // 2. Show the person.
     state.selected = id;
     state.house = null; // a person's line replaces a legend house highlight
+    state.group = null; // ...and a searched group
     if (relativeTo) setRelativeTo(id); // tags follow the selection, so they always describe the person shown
     refreshHighlight();
     fillPanel(id);
@@ -57,6 +60,8 @@ function fillPanel(id: string) {
     showTrail(id);
     showCount(id);
     showPin(id);
+    showRecent(id);
+    showCollapse(id);
     updateBack();
     panel.hidden = false;
 }
@@ -87,6 +92,24 @@ export function onHistoryBack(person: string | null): void {
 
 /** Forget the trail (a new tree). */
 export const clearTrail = () => (trail.length = 0);
+
+// --- Recently viewed: the last few people as chips, newest first, so you can jump back several steps at once ------
+const RECENT = 3;
+function showRecent(id: string) {
+    const seen = [...new Set([...trail].reverse())].filter((p) => p !== id && state.tree!.people[p]).slice(0, RECENT);
+    panelRecent.hidden = !seen.length;
+    panelRecent.replaceChildren(
+        ...seen.map((p) => {
+            const b = Object.assign(document.createElement("button"), {
+                className: "chip",
+                textContent: state.tree!.people[p].name,
+                title: `Back to ${state.tree!.people[p].name}`,
+            });
+            b.onclick = () => select(p, true);
+            return b;
+        })
+    );
+}
 
 function relativeRow(label: string, ids: string[]): HTMLElement[] {
     const dd = document.createElement("dd");
@@ -181,11 +204,32 @@ function showTrail(id: string) {
     );
 }
 
-// --- Descendant count: "14 descendants over 4 generations"; click to show just them --------------------------------
+// --- Under the house: the generation (click to go to that row), namesakes, and the descendant count ---------------
 function showCount(id: string) {
     const { people, generations } = descendantCount(state.tree!, id);
     panelCount.replaceChildren();
+    const { row, of } = generationOf(id);
+    if (of > 1) {
+        const g = Object.assign(document.createElement("button"), {
+            className: "count-link",
+            textContent: `Generation ${row + 1} of ${of}`,
+            title: "Go to this generation's row",
+        });
+        g.onclick = () => goToGeneration(row);
+        panelCount.append(g);
+    }
+    const same = namesakes(state.tree!, id);
+    if (same.length > 1) {
+        const n = Object.assign(document.createElement("button"), {
+            className: "count-link",
+            textContent: `${same.length} named ${state.tree!.people[id].name}`,
+            title: "Light up everyone with this name",
+        });
+        n.onclick = () => showGroup(same, `Everyone named ${state.tree!.people[id].name}`);
+        panelCount.append(" · ", n);
+    }
     if (!people) return;
+    if (panelCount.childNodes.length) panelCount.append(" · ");
     const b = Object.assign(document.createElement("button"), {
         className: "count-link",
         textContent: `${people} descendant${people === 1 ? "" : "s"} over ${generations} generation${generations === 1 ? "" : "s"}`,
@@ -206,6 +250,46 @@ pinButton.onclick = () => state.selected && togglePin(state.selected);
 onPinsChanged(() => state.selected && showPin(state.selected));
 
 $("panel-fit").onclick = fitFamily;
+
+// --- Collapse a branch: fold someone's descendants away, leaving a "+ N" tag on them --------------------------------
+function showCollapse(id: string) {
+    const n = descendantsOf(state.tree!, id).size;
+    btnCollapse.hidden = !n;
+    const on = state.collapsed.has(id);
+    btnCollapse.setAttribute("aria-pressed", String(on));
+    btnCollapse.textContent = on ? `Expand branch (${n})` : "Collapse branch";
+}
+/** Fold or unfold a person's descendants. */
+export function toggleCollapse(id: string): void {
+    if (state.collapsed.has(id)) state.collapsed.delete(id);
+    else state.collapsed.add(id);
+    refreshFolds();
+    if (state.selected) showCollapse(state.selected);
+}
+/** Redraw the "+ N" tags and the hidden branches (after a toggle, or a new tree). */
+export function refreshFolds(): void {
+    const tree = state.tree;
+    const badges = new Map<string, string>();
+    if (tree) for (const c of state.collapsed) if (tree.people[c]) badges.set(c, `+ ${descendantsOf(tree, c).size}`);
+    setFoldBadges(badges);
+    refreshHighlight();
+}
+btnCollapse.onclick = () => state.selected && toggleCollapse(state.selected);
+
+// --- A group of people found by a search or a namesake link, lit on their own like a house ---------------------
+export function showGroup(ids: string[], label: string): void {
+    if (state.selected) deselect();
+    state.house = null;
+    state.group = { ids, label };
+    refreshHighlight();
+    fitPeople(ids.flatMap((i) => nodeById(i) ?? []));
+    notify(`${label}: ${ids.length}. Press Esc to clear.`);
+}
+export function clearGroup(): void {
+    if (!state.group) return;
+    state.group = null;
+    refreshHighlight();
+}
 
 // --- Focus depth: how many generations up and down focus mode shows ---------------------------------------------------
 const depthSelect = $<HTMLSelectElement>("panel-depth");

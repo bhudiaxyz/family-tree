@@ -28,6 +28,7 @@
     --ancestor: #ffb066;
     --descendant: #6fc6ff;
     --sibling: #7ee08a;
+    --cousin: #d59bff;
 
     --narrow: 600px; /* documentation only: media queries can't read custom properties */
 }
@@ -515,6 +516,12 @@ header {
 }
 .panel-focus button[data-focus="siblings"]::before {
     content: "◆ ";
+}
+.panel-focus button[data-focus="cousins"] {
+    --key: var(--cousin);
+}
+.panel-focus button[data-focus="cousins"]::before {
+    content: "◇ ";
 }
 /* The finder's steps: hovering one lights that hop in the tree. */
 #rel-steps li {
@@ -1044,5 +1051,191 @@ header {
         width: min(340px, 45vw);
         left: auto;
         right: max(10px, env(safe-area-inset-right));
+    }
+}
+
+/* ── Help and chart dialogs (ui/guide.ts): native <dialog>, styled like the panels ─────────────────────────────── */
+dialog {
+    box-sizing: border-box;
+    width: min(460px, calc(100vw - 40px));
+    max-height: min(80dvh, 640px);
+    padding: 14px 18px;
+    overflow: auto;
+    color: var(--ink);
+    font: var(--text) / 1.5 var(--fb);
+    background: var(--surface-solid);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-panel);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    color-scheme: dark;
+}
+/* The ✕ takes focus when a dialog opens (for the keyboard); only show the ring when the keyboard moves it. */
+dialog .close:focus:not(:focus-visible) {
+    outline: none;
+}
+dialog::backdrop {
+    background: rgba(7, 7, 10, 0.55);
+}
+dialog h2 {
+    margin: 0 24px 10px 0;
+    font: 700 20px var(--fd);
+    letter-spacing: 0.03em;
+    color: var(--gold-bright);
+}
+dialog h3 {
+    margin: 12px 0 4px;
+    font: 500 11px var(--fb);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+}
+dialog a {
+    color: var(--ink);
+    text-decoration: underline dotted rgba(201, 173, 115, 0.6);
+    text-underline-offset: 3px;
+}
+dialog a:hover {
+    color: var(--gold-bright);
+}
+.keys {
+    display: grid;
+    grid-template-columns: minmax(auto, 40%) 1fr;
+    gap: 6px 14px;
+    margin: 0;
+}
+.keys dt {
+    text-align: right;
+}
+.keys dd {
+    margin: 0;
+    color: var(--ink-soft);
+}
+kbd {
+    display: inline-block;
+    min-width: 1.4em;
+    margin: 0 1px;
+    padding: 1px 5px;
+    font: 500 11px var(--fb);
+    text-align: center;
+    color: var(--ink);
+    background: var(--control-bg);
+    border: 1px solid var(--line);
+    border-bottom-width: 2px;
+    border-radius: var(--radius);
+}
+.tip {
+    margin: 12px 0 0;
+    color: var(--ink-faint);
+}
+.chart-line {
+    margin: 0;
+    color: var(--ink-faint);
+}
+.chart-tree,
+.chart-tree ul {
+    margin: 0;
+    padding-left: 16px;
+    list-style: none;
+}
+.chart-tree {
+    padding-left: 0;
+}
+.chart-tree li {
+    margin: 2px 0;
+}
+.chart-tree summary {
+    cursor: pointer;
+}
+.chart-tree summary::marker {
+    color: var(--gold);
+}
+.chart-tree li:not(:has(details)) {
+    padding-left: 14px; /* line up leaves with names that have a ▸ marker */
+}
+.chart-tree .n {
+    color: var(--ink-faint);
+    font-size: 11px;
+}
+
+/* ── Recently viewed: chips above the line of descent in the details panel ────────────────────────────────────── */
+#panel-recent {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 0 24px 6px 0;
+}
+#panel-recent[hidden] {
+    display: none;
+}
+#panel-recent .chip {
+    max-width: 120px;
+    padding: 1px 8px;
+    overflow: hidden;
+    font: 11px var(--fb);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--ink-soft);
+    background: var(--control-bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    cursor: pointer;
+}
+#panel-recent .chip:hover {
+    color: var(--gold-bright);
+    border-color: var(--gold);
+}
+
+/* ── Guided tour bar: bottom centre, like the toast ───────────────────────────────────────────────────────────── */
+#tour {
+    position: fixed;
+    left: 50%;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    width: min(520px, calc(100vw - 40px));
+    padding: 10px 14px;
+    color: var(--ink);
+    font-size: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-panel);
+}
+#tour[hidden] {
+    display: none;
+}
+#tour-text {
+    margin: 0 0 8px;
+    font-size: 13px;
+}
+.tour-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.tour-controls button {
+    padding: 3px 10px;
+    font: 500 var(--text) var(--fb);
+    color: var(--ink);
+    background: var(--control-bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    cursor: pointer;
+}
+.tour-controls button:hover {
+    color: var(--gold-bright);
+    border-color: var(--gold);
+}
+#tour-step {
+    min-width: 44px;
+    text-align: center;
+    color: var(--ink-faint);
+}
+#tour-end {
+    margin-left: auto;
+}
+/* The tour sits where the details panel is on a phone; lift it above. */
+@media (max-width: 600px) {
+    #panel:not([hidden]) ~ #tour {
+        bottom: calc(45dvh + 20px);
     }
 }

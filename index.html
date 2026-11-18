@@ -19,7 +19,7 @@
             <input
                 id="search"
                 type="search"
-                placeholder="Find a person…  ( / )"
+                placeholder="Find a person or relation…  ( / )"
                 aria-label="Find a person"
                 autocomplete="off"
             />
@@ -52,9 +52,91 @@
                         <circle cx="12" cy="13" r="3" />
                     </svg>
                 </button>
+                <button
+                    id="btn-tour"
+                    class="icon"
+                    title="Guided tour down the selected person's line, or the saga's longest (T)"
+                    aria-label="Guided tour down the selected person's line, or the saga's longest (T)"
+                >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="m10 8 6 4-6 4z" />
+                    </svg>
+                </button>
+                <button
+                    id="btn-help"
+                    class="icon"
+                    title="Keyboard shortcuts and tips (?)"
+                    aria-label="Keyboard shortcuts and tips (?)"
+                >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01" />
+                    </svg>
+                </button>
                 <input id="file" type="file" accept=".ged,.gedcom,.json,text/plain,application/json" hidden />
             </div>
         </header>
+
+        <dialog id="help" aria-labelledby="help-title">
+            <button class="close" data-close aria-label="Close">&times;</button>
+            <h2 id="help-title">Getting around</h2>
+            <dl class="keys">
+                <dt><kbd>/</kbd></dt>
+                <dd>Find a person, or a relationship: <em>Arya's cousins</em>, <em>children of Zeus</em></dd>
+                <dt><kbd>Alt</kbd> + <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd></dt>
+                <dd>Go to the selected person's parent, child or sibling</dd>
+                <dt><kbd>Backspace</kbd></dt>
+                <dd>Back to the person before</dd>
+                <dt><kbd>G</kbd></dt>
+                <dd>Frame the selected person's immediate family</dd>
+                <dt><kbd>C</kbd></dt>
+                <dd>Chart of the selected person's ancestors and descendants</dd>
+                <dt><kbd>L</kbd></dt>
+                <dd>Show only the selected person's line (again to show everyone)</dd>
+                <dt><kbd>R</kbd></dt>
+                <dd>How are two people related?</dd>
+                <dt><kbd>T</kbd></dt>
+                <dd>Guided tour down the selected person's line (or the saga's longest)</dd>
+                <dt><kbd>F</kbd></dt>
+                <dd>Fit the whole tree in view</dd>
+                <dt><kbd>Page Up</kbd> <kbd>Page Down</kbd></dt>
+                <dd>Move a generation up or down</dd>
+                <dt><kbd>+</kbd> <kbd>−</kbd></dt>
+                <dd>Zoom in and out</dd>
+                <dt><kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd></dt>
+                <dd>Pan (hold <kbd>Shift</kbd> to orbit)</dd>
+                <dt><kbd>M</kbd></dt>
+                <dd>Show or hide the overview map</dd>
+                <dt><kbd>P</kbd></dt>
+                <dd>Save the view as an image</dd>
+                <dt><kbd>Esc</kbd></dt>
+                <dd>Close, deselect, or clear a highlight</dd>
+                <dt><kbd>?</kbd></dt>
+                <dd>This list</dd>
+            </dl>
+            <p class="tip">
+                In the <strong>Houses</strong> menu, click a house to light it, again to frame it, and a third time to
+                clear it.
+            </p>
+        </dialog>
+
+        <dialog id="chart" aria-labelledby="chart-title">
+            <button class="close" data-close aria-label="Close">&times;</button>
+            <h2 id="chart-title"></h2>
+            <div id="chart-body"></div>
+        </dialog>
+
+        <div id="tour" role="region" aria-label="Guided tour" hidden>
+            <p id="tour-text" aria-live="polite"></p>
+            <div class="tour-controls">
+                <button id="tour-prev" aria-label="Previous step">&#9664;</button>
+                <span id="tour-step"></span>
+                <button id="tour-next" aria-label="Next step">&#9654;</button>
+                <button id="tour-play" aria-pressed="true">Pause</button>
+                <button id="tour-end">End tour</button>
+            </div>
+        </div>
 
         <section id="relate" hidden aria-label="Relationship finder">
             <button class="close" id="relate-close" aria-label="Close">&times;</button>
@@ -96,6 +178,7 @@
             <button id="panel-back" hidden aria-label="Back to the previous person" title="Back (Backspace)">
                 &#9664; <span id="panel-back-name"></span>
             </button>
+            <nav id="panel-recent" aria-label="Recently viewed" hidden></nav>
             <nav id="panel-trail" aria-label="Line of descent"></nav>
             <h2 id="panel-name">
                 <span id="panel-name-text"></span>
@@ -109,6 +192,12 @@
             <p class="panel-actions">
                 <button id="panel-fit" title="Frame this person's parents, siblings, spouses and children (G)">
                     Fit family
+                </button>
+                <button id="panel-chart" title="This person's ancestors and descendants as an outline (C)">
+                    Chart
+                </button>
+                <button id="panel-collapse" aria-pressed="false" title="Fold away this person's descendants">
+                    Collapse branch
                 </button>
                 <button id="panel-relate">Find how they're related to…</button>
                 <button id="panel-relative-to" aria-pressed="false">Tag everyone's relationship</button>
@@ -140,6 +229,9 @@
                     title="Brothers and sisters only"
                 >
                     Siblings
+                </button>
+                <button class="key" data-focus="cousins" role="radio" aria-checked="false" title="First cousins only">
+                    Cousins
                 </button>
             </div>
         </aside>

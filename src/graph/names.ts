@@ -105,11 +105,22 @@ export function stepNames(dt: number): void {
 }
 
 // --- "Relative to" tags: a small label above each person saying how they relate to the centre person ------------
+// The same tag shows "+ 42" over a person whose branch is collapsed; that wins over a relationship word.
+let relative: Map<string, string | null> | null = null;
+let foldBadges = new Map<string, string>();
 export function setRelativeTags(labels: Map<string, string | null> | null): void {
+    relative = labels;
+    drawTags();
+}
+export function setFoldBadges(badges: Map<string, string>): void {
+    foldBadges = badges;
+    drawTags();
+}
+function drawTags(): void {
     for (const n of boundNodes()) {
         const tag = n.__threeObj?.children.find((c) => c.userData.isTag) as SpriteText | undefined;
         if (!tag) continue;
-        const text = labels?.get(n.id) ?? null;
+        const text = foldBadges.get(n.id) ?? relative?.get(n.id) ?? null;
         tag.userData.text = text; // stepNames() shows it (faded with its person) only while it has text
         tag.visible = !!text;
         if (text && tag.text !== text) tag.text = text;

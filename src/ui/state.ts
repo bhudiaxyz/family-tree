@@ -2,15 +2,15 @@
 // Plain data plus the few helpers every feature needs (highlight, toast, links to people, fly-to).
 import { flyTo } from "../camera.ts";
 import type { Tree } from "../data/schema.ts";
-import { type LineRole, lineageRoles, siblingsOf } from "../family.ts";
-import { highlight, nodeById } from "../graph.ts";
+import { cousinsOf, descendantsOf, type LineRole, lineageRoles, siblingsOf } from "../family.ts";
+import { highlight, nodeById, setFolded } from "../graph.ts";
 import { relate } from "../relationship.ts";
 import { $ } from "./dom.ts";
 
 export const IMPORTED = "imported"; // saga id used in the URL / GUI for a GEDCOM file loaded from disk
 
 /** Focus mode: show only the highlighted line ("all"), or just one side of it; "off" dims the rest instead. */
-export type Focus = "off" | "all" | "ancestors" | "descendants" | "siblings";
+export type Focus = "off" | "all" | "ancestors" | "descendants" | "siblings" | "cousins";
 
 export const state = {
     tree: null as Tree | null,
@@ -20,6 +20,8 @@ export const state = {
     relPair: null as [string, string] | null, // the relationship currently shown, if any
     relStep: null as [string, string] | null, // the finder step being hovered, if any
     house: null as string | null, // a house picked in the legend, highlighted on its own
+    group: null as { ids: string[]; label: string } | null, // people found by a search ("Arya's cousins", namesakes)
+    collapsed: new Set<string>(), // people whose descendants are folded away (hidden from the view)
     focus: "off" as Focus,
     focusDepth: 0, // generations up and down that focus mode shows; 0 = all
     view2d: false, // ?view=2d|3d, 3d by default
@@ -30,12 +32,17 @@ export const state = {
 export function refreshHighlight(): void {
     const { tree, relPair, focus } = state;
     if (!tree) return highlight(null);
+    // Collapsed branches: their descendants are hidden whatever else is lit (a branch inside another counts once).
+    const folded = new Set<string>();
+    for (const c of state.collapsed) if (tree.people[c]) for (const d of descendantsOf(tree, c)) folded.add(d);
+    setFolded(folded);
     const hideOthers = focus !== "off";
     if (relPair) {
         const r = relate(tree, ...relPair);
         const path = r?.path ?? [];
         return highlight(new Set(path.length ? path : relPair), { path, step: state.relStep, hideOthers });
     }
+    if (state.group) return highlight(new Set(state.group.ids), { hideOthers, dim: 0.04 });
     if (state.house) {
         const house = state.house;
         const ids = Object.keys(tree.people).filter((id) => tree.people[id].house === house);
@@ -44,14 +51,18 @@ export function refreshHighlight(): void {
     }
     const id = state.selected ?? state.hovered;
     if (!id) return highlight(null);
-    // Siblings: just the person and their brothers and sisters (they're not in the line, so no depth or side).
+    // Siblings / cousins: just the person and those relatives (they're not in the line, so no depth or side).
+    const sideways = (side: "sibling" | "cousin", ids: string[]) =>
+        new Map<string, LineRole>([
+            [id, { side: "self", distance: 0 }],
+            ...ids.map((s): [string, LineRole] => [s, { side, distance: 0 }]),
+        ]);
     const roles: Map<string, LineRole> =
         focus === "siblings"
-            ? new Map([
-                  [id, { side: "self", distance: 0 }],
-                  ...siblingsOf(tree, id).map((s): [string, LineRole] => [s, { side: "sibling", distance: 0 }]),
-              ])
-            : lineageRoles(tree, id);
+            ? sideways("sibling", siblingsOf(tree, id))
+            : focus === "cousins"
+              ? sideways("cousin", cousinsOf(tree, id))
+              : lineageRoles(tree, id);
     // Focus on one side: keep that side, the person and their spouses (so the couple at the top/bottom stays whole).
     // Focus depth: keep only people within that many generations (spouses and the person count as distance 0).
     if (focus !== "off" && state.focusDepth > 0)

@@ -34,6 +34,10 @@ export type HighlightOptions = {
     dim?: number;
 };
 
+/** People folded away under a collapsed branch: hidden whatever the highlight. Set by the UI (state.collapsed). */
+let folded = new Set<string>();
+export const setFolded = (ids: Set<string>) => (folded = ids);
+
 /** Dim everything outside `people` (null clears it); see HighlightOptions for the extras. */
 export function highlight(people: Set<string> | null, opts: HighlightOptions = {}): void {
     const { roles, path = [], step = null, hideOthers = false, dim = DIM } = opts;
@@ -51,7 +55,7 @@ export function highlight(people: Set<string> | null, opts: HighlightOptions = {
         }
         for (const [u, n] of litMembers) if (n >= 2) unionsLit.add(u);
     }
-    const lit = (id: string) => !people || people.has(id) || unionsLit.has(id);
+    const lit = (id: string) => !folded.has(id) && (!people || people.has(id) || unionsLit.has(id));
     // A person's brightness within the line: full at the centre, fading with generations away.
     const level = (id: string) => {
         const r = roles?.get(id);
@@ -66,7 +70,7 @@ export function highlight(people: Set<string> | null, opts: HighlightOptions = {
     const p = palette().lineage;
     for (const n of boundNodes()) {
         const obj = n.__threeObj;
-        setTarget(obj, lit(n.id) ? level(n.id) : out);
+        setTarget(obj, folded.has(n.id) ? HIDDEN : lit(n.id) ? level(n.id) : out);
         if (obj?.userData.isUnion) obj.userData.scaleTarget = people && lit(n.id) ? 1.35 : 1; // couples stand out
         const pathRing = obj?.children.find((c) => c.userData.isPathRing);
         if (pathRing) pathRing.userData.dimTarget = onPath.has(n.id) && path.length > 1 ? 1 : 0;
@@ -76,14 +80,7 @@ export function highlight(people: Set<string> | null, opts: HighlightOptions = {
         sphere.userData.glow = onStep.has(n.id) ? 1.6 : onPath.has(n.id) && path.length > 1 ? 1 : 0;
         // Direction tint (only for a person's line, not a relationship path, which has its own gold).
         const side = path.length ? undefined : roles?.get(n.id)?.side;
-        const tint =
-            side === "ancestor"
-                ? p.ancestor
-                : side === "descendant"
-                  ? p.descendant
-                  : side === "sibling"
-                    ? p.sibling
-                    : null;
+        const tint = side && side !== "self" && side !== "spouse" ? p[side] : null;
         sphere.userData.tint = tint;
         // The same colour as a ring, matching the panel's key exactly (the tint alone is mixed into the house colour).
         const lineRing = obj!.children.find((c) => c.userData.isLineRing) as THREE.Sprite | undefined;
@@ -93,13 +90,16 @@ export function highlight(people: Set<string> | null, opts: HighlightOptions = {
         }
     }
     for (const l of boundLinks()) {
+        const gone = folded.has(endId(l.source)) || folded.has(endId(l.target));
         const on = pathLinks.has(l) || (lit(endId(l.source)) && lit(endId(l.target)));
-        const dim = on ? Math.min(level(endId(l.source)), level(endId(l.target))) : out;
+        const dim = gone ? HIDDEN : on ? Math.min(level(endId(l.source)), level(endId(l.target))) : out;
         setTarget(l.__lineObj, dim);
         setTarget(l.__photonsObj, dim);
         if (l.__lineObj) l.__lineObj.userData.path = stepLinks.has(l) ? 2 : pathLinks.has(l) ? 1 : 0;
     }
-    siblingPairs.forEach(([a, b], i) => setTarget(siblingLabels[i], lit(a.id) && lit(b.id) ? 1 : out));
+    siblingPairs.forEach(([a, b], i) =>
+        setTarget(siblingLabels[i], folded.has(a.id) || folded.has(b.id) ? HIDDEN : lit(a.id) && lit(b.id) ? 1 : out)
+    );
     siblings.userData.dimTarget = people ? out : 1;
 }
 

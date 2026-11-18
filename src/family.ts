@@ -30,8 +30,163 @@ export function siblingsOf(tree: Tree, id: string): string[] {
     return [...out];
 }
 
+const parentsOf = (tree: Tree, id: string) =>
+    tree.families.filter((f) => f.children.includes(id)).flatMap((f) => f.parents);
+const childrenOf = (tree: Tree, id: string) =>
+    tree.families.filter((f) => f.parents.includes(id)).flatMap((f) => f.children);
+
+/** First cousins: children of a parent's siblings, without the person or their own siblings. */
+export function cousinsOf(tree: Tree, id: string): string[] {
+    const out = new Set<string>();
+    for (const p of parentsOf(tree, id))
+        for (const u of siblingsOf(tree, p)) for (const c of childrenOf(tree, u)) out.add(c);
+    out.delete(id);
+    for (const s of siblingsOf(tree, id)) out.delete(s);
+    return [...out];
+}
+
+/** Everyone sharing this person's exact name, the person included (one entry when the name is unique). */
+export const namesakes = (tree: Tree, id: string): string[] =>
+    Object.keys(tree.people).filter((o) => tree.people[o].name === tree.people[id].name);
+
+/** Everyone descended from this person (not the person): for collapsing a branch. */
+export function descendantsOf(tree: Tree, id: string): Set<string> {
+    const out = new Set<string>();
+    const queue = [id];
+    while (queue.length)
+        for (const c of childrenOf(tree, queue.shift()!)) if (!out.has(c) && c !== id) (out.add(c), queue.push(c));
+    return out;
+}
+
+/**
+ * A guided tour's route through one person: down from their oldest known ancestor to them (as the panel's line of
+ * descent), then on through their longest line of descendants. Without a person, the tree's longest line.
+ */
+export function tourLine(tree: Tree, id?: string | null): string[] {
+    if (!id || !tree.people[id]) return longestLine(tree);
+    // Generations of recorded descent below each person, memoised; `visiting` stops a cycle in bad data.
+    const depth = new Map<string, number>();
+    const visiting = new Set<string>();
+    const below = (pid: string): number => {
+        const known = depth.get(pid);
+        if (known !== undefined) return known;
+        if (visiting.has(pid)) return 0;
+        visiting.add(pid);
+        const kids = childrenOf(tree, pid);
+        const d = kids.length ? 1 + Math.max(...kids.map(below)) : 0;
+        visiting.delete(pid);
+        depth.set(pid, d);
+        return d;
+    };
+    const line = ancestry(tree, id);
+    const seen = new Set(line);
+    for (let cur = id; ;) {
+        const kids = childrenOf(tree, cur).filter((c) => !seen.has(c));
+        if (!kids.length) break;
+        cur = kids.reduce((a, b) => (below(b) > below(a) ? b : a)); // the child with the deepest line; first on a tie
+        seen.add(cur);
+        line.push(cur);
+    }
+    return line;
+}
+
+/**
+ * The longest line of descent in the tree, oldest first: the tour's route when nobody is selected. Ties go to the
+ * line starting earliest in the file, where a saga lists its main figures.
+ */
+export function longestLine(tree: Tree): string[] {
+    let best: string[] = [];
+    for (const id of Object.keys(tree.people)) {
+        const line = ancestry(tree, id);
+        if (line.length > best.length) best = line;
+    }
+    return best;
+}
+
+// Relationship words for "Arya's grandmother" / "children of Zeus" searches: word → who to collect, from a person.
+type Hop = (tree: Tree, ids: string[]) => string[];
+const up: Hop = (t, ids) => ids.flatMap((i) => parentsOf(t, i));
+const down: Hop = (t, ids) => ids.flatMap((i) => childrenOf(t, i));
+const sex =
+    (s: Sex | null, hop: Hop): Hop =>
+    (t, ids) =>
+        hop(t, ids).filter((i) => !s || t.people[i].sex === s);
+const then =
+    (...hops: Hop[]): Hop =>
+    (t, ids) =>
+        hops.reduce((acc, h) => h(t, acc), ids);
+const RELATION_WORDS: Record<string, Hop> = {
+    parent: up,
+    father: sex("m", up),
+    mother: sex("f", up),
+    child: down,
+    son: sex("m", down),
+    daughter: sex("f", down),
+    sibling: (t, ids) => ids.flatMap((i) => siblingsOf(t, i)),
+    brother: sex("m", (t, ids) => ids.flatMap((i) => siblingsOf(t, i))),
+    sister: sex("f", (t, ids) => ids.flatMap((i) => siblingsOf(t, i))),
+    spouse: (t, ids) =>
+        ids
+            .flatMap((i) => t.families.filter((f) => f.parents.includes(i)).flatMap((f) => f.parents))
+            .filter((x) => !ids.includes(x)),
+    grandparent: then(up, up),
+    grandfather: then(up, sex("m", up)),
+    grandmother: then(up, sex("f", up)),
+    grandchild: then(down, down),
+    grandson: then(down, sex("m", down)),
+    granddaughter: then(down, sex("f", down)),
+    cousin: (t, ids) => ids.flatMap((i) => cousinsOf(t, i)),
+    uncle: sex(
+        "m",
+        then(up, (t, ids) => ids.flatMap((i) => siblingsOf(t, i)))
+    ),
+    aunt: sex(
+        "f",
+        then(up, (t, ids) => ids.flatMap((i) => siblingsOf(t, i)))
+    ),
+    nephew: sex(
+        "m",
+        then((t, ids) => ids.flatMap((i) => siblingsOf(t, i)), down)
+    ),
+    niece: sex(
+        "f",
+        then((t, ids) => ids.flatMap((i) => siblingsOf(t, i)), down)
+    ),
+    ancestor: (t, ids) =>
+        ids.flatMap((i) => [...lineageRoles(t, i)].filter(([, r]) => r.side === "ancestor").map(([p]) => p)),
+    descendant: (t, ids) => ids.flatMap((i) => [...descendantsOf(t, i)]),
+};
+const PLURAL: Record<string, string> = { children: "child", grandchildren: "grandchild" };
+const singular = (w: string) =>
+    PLURAL[w] ?? (w.endsWith("es") && RELATION_WORDS[w.slice(0, -2)] ? w.slice(0, -2) : w.replace(/s$/, ""));
+
+/**
+ * A relationship search: "Arya's grandmother", "children of Zeus", "sons of Jacob". Returns the person searched from
+ * and who matches, or null if the query isn't of that shape (the search box then matches names as usual).
+ */
+export function searchRelation(tree: Tree, query: string): { from: string; word: string; ids: string[] } | null {
+    const q = query.trim();
+    const possessive = /^(.+?)['’]s?\s+(\p{L}+)$/u.exec(q); // "Arya's mother"
+    const of = /^(\p{L}+)\s+of\s+(.+)$/iu.exec(q); // "children of Zeus"
+    const [who, raw] = possessive ? [possessive[1], possessive[2]] : of ? [of[2], of[1]] : [];
+    if (!who || !raw) return null;
+    const hop: Hop | undefined = RELATION_WORDS[singular(raw.toLowerCase())];
+    if (!hop) return null;
+    // Of the people the name could mean (the Bible has three Jacobs), take the best match that has any such relative,
+    // so "sons of Jacob" finds Jacob (Israel)'s twelve rather than nobody.
+    const candidates = searchPeople(tree, who, 10);
+    if (!candidates.length) return null;
+    const found = candidates.map((from) => ({ from, ids: [...new Set(hop(tree, [from]))] }));
+    // The one with the most such relatives wins; ties keep the search's order (best name match first).
+    const { from, ids } = found.reduce((best, f) => (f.ids.length > best.ids.length ? f : best));
+    return { from, word: raw.toLowerCase(), ids };
+}
+
 /** How a person in someone's line relates to them: which side, and how many generations away (0 for self/spouse). */
-export type LineRole = { side: "self" | "ancestor" | "descendant" | "spouse" | "sibling"; distance: number };
+export type LineRole = {
+    side: "self" | "ancestor" | "descendant" | "spouse" | "sibling" | "cousin";
+    distance: number;
+};
 
 /**
  * The person, all their ancestors and descendants, and their spouses, each with its side and generation distance.
@@ -210,6 +365,17 @@ export function searchPeople(tree: Tree, query: string, limit = Infinity): strin
     // Within a tier, keep the file's order (the saga's main figures come first), as the search always has.
     scored.sort((a, b) => a[1] - b[1] || a[2] - b[2]);
     return scored.slice(0, limit).map(([id]) => id);
+}
+
+/**
+ * The house a link names, matched forgivingly: case, accents, spaces and punctuation don't matter, so ?house=stark,
+ * ?house=STARK and ?house=House%20Stark all find "Stark". Null if the saga has no such house.
+ */
+export function houseNamed(tree: Tree, wanted: string | null | undefined): string | null {
+    if (!wanted) return null;
+    const houses = [...new Set([...Object.keys(tree.houseColors), ...Object.values(tree.people).map((p) => p.house)])];
+    const w = fold(wanted);
+    return houses.find((h) => fold(h) === w) ?? houses.find((h) => fold(`house ${h}`) === w) ?? null;
 }
 
 /** Find one person by name: the best match from searchPeople, or null. */

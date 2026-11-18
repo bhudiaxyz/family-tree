@@ -19,10 +19,10 @@ export type Palette = {
     links: { spouse: Colour; child: Colour; pathGlow: Colour };
     /**
      * Highlight tints showing direction in a person's line: ancestors warm, descendants cool, mixed gently into the
-     * house colour (as emissive light, so the house colour still reads); siblings (Siblings focus) green. `step` is
+     * house colour (as emissive light, so the house colour still reads); siblings green, cousins violet (their focus modes). `step` is
      * the finder's hovered step.
      */
-    lineage: { ancestor: Colour; descendant: Colour; sibling: Colour; step: Colour };
+    lineage: { ancestor: Colour; descendant: Colour; sibling: Colour; cousin: Colour; step: Colour };
     /** Relationship label text on spouse / child links, on sibling lines, and the "relative to" tags. */
     labels: {
         name: string; // person names (≈ CSS --ink)
@@ -102,7 +102,7 @@ export type Palette = {
 export const DEFAULT_PALETTE: Palette = {
     name: "Night gold",
     links: { spouse: "#c9ad73", child: "#667", pathGlow: 0xc9ad73 }, // spouse/pathGlow ≈ CSS --gold
-    lineage: { ancestor: 0xffb066, descendant: 0x6fc6ff, sibling: 0x7ee08a, step: 0xfff1c4 }, // ≈ CSS --ancestor etc.
+    lineage: { ancestor: 0xffb066, descendant: 0x6fc6ff, sibling: 0x7ee08a, cousin: 0xd59bff, step: 0xfff1c4 }, // ≈ CSS --ancestor etc.
     labels: {
         name: "#e8dcc1", // ≈ CSS --ink
         spouse: "#e6cf95", // ≈ CSS --gold-bright

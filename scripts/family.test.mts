@@ -123,3 +123,48 @@ assert.equal(z.get("Stark"), 0, "the biggest house sits in the middle plane");
 assert.equal(houseDepths({ ...got, houseColors: { Stark: "#fff" } }, 240).get("Stark"), 0, "single house: no NaN");
 
 console.log("ok  family queries: lineage, relatives, ancestry, link labels, search (fuzzy), namesakes, house depths");
+
+// --- Navigation helpers: cousins, namesakes, branches, the tour line, relationship search ---------------------------
+{
+    const { cousinsOf, namesakes, descendantsOf, longestLine, searchRelation } = await import("../src/family.ts");
+    // Jon Snow is Lyanna's son, so Eddard's children are his first cousins.
+    for (const c of ["robb", "sansa", "arya", "bran", "rickon"])
+        assert.ok(cousinsOf(got, "jon").includes(c), `${c} is Jon's cousin`);
+    assert.ok(!cousinsOf(got, "robb").includes("sansa"), "a sibling is not a cousin");
+    const bible = saga("bible");
+    const lamech = Object.keys(bible.people).find((id) => bible.people[id].name === "Lamech")!;
+    assert.ok(namesakes(bible, lamech).length >= 2, "the Bible has more than one Lamech");
+    assert.deepEqual(namesakes(got, "jon"), ["jon"], "a unique name has only themselves");
+    assert.ok(descendantsOf(got, "rickard").has("arya"), "Arya descends from Rickard");
+    assert.ok(!descendantsOf(got, "rickard").has("rickard"), "not their own descendant");
+    assert.ok(longestLine(got).length >= 3, "a tour line runs through several generations");
+    assert.deepEqual(searchRelation(got, "Arya's father")?.ids, ["eddard"], "Arya's father");
+    assert.deepEqual(searchRelation(got, "Arya’s mother")?.ids, ["catelyn"], "curly apostrophe");
+    assert.deepEqual(
+        searchRelation(got, "children of Eddard")?.ids.sort(),
+        ["arya", "bran", "rickon", "robb", "sansa"],
+        "children of Eddard"
+    );
+    assert.deepEqual(searchRelation(got, "sons of eddard")?.ids.sort(), ["bran", "rickon", "robb"], "sons of");
+    assert.ok(searchRelation(got, "Arya's grandfather")?.ids.includes("rickard"), "grandfather");
+    assert.equal(searchRelation(got, "Arya Stark"), null, "a plain name is not a relationship query");
+    assert.equal(searchRelation(got, "Arya's spaceship"), null, "an unknown word is not a relationship query");
+    // Three Jacobs in the Bible: the search picks the one who has sons, not the first exact match.
+    const jacob = searchRelation(bible, "sons of Jacob");
+    assert.equal(bible.people[jacob!.from].name, "Jacob (Israel)", "sons of Jacob finds Jacob (Israel)");
+    assert.equal(jacob!.ids.length, 11, "Jacob (Israel)'s eleven sons in this data (Dinah is his daughter)");
+    // The tour follows the selected person: Tyrion's runs through Tywin, not the Starks (the saga's longest line).
+    const { tourLine } = await import("../src/family.ts");
+    const tyrion = tourLine(got, "tyrion");
+    assert.ok(tyrion.includes("tyrion") && tyrion.includes("tywin"), `Tyrion's tour: ${tyrion}`);
+    assert.ok(!tyrion.includes("rickard"), "Tyrion's tour doesn't go through Rickard Stark");
+    const rickard = tourLine(got, "rickard");
+    assert.equal(rickard[0], "rickard", "Rickard's tour starts with him (no recorded parents)");
+    assert.ok(rickard.length >= 3, "…and runs down through his descendants");
+    assert.deepEqual(tourLine(got, null), longestLine(got), "nobody selected: the saga's longest line");
+    const { houseNamed } = await import("../src/family.ts");
+    for (const q of ["Stark", "stark", "STARK", "House Stark", "house  stark"])
+        assert.equal(houseNamed(got, q), "Stark", `house link "${q}"`);
+    assert.equal(houseNamed(got, "Nope"), null, "unknown house");
+    console.log("ok  cousins, namesakes, branches, tour line, relationship search, forgiving house links");
+}

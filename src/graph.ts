@@ -18,16 +18,23 @@ import { setSiblings, updateSiblings } from "./graph/siblings.ts";
 export { graph, isShown, type Node } from "./graph/core.ts";
 export { drawnZ, setFlat } from "./graph/flat.ts";
 export { generationRows, onRowPicked, setGuidesVisible } from "./graph/guides.ts";
-export { type HighlightOptions, highlight } from "./graph/highlight.ts";
-export { setRelativeTags } from "./graph/names.ts";
+export { type HighlightOptions, highlight, setFolded } from "./graph/highlight.ts";
+export { setFoldBadges, setRelativeTags } from "./graph/names.ts";
 
 const GEN_GAP = 80; // vertical gap between generations (world units)
+
+let rowOf = new Map<string, number>();
+let rowCount = 0;
+/** A person's generation row (0 = oldest) in the shown tree, and how many rows there are. */
+export const generationOf = (id: string) => ({ row: rowOf.get(id) ?? 0, of: rowCount });
 
 /** Replace the displayed tree. Generations are pinned to fixed heights; union nodes sit half a row below parents. */
 export function showTree(t: Tree): void {
     useTree(t);
     const gen = generations(t);
     const rows = Math.max(0, ...gen.values());
+    rowOf = gen;
+    rowCount = rows + 1;
     const y = (g: number) => (rows / 2 - g) * GEN_GAP;
 
     const nodes: Node[] = Object.entries(t.people).map(([id, p]) => ({ id, ...p, fy: y(gen.get(id)!) }));

@@ -22,7 +22,7 @@ export const zoomOut = () => zoomBy(ZOOM_STEP);
 // --- A generation at a time --------------------------------------------------------------------------------------
 const aim = new THREE.Vector3();
 /** Glide so the given generation row is in the middle of the view, keeping the current sideways position. */
-function goToGeneration(row: number): void {
+export function goToGeneration(row: number): void {
     const rows = generationRows();
     if (!rows.length) return;
     const g = THREE.MathUtils.clamp(row, 0, rows.length - 1);

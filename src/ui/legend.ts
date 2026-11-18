@@ -1,7 +1,9 @@
 // House legend, shown as a "Houses" folder in the menu: each house's colour and number of people. Click one to light
-// up the whole house (and again to clear it), which shows how intermarried families sit across the tree.
+// up the whole house, again to frame it, and a third time to clear it: shows how intermarried families spread.
 import type GUI from "lil-gui";
 import type { Tree } from "../data/schema.ts";
+import { fitPeople } from "../camera.ts";
+import { nodeById } from "../graph.ts";
 import { deselect } from "./panel.ts";
 import { refreshHighlight, state } from "./state.ts";
 import { writeUrl } from "./url.ts";
@@ -38,10 +40,14 @@ export function setLegend(tree: Tree): void {
             const name = Object.assign(document.createElement("span"), { className: "house", textContent: house });
             const size = Object.assign(document.createElement("span"), { className: "n", textContent: String(n) });
             b.append(swatch, name, size);
+            // First click lights the house; a second frames it (all its members in view); a third clears it.
             b.onclick = () => {
                 if (state.selected && state.house !== house) deselect(); // a house view replaces a person's line
-                setHouse(state.house === house ? null : house);
+                if (state.house !== house) return setHouse(house);
+                if (!framed) return frameHouse(house);
+                setHouse(null);
             };
+            b.title = "Click to light up this house, again to frame it, a third time to clear";
             li.append(b);
             return li;
         })
@@ -49,9 +55,25 @@ export function setLegend(tree: Tree): void {
     setHouse(null);
 }
 
+let framed = false; // the lit house has been framed (its second click), so the next click clears it
+
+/** Bring every member of a house into view. */
+export function frameHouse(house: string): void {
+    const tree = state.tree;
+    if (!tree) return;
+    framed = true;
+    fitPeople(
+        Object.keys(tree.people)
+            .filter((id) => tree.people[id].house === house)
+            .flatMap((id) => nodeById(id) ?? [])
+    );
+}
+
 /** Highlight one house (null clears it). A selected person's line takes over again when they're selected. */
 export function setHouse(house: string | null): void {
+    framed = false;
     state.house = house;
+    state.group = null;
     for (const b of list.querySelectorAll<HTMLButtonElement>("button[data-house]"))
         b.setAttribute("aria-pressed", String(b.dataset.house === house));
     list.classList.toggle("has-house", !!house);

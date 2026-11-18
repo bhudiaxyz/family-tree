@@ -2,16 +2,27 @@
 import { type Dir, fitTree, holdPan, nudgeRotate, releaseAllPans, releasePan } from "../camera.ts";
 import { relatePanel, search } from "./dom.ts";
 import { savePng } from "./files.ts";
+import { endTour, openChart, startTour, toggleHelp, touring } from "./guide.ts";
 import { setHouse } from "./legend.ts";
 import { toggleMinimap } from "./minimap.ts";
 import { fitFamily, stepGeneration, zoomIn, zoomOut } from "./navigate.ts";
-import { deselect, goBack, setFocus, stepToRelative } from "./panel.ts";
+import { clearGroup, deselect, goBack, setFocus, stepToRelative } from "./panel.ts";
 import { closeRelate, toggleRelate } from "./relate.ts";
 import { state } from "./state.ts";
 
 // --- Keyboard -------------------------------------------------------------------------------------------------------
 const KEY_DIR: Record<string, Dir> = { ArrowLeft: "left", ArrowRight: "right", ArrowUp: "up", ArrowDown: "down" };
 const typing = () => document.activeElement instanceof HTMLInputElement;
+// Escape ends a tour wherever the focus is, before an input or its suggestion list can take the key (capture phase).
+addEventListener(
+    "keydown",
+    (e) => {
+        if (e.key !== "Escape" || !touring()) return;
+        e.stopImmediatePropagation(); // one Escape, one thing: end the tour, don't also deselect
+        endTour();
+    },
+    { capture: true }
+);
 addEventListener("keydown", (e) => {
     // Alt + arrows: move to a relative of the selected person (up: parent, down: child, left/right: sibling).
     if (e.altKey && !typing() && KEY_DIR[e.key] && state.selected)
@@ -21,6 +32,9 @@ addEventListener("keydown", (e) => {
         return;
     }
     if (e.key === "/") return (e.preventDefault(), search.focus());
+    if (e.key === "?") return (e.preventDefault(), toggleHelp());
+    if ((e.key === "c" || e.key === "C") && state.selected) return openChart();
+    if (e.key === "t" || e.key === "T") return touring() ? endTour() : startTour();
     if (e.key === "r" || e.key === "R") return (e.preventDefault(), toggleRelate());
     if (e.key === "p" || e.key === "P") return (e.preventDefault(), void savePng());
     if (e.key === "f" || e.key === "F") return fitTree();
@@ -38,6 +52,7 @@ addEventListener("keydown", (e) => {
         if (!relatePanel.hidden) return closeRelate();
         if (state.selected) return deselect();
         if (state.house) return setHouse(null);
+        if (state.group) return clearGroup();
         return;
     }
     const dir = KEY_DIR[e.key];

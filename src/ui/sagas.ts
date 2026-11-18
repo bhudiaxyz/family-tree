@@ -8,11 +8,12 @@ import { fontsReady, resetBadges } from "../labels.ts";
 import { bakeNebula } from "../nebula.ts";
 import { paletteFor, usePalette } from "../palettes.ts";
 import { applyScenePalette, controls, glow, renderer, setGlow, setSky } from "../scene.ts";
+import { houseNamed } from "../family.ts";
 import { setPerson, setSuggestions } from "../suggest.ts";
 import { author, panel, relA, relB, search, title } from "./dom.ts";
 import { mountLegend, setHouse, setLegend } from "./legend.ts";
 import { onPinsChanged, pinned, rememberView, restoreView } from "./navigate.ts";
-import { clearTrail, onHistoryBack, select, setFocus, setRelativeTo } from "./panel.ts";
+import { clearTrail, onHistoryBack, refreshFolds, select, setFocus, setRelativeTo } from "./panel.ts";
 import { resetCard } from "./picking.ts";
 import { openRelate, resetRelate } from "./relate.ts";
 import { IMPORTED, state } from "./state.ts";
@@ -37,7 +38,7 @@ async function openSaga(id: string, person?: string | null, withPerson?: string 
         show(t);
         // Give the layout a moment to place nodes (and build their objects, which a highlight dims) before selecting
         // a linked person and flying to them, or lighting a linked house. A person takes precedence over a house.
-        const linkedHouse = house && Object.values(t.people).some((p) => p.house === house) ? house : null;
+        const linkedHouse = houseNamed(t, house);
         if ((person && t.people[person]) || linkedHouse)
             setTimeout(() => {
                 if (mine !== request) return;
@@ -69,6 +70,8 @@ function show(t: Tree) {
     state.tree = t;
     state.selected = state.hovered = null;
     state.relPair = state.relStep = null;
+    state.group = null;
+    state.collapsed.clear();
     clearTrail();
     resetCard();
     panel.hidden = true;
@@ -82,6 +85,7 @@ function show(t: Tree) {
     applyScenePalette();
     showTree(t);
     setLegend(t);
+    refreshFolds();
     setFocus("off");
     scheduleSky(skyId());
     setSuggestions(t);

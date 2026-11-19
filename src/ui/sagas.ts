@@ -20,7 +20,7 @@ import { setFlat, setGuidesVisible, showTree } from "../graph.ts";
 import { fontsReady, resetBadges } from "../labels.ts";
 import { bakeNebula } from "../nebula.ts";
 import { paletteFor, usePalette } from "../palettes.ts";
-import { applyScenePalette, controls, glow, renderer, setGlow, setSky } from "../scene.ts";
+import { applyScenePalette, controls, glow, renderer, setGlow, setSky, warmUp } from "../scene.ts";
 import { setPerson, setSuggestions } from "../suggest.ts";
 import { author, el, panel, relA, relB, search, title } from "./dom.ts";
 import { mountLegend, setHouse, setLegend } from "./legend.ts";
@@ -97,6 +97,7 @@ function show(t: Tree) {
     resetBadges(); // badge textures are cached per house; drop them so they redraw in the new theme's ink/outline
     applyScenePalette();
     showTree(t, state.siblings);
+    void warmUp(); // compile the new tree's shaders before it's drawn (see scene.ts), so it appears without a stall
     setLegend(t);
     refreshFolds();
     setFocus("off");
@@ -116,6 +117,7 @@ export function rebuildAfterContextLoss(): void {
     applyScenePalette();
     if (!state.tree) return;
     showTree(state.tree, state.siblings);
+    void warmUp(); // every program died with the context
     afterRebuild(); // the new objects start lit and untagged
     scheduleSky(skyId());
 }

@@ -104,7 +104,7 @@ export type Palette = {
 export const DEFAULT_PALETTE: Palette = {
     name: "Night gold",
     links: { spouse: "#c9ad73", child: "#667", pathGlow: 0xc9ad73 }, // spouse/pathGlow ≈ CSS --gold
-    lineage: { ancestor: 0xffb066, descendant: 0x6fc6ff, sibling: 0x7ee08a, cousin: 0xd59bff, step: 0xfff1c4 }, // ≈ CSS --ancestor etc.
+    lineage: { ancestor: 0xff6fb5, descendant: 0x6fc6ff, sibling: 0x7ee08a, cousin: 0xd59bff, step: 0xfff1c4 }, // ≈ CSS --ancestor etc.
     labels: {
         name: "#e8dcc1", // ≈ CSS --ink
         spouse: "#e6cf95", // ≈ CSS --gold-bright

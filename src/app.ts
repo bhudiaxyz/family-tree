@@ -56,17 +56,27 @@ let lastActive = performance.now();
 const wake = () => (lastActive = performance.now());
 for (const ev of ["pointerdown", "pointermove", "wheel", "keydown", "resize", "touchstart"])
     addEventListener(ev, wake, { passive: true });
-let lastPrint = "";
-function fingerprint(): string {
+// The fingerprint is kept as numbers (rounded to one decimal) rather than a string, so the check allocates nothing
+// per frame. One decimal place: positions span hundreds of units, and OrbitControls damping / auto-fit easing converge
+// asymptotically (measured 0.008 units/s at rest), so finer rounding kept waking the loop for invisible motion.
+const SAMPLES = 9; // camera + target (6) and a stride through the nodes (up to 9): enough to see the layout settling
+const print = new Float64Array(6 + SAMPLES);
+const round1 = (v: number | undefined) => Math.round((v ?? 0) * 10);
+/** Update the fingerprint of everything that can move; true if it changed since the last frame. */
+function changed(): boolean {
     const c = camera.position;
     const t = controls.target;
     const nodes = graph.graphData().nodes;
-    // One decimal place: positions span hundreds of units, and OrbitControls damping / auto-fit easing converge
-    // asymptotically (measured 0.008 units/s at rest), so finer rounding kept waking the loop for invisible motion.
-    let s = `${c.x.toFixed(1)},${c.y.toFixed(1)},${c.z.toFixed(1)},${t.x.toFixed(1)},${t.y.toFixed(1)},${t.z.toFixed(1)}`;
-    // A stride through the nodes is enough to see the layout still settling; checking all of them isn't needed.
-    for (let i = 0; i < nodes.length; i += Math.max(1, nodes.length >> 3)) s += `|${nodes[i].x?.toFixed(1)}`;
-    return s;
+    const stride = Math.max(1, Math.ceil(nodes.length / SAMPLES));
+    let diff = false;
+    for (let j = 0; j < print.length; j++) {
+        const v = j < 6 ? round1([c.x, c.y, c.z, t.x, t.y, t.z][j]) : round1(nodes[(j - 6) * stride]?.x);
+        if (print[j] !== v) {
+            print[j] = v;
+            diff = true;
+        }
+    }
+    return diff;
 }
 
 let last = 0;
@@ -75,11 +85,7 @@ renderer.setAnimationLoop((now) => {
     const dt = last ? Math.min((now - last) / 1000, 0.1) : 1 / 60; // seconds; clamped so a backgrounded tab can't jump
     last = now;
     if (paused) return;
-    const print = fingerprint();
-    if (print !== lastPrint) {
-        lastPrint = print;
-        wake();
-    }
+    if (changed()) wake();
     const idle = now - lastActive > IDLE_AFTER;
     if (idle && now - lastDrawn < 1000 / quality.idleFps) return; // skip this frame entirely: no simulation, no draw
     const step = idle ? Math.min((now - lastDrawn) / 1000, 0.1) : dt;

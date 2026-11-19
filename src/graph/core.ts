@@ -68,6 +68,16 @@ function ring(colour: THREE.ColorRepresentation, size: number, opacity: number):
     return s;
 }
 
+/** True while the force layout is still moving nodes (from a new graphData() until the engine stops). */
+export let layoutRunning = false;
+export const markLayoutRunning = () => (layoutRunning = true);
+
+/** Compute an object's local matrix now and stop recomputing it each frame (it never moves within its group). */
+function freeze(o: THREE.Object3D): void {
+    o.updateMatrix();
+    o.matrixAutoUpdate = false;
+}
+
 let tree: Tree;
 let houseZ = new Map<string, number>();
 /** The tree the node objects are built from (house colours) and its house depth planes. Set before graphData(). */
@@ -84,6 +94,7 @@ export const graph = new ThreeForceGraph<Node, Link>()
             const dot = new THREE.Mesh(unionGeo, new THREE.MeshBasicMaterial({ color: palette().union }));
             const unionRing = ring(palette().union, 3.6, 0.45);
             unionRing.userData.isUnionRing = true; // only the ring grows when the couple is lit, not the dot
+            freeze(dot); // the ring is rescaled by highlight.ts, so it stays automatic
             const group = new THREE.Group().add(dot, unionRing);
             group.userData.isUnion = true;
             return group;
@@ -112,12 +123,17 @@ export const graph = new ThreeForceGraph<Node, Link>()
         pathRing.userData.isPathRing = true;
         pathRing.userData.dim = pathRing.userData.dimTarget = 0;
         pathRing.visible = false;
-        // Ring in the lineage key's colour (amber ancestor / blue descendant) while in a selected person's line, so the
+        // Ring in the lineage key's colour (rose ancestor / blue descendant) while in a selected person's line, so the
         // direction reads whatever the house colour; recoloured by highlight.ts.
         const lineRing = ring(palette().lineage.ancestor, 10, 0.85);
         lineRing.userData.isLineRing = true;
         lineRing.userData.dim = lineRing.userData.dimTarget = 0;
         lineRing.visible = false;
+        // These never move or resize relative to their person, so compute their local matrices once rather than every
+        // frame: three.js otherwise recomposes ~5 matrices per person per frame (measured ~20% of a frame orbiting the
+        // Bible). The group itself still updates (the layout moves it, 2D mode counter-scales it). The tag is left
+        // automatic because SpriteText rescales itself when its text changes.
+        for (const o of [sphere, label, badge, pathRing, lineRing]) freeze(o);
         return new THREE.Group().add(sphere, label, badge, tag, pathRing, lineRing);
     })
     // One material per link. The library otherwise shares one material per colour, so dimming one link dimmed every
@@ -174,6 +190,8 @@ graph.d3Force("charge")!.distanceMax(120);
 // while settling, and stop hard at 300 ticks or 5 s, whichever comes first. Once stopped, nothing moves, so the
 // frame loop's idle throttling (app.ts) can take over. Interaction never needs the simulation running.
 graph.d3AlphaDecay(0.045).d3VelocityDecay(0.5).cooldownTicks(300).cooldownTime(5000);
+// Per-frame passes that skip work once things are still (names.ts) need to know the layout has stopped moving nodes.
+graph.onEngineStop(() => (layoutRunning = false));
 // Depth for parallax: pull each house towards its own z plane, so panning moves near families faster than far ones.
 // A weak pull (strength < 1), so links and repulsion still shape the layout.
 graph.d3Force(

@@ -32,7 +32,7 @@
     --text: var(--text-sm);
     --panel-border: rgba(201, 173, 115, 0.25); /* panels, menu, minimap */
     /* Highlight direction tints; must match palette().lineage in src/palettes.ts. */
-    --ancestor: #ffb066;
+    --ancestor: #ff6fb5;
     --descendant: #6fc6ff;
     --sibling: #7ee08a;
     --cousin: #d59bff;

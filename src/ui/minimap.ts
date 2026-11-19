@@ -11,7 +11,7 @@
 
 import * as THREE from "three";
 import { glideTo } from "../camera.ts";
-import { graph, isShown, type Node } from "../graph.ts";
+import { graph, isShown, layoutRunning, type Node } from "../graph.ts";
 import { palette } from "../palettes.ts";
 import { camera, controls } from "../scene.ts";
 import { state } from "./state.ts";
@@ -99,8 +99,24 @@ function footprint(): [number, number][] {
 }
 
 /** Redraw if anything visible changed; called from the frame loop. */
+// A still camera over a settled layout with the same highlight needs no redraw: check that cheaply first, before
+// filtering the nodes and building the full key (which allocated every frame).
+const lastCam = new THREE.Vector3(Infinity, 0, 0);
+const lastTarget = new THREE.Vector3();
+let lastState = "";
 export function stepMinimap(): void {
     if (!on || !state.tree) return;
+    const quickState = `${state.selected}|${state.house}|${state.focus}|${state.group?.label}`;
+    if (
+        !layoutRunning &&
+        camera.position.equals(lastCam) &&
+        controls.target.equals(lastTarget) &&
+        quickState === lastState
+    )
+        return;
+    lastCam.copy(camera.position);
+    lastTarget.copy(controls.target);
+    lastState = quickState;
     const nodes = graph.graphData().nodes.filter((n) => n.name && n.x !== undefined) as Node[];
     if (!nodes.length) return;
     // Cheap change check, like the frame loop's idle test: camera, target, a sample of nodes, and the selection.

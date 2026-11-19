@@ -10,10 +10,11 @@
 // generation row in the scene calls goToGeneration (via onRowPicked, registered at import time).
 
 import * as THREE from "three";
-import { fitPeople, glideTo, viewState, zoomBy } from "../camera.ts";
+import { fitPeople, glideTo, setViewInsets, viewState, zoomBy } from "../camera.ts";
 import { immediateFamily } from "../family.ts";
 import { generationRows, nodeById, onRowPicked } from "../graph.ts";
 import { camera, controls } from "../scene.ts";
+import { panel, relatePanel } from "./dom.ts";
 import { state } from "./state.ts";
 
 // --- Fit the family: the selected person with their parents, siblings, spouses and children -------------------------
@@ -86,3 +87,30 @@ export function restoreView(saga: string): boolean {
     glideTo(v.target, v.dist);
     return true;
 }
+
+// --- Keep camera fits clear of the overlays ------------------------------------------------------------------------
+// The header and toolbar cover the top of the view, and the details panel or finder the bottom, so framing the whole
+// visible area put Ancestors' oldest rows under the toolbar and Descendants' youngest behind the panel. Measure what's
+// covered and tell the camera. A full-width panel (phones) covers the bottom outright; a desktop card in the lower
+// left counts for a third of its height, enough to lift the youngest row clear of it.
+const header = document.querySelector("header");
+function measureInsets(): void {
+    const top = header?.getBoundingClientRect().bottom ?? 0;
+    let bottom = 0;
+    for (const el of [panel, relatePanel]) {
+        if (el.hidden) continue;
+        const r = el.getBoundingClientRect();
+        const covered = innerHeight - r.top;
+        // Full width (phones): the panel really covers the bottom. A desktop card in a corner: keep the lowest row a
+        // little above it, without shrinking the view by the card's whole height.
+        bottom = Math.max(bottom, r.width > innerWidth / 3 ? covered : covered / 3);
+    }
+    setViewInsets(top + 8, bottom ? bottom + 8 : 0);
+}
+const watch = new ResizeObserver(measureInsets);
+for (const el of [header, panel, relatePanel]) if (el) watch.observe(el);
+addEventListener("resize", measureInsets);
+// Showing or hiding a panel doesn't resize it in a way ResizeObserver reports from 0, so watch `hidden` as well.
+new MutationObserver(measureInsets).observe(panel, { attributes: true, attributeFilter: ["hidden"] });
+new MutationObserver(measureInsets).observe(relatePanel, { attributes: true, attributeFilter: ["hidden"] });
+measureInsets();

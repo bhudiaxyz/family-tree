@@ -87,8 +87,18 @@ export function flyTo(node: Pos): void {
 // planes spread people front to back for parallax, and fitting the front face (as before) pushed the camera back by
 // that whole depth, so the first view was far too zoomed out. Near people may now sit slightly past the frame edge
 // in perspective, which reads as closer and more immersive; the 5–95% box (peopleBbox) already trims stragglers.
-// On a portrait phone the width is the constraint; the header takes the top of the screen, so leave a little room.
-const FIT_MARGIN = 1.02;
+//
+// The fit is into the part of the screen that isn't covered: the header and toolbar take the top, and the details
+// panel (or, on phones, the finder) the bottom. Without that, Ancestors put the oldest rows under the toolbar and
+// Descendants put the youngest behind the panel. The UI reports those insets with setViewInsets().
+const FIT_MARGIN = 1.08; // breathing room around what's framed, so the outer rows aren't on the very edge
+let insetTop = 0; // px of the view covered at the top (header) and bottom (panel), set by the UI
+let insetBottom = 0;
+/** Tell the camera how much of the view is covered by overlays, top and bottom (CSS px), so fits avoid them. */
+export function setViewInsets(top: number, bottom: number): void {
+    insetTop = Math.max(0, top);
+    insetBottom = Math.max(0, bottom);
+}
 // Scratch vectors, reused every frame: allocating new ones per frame made garbage-collection pauses on phones.
 const center = new THREE.Vector3();
 const goal = new THREE.Vector3();
@@ -97,12 +107,18 @@ function stepFit(bbox: Bbox, dt: number) {
     const { x, y, z } = bbox;
     center.set((x[0] + x[1]) / 2, (y[0] + y[1]) / 2, (z[0] + z[1]) / 2);
     const tanHalf = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2);
-    const portrait = camera.aspect < 1;
-    const fitH = (y[1] - y[0]) / 2 / tanHalf;
+    const viewH = Math.max(1, innerHeight);
+    // The free band, as a fraction of the view height. On a phone the panel really does cover the bottom ~45%, so fit
+    // into what's left (a floor of a quarter keeps a near-full-screen overlay from pushing the camera absurdly far).
+    const free = Math.max(0.25, (viewH - insetTop - insetBottom) / viewH);
+    const fitH = (y[1] - y[0]) / 2 / (tanHalf * free);
     const fitW = (x[1] - x[0]) / 2 / (tanHalf * camera.aspect);
-    const dist = Math.max(fitH * (portrait ? 1.12 : 1), fitW) * FIT_MARGIN;
-    // Nudge the target down a touch so the header and toolbar overlay don't cover the top generation.
-    center.y += (y[1] - y[0]) * 0.04;
+    const dist = Math.max(fitH, fitW) * FIT_MARGIN;
+    // Centre the box in the free band, not the whole view: move the target by the band's offset from the view centre.
+    // At distance `dist` the view spans 2·dist·tanHalf world units vertically; the band's centre sits
+    // (insetBottom - insetTop) / 2 px above the view's centre.
+    const unitsPerPx = (2 * dist * tanHalf) / viewH;
+    center.y -= ((insetBottom - insetTop) / 2) * unitsPerPx;
     const k = ease(6, dt);
     controls.target.lerp(center, k);
     camera.position.lerp(goal.copy(center).setZ(center.z + dist), k);

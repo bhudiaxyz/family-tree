@@ -14,14 +14,24 @@ import type * as THREE from "three";
 import type { Tree } from "./data/schema.ts";
 import { childLabel, parentLabel } from "./family.ts";
 import { generations, type SiblingMode } from "./generations.ts";
-import { boundLinks, boundNodes, disposeObject, graph, isShown, type Link, type Node, useTree } from "./graph/core.ts";
+import {
+    boundLinks,
+    boundNodes,
+    disposeObject,
+    graph,
+    isShown,
+    type Link,
+    markLayoutRunning,
+    type Node,
+    useTree,
+} from "./graph/core.ts";
 import { drawnZ, setSiblingGroups, stepFlat } from "./graph/flat.ts";
 import { setGuides, stepGuides } from "./graph/guides.ts";
 import { clearFocus, stepFades } from "./graph/highlight.ts";
 import { declutter, fadeLabels, stepNames } from "./graph/names.ts";
 import { setSiblings, updateSiblings } from "./graph/siblings.ts";
 
-export { graph, isShown, type Node } from "./graph/core.ts";
+export { graph, isShown, layoutRunning, type Node } from "./graph/core.ts";
 export { drawnZ, setFlat } from "./graph/flat.ts";
 export { generationRows, onRowPicked, setGuidesVisible } from "./graph/guides.ts";
 export { type HighlightOptions, highlight, setFolded } from "./graph/highlight.ts";
@@ -73,6 +83,7 @@ export function showTree(t: Tree, mode: SiblingMode = "together"): void {
     setSiblingGroups(t.families.filter((f) => f.children.length > 1).map((f) => f.children.map((c) => byId.get(c)!)));
     setSiblings(t, byId, pairs);
     setGuides(rows, y);
+    markLayoutRunning();
     graph.graphData({ nodes, links });
     clearFocus();
 }

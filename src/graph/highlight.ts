@@ -49,6 +49,7 @@ export const setFolded = (ids: Set<string>) => (folded = ids);
 export function highlight(people: Set<string> | null, opts: HighlightOptions = {}): void {
     const { roles, path = [], step = null, hideOthers = false, dim = DIM } = opts;
     focus = people;
+    settled = false;
     const out = people && hideOthers ? HIDDEN : dim;
     const { links } = graph.graphData();
     // A family's dot lights only when two of its members are lit (a couple, or a parent and child), so a lit parent
@@ -130,7 +131,23 @@ function linksAlong(links: Link[], path: string[]): Set<Link> {
 }
 
 /** Forget the highlight without touching objects (a new tree's objects start lit). */
-export const clearFocus = () => (focus = null);
+export const clearFocus = () => {
+    focus = null;
+    settled = false; // the new tree's objects have no fade state yet
+};
+
+// Once every fade has reached its target, stepFades() has nothing to do until a new highlight() (or a new tree):
+// skipping it then saves a walk over every person and link object each frame, the largest per-frame CPU cost in a
+// big saga (measured 18% of a frame while orbiting the Bible). `moved` is set by any value that still changed.
+let settled = false;
+let moved = false;
+/** Ease `cur` towards `target`, snapping when close so it settles; notes that something moved. */
+const ease = (cur: number, target: number, k: number) => {
+    if (cur === target) return cur;
+    moved = true;
+    const next = approach(cur, target, k);
+    return Math.abs(next - target) < 0.002 ? target : next;
+};
 
 function setTarget(obj: THREE.Object3D | undefined, dim: number) {
     obj?.traverse((o) => (o.userData.dimTarget = dim));
@@ -143,12 +160,12 @@ const stepGold = new THREE.Color();
 // factor in userData.dim, which names.ts combines with the distance fade. Anything fully faded is made invisible, so
 // focus mode also takes hidden people out of picking and drawing.
 export function stepFades(dt: number): void {
+    if (settled) return;
+    moved = false;
     const k = 1 - Math.exp(-FADE_RATE * dt);
     const fadeObject = (root: THREE.Object3D | undefined) =>
         root?.traverse((o) => {
-            const target = (o.userData.dimTarget ?? 1) as number;
-            const dim = approach((o.userData.dim ?? 1) as number, target, k);
-            o.userData.dim = Math.abs(dim - target) < 0.002 ? target : dim;
+            o.userData.dim = ease((o.userData.dim ?? 1) as number, (o.userData.dimTarget ?? 1) as number, k);
             // Labels are faded by names.ts, link lines below; everything else (spheres, badges, dots) here.
             if (o instanceof SpriteText || o.userData.isLinkLine) return;
             const m = (o as THREE.Mesh).material as THREE.Material | undefined;
@@ -158,10 +175,10 @@ export function stepFades(dt: number): void {
             m.userData.baseOpacity ??= m.opacity;
             m.opacity = o.userData.dim * (m.userData.baseOpacity as number);
             if (m instanceof THREE.MeshStandardMaterial) {
-                const glow = approach((o.userData.glowNow ?? 0) as number, (o.userData.glow ?? 0) as number, k);
+                const glow = ease((o.userData.glowNow ?? 0) as number, (o.userData.glow ?? 0) as number, k);
                 o.userData.glowNow = glow;
                 const tintOn = o.userData.tint == null ? 0 : 1;
-                const tint = approach((o.userData.tintNow ?? 0) as number, tintOn, k);
+                const tint = ease((o.userData.tintNow ?? 0) as number, tintOn, k);
                 o.userData.tintNow = tint;
                 if (tintOn) o.userData.tintColour = o.userData.tint; // keep the last colour while fading out
                 // The path's people light up in their own colour; a line's ancestors/descendants take a warm/cool tint.
@@ -178,7 +195,7 @@ export function stepFades(dt: number): void {
         // Grow the marriage ring (not the dot) while its couple is lit.
         const unionRing = obj?.userData.isUnion ? obj.children.find((c) => c.userData.isUnionRing) : undefined;
         if (unionRing) {
-            const s = approach((obj!.userData.scaleNow ?? 1) as number, (obj!.userData.scaleTarget ?? 1) as number, k);
+            const s = ease((obj!.userData.scaleNow ?? 1) as number, (obj!.userData.scaleTarget ?? 1) as number, k);
             obj!.userData.scaleNow = s;
             unionRing.scale.setScalar(3.6 * s);
         }
@@ -193,7 +210,7 @@ export function stepFades(dt: number): void {
             THREE.Mesh<THREE.BufferGeometry, THREE.MeshLambertMaterial> | undefined;
         if (!line) continue;
         line.userData.isLinkLine = true;
-        const p = approach((line.userData.pathNow ?? 0) as number, (l.__lineObj!.userData.path ?? 0) as number, k);
+        const p = ease((line.userData.pathNow ?? 0) as number, (l.__lineObj!.userData.path ?? 0) as number, k);
         line.userData.pathNow = p;
         const dim = (line.userData.dim ?? 1) as number;
         line.visible = dim > 0.01;
@@ -203,8 +220,14 @@ export function stepFades(dt: number): void {
         line.scale.x = line.scale.y = 1 + 1.6 * p;
     }
     siblingLabels.forEach(fadeObject);
-    const sd = approach((siblings.userData.dim ?? 1) as number, (siblings.userData.dimTarget ?? 1) as number, k);
+    const sd = ease((siblings.userData.dim ?? 1) as number, (siblings.userData.dimTarget ?? 1) as number, k);
     siblings.userData.dim = sd;
     siblingMat.opacity = sd;
     siblings.visible = sd > 0.01;
+    // Settled only once a whole pass changed nothing AND every object has been built (the library adds them over its
+    // first ticks, and a new object has no fade state yet).
+    settled = !moved && boundNodes().every((n) => n.__threeObj);
 }
+
+/** True once every fade has reached its target (names.ts skips its own passes then, if the camera is still too). */
+export const fadesSettled = () => settled;

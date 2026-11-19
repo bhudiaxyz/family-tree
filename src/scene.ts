@@ -120,6 +120,70 @@ export const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.saveState();
 
+
+// --- Shader warm-up (declared before the glow setup, which may start a warm-up while this module loads) -----------------------------------------------------------------------------------------------
+// The first frame that meets a new material compiles its shader program on the main thread and blocks until it's
+// done: measured 6 s of one frame on a software GPU with bloom on, and tens to hundreds of ms on a 2018 phone, which
+// read as the app freezing just as the tree appeared. warmUp() compiles every program the scene needs with
+// compileAsync, which uses KHR_parallel_shader_compile (Chrome, Edge, Safari 16.4+, recent Firefox) so the driver
+// compiles in the background; draw() shows only the background until it resolves. Browsers without the extension
+// still compile synchronously inside compile(), but once, at a known moment, rather than mid-animation.
+/** Compile the scene's shaders (and the glow passes, if on) before drawing it. Resolves when ready. */
+const nextFrame = () => new Promise<void>((r) => requestAnimationFrame(() => r()));
+
+export async function warmUp(): Promise<void> {
+    const mine = ++warmRequest;
+    warming = true;
+    await nextFrame(); // three-forcegraph builds the node objects on its next tick
+    await nextFrame();
+    try {
+        if (parallelCompile) await renderer.compileAsync(scene, camera);
+        else await compileInSteps();
+        if (glow && composer) await compileGlow();
+    } catch (e) {
+        console.warn("Shader warm-up failed; compiling on first use instead.", e);
+    }
+    if (mine === warmRequest) warming = false;
+}
+// With KHR_parallel_shader_compile the driver compiles in the background and compileAsync() just waits. Without it
+// (older Safari and Firefox, software renderers), compile() blocks until each program is built, so compiling the
+// whole scene at once is one long freeze. Instead compile one object at a time, each of a different material kind,
+// yielding a frame between them: three.js caches programs by their shader source, so the first object of a kind pays
+// for it and every other object sharing that program is then free.
+const parallelCompile = !!renderer.getContext().getExtension("KHR_parallel_shader_compile");
+async function compileInSteps(): Promise<void> {
+    const seen = new Set<string>();
+    const reps: THREE.Object3D[] = [];
+    scene.traverse((o) => {
+        const m = (o as THREE.Mesh).material as THREE.Material | undefined;
+        if (!m) return;
+        const kind = `${m.type}|${(m as THREE.MeshStandardMaterial).map ? "map" : ""}|${m.transparent}`;
+        if (seen.has(kind)) return;
+        seen.add(kind);
+        reps.push(o);
+    });
+    for (const o of reps) {
+        renderer.compile(o, camera, scene);
+        await nextFrame();
+    }
+}
+// The glow passes render their own full-screen quads, which aren't in `scene`: run the composer once off screen so
+// their programs are built while the tree is still held back.
+async function compileGlow(): Promise<void> {
+    composer!.renderToScreen = false; // render into the composer's own buffers: builds the programs, shows nothing
+    try {
+        renderer.toneMapping = THREE.NoToneMapping;
+        composer!.render();
+    } finally {
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        composer!.renderToScreen = true;
+    }
+    await nextFrame();
+}
+let warming = false;
+let warmRequest = 0;
+const backdrop = new THREE.Scene(); // empty: drawn while warming, showing only the background
+
 // --- Glow (bloom) ---------------------------------------------------------------------------------------------------
 // A soft bloom so the gold relationship path and lit spheres glow. It's several full-screen passes per frame, so:
 //  - it's on by default only on the "high" tier (the user can still toggle it from the menu on any tier);
@@ -152,7 +216,16 @@ export const glowSupported = !!device.gpu?.halfFloatTargets;
 export let glow = quality.bloom && glowSupported;
 export const setGlow = (on: boolean) => {
     glow = on && glowSupported;
-    if (glow && !composer) composer = buildComposer();
+    if (glow && !composer) {
+        composer = buildComposer();
+        // Turning glow on mid-session used to stall the next frame while its passes compiled; hold the view briefly
+        // and compile them first (only at start-up does warmUp() do this itself).
+        if (!warming) {
+            warming = true;
+            const mine = ++warmRequest;
+            void compileGlow().finally(() => mine === warmRequest && (warming = false));
+        }
+    }
 };
 setGlow(glow);
 
@@ -161,6 +234,12 @@ setGlow(glow);
  * mapping is switched off while the composer runs (otherwise the image is tone-mapped twice and looks washed out).
  */
 export function draw(): void {
+    if (warming) {
+        // Background only, so the canvas shows the sky or vignette rather than going blank while shaders compile.
+        backdrop.background = scene.background;
+        renderer.render(backdrop, camera);
+        return;
+    }
     if (glow && composer) {
         renderer.toneMapping = THREE.NoToneMapping;
         composer.render();

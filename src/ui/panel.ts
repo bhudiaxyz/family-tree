@@ -1,7 +1,18 @@
 // Selection and the details panel for the selected person: relatives, a back button through the people visited,
 // focus mode (show only this person's line), and "relative to" mode (tag everyone with how they're related).
 import { fitPeople, fitTree } from "../camera.ts";
-import { ancestry, birthFamily, descendantCount, descendantsOf, namesakes, relatives } from "../family.ts";
+import {
+    ancestry,
+    birthFamily,
+    cousinsOf,
+    descendantCount,
+    descendantsOf,
+    type LineRole,
+    lineageRoles,
+    namesakes,
+    relatives,
+    siblingsOf,
+} from "../family.ts";
 import { generationOf, nodeById, setFoldBadges, setRelativeTags } from "../graph.ts";
 import { labelAll } from "../relationship.ts";
 import { setPerson } from "../suggest.ts";
@@ -136,13 +147,38 @@ $("panel-relate").onclick = () => state.selected && openRelate(state.selected);
 
 // --- Focus mode -----------------------------------------------------------------------------------------------------
 const focusButtons = [...document.querySelectorAll<HTMLButtonElement>(".panel-focus button")];
+// What each one-sided focus mode shows, for the "nobody recorded" notice.
+const SIDE: Partial<Record<Focus, { side: LineRole["side"]; word: string }>> = {
+    ancestors: { side: "ancestor", word: "ancestors" },
+    descendants: { side: "descendant", word: "descendants" },
+    siblings: { side: "sibling", word: "brothers or sisters" },
+    cousins: { side: "cousin", word: "first cousins" },
+};
 export function setFocus(f: Focus): void {
     state.focus = f;
+    // Say so when a focus mode finds nobody, rather than leave the person alone on screen.
+    const side = SIDE[f];
+    const { tree, selected } = state;
+    if (side && tree && selected) {
+        const found =
+            f === "siblings"
+                ? siblingsOf(tree, selected).length
+                : f === "cousins"
+                  ? cousinsOf(tree, selected).length
+                  : [...lineageRoles(tree, selected).values()].filter((r) => r.side === side.side).length;
+        if (!found) notify(`${tree.people[selected].name} has no ${side.word} recorded in this tree.`);
+    }
     for (const b of focusButtons) b.setAttribute("aria-checked", String(b.dataset.focus === f));
     refreshHighlight();
     fitTree(); // frame what's shown: the line on its own, or the whole tree again
 }
-for (const b of focusButtons) b.onclick = () => setFocus(b.dataset.focus as Focus);
+// The four side buttons (Ancestors, Descendants, Siblings, Cousins) toggle: pressing the one that's on turns focus off.
+// Off and Line are plain choices (L toggles the line from the keyboard).
+for (const b of focusButtons)
+    b.onclick = () => {
+        const f = b.dataset.focus as Focus;
+        setFocus(f === state.focus && b.classList.contains("key") ? "off" : f);
+    };
 
 // --- "Relative to" mode ---------------------------------------------------------------------------------------------
 const btnRelativeTo = $("panel-relative-to");

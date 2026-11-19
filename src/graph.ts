@@ -93,8 +93,16 @@ export function peopleBbox(): { x: [number, number]; y: [number, number]; z: [nu
     // Vertical extent uses every person: generations are few and pinned, so there are no stray rows to ignore, and
     // cutting the top/bottom row would hide a whole generation. Pad for the name label above and badge below.
     const y = range("y", 0, 1);
-    return { x: [x[0] - 6, x[1] + 6], y: [y[0] - 9, y[1] + 12], z };
+    // Never frame tighter than about one person with their family around them: a focus mode can leave a single person
+    // (Cersei has no recorded cousins), and fitting their bare sphere put the camera a few units from it.
+    const atLeast = ([lo, hi]: [number, number], min: number): [number, number] => {
+        const grow = Math.max(0, min - (hi - lo)) / 2;
+        return [lo - grow, hi + grow];
+    };
+    return { x: atLeast([x[0] - 6, x[1] + 6], MIN_FRAME_W), y: atLeast([y[0] - 9, y[1] + 12], MIN_FRAME_H), z };
 }
+const MIN_FRAME_W = 120; // world units; a generation row is 80 apart
+const MIN_FRAME_H = 100;
 
 /** Live node for a person (its position is updated by the simulation), if the tree has been laid out. */
 export const nodeById = (id: string): Node | undefined => graph.graphData().nodes.find((n) => n.id === id);

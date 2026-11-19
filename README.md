@@ -37,7 +37,7 @@ The ten fiction sagas were written from memory and reviewed against fan wikis th
 - **Find your way around.** The details panel shows the line of descent, the generation, recently viewed people and pinned favourites. There's an outline chart for each person, an overview map, a guided tour down a line, and Back to retrace your steps.
 - **Houses.** Light up a house to see how it spreads through the tree, then frame all its members.
 - **Your own family.** Load a GEDCOM file from any genealogy program, or a saga JSON file, straight in the browser. Nothing is uploaded.
-- **Share a view.** The address bar tracks the saga, person, relationship, house and 2D/3D, so any view can be bookmarked or shared.
+- **Share a view.** The address bar tracks the saga, person, relationship, house, 2D/3D and layout (`?siblings=apart`), so any view can be bookmarked or shared.
 - **Runs on most devices.** Desktops, tablets and phones from about 2018 onwards. Quality adjusts to the device's graphics, every feature works everywhere, and it redraws rarely when idle to save battery.
 
 ## Controls
@@ -46,29 +46,29 @@ Press `?` in the app for the full list of keyboard shortcuts.
 
 ### Mouse and keyboard
 
-| Do this                            | To                                                                 |
-| ---------------------------------- | ------------------------------------------------------------------ |
-| Drag                               | Orbit (in 2D: pan)                                                 |
-| Right-drag, or arrow keys          | Pan                                                                |
-| Scroll, or `+` / `-`               | Zoom                                                               |
-| `Shift` + arrow keys               | Orbit in small steps                                               |
-| Hover a person                     | Preview their line; with someone selected, see how they relate     |
-| Click a person                     | Select them and open their details; click empty space to deselect  |
-| Double-click a person              | Select them and fly to them                                        |
-| `/`                                | Find a person, or a relationship                                   |
-| `Alt` + arrow keys                 | Go to the selected person's parent (↑), child (↓) or sibling (← →) |
-| `Backspace`, or the browser's Back | Back to the person before                                          |
-| `G`                                | Frame the selected person's immediate family                       |
-| `C`                                | Chart of the selected person's ancestors and descendants           |
-| `L`                                | Show only the selected person's line (again for everyone)          |
-| `R`                                | How are two people related?                                        |
-| `T`                                | Guided tour down the selected person's line                        |
-| `F`                                | Fit the whole tree                                                 |
-| `Page Up` / `Page Down`            | Move a generation up or down                                       |
-| `M`                                | Show or hide the overview map                                      |
-| `P`                                | Save the view as an image                                          |
-| `Esc`                              | Close, deselect, end a tour, or clear a highlight                  |
-| `?`                                | Keyboard shortcuts                                                 |
+| Do this                                       | To                                                                 |
+| --------------------------------------------- | ------------------------------------------------------------------ |
+| Drag                                          | Orbit (in 2D: pan)                                                 |
+| Right-drag, or arrow keys                     | Pan                                                                |
+| Scroll, or `+` / `-`                          | Zoom                                                               |
+| `Shift` + arrow keys                          | Orbit in small steps                                               |
+| Hover a person                                | Preview their line; with someone selected, see how they relate     |
+| Click a person                                | Select them and open their details; click empty space to deselect  |
+| Double-click a person                         | Select them and fly to them                                        |
+| `/`                                           | Find a person, or a relationship                                   |
+| `Alt` + arrow keys                            | Go to the selected person's parent (↑), child (↓) or sibling (← →) |
+| `Backspace`, or the browser's Back            | Back to the person before                                          |
+| `G`                                           | Frame the selected person's immediate family                       |
+| `C`                                           | Chart of the selected person's ancestors and descendants           |
+| `L`                                           | Show only the selected person's line (again for everyone)          |
+| `R`                                           | How are two people related?                                        |
+| `T`                                           | Guided tour down the selected person's line                        |
+| `F`                                           | Fit the whole tree                                                 |
+| `Page Up` / `Page Down`, or a **Row n** label | Move a row up or down, or go to that row                           |
+| `M`                                           | Show or hide the overview map                                      |
+| `P`                                           | Save the view as an image                                          |
+| `Esc`                                         | Close, deselect, end a tour, or clear a highlight                  |
+| `?`                                           | Keyboard shortcuts                                                 |
 
 ### Touch
 

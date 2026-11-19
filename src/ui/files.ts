@@ -3,7 +3,7 @@ import { parseGedcom } from "../data/gedcom.ts";
 import { toRecord, toTree } from "../data/source.ts";
 import { palette } from "../palettes.ts";
 import { captureView } from "../scene.ts";
-import { $ } from "./dom.ts";
+import { $, el } from "./dom.ts";
 import { showImported } from "./sagas.ts";
 import { notify, state } from "./state.ts";
 
@@ -53,7 +53,7 @@ export async function savePng(): Promise<void> {
             await out.write(blob);
             await out.close();
         } else {
-            const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: name });
+            const a = el("a", { href: URL.createObjectURL(blob), download: name });
             a.click();
             setTimeout(() => URL.revokeObjectURL(a.href), 10_000);
         }

@@ -36,10 +36,13 @@ export type Palette = {
     siblingLine: Colour;
     guideLine: Colour;
     union: Colour; // the small marriage/union dots
+    particle: Colour; // the dots travelling down child links, parent to child
     /** House badge: dark outline, and ink for the initial on light / dark houses. */
     badge: { outline: string; inkOnLight: string; inkOnDark: string };
-    /** Fallback colour for a person whose house has no colour. */
+    /** Fallback colour for a person whose house has no colour (3D, minimap and the legend's swatch). */
     unknownHouse: string;
+    /** The overview map: the selected person's ring and the frame showing the part of the tree on screen. */
+    minimap: { selected: string; view: string };
 
     /** Scene lighting (see scene.ts for why it's balanced this way: strong key, low fill, cool rim). */
     lights: {
@@ -115,8 +118,10 @@ export const DEFAULT_PALETTE: Palette = {
     siblingLine: 0x5f8f7a,
     guideLine: 0xc9ad73,
     union: 0xffffff,
+    particle: 0xf0f0f0,
     badge: { outline: "rgba(7,7,10,.85)", inkOnLight: "#141318", inkOnDark: "#f4ead2" },
     unknownHouse: "#888",
+    minimap: { selected: "#e6cf95", view: "rgba(230,207,149,.85)" }, // ≈ CSS --gold-bright
     lights: {
         key: 0xfff1d6,
         keyIntensity: 3.4,

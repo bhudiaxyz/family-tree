@@ -4,11 +4,13 @@ import type GUI from "lil-gui";
 import type { Tree } from "../data/schema.ts";
 import { fitPeople } from "../camera.ts";
 import { nodeById } from "../graph.ts";
+import { palette } from "../palettes.ts";
 import { deselect } from "./panel.ts";
 import { refreshHighlight, state } from "./state.ts";
 import { writeUrl } from "./url.ts";
+import { el } from "./dom.ts";
 
-const list = Object.assign(document.createElement("ul"), { id: "legend-list" });
+const list = el("ul", { id: "legend-list" });
 list.setAttribute("aria-label", "Houses");
 
 /** Put the legend in a collapsed "Houses" folder of the menu. */
@@ -25,7 +27,7 @@ export function setLegend(tree: Tree): void {
     // Shown only while a house is picked: the obvious way back (Escape and clicking empty space also clear it).
     const all = document.createElement("li");
     all.className = "legend-clear";
-    const clear = Object.assign(document.createElement("button"), { textContent: "✕ Show all houses" });
+    const clear = el("button", { textContent: "✕ Show all houses" });
     clear.onclick = () => setHouse(null);
     all.append(clear);
     list.replaceChildren(
@@ -35,10 +37,10 @@ export function setLegend(tree: Tree): void {
             const b = document.createElement("button");
             b.dataset.house = house;
             b.setAttribute("aria-pressed", "false");
-            const swatch = Object.assign(document.createElement("span"), { className: "swatch" });
-            swatch.style.background = tree.houseColors[house] ?? "#888";
-            const name = Object.assign(document.createElement("span"), { className: "house", textContent: house });
-            const size = Object.assign(document.createElement("span"), { className: "n", textContent: String(n) });
+            const swatch = el("span", { className: "swatch" });
+            swatch.style.background = tree.houseColors[house] ?? palette().unknownHouse;
+            const name = el("span", { className: "house", textContent: house });
+            const size = el("span", { className: "n", textContent: String(n) });
             b.append(swatch, name, size);
             // First click lights the house; a second frames it (all its members in view); a third clears it.
             b.onclick = () => {

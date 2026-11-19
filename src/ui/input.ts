@@ -6,7 +6,8 @@ import { endTour, openChart, startTour, toggleHelp, touring } from "./guide.ts";
 import { setHouse } from "./legend.ts";
 import { toggleMinimap } from "./minimap.ts";
 import { fitFamily, stepGeneration, zoomIn, zoomOut } from "./navigate.ts";
-import { clearGroup, deselect, goBack, setFocus, stepToRelative } from "./panel.ts";
+import { setFocus } from "./visibility.ts";
+import { clearGroup, deselect, goBack, stepToRelative } from "./panel.ts";
 import { closeRelate, toggleRelate } from "./relate.ts";
 import { state } from "./state.ts";
 

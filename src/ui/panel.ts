@@ -1,32 +1,22 @@
 // Selection and the details panel for the selected person: relatives, a back button through the people visited,
-// focus mode (show only this person's line), and "relative to" mode (tag everyone with how they're related).
+// "relative to" mode (tag everyone with how they're related), moving between relatives, and highlighting a group.
+// Focus mode and collapsing branches are in visibility.ts; the panel shows their controls for each person.
 import { fitPeople, fitTree } from "../camera.ts";
-import {
-    ancestry,
-    birthFamily,
-    cousinsOf,
-    descendantCount,
-    descendantsOf,
-    type LineRole,
-    lineageRoles,
-    namesakes,
-    relatives,
-    siblingsOf,
-} from "../family.ts";
-import { generationOf, nodeById, setFoldBadges, setRelativeTags } from "../graph.ts";
+import { ancestry, birthFamily, descendantCount, namesakes, relatives, siblingsOf } from "../family.ts";
+import { generationOf, nodeById, setRelativeTags } from "../graph.ts";
 import { labelAll } from "../relationship.ts";
 import { setPerson } from "../suggest.ts";
-import { $, panel, search } from "./dom.ts";
+import { $, el, panel, search } from "./dom.ts";
 import { fitFamily, isPinned, onPinsChanged, togglePin } from "./navigate.ts";
 import { openRelate } from "./relate.ts";
-import { type Focus, flyToPerson, notify, personLink, refreshHighlight, state } from "./state.ts";
+import { flyToPerson, notify, personLink, refreshHighlight, state } from "./state.ts";
 import { pushUrl, writeUrl } from "./url.ts";
+import { setFocus, showCollapse, showDepths } from "./visibility.ts";
 
 const panelName = $("panel-name-text");
 const panelTrail = $("panel-trail");
 const panelCount = $("panel-count");
 const panelRecent = $("panel-recent");
-const btnCollapse = $<HTMLButtonElement>("panel-collapse");
 const pinButton = $<HTMLButtonElement>("panel-pin");
 const panelHouse = $("panel-house");
 const panelList = $("panel-list");
@@ -115,7 +105,7 @@ function showRecent(id: string) {
     panelRecent.hidden = !seen.length;
     panelRecent.replaceChildren(
         ...seen.map((p) => {
-            const b = Object.assign(document.createElement("button"), {
+            const b = el("button", {
                 className: "chip",
                 textContent: state.tree!.people[p].name,
                 title: `Back to ${state.tree!.people[p].name}`,
@@ -132,7 +122,7 @@ function relativeRow(label: string, ids: string[]): HTMLElement[] {
         if (i) dd.append(", ");
         dd.append(personLink(rid, () => select(rid, true)));
     });
-    return [Object.assign(document.createElement("dt"), { textContent: label }), dd];
+    return [el("dt", { textContent: label }), dd];
 }
 
 /** The single way out of a selection: close button, Escape, an empty click, or clearing the search. */
@@ -148,41 +138,6 @@ export function deselect(fromHistory = false): void {
 }
 $("panel-close").onclick = () => deselect();
 $("panel-relate").onclick = () => state.selected && openRelate(state.selected);
-
-// --- Focus mode -----------------------------------------------------------------------------------------------------
-const focusButtons = [...document.querySelectorAll<HTMLButtonElement>(".panel-focus button")];
-// What each one-sided focus mode shows, for the "nobody recorded" notice.
-const SIDE: Partial<Record<Focus, { side: LineRole["side"]; word: string }>> = {
-    ancestors: { side: "ancestor", word: "ancestors" },
-    descendants: { side: "descendant", word: "descendants" },
-    siblings: { side: "sibling", word: "brothers or sisters" },
-    cousins: { side: "cousin", word: "first cousins" },
-};
-export function setFocus(f: Focus): void {
-    state.focus = f;
-    // Say so when a focus mode finds nobody, rather than leave the person alone on screen.
-    const side = SIDE[f];
-    const { tree, selected } = state;
-    if (side && tree && selected) {
-        const found =
-            f === "siblings"
-                ? siblingsOf(tree, selected).length
-                : f === "cousins"
-                  ? cousinsOf(tree, selected).length
-                  : [...lineageRoles(tree, selected).values()].filter((r) => r.side === side.side).length;
-        if (!found) notify(`${tree.people[selected].name} has no ${side.word} recorded in this tree.`);
-    }
-    for (const b of focusButtons) b.setAttribute("aria-checked", String(b.dataset.focus === f));
-    refreshHighlight();
-    fitTree(); // frame what's shown: the line on its own, or the whole tree again
-}
-// The four side buttons (Ancestors, Descendants, Siblings, Cousins) toggle: pressing the one that's on turns focus off.
-// Off and Line are plain choices (L toggles the line from the keyboard).
-for (const b of focusButtons)
-    b.onclick = () => {
-        const f = b.dataset.focus as Focus;
-        setFocus(f === state.focus && b.classList.contains("key") ? "off" : f);
-    };
 
 // --- "Relative to" mode ---------------------------------------------------------------------------------------------
 const btnRelativeTo = $("panel-relative-to");
@@ -230,7 +185,7 @@ function showTrail(id: string) {
     const parts = (ids: string[]) => ids.flatMap((pid, i) => (i ? [" › ", link(pid)] : [link(pid)]));
     const above = line.slice(0, -1); // the person themselves is the panel's heading
     if (above.length <= TRAIL_HEAD + TRAIL_TAIL + 1) return panelTrail.replaceChildren(...parts(above), " ›");
-    const more = Object.assign(document.createElement("button"), {
+    const more = el("button", {
         className: "trail-more",
         textContent: `… ${above.length - TRAIL_HEAD - TRAIL_TAIL} more …`,
         title: "Show the whole line",
@@ -264,7 +219,7 @@ function showCount(id: string) {
     const sibRows = siblingsOf(state.tree!, id).map((s) => generationOf(s).row);
     const generation = sibRows.length ? mostCommon([row, ...sibRows]) : row;
     if (of > 1) {
-        const g = Object.assign(document.createElement("button"), {
+        const g = el("button", {
             className: "count-link",
             textContent: generation === row ? `Generation ${row + 1}` : `Generation ${generation + 1} (row ${row + 1})`,
             title:
@@ -279,7 +234,7 @@ function showCount(id: string) {
     }
     const same = namesakes(state.tree!, id);
     if (same.length > 1) {
-        const n = Object.assign(document.createElement("button"), {
+        const n = el("button", {
             className: "count-link",
             textContent: `${same.length} named ${state.tree!.people[id].name}`,
             title: "Light up everyone with this name",
@@ -289,7 +244,7 @@ function showCount(id: string) {
     }
     if (!people) return;
     if (panelCount.childNodes.length) panelCount.append(" · ");
-    const b = Object.assign(document.createElement("button"), {
+    const b = el("button", {
         className: "count-link",
         textContent: `${people} descendant${people === 1 ? "" : "s"} over ${generations} generation${generations === 1 ? "" : "s"}`,
         title: "Show only their descendants",
@@ -310,31 +265,6 @@ onPinsChanged(() => state.selected && showPin(state.selected));
 
 $("panel-fit").onclick = fitFamily;
 
-// --- Collapse a branch: fold someone's descendants away, leaving a "+ N" tag on them --------------------------------
-function showCollapse(id: string) {
-    const n = descendantsOf(state.tree!, id).size;
-    btnCollapse.hidden = !n;
-    const on = state.collapsed.has(id);
-    btnCollapse.setAttribute("aria-pressed", String(on));
-    btnCollapse.textContent = on ? `Expand branch (${n})` : "Collapse branch";
-}
-/** Fold or unfold a person's descendants. */
-export function toggleCollapse(id: string): void {
-    if (state.collapsed.has(id)) state.collapsed.delete(id);
-    else state.collapsed.add(id);
-    refreshFolds();
-    if (state.selected) showCollapse(state.selected);
-}
-/** Redraw the "+ N" tags and the hidden branches (after a toggle, or a new tree). */
-export function refreshFolds(): void {
-    const tree = state.tree;
-    const badges = new Map<string, string>();
-    if (tree) for (const c of state.collapsed) if (tree.people[c]) badges.set(c, `+ ${descendantsOf(tree, c).size}`);
-    setFoldBadges(badges);
-    refreshHighlight();
-}
-btnCollapse.onclick = () => state.selected && toggleCollapse(state.selected);
-
 // --- A group of people found by a search or a namesake link, lit on their own like a house ---------------------
 export function showGroup(ids: string[], label: string): void {
     if (state.selected) deselect();
@@ -349,27 +279,6 @@ export function clearGroup(): void {
     state.group = null;
     refreshHighlight();
 }
-
-// --- Focus depth: how many generations up and down focus mode shows ---------------------------------------------------
-const depthSelect = $<HTMLSelectElement>("panel-depth");
-// Grey out the depths that would show nobody new: Eddard's line runs only one generation each way, so 1, 2, 3 and
-// all show the same 9 people, and the menu looked broken. The tooltip says how far this person's line reaches.
-function showDepths(id: string) {
-    const reach = Math.max(0, ...[...lineageRoles(state.tree!, id).values()].map((r) => r.distance));
-    for (const o of depthSelect.options) {
-        const d = Number(o.value);
-        o.disabled = d > 0 && d > reach && d !== state.focusDepth; // keep the current choice selectable
-    }
-    depthSelect.title = reach
-        ? `This line reaches ${reach} generation${reach === 1 ? "" : "s"} up or down; choose how many to show`
-        : "No recorded parents or children";
-}
-depthSelect.onchange = () => {
-    state.focusDepth = Number(depthSelect.value);
-    if (state.focus === "off")
-        setFocus("all"); // choosing a depth means you want to focus
-    else (refreshHighlight(), fitTree());
-};
 
 // --- Swipe the panel left/right (touch) to move to the next/previous sibling, like Alt + ← → ---------------------------
 let swipeFrom: { x: number; y: number } | null = null;

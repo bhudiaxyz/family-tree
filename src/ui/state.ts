@@ -6,7 +6,7 @@ import type { SiblingMode } from "../generations.ts";
 import { cousinsOf, descendantsOf, type LineRole, lineageRoles, siblingsOf } from "../family.ts";
 import { highlight, nodeById, setFolded } from "../graph.ts";
 import { relate } from "../relationship.ts";
-import { $ } from "./dom.ts";
+import { $, el } from "./dom.ts";
 
 /** How far a selection, house or group fades everything else (the default dim, for hovering, is 12%). */
 const FADED = 0.06;
@@ -100,7 +100,7 @@ export function flyToPerson(id: string): void {
 
 /** A link showing a person's name, running `onClick` instead of navigating. */
 export function personLink(id: string, onClick: () => void): HTMLAnchorElement {
-    const a = Object.assign(document.createElement("a"), { href: "#", textContent: state.tree!.people[id].name });
+    const a = el("a", { href: "#", textContent: state.tree!.people[id].name });
     a.onclick = (e) => {
         e.preventDefault();
         onClick();

@@ -4,8 +4,10 @@
 import * as THREE from "three";
 import { glideTo } from "../camera.ts";
 import { graph, isShown, type Node } from "../graph.ts";
+import { palette } from "../palettes.ts";
 import { camera, controls } from "../scene.ts";
 import { state } from "./state.ts";
+import { el } from "./dom.ts";
 
 // The map's shape follows the tree's: landscape for a wide tree, portrait for a tall one (the Bible is 78 rows by a
 // handful of people), about the same area either way. Set per saga in fit().
@@ -13,11 +15,11 @@ let W = 168;
 let H = 120;
 const SHAPES = { wide: [168, 120], tall: [110, 190] } as const;
 const PAD = 8;
-const wrap = Object.assign(document.createElement("div"), { id: "minimap" });
+const wrap = el("div", { id: "minimap" });
 const canvas = document.createElement("canvas"); // drawn at 2× for sharpness (see resize)
 canvas.setAttribute("role", "img");
 canvas.setAttribute("aria-label", "Overview of the whole tree; click to move the view there");
-const toggle = Object.assign(document.createElement("button"), { id: "minimap-toggle", textContent: "▣" });
+const toggle = el("button", { id: "minimap-toggle", textContent: "▣" });
 toggle.title = "Show or hide the overview map (M)";
 toggle.setAttribute("aria-pressed", "true");
 wrap.append(canvas);
@@ -108,7 +110,7 @@ export function stepMinimap(): void {
         const shown = isShown(n);
         const [x, y] = toMap(n.x!, n.y!);
         g.globalAlpha = shown ? 0.9 : 0.2;
-        g.fillStyle = colours[n.house!] ?? "#888";
+        g.fillStyle = colours[n.house!] ?? palette().unknownHouse;
         g.fillRect(x - 1.25, y - 1.25, 2.5, 2.5);
     }
     // The selected person, ringed, so you can find them on a big tree.
@@ -116,7 +118,7 @@ export function stepMinimap(): void {
     if (sel) {
         const [x, y] = toMap(sel.x!, sel.y!);
         g.globalAlpha = 1;
-        g.strokeStyle = "#e6cf95";
+        g.strokeStyle = palette().minimap.selected;
         g.lineWidth = 1.5;
         g.beginPath();
         g.arc(x, y, 4, 0, Math.PI * 2);
@@ -126,7 +128,7 @@ export function stepMinimap(): void {
     const fp = footprint();
     if (fp.length === 4) {
         g.globalAlpha = 1;
-        g.strokeStyle = "rgba(230,207,149,.85)";
+        g.strokeStyle = palette().minimap.view;
         g.lineWidth = 1;
         g.beginPath();
         fp.forEach(([wx, wy], i) => {

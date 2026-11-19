@@ -22,13 +22,36 @@
     --selected-bg: rgba(201, 173, 115, 0.2); /* the chosen row */
     --radius: 4px; /* controls */
     --radius-panel: 6px; /* panels, menu, minimap, cards */
-    --text: 12px; /* controls and lists */
+    /* Text sizes. Re-size the UI by changing these; the few one-off sizes left in the rules (title, pad arrows, the
+       pin star, phone overrides) are tied to a glyph or a touch target and are noted where they're set. */
+    --text-xs: 11px; /* small print: counts, trails, chips, keys */
+    --text-sm: 12px; /* controls and lists */
+    --text-md: 13px; /* panel body, toast */
+    --text-lg: 14px; /* inputs, suggestion list, results */
+    --text-heading: 20px; /* panel and dialog headings (display font) */
+    --text: var(--text-sm);
     --panel-border: rgba(201, 173, 115, 0.25); /* panels, menu, minimap */
     /* Highlight direction tints; must match palette().lineage in src/palettes.ts. */
     --ancestor: #ffb066;
     --descendant: #6fc6ff;
     --sibling: #7ee08a;
     --cousin: #d59bff;
+
+    /* Shades of the palette used across the UI: change these (and the block above) to re-theme it. */
+    --ink-placeholder: rgba(232, 220, 193, 0.45); /* empty-box hint text */
+    --gold-muted: rgba(201, 173, 115, 0.55); /* generation row labels at rest */
+    --gold-tint: rgba(201, 173, 115, 0.14); /* a finder step under the pointer */
+    --underline: rgba(201, 173, 115, 0.6); /* dotted underline on name links */
+    --surface-hover: #2a2730; /* a control under the pointer (menu) */
+    --surface-active: #35303e; /* a control being pressed (menu, touch pad) */
+    --surface-faint: rgba(20, 19, 24, 0.7); /* label backing: the row labels, map toggle */
+    --backdrop: rgba(7, 7, 10, 0.55); /* behind a dialog, and a house swatch's outline */
+    --error: #c0262d;
+    --shadow-text: #000; /* behind text drawn over the tree */
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --shadow-sm: 0 4px 14px var(--shadow-color); /* hover card */
+    --shadow-md: 0 6px 18px var(--shadow-color); /* suggestion list */
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.6); /* dialogs */
 
     --narrow: 600px; /* documentation only: media queries can't read custom properties */
 }
@@ -52,7 +75,7 @@ header {
     top: 16px;
     left: 20px;
     pointer-events: none; /* clicks fall through to the canvas, except on the search box */
-    text-shadow: 0 1px 4px #000;
+    text-shadow: 0 1px 4px var(--shadow-text);
 }
 #title {
     margin: 0;
@@ -63,7 +86,7 @@ header {
 }
 #author {
     margin: 4px 0 0;
-    font-size: 13px;
+    font-size: var(--text-md);
     font-style: italic;
     letter-spacing: 0.04em;
     color: var(--ink-soft);
@@ -75,7 +98,7 @@ header {
     max-width: calc(100vw - 40px);
     margin-top: 12px;
     padding: 7px 10px;
-    font: 14px var(--fb);
+    font: var(--text-lg) var(--fb);
     color: var(--ink);
     background: var(--control-bg);
     border: 1px solid var(--line);
@@ -88,7 +111,7 @@ header {
     border-color: var(--gold);
 }
 #search::placeholder {
-    color: rgba(232, 220, 193, 0.45);
+    color: var(--ink-placeholder);
 }
 
 /* ── Name suggestions (src/suggest.ts), shared by the search and relationship-finder boxes ─────────────────── */
@@ -102,12 +125,12 @@ header {
     overflow-y: auto;
     overscroll-behavior: contain;
     list-style: none;
-    font: 14px var(--fb);
+    font: var(--text-lg) var(--fb);
     color: var(--ink);
     background: var(--surface-solid);
     border: 1px solid var(--line);
     border-radius: var(--radius-panel);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-md);
 }
 #suggest[hidden] {
     display: none;
@@ -143,7 +166,7 @@ header {
     border: 1px solid var(--panel-border);
     border-radius: 6px;
     color: var(--ink);
-    font-size: 13px;
+    font-size: var(--text-md);
     line-height: 1.45;
 }
 #panel[hidden] {
@@ -151,7 +174,7 @@ header {
 }
 #panel h2 {
     margin: 0 24px 2px 0;
-    font: 700 20px var(--fd);
+    font: 700 var(--text-heading) var(--fd);
     letter-spacing: 0.03em;
     color: var(--gold-bright);
 }
@@ -173,7 +196,7 @@ header {
 /* Line of descent above the name: small, wraps, each name a link. */
 #panel-trail {
     margin: 0 24px 4px 0;
-    font-size: 11px;
+    font-size: var(--text-xs);
     line-height: 1.5;
     color: var(--ink-faint);
 }
@@ -190,7 +213,7 @@ header {
     color: var(--ink-soft);
     background: none;
     border: 0;
-    text-decoration: underline dotted rgba(201, 173, 115, 0.6);
+    text-decoration: underline dotted var(--underline);
     text-underline-offset: 3px;
     cursor: pointer;
 }
@@ -200,14 +223,14 @@ header {
 }
 #panel-count {
     margin: -6px 0 10px;
-    font-size: 12px;
+    font-size: var(--text-sm);
 }
 #panel-count:empty {
     display: none;
 }
 .focus-depth select {
     padding: 2px 4px;
-    font: 500 11px var(--fb);
+    font: 500 var(--text-xs) var(--fb);
     color: var(--ink);
     background: var(--control-bg);
     border: 1px solid var(--line);
@@ -217,7 +240,7 @@ header {
 /* Namesake hints in the suggestion list ("Lamech · son of Methushael"). */
 #suggest .hint {
     margin-left: 6px;
-    font-size: 12px;
+    font-size: var(--text-sm);
     color: var(--ink-faint);
 }
 #suggest .hint::before {
@@ -246,7 +269,7 @@ header {
 }
 #panel-house {
     margin: 0 0 10px;
-    font-size: 12px;
+    font-size: var(--text-sm);
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -266,7 +289,7 @@ header {
 #panel a,
 #relate a {
     color: var(--ink);
-    text-decoration: underline dotted rgba(201, 173, 115, 0.6);
+    text-decoration: underline dotted var(--underline);
     text-underline-offset: 3px;
 }
 #panel a:hover,
@@ -362,7 +385,7 @@ header {
     border: 1px solid var(--panel-border);
     border-radius: 6px;
     color: var(--ink);
-    font-size: 13px;
+    font-size: var(--text-md);
     line-height: 1.45;
 }
 #relate[hidden] {
@@ -370,7 +393,7 @@ header {
 }
 #relate h2 {
     margin: 0 24px 10px 0;
-    font: 700 20px var(--fd);
+    font: 700 var(--text-heading) var(--fd);
     letter-spacing: 0.03em;
     color: var(--gold-bright);
 }
@@ -389,7 +412,7 @@ header {
     min-width: 0;
     box-sizing: border-box;
     padding: 7px 10px;
-    font: 14px var(--fb);
+    font: var(--text-lg) var(--fb);
     color: var(--ink);
     background: var(--control-bg);
     border: 1px solid var(--line);
@@ -399,11 +422,11 @@ header {
 #rel-swap {
     margin: 0 0 0 44px;
     padding: 1px 8px;
-    font-size: 14px;
+    font-size: var(--text-lg);
 }
 #rel-result {
     margin: 12px 0 6px;
-    font-size: 14px;
+    font-size: var(--text-lg);
     color: var(--gold-bright);
 }
 #rel-result:empty {
@@ -427,13 +450,13 @@ header {
     border: 1px solid var(--line);
     border-radius: var(--radius-panel);
     color: var(--ink);
-    font-size: 13px;
+    font-size: var(--text-md);
 }
 #toast[hidden] {
     display: none;
 }
 #toast.error {
-    border-color: #c0262d;
+    border-color: var(--error);
 }
 
 /* ── Panel extras: back button, focus mode, highlight key ────────────────────────────────────────────────────── */
@@ -445,7 +468,7 @@ header {
     overflow: hidden;
     background: none;
     border: 0;
-    font: 500 12px var(--fb);
+    font: 500 var(--text-sm) var(--fb);
     color: var(--ink-faint);
     text-align: left;
     text-overflow: ellipsis;
@@ -467,12 +490,12 @@ header {
 }
 .panel-focus span {
     margin-right: 4px;
-    font-size: 12px;
+    font-size: var(--text-sm);
     color: var(--ink-faint);
 }
 .panel-focus button {
     padding: 3px 8px;
-    font: 500 11px var(--fb);
+    font: 500 var(--text-xs) var(--fb);
     color: var(--ink);
     background: var(--control-bg);
     border: 1px solid var(--line);
@@ -532,7 +555,7 @@ header {
 }
 #rel-steps li:hover,
 #rel-steps li:focus-within {
-    background: rgba(201, 173, 115, 0.14);
+    background: var(--gold-tint);
 }
 
 /* ── Hover card: who's under the pointer and how they relate to the selected person ──────────────────────────── */
@@ -549,8 +572,8 @@ header {
     background: var(--surface-solid);
     border: 1px solid var(--line);
     border-radius: var(--radius-panel);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
-    font-size: 12px;
+    box-shadow: var(--shadow-sm);
+    font-size: var(--text-sm);
     color: var(--ink);
     pointer-events: none;
 }
@@ -558,7 +581,7 @@ header {
     display: none;
 }
 #hovercard strong {
-    font: 700 14px var(--fd);
+    font: 700 var(--text-lg) var(--fd);
     letter-spacing: 0.02em;
     color: var(--gold-bright);
 }
@@ -613,12 +636,12 @@ header {
     width: 11px;
     height: 11px;
     border-radius: 50%;
-    box-shadow: 0 0 0 1.5px rgba(7, 7, 10, 0.85);
+    box-shadow: 0 0 0 1.5px var(--backdrop);
 }
 #legend-list .n {
     margin-left: auto;
     color: var(--ink-faint);
-    font-size: 11px;
+    font-size: var(--text-xs);
 }
 /* "Show all houses" only while one is picked. */
 #legend-list .legend-clear {
@@ -649,10 +672,10 @@ header {
     top: -10px; /* centre the text on the row */
     padding: 2px 4px;
     white-space: nowrap;
-    font: 500 11px var(--fb);
+    font: 500 var(--text-xs) var(--fb);
     letter-spacing: 0.05em;
-    color: rgba(201, 173, 115, 0.55);
-    text-shadow: 0 1px 3px #000;
+    color: var(--gold-muted);
+    text-shadow: 0 1px 3px var(--shadow-text);
     background: none;
     border: 0;
     border-radius: 3px;
@@ -662,7 +685,7 @@ header {
 #gen-labels button:hover,
 #gen-labels button:focus-visible {
     color: var(--gold-bright);
-    background: rgba(20, 19, 24, 0.7);
+    background: var(--surface-faint);
 }
 #gen-labels button[hidden] {
     display: none;
@@ -740,7 +763,7 @@ body.no-3d #pad {
     touch-action: none;
 }
 #pad button:active {
-    background: rgba(53, 48, 62, 0.95);
+    background: var(--surface-active);
     border-color: var(--gold);
 }
 #pad [data-dir="up"] {
@@ -775,7 +798,7 @@ body.no-3d #pad {
     right: max(16px, env(safe-area-inset-right));
     bottom: max(16px, env(safe-area-inset-bottom));
     /* width and height are set by ui/minimap.ts, which shapes the map to the tree */
-    background: rgba(20, 19, 24, 0.78);
+    background: var(--surface-faint);
     border: 1px solid var(--panel-border);
     border-radius: 6px;
     overflow: hidden;
@@ -795,7 +818,7 @@ body.no-3d #pad {
     width: 26px;
     height: 22px;
     padding: 0;
-    font-size: 13px;
+    font-size: var(--text-md);
     color: var(--ink-faint);
     background: var(--control-bg);
     border: 1px solid var(--line);
@@ -852,8 +875,8 @@ body.no-3d #pad {
     --title-text-color: var(--gold-bright);
     --text-color: var(--ink);
     --widget-color: var(--control-bg);
-    --hover-color: #2a2730;
-    --focus-color: #35303e;
+    --hover-color: var(--surface-hover);
+    --focus-color: var(--surface-active);
     --widget-border-radius: var(--radius);
 }
 .lil-gui.lil-root {
@@ -863,7 +886,7 @@ body.no-3d #pad {
 }
 /* Menu and folder headings in the display font, like the panels' headings. */
 .lil-gui .lil-title {
-    font: 700 13px var(--fd);
+    font: 700 var(--text-md) var(--fd);
     letter-spacing: 0.04em;
 }
 .lil-gui.lil-root > .lil-children > .lil-gui > .lil-title {
@@ -1066,7 +1089,7 @@ dialog {
     background: var(--surface-solid);
     border: 1px solid var(--panel-border);
     border-radius: var(--radius-panel);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    box-shadow: var(--shadow-lg);
     color-scheme: dark;
 }
 /* The ✕ takes focus when a dialog opens (for the keyboard); only show the ring when the keyboard moves it. */
@@ -1074,24 +1097,24 @@ dialog .close:focus:not(:focus-visible) {
     outline: none;
 }
 dialog::backdrop {
-    background: rgba(7, 7, 10, 0.55);
+    background: var(--backdrop);
 }
 dialog h2 {
     margin: 0 24px 10px 0;
-    font: 700 20px var(--fd);
+    font: 700 var(--text-heading) var(--fd);
     letter-spacing: 0.03em;
     color: var(--gold-bright);
 }
 dialog h3 {
     margin: 12px 0 4px;
-    font: 500 11px var(--fb);
+    font: 500 var(--text-xs) var(--fb);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--ink-faint);
 }
 dialog a {
     color: var(--ink);
-    text-decoration: underline dotted rgba(201, 173, 115, 0.6);
+    text-decoration: underline dotted var(--underline);
     text-underline-offset: 3px;
 }
 dialog a:hover {
@@ -1115,7 +1138,7 @@ kbd {
     min-width: 1.4em;
     margin: 0 1px;
     padding: 1px 5px;
-    font: 500 11px var(--fb);
+    font: 500 var(--text-xs) var(--fb);
     text-align: center;
     color: var(--ink);
     background: var(--control-bg);
@@ -1154,7 +1177,7 @@ kbd {
 }
 .chart-tree .n {
     color: var(--ink-faint);
-    font-size: 11px;
+    font-size: var(--text-xs);
 }
 
 /* ── Recently viewed: chips above the line of descent in the details panel ────────────────────────────────────── */
@@ -1171,7 +1194,7 @@ kbd {
     max-width: 120px;
     padding: 1px 8px;
     overflow: hidden;
-    font: 11px var(--fb);
+    font: var(--text-xs) var(--fb);
     text-overflow: ellipsis;
     white-space: nowrap;
     color: var(--ink-soft);
@@ -1205,7 +1228,7 @@ kbd {
 }
 #tour-text {
     margin: 0 0 8px;
-    font-size: 13px;
+    font-size: var(--text-md);
 }
 .tour-controls {
     display: flex;

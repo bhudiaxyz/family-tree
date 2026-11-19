@@ -126,10 +126,13 @@ export const graph = new ThreeForceGraph<Node, Link>()
     .linkWidth(0.6)
     .linkDirectionalParticles((l) => (l.kind === "child" ? 2 : 0))
     // Own material per link (the library shares one per colour), so a link's dots fade with its highlight.
-    // Same look as the library default: 0.6 radius, 4 segments, #f0f0f0 at opacity 0.6.
+    // Same look as the library default: 0.6 radius, 4 segments, at opacity 0.6; colour from the palette.
     .linkDirectionalParticleThreeObject(
         () =>
-            new THREE.Mesh(dotGeo, new THREE.MeshLambertMaterial({ color: 0xf0f0f0, transparent: true, opacity: 0.6 }))
+            new THREE.Mesh(
+                dotGeo,
+                new THREE.MeshLambertMaterial({ color: palette().particle, transparent: true, opacity: 0.6 })
+            )
     )
     .linkThreeObjectExtend(true)
     .linkThreeObject((l) =>

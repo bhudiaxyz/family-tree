@@ -2,7 +2,7 @@
 // guided tour that flies down the saga's longest line of descent (T). The dialogs are native <dialog>s, which handle
 // Escape, focus and the backdrop themselves.
 import { ancestry, relatives, tourLine } from "../family.ts";
-import { $ } from "./dom.ts";
+import { $, el } from "./dom.ts";
 import { deselect, select } from "./panel.ts";
 import { notify, personLink, state } from "./state.ts";
 
@@ -30,7 +30,7 @@ export function openChart(): void {
 
     const line = ancestry(tree, id).slice(0, -1);
     if (line.length) {
-        const up = Object.assign(document.createElement("p"), { className: "chart-line" });
+        const up = el("p", { className: "chart-line" });
         line.forEach((pid, i) => up.append(...(i ? [" › ", go(pid)] : [go(pid)])));
         up.append(" ›");
         body.append(heading("Line of descent"), up);
@@ -50,12 +50,9 @@ export function openChart(): void {
         const name = go(pid);
         const li = document.createElement("li");
         if (!kids.length) return (li.append(name), li);
-        const d = Object.assign(document.createElement("details"), { open: depth < OPEN_LEVELS });
+        const d = el("details", { open: depth < OPEN_LEVELS });
         const s = document.createElement("summary");
-        s.append(
-            name,
-            Object.assign(document.createElement("span"), { className: "n", textContent: ` ${kids.length}` })
-        );
+        s.append(name, el("span", { className: "n", textContent: ` ${kids.length}` }));
         const ul = document.createElement("ul");
         ul.append(...kids.map((c) => branch(c, depth + 1)));
         d.append(s, ul);
@@ -72,14 +69,14 @@ export function openChart(): void {
     }
     if (!line.length && !kids.length)
         body.append(
-            Object.assign(document.createElement("p"), {
+            el("p", {
                 className: "tip",
                 textContent: "No recorded parents or children.",
             })
         );
     chart.showModal();
 }
-const heading = (text: string) => Object.assign(document.createElement("h3"), { textContent: text });
+const heading = (text: string) => el("h3", { textContent: text });
 $("panel-chart").onclick = openChart;
 
 // --- Guided tour: fly down a line of descent, a few seconds per person ----------------------------------------------

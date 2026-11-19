@@ -2,7 +2,7 @@
 import { fitTree } from "../camera.ts";
 import { relate, stepWord } from "../relationship.ts";
 import { personIn, setPerson } from "../suggest.ts";
-import { $, btnRelate, relA, relatePanel, relB } from "./dom.ts";
+import { $, btnRelate, el, relA, relatePanel, relB } from "./dom.ts";
 import { flyToPerson, personLink, refreshHighlight, state } from "./state.ts";
 import { writeUrl } from "./url.ts";
 
@@ -81,7 +81,7 @@ export function updateRelate(): void {
         // Who they descend from in common, and any other ways they're related (intermarried families).
         const extra: HTMLElement[] = [];
         if (r.commonAncestors.length) {
-            const p = Object.assign(document.createElement("p"), { className: "rel-note" });
+            const p = el("p", { className: "rel-note" });
             p.append(r.commonAncestors.length > 1 ? "Closest common ancestors: " : "Closest common ancestor: ");
             r.commonAncestors.forEach((id, i) => {
                 if (i) p.append(" & ");
@@ -90,7 +90,7 @@ export function updateRelate(): void {
             extra.push(p);
         }
         if (r.routes.length > 1) {
-            const p = Object.assign(document.createElement("p"), { className: "rel-note" });
+            const p = el("p", { className: "rel-note" });
             p.textContent = `Also related as: ${r.routes
                 .slice(1)
                 .map((x) => x.label + (x.adoptive ? " (by adoption)" : ""))

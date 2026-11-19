@@ -3,31 +3,23 @@ import GUI from "lil-gui";
 import { fitTree, setFlatView } from "../camera.ts";
 import type { SagaIndexEntry, Tree } from "../data/schema.ts";
 import { listSagas, loadSaga, sagaTitle } from "../data/source.ts";
+import { houseNamed } from "../family.ts";
+import type { SiblingMode } from "../generations.ts";
 import { setFlat, setGuidesVisible, showTree } from "../graph.ts";
 import { fontsReady, resetBadges } from "../labels.ts";
 import { bakeNebula } from "../nebula.ts";
 import { paletteFor, usePalette } from "../palettes.ts";
-import type { SiblingMode } from "../generations.ts";
 import { applyScenePalette, controls, glow, renderer, setGlow, setSky } from "../scene.ts";
-import { houseNamed } from "../family.ts";
 import { setPerson, setSuggestions } from "../suggest.ts";
-import { author, panel, relA, relB, search, title } from "./dom.ts";
+import { author, el, panel, relA, relB, search, title } from "./dom.ts";
 import { mountLegend, setHouse, setLegend } from "./legend.ts";
 import { onPinsChanged, pinned, rememberView, restoreView } from "./navigate.ts";
-import {
-    clearTrail,
-    onHistoryBack,
-    refreshFolds,
-    refreshPanel,
-    relativeToId,
-    select,
-    setFocus,
-    setRelativeTo,
-} from "./panel.ts";
+import { clearTrail, onHistoryBack, refreshPanel, relativeToId, select, setRelativeTo } from "./panel.ts";
 import { resetCard } from "./picking.ts";
 import { openRelate, resetRelate } from "./relate.ts";
 import { IMPORTED, refreshHighlight, state } from "./state.ts";
 import { onPopState, writeUrl } from "./url.ts";
+import { refreshFolds, setFocus } from "./visibility.ts";
 
 // The manifest (sagas.json), keyed by id. The URL and the menu only carry an id; the entry adds the category that
 // the data file's path needs (data/<category>/<id>.json, see sagaPath in schema.ts).
@@ -137,16 +129,17 @@ function setSiblingMode(mode: SiblingMode): void {
  */
 function afterRebuild(): void {
     const tree = state.tree;
-    requestAnimationFrame(() =>
-        requestAnimationFrame(() => {
-            if (state.tree !== tree) return; // another saga opened meanwhile
-            setRelativeTo(relativeToId());
-            refreshFolds();
-            refreshHighlight();
-            if (state.selected) refreshPanel();
-        })
-    );
+    afterTwoFrames(() => {
+        if (state.tree !== tree) return; // another saga opened meanwhile
+        setRelativeTo(relativeToId());
+        refreshFolds();
+        refreshHighlight();
+        if (state.selected) refreshPanel();
+    });
 }
+
+/** Run `fn` two frames from now: after the library's next tick has built objects, and after the tree has drawn. */
+const afterTwoFrames = (fn: () => void) => requestAnimationFrame(() => requestAnimationFrame(fn));
 
 // --- Nebula sky: baked per saga, a frame after the tree appears -------------------------------------------------
 // Baking takes a few hundred ms on a phone. Doing it in the next frame lets the new tree draw first (against the flat
@@ -156,17 +149,15 @@ let nebulaOn = true;
 function scheduleSky(id: string) {
     const mine = ++skyRequest;
     if (!nebulaOn) return setSky(null);
-    requestAnimationFrame(() =>
-        requestAnimationFrame(() => {
-            if (mine !== skyRequest || !nebulaOn) return;
-            try {
-                setSky(bakeNebula(renderer, id));
-            } catch (e) {
-                console.warn("Nebula bake failed; using the plain background.", e); // e.g. float targets unsupported
-                setSky(null);
-            }
-        })
-    );
+    afterTwoFrames(() => {
+        if (mine !== skyRequest || !nebulaOn) return;
+        try {
+            setSky(bakeNebula(renderer, id));
+        } catch (e) {
+            console.warn("Nebula bake failed; using the plain background.", e); // e.g. float targets unsupported
+            setSky(null);
+        }
+    });
 }
 
 // --- Start-up: read the URL, build the menu, open the first saga -----------------------------------------------
@@ -247,7 +238,7 @@ function buildMenu(sagas: SagaIndexEntry[], first: string, params: URLSearchPara
 }
 
 // --- Pinned people: a menu folder listing the people starred in the panel ---------------------------------------
-const pinList = Object.assign(document.createElement("ul"), { id: "pin-list" });
+const pinList = el("ul", { id: "pin-list" });
 let pinFolder: GUI | null = null;
 function mountPins(gui: GUI) {
     pinFolder = gui.addFolder("Pinned").close();
@@ -260,7 +251,7 @@ function showPins() {
     pinList.replaceChildren(
         ...ids.map((id) => {
             const li = document.createElement("li");
-            const b = Object.assign(document.createElement("button"), { textContent: state.tree!.people[id].name });
+            const b = el("button", { textContent: state.tree!.people[id].name });
             b.onclick = () => select(id, true);
             li.append(b);
             return li;

@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { drawnZ, graph, isShown, type Node } from "../graph.ts";
 import { relate } from "../relationship.ts";
 import { camera, controls, renderer } from "../scene.ts";
-import { $, relatePanel } from "./dom.ts";
+import { $, el, relatePanel } from "./dom.ts";
 import { setHouse } from "./legend.ts";
 import { deselect, select } from "./panel.ts";
 import { fillRelate } from "./relate.ts";
@@ -144,8 +144,8 @@ function showCard(id: string, x: number, y: number) {
         cardFor = id;
         const p = tree.people[id];
         const rel = selected && selected !== id ? relate(tree, id, selected) : null;
-        const name = Object.assign(document.createElement("strong"), { textContent: p.name });
-        const house = Object.assign(document.createElement("span"), { className: "card-house", textContent: p.house });
+        const name = el("strong", { textContent: p.name });
+        const house = el("span", { className: "card-house", textContent: p.house });
         house.style.color = tree.houseColors[p.house] ?? "";
         const parts: (string | globalThis.Node)[] = [name, house];
         if (rel?.label) {

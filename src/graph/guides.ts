@@ -1,6 +1,13 @@
-// Generation guides: a faint line at each generation's height, and a "Generation n" label pinned to the left edge of
-// the screen at that row's height. The labels used to be 3D sprites at x = 0 (the tree's centre), so they vanished as
-// soon as you panned sideways or zoomed in, exactly when you'd want to know which generation you're looking at.
+// Row guides: a faint line at each row's height, and a "Row n" button pinned to the left edge of the screen at it.
+//
+// What it does: setGuides() rebuilds the lines and the buttons in #gen-labels (index.html); stepGuides() moves each
+// button every frame to where its row projects on screen, hiding rows that are off screen or seen edge-on.
+// Usage: graph.ts calls setGuides() and stepGuides(); re-exports generationRows, onRowPicked and setGuidesVisible
+// for the UI (click, tap or Page Up / Page Down to jump between rows).
+// Notes: the labels used to be 3D sprites at x = 0, which vanished as soon as you panned sideways or zoomed in. They
+// say "Row", not "Generation": a row is a layout level, and a person who married across generations sits on their
+// partner's row. A row under the header is pinned just below it; only labels whose position changed are touched.
+
 import * as THREE from "three";
 import { palette } from "../palettes.ts";
 import { graph } from "./core.ts";

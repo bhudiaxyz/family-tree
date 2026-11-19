@@ -1,4 +1,13 @@
-// The "Find a person" box: a name, or a relationship ("Arya's cousins", "children of Zeus").
+// Search: the "Find a person" box, by name or relationship ("Arya's cousins", "children of Zeus").
+//
+// What it does: on change, a relationship phrase lights up the people it finds as a group (showGroup), otherwise
+// the named person is selected. Clearing the box or pressing Escape deselects.
+// Usage: no exports. A side-effect module: app.ts imports it only for its listeners on the #search box.
+// Notes: `change` also fires on blur. Clicking a relative in the panel selects them and writes them into the box
+// first, so the blur's `change` then names the person already selected and is ignored; acting on stale text used to
+// re-select the person searched for. The box holds a person (picked from its suggestion list), not just a name; see
+// suggest.ts. The clear (x) button and deleting the text fire `input`, not `change`, so `input` is handled too.
+
 import { searchRelation } from "../family.ts";
 import { personIn } from "../suggest.ts";
 import { search } from "./dom.ts";

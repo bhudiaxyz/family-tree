@@ -1,3 +1,12 @@
+// Source: loads saga data from wherever it is served and turns it into a Tree.
+//
+// What it does: fetches sagas.json and per-saga files from `base`, accepts either a SagaFile or a SagaRecord, and
+// converts to the renderer's Tree via toRecord() and toTree().
+// Usage: ui/sagas.ts calls listSagas, sagaTitle and loadSaga; ui/files.ts calls toRecord and toTree for dropped files.
+// Notes: `base` defaults to the static JSON in public/data/; set VITE_DATA_URL to point at an object store or an API.
+// It must serve `/sagas.json` and `/<category>/<id>.json` (see sagaPath in schema.ts). The two input shapes are told
+// apart by the presence of `members`.
+
 import {
     expandSaga,
     readManifest,

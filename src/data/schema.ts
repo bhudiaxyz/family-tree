@@ -1,8 +1,13 @@
-// Saga data, in two shapes:
-//  - SagaFile: what the JSON files in public/data hold, written for people to read and edit (families inline).
-//  - SagaRecord: the same data normalised into tables, matching db/schema.sql one-to-one. expandSaga() turns a
-//    SagaFile into a SagaRecord; the app, the database seed and the tests all go through it.
-// A backend (object store, or an API over the database) can serve either shape: the loader accepts both.
+// Schema: the saga data shapes, the saga manifest, and the conversions between them.
+//
+// What it does: defines SagaFile (hand-edited JSON, families inline), SagaRecord (normalised tables, matching
+// db/schema.sql), Tree (what the renderer consumes), and the manifest types. expandSaga() and compactSaga() convert
+// between SagaFile and SagaRecord; readManifest() validates sagas.json; sagaPath() builds a data file's path.
+// Usage: data/source.ts, data/gedcom.ts, ui/ and the core logic modules import the types; scripts and tests import all.
+// Notes: sagaPath() is the only place the `<category>/<id>.json` path is built, so the loader, scripts and tests agree.
+// CATEGORIES is closed so a bad manifest entry can't request an arbitrary path. Saga ids reject all-digit slugs because
+// JS orders integer-like object keys first, which would reorder the menu. expandSaga() throws on the first bad
+// reference, naming saga and family. SagaRecord must stay in step with db/schema.sql.
 
 /**
  * What kind of family a saga is. Each category is a sub-folder of the data directory (`<category>/<id>.json`), and

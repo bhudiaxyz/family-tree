@@ -1,6 +1,14 @@
-// Shareable links: ?saga=<id>&person=<id>&with=<id>&house=<name>&view=2d|3d&siblings=apart. Most changes update the current history entry
-// (replaceState); selecting a new person adds an entry (pushUrl), so the browser's Back walks through the people
-// visited. Read once at start-up by sagas.ts.
+// URL: shareable links, kept in step with the state.
+//
+// What it does: builds ?saga=<id>&person=<id>&with=<id>&house=<name>&view=2d|3d&siblings=apart from `state`, writes it
+// (`writeUrl`, `pushUrl`) and reports the browser's Back/Forward (`onPopState`).
+// Usage: panel.ts calls pushUrl on select; legend, relate, visibility, sagas and others call writeUrl; sagas.ts reads
+// the query once at start-up and registers onPopState.
+// Notes: selecting a new person pushes a history entry (pushUrl), so the browser's Back walks the people visited;
+// everything else uses replaceState (writeUrl). pushUrl sets state.selected only while building the URL, then restores
+// it; the caller sets it afterwards. A file imported from disk is not shareable, so only ?view= is written for it.
+// Defaults (3D, siblings together) are left out of the link.
+
 import { IMPORTED, state } from "./state.ts";
 
 function query(): string {

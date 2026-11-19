@@ -1,5 +1,14 @@
-// What the app is showing, shared by the UI modules: the tree, who is selected or hovered, the relationship shown.
-// Plain data plus the few helpers every feature needs (highlight, toast, links to people, fly-to).
+// State: what the app is showing, shared by all the UI modules, and the one place that turns it into what is lit.
+//
+// What it does: holds `state` (tree, saga id, selected, hovered, relationship pair and step, house, searched group,
+// collapsed branches, focus mode and depth, 2D flag, sibling mode) and the helpers every feature needs:
+// `refreshHighlight`, `notify` (toast), `flyToPerson`, `personLink`, plus the `Focus` type and the `IMPORTED` saga id.
+// Usage: imported by every other ui module.
+// Notes: `refreshHighlight()` is the single place that turns state into what is lit, dimmed or hidden. Other modules
+// change `state` and then call it; none of them call graph.ts's highlight() directly. Priority: relationship path,
+// then searched group, then house, then the selected-or-hovered person's line (narrowed by focus mode and depth).
+// Collapsed branches are applied first, whatever else is lit.
+
 import { flyTo } from "../camera.ts";
 import type { Tree } from "../data/schema.ts";
 import type { SiblingMode } from "../generations.ts";

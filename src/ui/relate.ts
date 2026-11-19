@@ -1,4 +1,14 @@
-// The relationship finder: two name boxes, the relationship between them, common ancestors and the step-by-step chain.
+// Relate: the relationship finder.
+//
+// What it does: two name boxes, the relationship between them, common ancestors and the step-by-step chain
+// (`openRelate`, `closeRelate`, `toggleRelate`, `updateRelate`, `fillRelate`, `resetRelate`). Hovering a step lights
+// that step; a new relationship pulses its steps in turn from the first person to the second.
+// Usage: input.ts (R key), panel.ts and sagas.ts (open/reset), picking.ts (fillRelate: clicks fill the boxes).
+// Notes: sets state.relPair and state.relStep, then calls refreshHighlight and writeUrl (?person=&with=). The result
+// recomputes when either box changes; exact or partial names work, as in the main search. The pulse runs once per
+// pair and is skipped for reduced motion. Button and box handlers are attached at import time (loaded via panel.ts).
+// Element ids (#rel-result, #rel-steps, #rel-notes, #rel-swap, #relate-close) must match index.html.
+
 import { fitTree } from "../camera.ts";
 import { relate, stepWord } from "../relationship.ts";
 import { personIn, setPerson } from "../suggest.ts";

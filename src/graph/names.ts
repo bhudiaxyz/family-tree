@@ -1,5 +1,13 @@
-// Label visibility: relationship labels fade with distance, colliding names are thinned out, and the "relative to"
-// tags above each person.
+// Names: label visibility, i.e. distance fade, name de-overlap, and the "relative to" tags above each person.
+//
+// What it does: fadeLabels() fades relationship labels with camera distance; declutter() hides names that collide on
+// screen, keeping highlighted people and then the nearest; stepNames() eases name and tag opacity each frame;
+// setRelativeTags() and setFoldBadges() set the small tag text above a person (a fold badge wins).
+// Usage: all called from graph.ts (stepGraph) and re-exported for the UI.
+// Notes: declutter runs only every quality.labelDeclutterMs, then visibility eases so names fade rather than pop. Its
+// box test is O(n^2), fine for a few hundred names. Text outside a highlight fades faster than spheres (textDim
+// squares the dim), and all of these combine with highlight.ts's userData.dim, so run them after stepFades.
+
 import * as THREE from "three";
 import SpriteText from "three-spritetext";
 import { quality } from "../device.ts";

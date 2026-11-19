@@ -1,8 +1,14 @@
-// Camera behaviour on top of OrbitControls: auto-fit to the whole tree, fly-to a person, and held-direction panning.
-// Three modes, and the user always wins: any drag/zoom, arrow key or pad press cancels auto-fit and fly-to.
+// Camera behaviour on top of OrbitControls: auto-fit to the tree, fly-to a person, glides, and held-direction pan.
 //
-// Motion is frame-rate independent: easing uses 1 - exp(-rate·dt) and panning scales with dt, so a 120 Hz screen
-// behaves like a 60 Hz one.
+// What it does: keeps module-level state for auto-fit (whole tree or a group), a timed flight to a node, a glide to a
+// fixed target and distance, held pan directions, and a 2D mode that eases the view face-on. stepCamera() advances all.
+// Usage: app.ts calls stepCamera() each frame and setReducedMotion(); ui/ calls fitTree, fitPeople, flyTo, glideTo,
+// zoomBy, viewState, holdPan / releasePan / releaseAllPans, nudgeRotate, setFlatView and takeCamera.
+// Notes: the user always wins: any OrbitControls "start" event, arrow key or pad press calls takeCamera(), which
+// cancels auto-fit, flight and glide. Motion is frame-rate independent: easing is 1 - exp(-rate * dt) and panning
+// scales with dt. Fit uses width and height only, not depth: fitting the front face of the house planes' parallax
+// spread zoomed the first view far too far out. Scratch vectors are reused to avoid per-frame garbage on phones.
+
 import * as THREE from "three";
 import { camera, controls } from "./scene.ts";
 import { drawnZ } from "./graph.ts";

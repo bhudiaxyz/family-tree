@@ -1,4 +1,13 @@
-// Pure family-tree queries over a Tree: no three.js, no DOM, so they are unit-tested in scripts/family.test.mts.
+// Family queries: pure questions about a Tree (relatives, lines of descent, labels, name search).
+//
+// What it does: finds siblings, cousins, immediate family, descendants and ancestry; builds the highlighted line
+// (lineageRoles, lineage) and the tour/longest-line walks; words relationship labels (parentLabel, childLabel,
+// siblingLabel); fuzzy-searches names (searchPeople, findByName, distinguish); assigns house planes (houseDepths).
+// Usage: imported by graph.ts, graph/*.ts, suggest.ts, relationship.ts and src/ui/*. No three.js or DOM imports, so it
+// is unit-tested in scripts/family.test.mts.
+// Notes: name matching goes through fold() (ignores accents and case, tolerates typos); anything that must treat
+// two people with the same name as different goes by id, never by name.
+
 import type { Tree } from "./data/schema.ts";
 
 type Sex = Tree["people"][string]["sex"];

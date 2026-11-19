@@ -1,4 +1,10 @@
-// URL handling for the GEDCOM importer (scripts/gedcom-source.mts), offline: link rewriting, names, and refusals.
+// Test for scripts/gedcom-source.mts: URL handling for the GEDCOM importer, offline.
+//
+// Covers: GitHub page links rewritten to raw URLs (path kept encoded), other hosts used as given, only https accepted,
+//   and decoded source names. Data: URL strings only; no network access and no files.
+// Run alone: node --experimental-strip-types --no-warnings scripts/gedcom-source.test.mts
+// Notes: no ratchets or allow-lists. readSource() (the actual download) is deliberately not tested here.
+
 import assert from "node:assert/strict";
 import { downloadUrl, isUrl, sourceName } from "./gedcom-source.mts";
 

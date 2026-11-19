@@ -1,19 +1,14 @@
-// GPU / device tiering: one quick, synchronous probe at start-up picks a quality tier, and every cost-bearing setting
-// (render resolution, bloom, nebula bake size, antialiasing, label density…) comes from one table, QUALITY.
+// Tiering: one synchronous probe at start-up picks a quality tier, and every cost-bearing setting comes from QUALITY.
 //
-// Target: everything works on devices up to ~7 years old (2018+), e.g. iPhone XR / iPad 6th gen (A10–A12), Galaxy
-// S9 (Mali-G72 / Adreno 630), 2017–18 laptops with Intel UHD 620. Those land in "low" or "medium" and get a fully
-// usable app; newer and discrete GPUs get "high" with extra fidelity. Nothing is ever *disabled* by tier except
-// optional visual effects; every feature (picking, relationships, import, export…) works at every tier.
-//
-// Signals, cheapest and most reliable first:
-//   1. WebGL2 capabilities: max texture size, float render targets, MSAA samples. Hard limits, never wrong.
-//   2. The unmasked renderer string (WEBGL_debug_renderer_info), matched against known GPU families. Firefox and
-//      Safari may mask it (then it's generic, e.g. "Apple GPU"), so it only ever *refines* the capability guess.
-//   3. navigator.deviceMemory (Chromium only) and hardwareConcurrency as a tie-breaker for unknown GPUs.
-// `?tier=low|medium|high` in the URL overrides the result, for testing on a fast machine.
-//
-// classify() is pure (no DOM) so scripts/tier.test.mts can check it against real devices' renderer strings.
+// What it does: probe() reads WebGL2 capabilities and the renderer string; classify() maps a GpuInfo to a Tier with a
+// reason; detect() combines them with the `?tier=` override; QUALITY holds the per-tier settings (render resolution,
+// bloom, nebula bake size, antialiasing, label density, idle fps...).
+// Usage: device.ts calls detect() and exports the result; tests in scripts/tier.test.mts call classify() directly.
+// Notes: target is devices up to ~7 years old (2018+: iPhone XR, iPad 6th gen, Galaxy S9, UHD 620), which land in
+// "low" or "medium" and stay fully usable. Tier only disables optional visual effects, never a feature. Signals, most
+// reliable first: (1) WebGL2 capabilities, hard limits; (2) the unmasked renderer string, matched against FAMILIES
+// (first match wins; Firefox and Safari may mask it, so it only refines); (3) deviceMemory and hardwareConcurrency as
+// tie-breakers. classify() is pure (no DOM) so it can be tested against real renderer strings.
 
 export type Tier = "low" | "medium" | "high";
 

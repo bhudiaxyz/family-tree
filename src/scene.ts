@@ -1,4 +1,15 @@
-// Renderer, scene, lights, camera and orbit controls. No family-tree knowledge.
+// Scene: the three.js renderer, scene, lights, fog, camera, orbit controls and optional bloom. No family-tree logic.
+//
+// What it does: creates the WebGL2 renderer (throws NoWebGLError if unavailable), applies the active palette's lights,
+// fog and fallback background, handles resize and GPU context loss, and renders via draw() with or without bloom.
+// Usage: imported widely. Exports renderer, scene, camera, controls, device, quality, applyScenePalette, setSky,
+// updateFog, draw, captureView, glow / setGlow / glowSupported, hasWebGL and NoWebGLError.
+// Notes: device.ts is imported first because antialiasing can only be chosen at context creation. Bloom is built lazily
+// and at quality.bloomScale of the screen; it needs half-float targets, so setGlow() refuses without them. draw() turns
+// renderer tone mapping off while the composer runs (OutputPass tones instead), otherwise the image is mapped twice.
+// captureView() copies the frame into a 2D canvas in the same task, avoiding preserveDrawingBuffer. Context events are
+// re-dispatched on window as ft:contextlost / ft:contextrestored, which app.ts listens for.
+
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";

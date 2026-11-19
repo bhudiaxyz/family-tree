@@ -1,4 +1,11 @@
-// GEDCOM import: the formats real exporters produce (5.5.1 and 7), adoption markers, and messy input.
+// Test for src/data/gedcom.ts: the in-app GEDCOM import (parseGedcom).
+//
+// Covers: formats real exporters produce (5.5.1 with CRLF and BOM, and 7), adoption markers, and messy input; the
+//   parsed trees are also run through generations() and relate().
+// Data: small synthetic GEDCOM strings written in the file, no saga files.
+// Run alone: node --experimental-strip-types --no-warnings scripts/gedcom.test.mts
+// Notes: no ratchets or allow-lists. Display-name rules for stored imports live in gedcom-names.test.mts.
+
 import assert from "node:assert/strict";
 import { parseGedcom } from "../src/data/gedcom.ts";
 import { generations } from "../src/generations.ts";

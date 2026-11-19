@@ -1,6 +1,14 @@
-// The 3D app, loaded by main.ts once WebGL is known to work: starts the UI, handles GPU context loss, and runs the
-// frame loop. The UI features live in src/ui/ (state, panel, relate, search, files, input, picking, sagas); rendering
-// in scene.ts / graph.ts, camera behaviour in camera.ts, and the logic in family.ts, relationship.ts and data/.
+// App wiring: starts the UI, handles GPU context loss, and runs the throttled frame loop.
+//
+// What it does: adds the graph to the scene, applies prefers-reduced-motion to the camera, calls start() from
+// ui/sagas.ts, pauses on ft:contextlost and rebuilds on ft:contextrestored, then drives renderer.setAnimationLoop.
+// Usage: loaded only by main.ts via dynamic import; exports nothing. UI features live in src/ui/, rendering in
+// scene.ts / graph.ts, camera behaviour in camera.ts, logic in family.ts, relationship.ts and data/.
+// Notes: the loop skips whole frames (no simulation, no draw) once nothing has changed for IDLE_AFTER ms, down to
+// quality.idleFps. "Changed" is a fingerprint of camera, orbit target and a stride of node positions, rounded to one
+// decimal (damping converges asymptotically, so finer rounding never settled). The feature modules imported only
+// for side effects (search, input, picking) attach their own listeners. window.__ft is a dev-only test hook.
+
 import { quality } from "./device.ts";
 import { setReducedMotion, stepCamera } from "./camera.ts";
 import { graph, peopleBbox, stepGraph } from "./graph.ts";

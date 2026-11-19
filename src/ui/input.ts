@@ -1,4 +1,15 @@
-// Keyboard shortcuts and the on-screen touch pad.
+// Input: keyboard shortcuts and the on-screen touch pad.
+//
+// What it does: maps keys to actions (/ search, ? help, C chart, T tour, R relate, P save PNG, F fit, G family, + -
+// zoom, Page Up/Down generation, M minimap, L line focus, Backspace back, Escape, arrows pan, Shift or Ctrl + arrows
+// rotate, Alt + arrows move to a relative) and wires the pad's buttons (hold to pan, fit, zoom).
+// Usage: no exports. A side-effect module: app.ts imports it for its listeners. It is also what pulls in guide.ts,
+// files.ts and minimap.ts.
+// Notes: shortcuts are ignored while typing in an input. Escape is handled twice: a capture-phase listener ends a
+// tour before any input can take the key, then the main handler closes the finder, deselects, clears the house, then
+// the group, in that order. Panning stops on keyup and on window blur. Keep the help dialog in index.html in sync
+// with the keys here.
+
 import { type Dir, fitTree, holdPan, nudgeRotate, releaseAllPans, releasePan } from "../camera.ts";
 import { relatePanel, search } from "./dom.ts";
 import { savePng } from "./files.ts";

@@ -1,8 +1,15 @@
-// Highlight: dim (or, in focus mode, hide) everything outside a person's line or a relationship path, and ease the
-// fades each frame. highlight() only sets targets per object; stepFades() eases every object towards them each frame,
-// so highlights fade in and out instead of snapping. Within a line, direction is shown too: ancestors glow warm,
-// descendants cool, and each generation further away is a little fainter. A relationship path glows gold, and the
-// finder's hovered step brighter still.
+// Highlight: dim (or, in focus mode, hide) everything outside a person's line or a relationship path.
+//
+// What it does: highlight() only sets a target opacity per object (userData.dimTarget); stepFades() eases every
+// object towards it each frame, so highlights fade in and out instead of snapping. Within a line, direction shows too:
+// ancestors glow warm, descendants cool, and each generation further away is a little fainter. A relationship path
+// glows gold, and the finder's hovered step brighter still.
+// Usage: graph.ts re-exports highlight, setFolded and HighlightOptions and calls stepFades()/clearFocus(); names.ts
+// reads the exported focus set to keep lit labels readable.
+// Notes: labels are not faded here; they keep the factor in userData.dim and names.ts combines it with the distance
+// fade. A family's union dot lights only when two of its members are lit. Fully faded objects are made invisible,
+// which also removes them from picking.
+
 import * as THREE from "three";
 import SpriteText from "three-spritetext";
 import type { LineRole } from "../family.ts";

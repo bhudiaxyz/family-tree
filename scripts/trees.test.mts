@@ -1,5 +1,12 @@
-// Checks every saga in public/data: the manifest and the files agree (each file in its category's folder, nothing
-// missing or stray), every reference resolves, everyone is in a family, and toTree() produces a usable tree.
+// Test for public/data: the manifest, every saga file, and the schema helpers (src/data/schema.ts, source.ts).
+//
+// Checks: manifest and files agree (each file in its category folder, nothing missing or stray), every reference
+//   resolves, everyone is in a family, toTree() gives a usable tree; also expandSaga() errors, compactSaga() round-trip
+//   and sagaPath() refusing an unknown category.
+// Data: every real saga via readIndex()/readSaga(), plus small synthetic bad inputs.
+// Run alone: node --experimental-strip-types --no-warnings scripts/trees.test.mts
+// Notes: no ratchets or allow-lists. Run it after any hand edit to a saga file or sagas.json.
+
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { CATEGORIES, compactSaga, expandSaga, readManifest, type SagaFile, sagaPath } from "../src/data/schema.ts";

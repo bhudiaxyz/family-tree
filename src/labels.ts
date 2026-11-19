@@ -1,4 +1,13 @@
-// Text labels (three-spritetext) and the fonts they use.
+// Labels: text sprites for names and relationships, and the round house badges, plus the fonts they use.
+//
+// What it does: builds SpriteText labels (nameLabel, relationLabel) and a cached CanvasTexture sprite per house
+// (houseBadge); disposeLabel and resetBadges free their GPU resources. fontsReady resolves when the fonts have loaded.
+// Usage: graph/ modules build labels; ui/sagas.ts awaits fontsReady before the first tree and calls resetBadges().
+// Notes: DISPLAY_FONT and BODY_FONT must match the Google Fonts families in index.html and --fd / --fb in style.css.
+// SpriteText rasterises once, so no label may be built before fontsReady (it gives up after 3 s and the fallback
+// fonts are used). Badge textures are cached per house and colour; call resetBadges() after a palette change or GPU
+// context loss, since ink and outline colours come from the palette. Colours come from palettes.ts.
+
 import * as THREE from "three";
 import SpriteText from "three-spritetext";
 import { palette } from "./palettes.ts";

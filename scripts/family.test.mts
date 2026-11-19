@@ -1,4 +1,10 @@
-// Unit tests for src/family.ts against real saga data, so the expectations are facts about the stories.
+// Test for src/family.ts: lineage, relatives, siblings, labels, search and house depth.
+//
+// Data: real sagas (got, starwars and others) via treeById(), so the expectations are facts about the stories.
+// Run alone: node --experimental-strip-types --no-warnings scripts/family.test.mts  (also part of npm test)
+// Notes: no ratchets or allow-lists. If a saga file is edited, a failure here may mean the story data changed, not
+//   the code: check the data first.
+
 import assert from "node:assert/strict";
 import type { Tree } from "../src/data/schema.ts";
 import {

@@ -1,12 +1,13 @@
-// Generates db/seed.sql from public/data/*.json, matching db/schema.sql.
-// Run: npm run db:seed   (rewrites db/seed.sql; commit it alongside data changes)
+// Seed generator: writes db/seed.sql (portable PostgreSQL/SQLite) from public/data/*.json, matching db/schema.sql.
 //
-// The output is portable SQL (PostgreSQL and SQLite): one transaction, sagas in sagas.json order, rows inserted
-// parents-before-children so foreign keys hold at every statement. Re-runnable: each saga is deleted first, and the
-// ON DELETE CASCADE rules in the schema remove its notes, houses, people, families and members.
-//
-// Layout, to keep the file easy to scan: a boxed banner per saga, a labelled sub-section per table, people grouped
-// by house, and one INSERT per family headed by a readable "parents → children" comment.
+// What it does: one transaction, sagas in sagas.json order, rows inserted parents-before-children so foreign keys
+// hold at every statement. Each saga is deleted first (ON DELETE CASCADE clears its rows), so the file is re-runnable.
+// Layout: a boxed banner per saga, a sub-section per table, people grouped by house, one INSERT per family.
+// Usage: npm run db:seed (OVERWRITES db/seed.sql; commit it with data changes). npm run db:seed -- --check compares
+//   instead and exits 1 without writing if db/seed.sql is out of date; npm test runs it that way.
+// Notes: output is deterministic, so --check is a plain string compare (CRLF-normalised). seed-sql.test.mts loads the
+// result into SQLite. Reads only through data.mts; writes only db/seed.sql.
+
 import fs from "node:fs";
 import { readIndex, readSaga } from "./data.mts";
 

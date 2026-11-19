@@ -1,4 +1,10 @@
-// Relationship finder against facts from the stories (and the standard cousin table).
+// Test for src/relationship.ts: the relationship finder (relate, labelAll).
+//
+// Data: real sagas (got, fireblood, starwars, lotr, potter) for facts from the stories, plus a synthetic tree for the
+//   cousin chart (degree and removal), where the answer is fixed by the standard table.
+// Run alone: node --experimental-strip-types --no-warnings scripts/relationship.test.mts  (also part of npm test)
+// Notes: no ratchets or allow-lists. The closest route wins when a pair is related twice (e.g. Aegon III and Baelon).
+
 import assert from "node:assert/strict";
 import type { Tree } from "../src/data/schema.ts";
 import { labelAll, relate } from "../src/relationship.ts";

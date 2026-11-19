@@ -1,10 +1,16 @@
-// Checks generation layering on every saga, in both modes (src/generations.ts):
-//   - DESCENT, always: every child sits below EVERY one of its parents (the earlier test only compared the first
-//     parent, which is how a child above its second parent went unnoticed in the Roman gods);
-//   - "together" (the default): brothers and sisters share a row; couples line up where that allows;
-//   - "apart": couples share a row, except where a saga's intermarriage makes that impossible together with descent
-//     (listed in INTERMARRIED, with why); siblings line up where that allows.
-// The split counts are ratchets: lower them when the layout improves, never raise them to make a change pass.
+// Test for src/generations.ts: generation layering of every saga, in both sibling modes.
+//
+// Checks: DESCENT always (every child sits below EVERY parent, not just the first); "together" (default): brothers
+//   and sisters share a row, couples line up where that allows; "apart": couples share a row except in INTERMARRIED
+//   sagas, siblings line up where that allows.
+// Data: every real saga in public/data, via readIndex()/readSaga().
+// Run alone: node --experimental-strip-types --no-warnings scripts/generations.test.mts
+// Ratchets: LIMITS (max split sibling sets and split couples per mode). Lower them when the layout improves; never
+//   raise them to make a change pass.
+// Allow-list: INTERMARRIED, sagas where spouses-share-a-row can't hold with parents-above-children, so descent wins.
+//   Roman gods: Jupiter partners Venus, Venus partners Mars, Mars is Jupiter's son. Bible: Lot fathers children by his
+//   own two daughters (Genesis 19), so each couple is a father and a daughter a generation apart.
+
 import assert from "node:assert/strict";
 import type { Tree } from "../src/data/schema.ts";
 import { toTree } from "../src/data/source.ts";

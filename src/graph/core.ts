@@ -1,5 +1,13 @@
-// The graph instance itself: node and link objects, the force layout, shared types and helpers. Every other file in
-// src/graph/ builds on this one; src/graph.ts is the public entry point that ties them together.
+// Graph core: the ThreeForceGraph instance, node and link objects, force layout, shared types and helpers.
+//
+// What it does: defines how a person, union (marriage) node, link, link label and particle look (nodeThreeObject etc.),
+// configures the physics (charge range, per-house depth pull, fast cooldown) and exposes helpers for the other files.
+// Usage: every other file in src/graph/ builds on this one; src/graph.ts calls useTree() and re-exports graph, isShown
+// and Node. Exports include graph, Node/Link/Bound types, boundNodes/boundLinks, nameOf, disposeObject, approach.
+// Notes: useTree() must run before graphData(). Per-object materials (not the library's shared ones) are essential,
+// because highlight.ts fades each object separately. The userData flags set here (isName, isTag, isPathRing,
+// isLineRing, isUnion, isUnionRing, personId) are read by highlight.ts, names.ts and picking: keep them in sync.
+
 import * as THREE from "three";
 import { forceZ } from "d3-force-3d";
 import ThreeForceGraph from "three-forcegraph";

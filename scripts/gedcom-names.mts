@@ -1,12 +1,12 @@
-// Display-name rules for GEDCOM imports, kept pure so scripts/gedcom-names.test.mts can check them against the real
-// name patterns found in the sample files. Used by scripts/gedcom-to-saga.mts.
+// GEDCOM display-name rules: turns a raw NAME ("Given /Surname/ Suffix") into the name a saga shows. Pure functions.
 //
-// A GEDCOM NAME is "Given /Surname/ Suffix". Two modes:
-//   person     (default): "Henry /Tudor/" → "Henry Tudor". Monarchs by regnal name (from TITL), e.g. "Henry VIII".
-//   mythology: mythological files put the deity's name in the SURNAME slot and a description in the given slot:
-//              "queen of the Gods /Hera/", "The war god /Ares/", "of Greek Mythology /Eros/". The name is the /…/ part;
-//              a descriptive given part (starts lower-case, or with The/A/An/Of) is dropped; a real given name
-//              ("Acca /Larentia/", "Hati /Hródvitnisson/") is kept.
+// What it does: two modes. person (default): "Henry /Tudor/" -> "Henry Tudor", monarchs by regnal name (from TITL),
+//   e.g. "Henry VIII". mythology: the deity's name is in the SURNAME slot ("queen of the Gods /Hera/", "The war god
+//   /Ares/", "of Greek Mythology /Eros/"); a descriptive given part (lower-case, or starting The/A/An/Of) is dropped,
+//   a real given name ("Acca /Larentia/", "Hati /Hródvitnisson/") is kept.
+// Usage: imported by gedcom-to-saga.mts; checked by gedcom-names.test.mts against real patterns in the sample files.
+// Notes: no I/O. The heuristics (DESCRIPTIVE, ROLE_WORD, REGNAL) were tuned on the Tudor, Greek, Norse and Roman files:
+//   change them only with a matching case in the test.
 
 /** Placeholders genealogies use for an unrecorded given name: "... /Tudor/", "?", "_", "Unknown", "NN". */
 const UNNAMED = /^(?:\.{2,}|…|\?+|_+|-+|unknown|unk|nn|n\.?n\.?)$/i;

@@ -1,9 +1,15 @@
-// The family tree as a three.js object: public entry point. Builds the nodes and links for a Tree, frames it, and
-// steps everything once per frame. The parts live in src/graph/:
+// Graph: the public entry point for the family tree as a three.js object.
+//
+// What it does: showTree() builds the nodes (people pinned to a row height, plus one union node per family) and links
+// for a Tree, frames it (peopleBbox) and resets highlight and guides; stepGraph() advances everything once per frame.
+// Usage: imported by app.ts and src/ui/*; re-exports the public parts of src/graph/. The parts:
 //   core.ts       the graph instance, node/link objects, force layout, shared types and helpers
-//   siblings.ts   dashed sibling lines and labels        guides.ts   "Generation n" rows
+//   siblings.ts   dashed sibling lines and labels        guides.ts   "Row n" guides and labels
 //   flat.ts       2D mode: depth squash, row spacing, sibling clustering
 //   highlight.ts  dimming outside a line, path glow      names.ts    label fades, name de-overlap, relation tags
+// Notes: showTree must dispose the previous tree's per-node materials before graphData() replaces them. The order in
+// stepGraph matters: highlight fades set opacity targets that fadeLabels/declutter/stepNames then combine for labels.
+
 import type * as THREE from "three";
 import type { Tree } from "./data/schema.ts";
 import { childLabel, parentLabel } from "./family.ts";

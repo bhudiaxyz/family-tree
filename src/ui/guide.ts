@@ -1,6 +1,13 @@
-// Help, chart and tour: the shortcut list (?), an outline chart of one person's ancestors and descendants (C), and a
-// guided tour that flies down the saga's longest line of descent (T). The dialogs are native <dialog>s, which handle
-// Escape, focus and the backdrop themselves.
+// Guide: help, chart and tour.
+//
+// What it does: the shortcut list dialog (?, `toggleHelp`), an outline chart of one person's ancestors and descendants
+// (C, `openChart`), and a guided tour that flies down a line of descent (T: `startTour`, `endTour`, `touring`).
+// Usage: input.ts calls these for the keys; the dialogs' buttons are wired here at import time (loaded via input.ts).
+// Notes: the dialogs are native <dialog>s (#help, #chart), which handle Escape, focus and the backdrop themselves; a
+// click on the backdrop closes them. The tour goes through the selected person (ancestors, them, longest line of
+// descendants) if there is one, else down the saga's longest line (tourLine in family.ts). Escape ends a tour first
+// (see the capture-phase listener in input.ts). The help text in index.html must match the shortcuts.
+
 import { ancestry, relatives, tourLine } from "../family.ts";
 import { $, el } from "./dom.ts";
 import { deselect, select } from "./panel.ts";

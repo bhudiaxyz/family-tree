@@ -1,15 +1,19 @@
 // Relationship finder: how two people are related, in words, plus the chain of people that connects them.
-// Pure logic (no three.js / DOM), unit-tested in scripts/relationship.test.mts.
 //
-// 1. Blood (incl. adoptive line): the standard genealogical method. Find a common ancestor, count generations up from
-//    each person (ga, gb), and name it: direct line when one count is 0, siblings at (1,1), aunt/uncle and
-//    niece/nephew when one count is 1, cousins otherwise (degree = min − 1, removed = |ga − gb|). The closest common
-//    ancestor gives the headline; every other route is also reported (common in intermarried houses).
-// 2. Step-relations: a parent's spouse who isn't your parent (step-mother), a spouse's child who isn't yours
-//    (step-son), and children of a parent's spouse (step-brother).
-// 3. In-laws: one marriage at either end of a blood relationship: a spouse's relative (mother-in-law), or a
-//    relative's spouse (sister-in-law).
-// 4. Anything further falls back to the shortest chain through the family graph, described step by step.
+// What it does: relate(a, b) tries four methods in order and returns the first that matches:
+//   1. Blood (incl. adoptive line): find a common ancestor, count generations up from each person (ga, gb) and name
+//      it: direct line when one count is 0, siblings at (1,1), aunt/uncle and niece/nephew when one count is 1,
+//      cousins otherwise (degree = min - 1, removed = |ga - gb|).
+//   2. Step-relations: a parent's spouse who isn't your parent, a spouse's child who isn't yours, and children of a
+//      parent's spouse (step-brother).
+//   3. In-laws: one marriage at either end of a blood relationship (mother-in-law, sister-in-law).
+//   4. Anything further: the shortest chain through the family graph, described step by step (stepWord).
+// Usage: relate() and stepWord() are used by src/ui/ (relate.ts, picking.ts, state.ts); labelAll() gives the "relative
+// to" tags (panel.ts). Types: Relationship, Step, Route. No three.js or DOM imports; tested in
+// scripts/relationship.test.mts.
+// Notes: the closest common ancestor gives the headline, but every other route is also reported (common in
+// intermarried houses). path/steps are what the graph highlights as the gold path, so keep them a connected chain.
+
 import type { Tree } from "./data/schema.ts";
 
 type Sex = "m" | "f";

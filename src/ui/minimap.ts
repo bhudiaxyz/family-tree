@@ -1,6 +1,14 @@
-// Minimap: the whole tree in a corner, with a frame showing the part on screen. Click or drag on it to move there.
-// Drawn in 2D (a dot per person in their house colour, from the front), not as a second 3D render: it costs almost
-// nothing, and it only redraws when the view, the layout or the highlight has changed.
+// Minimap: the whole tree in a corner, with a frame showing the part on screen.
+//
+// What it does: draws a dot per person in their house colour, the highlight, and the view's footprint; click or drag
+// on it to move the view there (`stepMinimap` draws, `setMinimap`/`toggleMinimap` show or hide, remembered in
+// localStorage "ft.minimap").
+// Usage: app.ts calls stepMinimap() every frame; input.ts calls toggleMinimap (M).
+// Notes: drawn in 2D from the front, not as a second 3D render; it only redraws when a fingerprint of the view, layout
+// or highlight changes. The shape follows the tree (landscape for wide, portrait for tall) and frames the 2nd to 98th
+// percentile sideways so one outlier can't squash the tree. Clicks clamp to the tree's extent. The elements are
+// created here and appended to <body>; see #minimap in style.css.
+
 import * as THREE from "three";
 import { glideTo } from "../camera.ts";
 import { graph, isShown, type Node } from "../graph.ts";

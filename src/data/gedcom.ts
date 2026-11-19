@@ -1,10 +1,13 @@
-// GEDCOM import: turns a GEDCOM 5.5 / 5.5.1 / 7 file (the standard genealogy exchange format) into a Tree.
-// Pure parsing, no DOM; unit-tested in scripts/gedcom.test.mts.
+// GEDCOM import: turns a GEDCOM 5.5 / 5.5.1 / 7 file (the genealogy exchange format) into a Tree.
 //
-// GEDCOM is line based: "LEVEL [@XREF@] TAG [VALUE]". Level-0 records we use:
-//   INDI  a person:  NAME "Given /Surname/", SEX M|F|U, FAMC (family as child), FAMS (family as spouse)
-//   FAM   a family:  HUSB, WIFE, CHIL pointers; a CHIL's PEDI (or _FREL/_MREL) = "adopted"/"foster" marks adoption
-// Houses are surnames (the app colours by house), coloured from a fixed palette.
+// What it does: parses "LEVEL [@XREF@] TAG [VALUE]" lines into a record tree, reads INDI (NAME, SEX, FAMC) and FAM
+// (HUSB, WIFE, CHIL) records, treats surnames as houses, and splits adopted or foster children into their own family.
+// Usage: ui/files.ts calls parseGedcom(), which returns a GedcomResult (tree and warnings). Pure, no DOM; tested in
+// scripts/gedcom.test.mts.
+// Notes: malformed lines are skipped and problems become warnings, not failures; a file with no INDI throws. Unknown
+// sex becomes "m" (the app needs m/f for labels) and is warned about. Adoption is read from CHIL PEDI / _FREL / _MREL
+// and also from PEDI on an individual's FAMC. House colours come from palette().importHouses (palettes.ts).
+
 import { palette } from "../palettes.ts";
 import type { Tree } from "./schema.ts";
 

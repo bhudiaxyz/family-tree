@@ -1,5 +1,12 @@
-// 2D mode: squash the house depth planes flat by easing the graph's z scale towards ~0, then two layout forces that
-// only act while flat: spread each generation row so names don't overlap, and cluster siblings together.
+// Flat (2D) mode: squash the house depth planes and lay out each row so names don't collide.
+//
+// What it does: eases the graph's z scale towards ~0 (setFlat, stepFlat), and registers two d3 forces that act only
+// while flat: spreadRows (spread each generation row so names don't overlap) and clusterSiblings (pull brothers and
+// sisters towards their family's centre).
+// Usage: graph.ts re-exports setFlat and drawnZ and calls setSiblingGroups() in showTree() and stepFlat() each frame.
+// Notes: the scale is 1e-3, not 0, because singular matrices break raycasting and normals; each node object is
+// counter-scaled so spheres stay round. Node data keeps the simulation's z; use drawnZ() for the on-screen z.
+
 import { approach, boundNodes, graph, type SimNode } from "./core.ts";
 
 // Each node's object is counter-scaled so spheres stay round; links, sibling lines and guides simply flatten. Not

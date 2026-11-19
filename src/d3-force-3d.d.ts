@@ -1,4 +1,6 @@
-// Minimal typing for the one d3-force-3d export used here (the package ships no types).
+// Minimal typings for d3-force-3d (the package ships none): only forceZ, which graph/core.ts uses.
+// Add declarations here if more of the package is needed.
+
 declare module "d3-force-3d" {
     interface ForceZ<N> {
         (alpha: number): void;

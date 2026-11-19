@@ -1,6 +1,14 @@
-// Selection and the details panel for the selected person: relatives, a back button through the people visited,
-// "relative to" mode (tag everyone with how they're related), moving between relatives, and highlighting a group.
-// Focus mode and collapsing branches are in visibility.ts; the panel shows their controls for each person.
+// Panel: selection and the details panel for the selected person.
+//
+// What it does: `select`/`deselect`; fills the panel (relatives, line of descent, recent chips, generation, namesakes,
+// descendant count, pin); the back trail (`goBack`, `onHistoryBack`, `clearTrail`); "relative to" mode; moving between
+// relatives (`stepToRelative`, Alt + arrows or a swipe); groups (`showGroup`, `clearGroup`).
+// Usage: imported by input, search, picking, legend, guide, relate, sagas and others; also wires the panel's buttons.
+// Notes: `select()` and `deselect()` are the only ways in and out of a selection; they set state, call refreshHighlight
+// and update the URL (select pushes history, the rest replace). The trail is kept here, as well as in the browser's
+// history, so the back button can name who it returns to. Focus mode and collapse live in visibility.ts; the panel only
+// hosts their controls. Panel element ids must match index.html.
+
 import { fitPeople, fitTree } from "../camera.ts";
 import { ancestry, birthFamily, descendantCount, namesakes, relatives, siblingsOf } from "../family.ts";
 import { generationOf, nodeById, setRelativeTags } from "../graph.ts";

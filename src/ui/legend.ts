@@ -1,5 +1,13 @@
-// House legend, shown as a "Houses" folder in the menu: each house's colour and number of people. Click one to light
-// up the whole house, again to frame it, and a third time to clear it: shows how intermarried families spread.
+// Legend: the house legend, shown as a "Houses" folder in the menu.
+//
+// What it does: lists each house with its colour and number of people (`setLegend`, `mountLegend`). Click a house to
+// light it up, again to frame it (`frameHouse`), a third time to clear it; `setHouse` highlights or clears one.
+// Usage: sagas.ts mounts and rebuilds it; input.ts, picking.ts and sagas.ts call setHouse.
+// Notes: selecting a person clears the house (panel.ts), and picking a house deselects the person. setHouse sets
+// state.house, clears state.group, calls refreshHighlight and writes ?house= (only once a tree is up). `framed`
+// remembers that the lit house has been framed so the next click clears it. Escape and a click on empty space also
+// clear it, and a "Show all houses" button is shown while one is picked. Styled by #legend-list in style.css.
+
 import type GUI from "lil-gui";
 import type { Tree } from "../data/schema.ts";
 import { fitPeople } from "../camera.ts";

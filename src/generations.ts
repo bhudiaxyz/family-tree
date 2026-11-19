@@ -1,3 +1,17 @@
+// Generations: assigns every person a layout row (0 = oldest) so parents sit above children.
+//
+// What it does: groups people who must share a row (union-find), then longest-path layers the groups, pulls childless
+// roots down next to their descendants, repairs any child not below a parent, and finally greedily moves people to
+// satisfy the sibling/couple preference. The two modes (SiblingMode) differ in what is grouped and aligned:
+//   "together" (default): each family's children share a row; a couple may sit on two rows (alignSpouses).
+//   "apart": each family's co-parents share a row; a sibling who married across generations sits with their partner
+//   (alignSiblings).
+// Usage: generations(tree, mode) is called by graph.ts showTree() and by scripts/generations.test.mts, which covers
+// it. No three.js or DOM imports.
+// Notes: priorities, highest first: descent always holds (every parent strictly above every child, even in a cyclic or
+// densely intermarried tree); then the chosen mode's grouping; then the other preference only where it fits. The
+// alignment passes are greedy and bounded (5 or 8 passes), so they always end but may leave some splits.
+
 import type { Tree } from "./data/schema.ts";
 
 /**

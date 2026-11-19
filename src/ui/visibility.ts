@@ -1,8 +1,14 @@
-// What's shown of the tree around the selected person, and the panel controls for it:
-//   - focus mode: only their line, one side of it, their siblings or cousins, optionally a few generations deep;
-//   - collapsed branches: someone's descendants folded away, leaving a "+ N" tag on them.
-// Both only change state (focus, focusDepth, collapsed) and the tags; refreshHighlight (state.ts) turns that state into
-// what's hidden, so the two combine freely (a branch can be collapsed while in Line focus).
+// Visibility: what is shown of the tree around the selected person, and the panel controls for it.
+//
+// What it does: focus mode (only their line, one side, siblings or cousins, optionally a few generations deep:
+// `setFocus`, `showDepths`) and collapsed branches (descendants folded away, a "+ N" tag left: `toggleCollapse`,
+// `showCollapse`, `refreshFolds`).
+// Usage: panel.ts and input.ts call setFocus/showCollapse/showDepths; sagas.ts calls refreshFolds and setFocus("off").
+// Notes: both only change state (focus, focusDepth, collapsed) and the tags; refreshHighlight (state.ts) turns that
+// into what is hidden, so the two combine freely (a branch can be collapsed while in Line focus). Attaches its button
+// handlers at import time (a side-effect module, loaded through panel.ts); the .panel-focus buttons, #panel-depth and
+// #panel-collapse must exist in index.html. Depths that would show nobody new are greyed out.
+
 import { fitTree } from "../camera.ts";
 import type { Tree } from "../data/schema.ts";
 import { cousinsOf, descendantsOf, type LineRole, lineageRoles, siblingsOf } from "../family.ts";

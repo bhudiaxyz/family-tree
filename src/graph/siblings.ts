@@ -1,6 +1,12 @@
-// Sibling overlay: a dashed line and a "brother & sister" label between consecutive siblings. Drawn outside the graph
-// data: as links they would pull siblings together and distort the layout. Repositioned from the live node positions
-// every frame.
+// Sibling overlay: a dashed line and a "brother & sister" label between consecutive siblings.
+//
+// What it does: setSiblings() builds the pairs and labels for a tree; updateSiblings() repositions the lines and
+// labels from the live node positions every frame.
+// Usage: graph.ts calls both; highlight.ts and names.ts read siblings, siblingMat, siblingPairs and siblingLabels.
+// Notes: drawn outside the graph data, because as links they would pull siblings together and distort the layout.
+// Only consecutive children of a family are paired (not all pairs) to keep large families readable. The material's
+// opacity is faded as one by highlight.ts.
+
 import * as THREE from "three";
 import type SpriteText from "three-spritetext";
 import type { Tree } from "../data/schema.ts";

@@ -1,4 +1,15 @@
-// Picking people on the canvas: hover highlights (mouse only), click/tap selects, double tap flies, long press previews.
+// Picking: choosing people on the canvas.
+//
+// What it does: hover highlights (mouse only), click or tap selects, double tap flies to the person, long press
+// previews their line, and a hover card names the person and how they are related to the selected one.
+// Usage: exports `resetCard` (called by sagas.ts show()). Otherwise a side-effect module: app.ts imports it for its
+// canvas listeners.
+// Notes: mouse and pen use an exact raycast, nearest sphere wins; touch picks the person whose screen centre is
+// nearest the tap within a finger-sized radius (a raycast often hit a sphere in front of the intended one). A tap
+// counts only if it started on the canvas, used one pointer and moved less than TAP_SLOP, so a second finger makes a
+// pinch, never a tap; `downAt` is cleared after every pointerup so a click on the panel can't select whoever is behind
+// it. Hidden (focus mode) objects are skipped by hand. The card hides when the view starts moving.
+
 import * as THREE from "three";
 import { drawnZ, graph, isShown, type Node } from "../graph.ts";
 import { relate } from "../relationship.ts";

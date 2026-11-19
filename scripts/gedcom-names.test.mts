@@ -1,4 +1,10 @@
-// Display-name rules against the real NAME patterns in the imported sample files (Tudors, Greek, Norse, Roman gods).
+// Test for scripts/gedcom-names.mts: display-name rules for stored GEDCOM imports.
+//
+// Data: NAME strings copied from the real sample files (Tudors, Greek, Norse, Roman gods), inline; no files are read.
+// Run alone: node --experimental-strip-types --no-warnings scripts/gedcom-names.test.mts  (also part of npm test)
+// Notes: no ratchets. Each case documents a real pattern: when a new import shows a bad name, add its NAME here first,
+//   then adjust the rules in gedcom-names.mts.
+
 import assert from "node:assert/strict";
 import { displayName } from "./gedcom-names.mts";
 

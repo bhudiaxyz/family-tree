@@ -1,18 +1,15 @@
-// Procedural nebula sky, baked once into a cube texture and used as the scene background.
+// Nebula: a procedural sky, baked once per saga into a cube texture used as the scene background.
 //
-// A port of the technique in procedural-worlds (src/ts/shaders/nebulaMap.frag + NebulaEnvMap/NebulaTexture):
-// layered, domain-warped "cloud" noise picks colours from a soft random gradient palette, with Worley-noise stars
-// and a ridged haze on top. Differences, chosen for this app:
-//
-//  - DIM BY DESIGN. The tree must stay the brightest, most readable thing on screen, so the shader caps output at
-//    about 12% brightness (MAX_LUMA) and keeps colours deep and desaturated. Never raise this without checking that
-//    names and relationship labels still read clearly against the brightest patch of sky.
-//  - A real cube texture (WebGLCubeRenderTarget + CubeCamera) set as scene.background, instead of six textured
-//    planes on a huge inverted sphere. three.js draws the background at infinity, so it never moves when you pan,
-//    can't be clipped by the camera's far plane, and isn't touched by the depth fog.
-//  - One-off cost, tuned for phones: 7 octaves at 512 px per face on touch devices (vs 16 octaves at 1024 px in the
-//    original). It is baked once per saga, so even a slow phone only pays a few hundred ms, once.
-//  - Deterministic per saga: the seed comes from the saga id, so each family has its own sky, the same every visit.
+// What it does: bakeNebula() renders nebula.frag on the inside of a sphere with a CubeCamera into a
+// WebGLCubeRenderTarget; the saga id seeds a small RNG that picks the gradient palette and noise offsets.
+// Usage: ui/sagas.ts bakes and passes the result to scene.ts setSky(); scene.ts calls disposeNebula().
+// Exports bakeNebula, disposeNebula, defaultNebulaOptions and NebulaOptions.
+// Notes: ported from procedural-worlds (nebulaMap.frag, NebulaEnvMap, NebulaTexture). Dim by design: the shader caps
+// output near 12% (palette nebula.maxLuma); never raise it without checking names and labels read against the brightest
+// sky. A cube texture as scene.background is drawn at infinity: it never moves on pan, isn't clipped by far, and is not
+// fogged. Bake cost is tiered (7 octaves at 512 px on phones vs 16 at 1024 originally); memory is 6 * size^2 * 4 bytes,
+// +1/3 with mipmaps. Bake with tone mapping off, or the capped values get brightened. Deterministic per saga id.
+
 import * as THREE from "three";
 import { quality } from "./device.ts";
 import { type Palette, palette } from "./palettes.ts";

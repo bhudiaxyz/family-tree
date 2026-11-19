@@ -1,4 +1,15 @@
-// Loading and showing a saga (or an imported tree), the nebula sky behind it, and the menu (lil-gui).
+// Sagas: loading and showing a saga (or an imported tree), the nebula sky behind it, and the menu (lil-gui).
+//
+// What it does: `start()` reads the URL, builds the menu (saga picker, glow, guides, 2D, siblings, nebula, Houses and
+// Pinned folders) and opens the first saga; `openSaga` loads one; `showImported` shows a GEDCOM file.
+// Usage: app.ts calls start() and rebuildAfterContextLoss(); files.ts calls showImported().
+// Notes: `show()` resets all per-tree state (selection, relationship, group, collapsed, trail, card, panel, palette)
+// before building the new tree, then fits (or restores the remembered view) and writes the URL. `openSaga` ignores a
+// slow response if another saga was picked since. A linked person or house is applied 1.5 s later, once the layout
+// has placed nodes. `afterRebuild()` re-applies tags, folds, highlight and panel two animation frames after a
+// re-layout, because the graph library only builds its objects on its next tick. The sky bake is deferred two frames
+// so the tree draws first.
+
 import GUI from "lil-gui";
 import { fitTree, setFlatView } from "../camera.ts";
 import type { SagaIndexEntry, Tree } from "../data/schema.ts";

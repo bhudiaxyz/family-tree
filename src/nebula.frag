@@ -1,5 +1,11 @@
-// Nebula sky fragment shader, baked into a cube texture by nebula.ts (see the notes there). Each fragment's vDir is a
-// direction on the sky sphere. __OCTAVES__ is substituted with the tier's octave count before compiling.
+// Nebula sky fragment shader: domain-warped cloud noise, ridged haze, Worley-noise stars and galaxies, capped in luma.
+//
+// What it does: maps each direction on the sky sphere (vDir) to a colour, sampling a gradient texture for the clouds.
+// Usage: imported as a string (`?raw`) by nebula.ts, which sets the uniforms below from the active palette and seed.
+// Notes: __OCTAVES__ is replaced by nebula.ts with the tier's octave count before compiling (GLSL ES loop bounds are
+// constants). Uniform names must stay in step with the uniforms object in bakeNebula(). maxLuma is the on-screen limit
+// and is converted to linear near the end of main(); stars and galaxies may exceed it by fixed factors.
+
 precision highp float;
 uniform float seed;
 uniform float res1;

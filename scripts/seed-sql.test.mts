@@ -1,6 +1,12 @@
-// Loads db/schema.sql + db/seed.sql into an in-memory SQLite database (foreign keys ON), then rebuilds every saga
-// from the tables and checks it matches public/data/*.json exactly. Also checks the seed is re-runnable and that
-// deleting a saga cascades. Uses Node's built-in node:sqlite, so no database install is needed.
+// Test for db/schema.sql and db/seed.sql: the SQL seed reproduces public/data exactly.
+//
+// What it does: loads schema.sql then seed.sql into an in-memory SQLite database (foreign keys ON), rebuilds every
+//   saga from the tables and compares it with public/data/*.json; checks the seed is re-runnable and that deleting a
+//   saga cascades. Uses Node's built-in node:sqlite, so no database install is needed.
+// Data: real sagas and the checked-in db/ files.
+// Run alone: node --experimental-strip-types --no-warnings scripts/seed-sql.test.mts
+// Notes: no ratchets. Fails if db/seed.sql is stale: run npm run db:seed (npm test runs seed-sql.mts --check first).
+
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { DatabaseSync } from "node:sqlite";

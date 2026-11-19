@@ -1,15 +1,17 @@
-// Convert a GEDCOM file into a saga data file (SagaFile JSON, families inline) for public/data/<category>/<id>.json, and add it to
-// sagas.json. Repeatable: re-running replaces the saga's file and manifest entry.
+// GEDCOM importer: converts a GEDCOM file into a saga data file and registers it in the manifest.
 //
-//   npm run import:gedcom -- <file.ged | https://…> --id english-royal --category history --title "English Royal Family (Tudors)"
-//
-// The input can be a local path or an https:// URL; a GitHub page link is fetched as its raw file (gedcom-source.mts).
-//
-// The app's own parser (src/data/gedcom.ts) builds the family structure; this script adds what a *stored* saga needs
-// and the in-browser import doesn't: clean display names (a monarch by their regnal name, everyone else by name only),
-// stable readable ids, a manageable set of house colours, and source/notes metadata.
-//
-// Input is untrusted text: it is only ever parsed, never executed, and the output is plain JSON.
+// What it does: parses with the app's own parser (src/data/gedcom.ts), then adds what a stored saga needs: clean names
+// (gedcom-names.mts), stable readable ids, a manageable set of house colours, and source/notes metadata. Writes
+// public/data/<category>/<id>.json (SagaFile, families inline) and adds <id> to public/data/sagas.json.
+// Usage: npm run import:gedcom -- <file.ged | https://...> --id <id> --category <cat> --title "<title>"
+//   e.g. npm run import:gedcom -- tudors.ged --id english-royal --category history --title "English Royal Family"
+//   Optional: --names person|mythology (default person), --house "<name>" [--color "<css>"], --genre "<text>" (default
+//   History), --rename <file.json> (per-record corrections; see scripts/gedcom-renames/). A GitHub page link is
+//   fetched as its raw file (gedcom-source.mts).
+// Notes: OVERWRITES the saga's file and manifest entry when re-run (a re-import keeps its menu place, a new one goes
+//   last); run npm run db:seed afterwards. Input is untrusted text: only parsed, never executed; output is plain JSON,
+//   validated with expandSaga()/readManifest() before it is written. Ids are stable across re-imports of the same file.
+
 import fs from "node:fs";
 import path from "node:path";
 import {

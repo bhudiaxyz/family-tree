@@ -1,10 +1,14 @@
-// Name suggestions for the search and relationship-finder boxes. Replaces <datalist>, which many mobile browsers show
-// badly or not at all (Firefox for Android ignores it; iOS only offers matches in the keyboard bar after typing).
-// One shared list, placed under (or, near the bottom of the screen, above) whichever box has focus.
+// Suggestions: name suggestions for the search and relationship-finder boxes.
 //
+// What it does: one shared listbox, placed under (or, near the bottom of the screen, above) whichever box has focus.
 // Each suggestion is a person, not just a name: picking one stores their id on the box (box.dataset.person) before
-// firing `change`, so two people with the same name (the Bible's two Lamechs) can't be confused. People who share a
-// name are shown with a hint ("Lamech · son of Methushael"). Matching ignores accents and tolerates typos (family.ts).
+// firing change. Matching ignores accents and tolerates typos (searchPeople in family.ts).
+// Usage: setSuggestions() per saga, attachSuggestions() per box, personIn() and setPerson() to read and fill a box;
+// used by src/ui/ (dom.ts, sagas.ts, search.ts, relate.ts, panel.ts).
+// Notes: replaces <datalist>, which many mobile browsers show badly or not at all (Firefox for Android ignores it; iOS
+// only offers matches in the keyboard bar after typing). People who share a name get a hint ("Lamech · son of
+// Methushael"), so the two Lamechs in the Bible can't be confused. Typing clears the stored id.
+
 import type { Tree } from "./data/schema.ts";
 import { distinguish, searchPeople } from "./family.ts";
 

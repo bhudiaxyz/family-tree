@@ -1,6 +1,14 @@
-// Getting around a tree: framing the selected person's family, zooming without a wheel, stepping a generation at a
-// time, pinned people, and coming back to where you were in a saga. The keys and buttons that call these are in
-// input.ts and the panel; the camera moves themselves are in camera.ts.
+// Navigate: getting around a tree.
+//
+// What it does: frames the selected person's family (`fitFamily`), zooms by steps (`zoomIn`, `zoomOut`), moves a
+// generation at a time (`goToGeneration`, `stepGeneration`), keeps pinned people (`pinned`, `togglePin`,
+// `onPinsChanged`) and remembers the view per saga (`rememberView`, `restoreView`).
+// Usage: input.ts (keys, touch pad), panel.ts (fit, pins), sagas.ts (views, pin list). The camera moves themselves
+// are in camera.ts.
+// Notes: pins are stored per saga in localStorage ("ft.pins.<saga>") and filtered to people still in the tree. The
+// remembered views are kept in memory only, so a fresh visit or shared link starts from the whole tree. Clicking a
+// generation row in the scene calls goToGeneration (via onRowPicked, registered at import time).
+
 import * as THREE from "three";
 import { fitPeople, glideTo, viewState, zoomBy } from "../camera.ts";
 import { immediateFamily } from "../family.ts";

@@ -1,6 +1,12 @@
-// Where the importer reads a GEDCOM file from: a local path, or an https:// URL. GitHub page links
-// (github.com/<owner>/<repo>/blob/<ref>/<path>) are turned into their raw file URL, so the address from the browser
-// works as is. Downloads are capped in size and time; the bytes are only ever parsed (see gedcom-to-saga.mts).
+// GEDCOM source reader: where the importer gets its bytes from, a local path or an https:// URL.
+//
+// What it does: downloadUrl() turns a GitHub page link (github.com/<owner>/<repo>/blob/<ref>/<path>) into its raw URL
+// and refuses anything but https; sourceName() gives the decoded file name; readSource() reads or downloads the bytes.
+// Usage: imported by gedcom-to-saga.mts (npm run import:gedcom); checked offline by gedcom-source.test.mts.
+// Notes: reads and downloads only, never writes. Size is capped at MAX_BYTES (20 MB, same as the in-app import) and
+//   time at 30 s. A download that doesn't start with "0 HEAD" (proxy block page, HTML) is rejected, not parsed.
+//   The bytes are only ever parsed, never executed.
+
 import fs from "node:fs";
 import path from "node:path";
 

@@ -1,4 +1,13 @@
-// Files in and out: save the view as a PNG, and import a GEDCOM or saga JSON file (file picker, or drag a .ged or .json onto the window).
+// Files: saving the view as a PNG, and importing a GEDCOM or saga JSON file.
+//
+// What it does: `savePng` captures the view (a Save dialog where `showSaveFilePicker` exists, else a name prompt and
+// a download); import takes a file from the picker or a .ged or .json dropped on the window, parses it and shows it.
+// Usage: input.ts calls savePng (P); imports are displayed through showImported (sagas.ts). The import buttons and
+// drop handlers are attached at import time, so this is loaded through input.ts.
+// Notes: the save picker is asked for first because it needs the click or keypress that started it, which expires
+// during capture. An imported tree has the saga id IMPORTED, so it is not shareable by URL and uses the default theme.
+// #btn-png, #btn-import and #file must match index.html.
+
 import { parseGedcom } from "../data/gedcom.ts";
 import { toRecord, toTree } from "../data/source.ts";
 import { palette } from "../palettes.ts";

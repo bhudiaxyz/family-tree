@@ -1,5 +1,11 @@
-// Shared data access for scripts and tests: read the manifest and saga files the same way the app does, through
-// sagaPath() in src/data/schema.ts, so the scripts can never disagree with the loader about where files live.
+// Shared data access for scripts and tests: reads the manifest and saga files the way the app does.
+//
+// What it does: exports dataDir (public/data/), readIndex(), readSagaFile(), readSaga() and treeById(), all built on
+// readManifest(), sagaPath(), expandSaga() and toTree() from src/, so scripts never disagree with the loader on layout.
+// Usage: imported by seed-sql.mts and most *.test.mts; not run directly.
+// Notes: read-only (it never writes). Files are located only via sagaPath(), so a change to the data layout is made in
+// src/data/schema.ts, not here. treeById() throws for an id missing from sagas.json.
+
 import fs from "node:fs";
 import {
     expandSaga,

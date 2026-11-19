@@ -1,13 +1,12 @@
-// Colour themes for the 3D scene: links, labels, lights, fog, background and the procedural nebula.
+// Palettes: colour themes for the 3D scene (links, labels, lights, fog, background, badges, nebula).
 //
-// One Palette per look. `paletteFor(sagaId)` picks the theme for a saga, so each family tree can later get its own
-// colours (e.g. icy blues for one saga, embers for another) by adding an entry to SAGA_PALETTES. Everything that
-// draws in 3D reads its colours from here; nothing in graph.ts / scene.ts / labels.ts / nebula.ts hardcodes one.
-//
-// Not covered here: the HTML UI (header, panels, buttons), whose colours are CSS variables in src/style.css. Where
-// the two must agree (the gold accent, the ink colour) the matching CSS variable is noted on the field.
-//
-// House colours (one per family/house) live in each saga's data file, not here: they are part of the story's data.
+// What it does: defines the Palette type, DEFAULT_PALETTE, per-saga overrides (SAGA_PALETTES, currently empty) and the
+// active palette. paletteFor(sagaId) merges a saga's overrides over the default; usePalette() makes one active.
+// Usage: everything that draws in 3D calls palette(); ui/sagas.ts calls usePalette(paletteFor(...)) when a saga loads;
+// scene.ts, labels.ts, nebula.ts and data/gedcom.ts (importHouses) read it. Nothing else hardcodes a 3D colour.
+// Notes: colours are baked into materials, labels and the nebula when those are built, so a palette change only affects
+// what is built next. The HTML UI colours are CSS variables in src/style.css, not here; where they must agree (gold
+// accent, ink colour) the field comment names the CSS variable. House colours live in each saga's data file.
 
 /** Any CSS colour string or a 0xRRGGBB number, as three.js `Color` accepts both. */
 export type Colour = string | number;

@@ -240,16 +240,31 @@ function showTrail(id: string) {
     );
 }
 
+/** The value that appears most often; ties go to the first. */
+const mostCommon = (xs: number[]) => {
+    const n = new Map<number, number>();
+    for (const x of xs) n.set(x, (n.get(x) ?? 0) + 1);
+    return [...n].reduce((a, b) => (b[1] > a[1] ? b : a))[0];
+};
+
 // --- Under the house: the generation (click to go to that row), namesakes, and the descendant count ---------------
 function showCount(id: string) {
     const { people, generations } = descendantCount(state.tree!, id);
     panelCount.replaceChildren();
+    // Generation: the row the person's brothers and sisters share (the one most of them are on). It's usually their own
+    // row, but a sibling who married into another generation sits with their partner (Ginny with Harry, a row below the
+    // Weasleys), and calling her generation 3 would put her level with her own nephew. Then the row is shown as well.
     const { row, of } = generationOf(id);
+    const sibRows = siblingsOf(state.tree!, id).map((s) => generationOf(s).row);
+    const generation = sibRows.length ? mostCommon([row, ...sibRows]) : row;
     if (of > 1) {
         const g = Object.assign(document.createElement("button"), {
             className: "count-link",
-            textContent: `Generation ${row + 1} of ${of}`,
-            title: "Go to this generation's row",
+            textContent: generation === row ? `Generation ${row + 1}` : `Generation ${generation + 1} (row ${row + 1})`,
+            title:
+                generation === row
+                    ? "Go to this row"
+                    : `Their brothers and sisters are generation ${generation + 1}; they sit on row ${row + 1} beside their spouse. Go to that row`,
         });
         g.onclick = () => goToGeneration(row);
         panelCount.append(g);

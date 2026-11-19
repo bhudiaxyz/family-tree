@@ -41,8 +41,10 @@ export function setGuides(rows: number, y: (g: number) => number): void {
     }
     // Buttons, so a row can be jumped to with a click, a tap or the keyboard (see onRowPicked).
     rowLabels = rowY.map((_, g) => {
-        const b = Object.assign(document.createElement("button"), { textContent: `Generation ${g + 1}` });
-        b.title = `Go to generation ${g + 1} (Page Up / Page Down step between them)`;
+        // "Row", not "Generation": a row is a layout level, and someone who married into another generation sits on
+        // their partner's row (Ginny is on row 3 with Harry, though she's generation 2 with her brothers).
+        const b = Object.assign(document.createElement("button"), { textContent: `Row ${g + 1}` });
+        b.title = `Go to row ${g + 1} (Page Up / Page Down step between rows)`;
         b.onclick = () => rowPicked?.(g);
         return b;
     });

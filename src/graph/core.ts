@@ -135,10 +135,23 @@ export const graph = new ThreeForceGraph<Node, Link>()
     .linkThreeObject((l) =>
         relationLabel(l.label, l.kind === "spouse" ? palette().labels.spouse : palette().labels.child)
     )
-    .linkPositionUpdate((label, { start, end }) => {
-        midpoint(label, start, end);
+    // A label sits beside the person it describes: "son"/"daughter" near the child, "father"/"mother"/"wife" near the
+    // parent, at most LABEL_REACH along the link. On an ordinary link (half a row, 40 units) that's its midpoint, as
+    // before. A link across several rows (Ginny sits with Harry, two rows below Arthur and Molly) used to put its
+    // label at the midpoint, among her brothers, where "daughter" read as Bill's.
+    .linkPositionUpdate((label, { start, end }, l) => {
+        const near = l.kind === "child" ? end : start; // child links run union → child; spouse links parent → union
+        const far = near === end ? start : end;
+        const len = Math.hypot(far.x! - near.x!, far.y! - near.y!, far.z! - near.z!);
+        const t = len > 0 ? Math.min(0.5, LABEL_REACH / len) : 0.5;
+        label.position.set(
+            near.x! + (far.x! - near.x!) * t,
+            near.y! + (far.y! - near.y!) * t,
+            near.z! + (far.z! - near.z!) * t
+        );
         return false; // still let the library position the default line
     });
+const LABEL_REACH = 20; // world units along a link from its person; half an ordinary link (a union sits 40 below)
 
 // Unbounded repulsion drives disconnected families apart forever; cap its range so the tree stays compact.
 graph.d3Force("charge")!.distanceMax(120);

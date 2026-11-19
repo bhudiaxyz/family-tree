@@ -120,7 +120,6 @@ export const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.saveState();
 
-
 // --- Shader warm-up (declared before the glow setup, which may start a warm-up while this module loads) -----------------------------------------------------------------------------------------------
 // The first frame that meets a new material compiles its shader program on the main thread and blocks until it's
 // done: measured 6 s of one frame on a software GPU with bloom on, and tens to hundreds of ms on a 2018 phone, which

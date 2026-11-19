@@ -7,16 +7,26 @@ import { setFlat, setGuidesVisible, showTree } from "../graph.ts";
 import { fontsReady, resetBadges } from "../labels.ts";
 import { bakeNebula } from "../nebula.ts";
 import { paletteFor, usePalette } from "../palettes.ts";
+import type { SiblingMode } from "../generations.ts";
 import { applyScenePalette, controls, glow, renderer, setGlow, setSky } from "../scene.ts";
 import { houseNamed } from "../family.ts";
 import { setPerson, setSuggestions } from "../suggest.ts";
 import { author, panel, relA, relB, search, title } from "./dom.ts";
 import { mountLegend, setHouse, setLegend } from "./legend.ts";
 import { onPinsChanged, pinned, rememberView, restoreView } from "./navigate.ts";
-import { clearTrail, onHistoryBack, refreshFolds, select, setFocus, setRelativeTo } from "./panel.ts";
+import {
+    clearTrail,
+    onHistoryBack,
+    refreshFolds,
+    refreshPanel,
+    relativeToId,
+    select,
+    setFocus,
+    setRelativeTo,
+} from "./panel.ts";
 import { resetCard } from "./picking.ts";
 import { openRelate, resetRelate } from "./relate.ts";
-import { IMPORTED, state } from "./state.ts";
+import { IMPORTED, refreshHighlight, state } from "./state.ts";
 import { onPopState, writeUrl } from "./url.ts";
 
 // The manifest (sagas.json), keyed by id. The URL and the menu only carry an id; the entry adds the category that
@@ -83,7 +93,7 @@ function show(t: Tree) {
     usePalette(paletteFor(state.sagaId === IMPORTED ? "" : state.sagaId));
     resetBadges(); // badge textures are cached per house; drop them so they redraw in the new theme's ink/outline
     applyScenePalette();
-    showTree(t);
+    showTree(t, state.siblings);
     setLegend(t);
     refreshFolds();
     setFocus("off");
@@ -102,8 +112,40 @@ export function rebuildAfterContextLoss(): void {
     resetBadges();
     applyScenePalette();
     if (!state.tree) return;
-    showTree(state.tree);
+    showTree(state.tree, state.siblings);
+    afterRebuild(); // the new objects start lit and untagged
     scheduleSky(skyId());
+}
+
+/**
+ * Re-lay the current tree with siblings together or apart (the menu toggle). The selection, highlight, collapsed
+ * branches and relationship stay as they are; people glide to their new rows as the layout settles.
+ */
+function setSiblingMode(mode: SiblingMode): void {
+    state.siblings = mode;
+    if (state.sagaId) writeUrl();
+    if (!state.tree) return;
+    showTree(state.tree, mode);
+    fitTree();
+    afterRebuild();
+}
+
+/**
+ * Re-apply the per-person state to a rebuilt tree's new objects: collapse and "relative to" tags, the highlight, and
+ * the panel (whose generation row may have changed). The library only builds those objects on its next tick, in the
+ * frame loop, so this waits two frames; done straight away it found no objects and everything came back blank.
+ */
+function afterRebuild(): void {
+    const tree = state.tree;
+    requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+            if (state.tree !== tree) return; // another saga opened meanwhile
+            setRelativeTo(relativeToId());
+            refreshFolds();
+            refreshHighlight();
+            if (state.selected) refreshPanel();
+        })
+    );
 }
 
 // --- Nebula sky: baked per saga, a frame after the tree appears -------------------------------------------------
@@ -183,6 +225,13 @@ function buildMenu(sagas: SagaIndexEntry[], first: string, params: URLSearchPara
     };
     set2d(flat.on);
     gui.add(flat, "on").name("2D").onChange(set2d);
+    // Siblings together (default) puts brothers and sisters on one row; off keeps couples on one row instead. From
+    // the URL like 2D (?siblings=apart), so a shared link shows the same layout.
+    const layout = { together: params.get("siblings") !== "apart" };
+    state.siblings = layout.together ? "together" : "apart";
+    gui.add(layout, "together")
+        .name("Siblings together")
+        .onChange((on: boolean) => setSiblingMode(on ? "together" : "apart"));
     const sky = { nebula: stored("ft.nebula", true) };
     nebulaOn = sky.nebula;
     gui.add(sky, "nebula")

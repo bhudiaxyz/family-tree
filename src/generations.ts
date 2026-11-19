@@ -1,30 +1,41 @@
 import type { Tree } from "./data/schema.ts";
 
-// Generation number per person (0 = oldest). Parents sit one generation above their children, and spouses share
-// a generation, so people who married in line up with their partner rather than floating up to the top row.
-// Solved as longest-path layering over a graph where each family's parents are merged into one group:
-// group → child-group edges, then every person takes their group's level.
-export function generations(t: Tree): Map<string, number> {
+/**
+ * Which rule wins when siblings and couples can't both share a row (someone married into another generation):
+ * - "together" (default): brothers and sisters always share a row (unless one is also another's child, as Daphne is
+ *   Ladon's in the Roman file); a couple may sit on two rows, joined by a slope.
+ * - "apart": couples always share a row; a sibling who married across generations sits with their partner.
+ */
+export type SiblingMode = "together" | "apart";
+
+// Generation number per person (0 = oldest). Parents sit one generation above their children, siblings share a
+// row (or, with "apart", spouses do), and people who married in line up with their partner where they can.
+// Solved as longest-path layering over a graph whose nodes are groups that must share a row: each family's children
+// ("together") or each family's co-parents ("apart"). Group → child-group edges, then every person takes their
+// group's level.
+export function generations(t: Tree, mode: SiblingMode = "together"): Map<string, number> {
     const ids = Object.keys(t.people);
-    // Union-find: co-parents of any family form one group.
+    // Union-find over the people who must share a row.
     const root = new Map(ids.map((id) => [id, id]));
     const find = (id: string): string => {
         while (root.get(id) !== id) id = root.get(id)!;
         return id;
     };
-    for (const f of t.families) for (const p of f.parents.slice(1)) root.set(find(p), find(f.parents[0]));
-
-    // Edges between groups: parent group → child's group. Families with no parents add no edges.
-    const edges = new Map<string, Set<string>>();
     for (const f of t.families) {
-        if (!f.parents.length) continue;
-        const from = find(f.parents[0]);
-        for (const c of f.children) {
-            const to = find(c);
-            if (to === from) continue; // a child married into its own parents' group: cannot be layered, skip
-            (edges.get(from) ?? edges.set(from, new Set()).get(from)!).add(to);
-        }
+        const same = mode === "together" ? f.children : f.parents;
+        for (const p of same.slice(1)) root.set(find(p), find(same[0]));
     }
+
+    // Edges between groups: each parent's group → each child's group. Families with no parents add no edges.
+    const edges = new Map<string, Set<string>>();
+    for (const f of t.families)
+        for (const p of f.parents)
+            for (const c of f.children) {
+                const from = find(p);
+                const to = find(c);
+                if (to === from) continue; // a child grouped with their own parent: cannot be layered, skip
+                (edges.get(from) ?? edges.set(from, new Set()).get(from)!).add(to);
+            }
 
     // Longest path from roots (Kahn's algorithm). A cycle would leave groups unlevelled; they fall back to 0.
     const groups = [...new Set(ids.map(find))];
@@ -79,8 +90,55 @@ export function generations(t: Tree): Map<string, number> {
             if (remaining.get(c) === 0) ready.push(c);
         }
     }
-    alignSiblings(t, gen, kidsOf);
+    if (mode === "together") alignSpouses(t, gen, kidsOf);
+    else alignSiblings(t, gen, kidsOf);
     return gen;
+}
+
+/**
+ * Couples on one row where possible, for "together" (the mirror of alignSiblings). Layering by sibling groups leaves
+ * a spouse wherever their own family puts them, often a row from their partner. For each couple on two rows, try
+ * moving either partner (with all their brothers and sisters, so no set is split) to the other's row; keep the move
+ * only if every parent stays above every child and fewer couples are split. Greedy and bounded, so it always ends.
+ */
+function alignSpouses(t: Tree, gen: Map<string, number>, kidsOf: Map<string, string[]>): void {
+    const siblingsOf = new Map<string, Set<string>>([...kidsOf.keys()].map((id) => [id, new Set([id])]));
+    for (const f of t.families) for (const a of f.children) for (const b of f.children) siblingsOf.get(a)?.add(b);
+    // Sibling groups are transitive (half-siblings link two families): close each person's set.
+    for (const set of siblingsOf.values()) for (const x of set) for (const y of siblingsOf.get(x)!) set.add(y);
+    const couples = t.families.filter((f) => f.parents.length === 2).map((f) => f.parents as [string, string]);
+    const split = () => couples.filter(([a, b]) => gen.get(a) !== gen.get(b)).length;
+    const descentHolds = (group: Set<string>) =>
+        [...group].every(
+            (g) =>
+                kidsOf.get(g)!.every((c) => gen.get(c)! > gen.get(g)!) &&
+                [...kidsOf].every(([p, kids]) => !kids.includes(g) || gen.get(p)! < gen.get(g)!)
+        );
+    let best = split();
+    for (let pass = 0; pass < 8 && best > 0; pass++) {
+        let moved = false;
+        for (const [a, b] of couples) {
+            if (gen.get(a) === gen.get(b)) continue;
+            for (const [who, to] of [
+                [a, gen.get(b)!],
+                [b, gen.get(a)!],
+            ] as const) {
+                const group = siblingsOf.get(who)!;
+                const delta = to - gen.get(who)!;
+                for (const g of group) gen.set(g, gen.get(g)! + delta);
+                const now = split();
+                if (descentHolds(group) && now < best) {
+                    best = now;
+                    moved = true;
+                    break;
+                }
+                for (const g of group) gen.set(g, gen.get(g)! - delta); // undo
+            }
+        }
+        if (!moved) break;
+    }
+    const min = Math.min(...gen.values());
+    if (min) for (const [id, g] of gen) gen.set(id, g - min); // keep the oldest row at 0
 }
 
 /**

@@ -2,6 +2,7 @@
 // Plain data plus the few helpers every feature needs (highlight, toast, links to people, fly-to).
 import { flyTo } from "../camera.ts";
 import type { Tree } from "../data/schema.ts";
+import type { SiblingMode } from "../generations.ts";
 import { cousinsOf, descendantsOf, type LineRole, lineageRoles, siblingsOf } from "../family.ts";
 import { highlight, nodeById, setFolded } from "../graph.ts";
 import { relate } from "../relationship.ts";
@@ -28,6 +29,7 @@ export const state = {
     focus: "off" as Focus,
     focusDepth: 0, // generations up and down that focus mode shows; 0 = all
     view2d: false, // ?view=2d|3d, 3d by default
+    siblings: "together" as SiblingMode, // ?siblings=apart keeps couples on one row instead of siblings
 };
 
 // What to light up, in priority order: a relationship path; a house from the legend; the selected (or hovered)

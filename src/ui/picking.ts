@@ -2,7 +2,7 @@
 import * as THREE from "three";
 import { drawnZ, graph, isShown, type Node } from "../graph.ts";
 import { relate } from "../relationship.ts";
-import { camera, renderer } from "../scene.ts";
+import { camera, controls, renderer } from "../scene.ts";
 import { $, relatePanel } from "./dom.ts";
 import { setHouse } from "./legend.ts";
 import { deselect, select } from "./panel.ts";
@@ -179,3 +179,9 @@ function hideCard() {
 }
 /** Refresh the card's text after the selection changes (its relationship is to the selected person). */
 export const resetCard = () => (cardFor = "");
+// The card is placed at the pointer, and only moves with it while no button is down; so while you rotate, zoom or
+// pan, the tree moved under a card left pointing at nothing. Hide it as soon as the view starts moving (drag, wheel,
+// pinch, arrow keys); the next mouse move over a person shows it again, in the right place.
+controls.addEventListener("start", hideCard);
+canvas.addEventListener("wheel", hideCard, { passive: true });
+addEventListener("keydown", (e) => e.key.startsWith("Arrow") && hideCard());

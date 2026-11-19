@@ -30,7 +30,7 @@ The ten fiction sagas were written from memory and reviewed against fan wikis th
 
 ## Highlights
 
-- **Generations on rows.** Everyone sits on their generation's row, spouses beside each other, and siblings together wherever marriage allows. Ancestors glow amber and descendants blue, fading with each generation away.
+- **Generations on rows.** Brothers and sisters share a row, and spouses sit beside each other wherever that allows; turn off **Siblings together** in the menu to keep couples on one row instead. Ancestors glow amber and descendants blue, fading with each generation away.
 - **Search that forgives.** Accents and small typos don't matter (`apsu` finds Apsû, `Ghandi` finds Gandhi), and people who share a name are told apart. Type a relationship to find people by it: _Arya's cousins_, _children of Zeus_, _sons of Jacob_.
 - **How are they related?** Pick any two people for a plain-English answer (_Jon Snow is the nephew of Daenerys Targaryen_): cousins by degree and removal, half-, step- and in-law relations, adoption, common ancestors, and every route between intermarried houses, with the path drawn in gold.
 - **Focus on part of the tree.** Show just one person's line, ancestors, descendants, siblings or first cousins, limited to a few generations if you like. Collapse a branch to fold its descendants away.
@@ -89,7 +89,7 @@ On touch screens every control is at least 44 px tall, a tap picks the nearest p
 
 - **Toolbar** (top left): _How are they related?_, load a file (folder), save an image (camera), tour (play) and help (?).
 - **Details panel** (bottom left, once someone is selected): their relatives as links, line of descent, generation, recent people, a ☆ to pin them, _Fit family_, _Chart_, _Collapse branch_, _Tag everyone's relationship_, and the **Focus** buttons.
-- **Menu** (top right): the saga, display options (glow, generation guides, 2D, nebula sky), the **Houses** list (click a house to light it, again to frame it, a third time to clear it) and your **Pinned** people.
+- **Menu** (top right): the saga, display options (glow, generation guides, 2D, siblings together, nebula sky), the **Houses** list (click a house to light it, again to frame it, a third time to clear it) and your **Pinned** people.
 - **Overview map** (bottom right): the whole tree and the part on screen; click or drag on it to move there.
 
 ## Getting started

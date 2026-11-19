@@ -7,7 +7,7 @@
 import type * as THREE from "three";
 import type { Tree } from "./data/schema.ts";
 import { childLabel, parentLabel } from "./family.ts";
-import { generations } from "./generations.ts";
+import { generations, type SiblingMode } from "./generations.ts";
 import { boundLinks, boundNodes, disposeObject, graph, isShown, type Link, type Node, useTree } from "./graph/core.ts";
 import { drawnZ, setSiblingGroups, stepFlat } from "./graph/flat.ts";
 import { setGuides, stepGuides } from "./graph/guides.ts";
@@ -29,9 +29,9 @@ let rowCount = 0;
 export const generationOf = (id: string) => ({ row: rowOf.get(id) ?? 0, of: rowCount });
 
 /** Replace the displayed tree. Generations are pinned to fixed heights; union nodes sit half a row below parents. */
-export function showTree(t: Tree): void {
+export function showTree(t: Tree, mode: SiblingMode = "together"): void {
     useTree(t);
-    const gen = generations(t);
+    const gen = generations(t, mode);
     const rows = Math.max(0, ...gen.values());
     rowOf = gen;
     rowCount = rows + 1;

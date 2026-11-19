@@ -17,7 +17,7 @@ import { generationOf, nodeById, setFoldBadges, setRelativeTags } from "../graph
 import { labelAll } from "../relationship.ts";
 import { setPerson } from "../suggest.ts";
 import { $, panel, search } from "./dom.ts";
-import { fitFamily, goToGeneration, isPinned, onPinsChanged, togglePin } from "./navigate.ts";
+import { fitFamily, isPinned, onPinsChanged, togglePin } from "./navigate.ts";
 import { openRelate } from "./relate.ts";
 import { type Focus, flyToPerson, notify, personLink, refreshHighlight, state } from "./state.ts";
 import { pushUrl, writeUrl } from "./url.ts";
@@ -60,6 +60,9 @@ export function select(id: string, fly = false, fromHistory = false): void {
     else if (fly) flyToPerson(id);
 }
 
+/** Redraw the panel for the selected person (after the tree is re-laid out, which can change their row). */
+export const refreshPanel = () => state.selected && fillPanel(state.selected);
+
 /** Fill the details panel for a person and show it. */
 function fillPanel(id: string) {
     const tree = state.tree!;
@@ -73,6 +76,7 @@ function fillPanel(id: string) {
     showPin(id);
     showRecent(id);
     showCollapse(id);
+    showDepths(id);
     updateBack();
     panel.hidden = false;
 }
@@ -183,6 +187,8 @@ for (const b of focusButtons)
 // --- "Relative to" mode ---------------------------------------------------------------------------------------------
 const btnRelativeTo = $("panel-relative-to");
 let relativeTo: string | null = null;
+/** Who the "relative to" tags describe, if they're on. */
+export const relativeToId = () => relativeTo;
 export function setRelativeTo(id: string | null): void {
     relativeTo = id && state.tree ? id : null;
     setRelativeTags(relativeTo ? labelAll(state.tree!, relativeTo) : null);
@@ -263,10 +269,12 @@ function showCount(id: string) {
             textContent: generation === row ? `Generation ${row + 1}` : `Generation ${generation + 1} (row ${row + 1})`,
             title:
                 generation === row
-                    ? "Go to this row"
-                    : `Their brothers and sisters are generation ${generation + 1}; they sit on row ${row + 1} beside their spouse. Go to that row`,
+                    ? "Show this person with their brothers and sisters"
+                    : `Their brothers and sisters are generation ${generation + 1}; they sit on row ${row + 1} beside their spouse. Show them all`,
         });
-        g.onclick = () => goToGeneration(row);
+        // Frame the person with their brothers and sisters: their generation, wherever each of them sits. (It used to
+        // glide to the person's row, which does nothing visible when that row is already centred.)
+        g.onclick = () => fitPeople([id, ...siblingsOf(state.tree!, id)].flatMap((p) => nodeById(p) ?? []));
         panelCount.append(g);
     }
     const same = namesakes(state.tree!, id);
@@ -344,6 +352,18 @@ export function clearGroup(): void {
 
 // --- Focus depth: how many generations up and down focus mode shows ---------------------------------------------------
 const depthSelect = $<HTMLSelectElement>("panel-depth");
+// Grey out the depths that would show nobody new: Eddard's line runs only one generation each way, so 1, 2, 3 and
+// all show the same 9 people, and the menu looked broken. The tooltip says how far this person's line reaches.
+function showDepths(id: string) {
+    const reach = Math.max(0, ...[...lineageRoles(state.tree!, id).values()].map((r) => r.distance));
+    for (const o of depthSelect.options) {
+        const d = Number(o.value);
+        o.disabled = d > 0 && d > reach && d !== state.focusDepth; // keep the current choice selectable
+    }
+    depthSelect.title = reach
+        ? `This line reaches ${reach} generation${reach === 1 ? "" : "s"} up or down; choose how many to show`
+        : "No recorded parents or children";
+}
 depthSelect.onchange = () => {
     state.focusDepth = Number(depthSelect.value);
     if (state.focus === "off")

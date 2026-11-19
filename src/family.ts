@@ -1,12 +1,15 @@
-// Family queries: pure questions about a Tree (relatives, lines of descent, labels, name search).
+// Family queries: pure questions about a Tree (relatives, lines of descent, labels, search).
 //
-// What it does: finds siblings, cousins, immediate family, descendants and ancestry; builds the highlighted line
-// (lineageRoles, lineage) and the tour/longest-line walks; words relationship labels (parentLabel, childLabel,
-// siblingLabel); fuzzy-searches names (searchPeople, findByName, distinguish); assigns house planes (houseDepths).
-// Usage: imported by graph.ts, graph/*.ts, suggest.ts, relationship.ts and src/ui/*. No three.js or DOM imports, so it
-// is unit-tested in scripts/family.test.mts.
-// Notes: name matching goes through fold() (ignores accents and case, tolerates typos); anything that must treat
-// two people with the same name as different goes by id, never by name.
+// What it does: relatives (relatives, siblingsOf, cousinsOf, immediateFamily, descendantsOf, descendantCount,
+// namesakes); lines of descent (lineageRoles/lineage for the highlight, ancestry for the panel trail, tourLine and
+// longestLine for the guided tour); link words (parentLabel, childLabel, siblingLabel); search by name (searchPeople,
+// findByName, distinguish for namesake hints) and by relationship (searchRelation: "Arya's cousins"); forgiving house
+// names for links (houseNamed); house depth planes (houseDepths).
+// Usage: imported by graph.ts, graph/core, highlight and siblings, suggest.ts and most of src/ui. No three.js or DOM
+// imports, so it is unit-tested directly in scripts/family.test.mts.
+// Notes: name matching goes through fold() (ignores accents, case and punctuation; tolerates typos); anything that
+// must tell two people with the same name apart goes by id, never by name. relationship.ts is separate: it names how
+// two people are related, this answers who someone's relatives are.
 
 import type { Tree } from "./data/schema.ts";
 

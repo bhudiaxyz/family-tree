@@ -59,11 +59,11 @@ export function setGuides(rows: number, y: (g: number) => number): void {
     lastTops = [];
 }
 
-/** World height of each generation row, top (oldest) first: for stepping between generations. */
+/** World height of each row, top (oldest) first: for stepping a row at a time (Page Up / Page Down). */
 export const generationRows = (): readonly number[] => rowY;
 
 let rowPicked: ((row: number) => void) | null = null;
-/** Called with the row number when a "Generation n" label is clicked. */
+/** Called with the row number when a "Row n" label is clicked. */
 export const onRowPicked = (fn: (row: number) => void) => (rowPicked = fn);
 
 export function setGuidesVisible(on: boolean): void {

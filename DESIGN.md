@@ -292,10 +292,10 @@ Sibling lines are not graph links (they'd pull siblings together and distort the
 
 **Two modes.** Siblings, couples and "parents above children" can't all hold when someone marries into another generation (Ginny married Harry, a generation below the Weasleys). Descent always holds; `mode` says which of the other two wins:
 
-| Mode                 | Always on one row    | Lined up where possible | Menu / URL                                   |
-| -------------------- | -------------------- | ----------------------- | -------------------------------------------- |
-| `together` (default) | brothers and sisters | couples                 | **Siblings together** on                     |
-| `apart`              | couples              | brothers and sisters    | **Siblings together** off, `?siblings=apart` |
+| Mode                | Always on one row    | Lined up where possible | Menu / URL                                  |
+| ------------------- | -------------------- | ----------------------- | ------------------------------------------- |
+| `together` (always) | brothers and sisters | couples                 | used by the app                             |
+| `apart`             | couples              | brothers and sisters    | kept in `generations.ts` and its tests only |
 
 The algorithm is the same for both; only what's merged in step 1, and the alignment pass in step 6, differ:
 
@@ -313,7 +313,7 @@ Measured over all 17 sagas:
 | `together` | 1                  | 49            | 160                     | 26                |
 | `apart`    | 19                 | 35            | 201                     | 31                |
 
-`together` is the default because same-generation family reading as one row is what people expect: brothers and sisters, cousins, and so on side by side. Its cost is a couple on two rows where someone married across a generation (Ginny and Harry), joined by a sloping link. The one sibling set it still splits is a contradiction in the data, not a limit of the layout: the Roman file lists Daphne as a child of Oceanus and Tethys and also of Ladon, her own brother, so she can't be on his row and below him. The test asserts that every other set shares a row.
+The app always uses `together` (the menu toggle and `?siblings=apart` were removed) because same-generation family reading as one row is what people expect: brothers and sisters, cousins, and so on side by side. Its cost is a couple on two rows where someone married across a generation (Ginny and Harry), joined by a sloping link. The one sibling set it still splits is a contradiction in the data, not a limit of the layout: the Roman file lists Daphne as a child of Oceanus and Tethys and also of Ladon, her own brother, so she can't be on his row and below him. The test asserts that every other set shares a row.
 
 Other approaches were measured and rejected: forcing every set onto one row after layering (couples split 35 → 158, Roman gods 31 → 217 rows); and in `apart`, moving siblings together with their descendants (aligned more sets, but Harry Potter's long links went 2 → 14 and the Tudors' 19 → 59, which reads as a missing generation).
 
@@ -323,6 +323,10 @@ Other approaches were measured and rejected: forcing every set onto one row afte
 
 **Rows and generations.** The edge labels say "Row n", because a row is a layout level: in `apart`, Ginny sits on Harry's row. The panel's **Generation n** is the row most of the person's brothers and sisters share, with the row added when it differs ("Generation 2 (row 3)"); clicking it frames the person with their siblings.
 
+### Starting order and grouping
+
+`seedX()` in `graph.ts` gives each row a starting order before the forces run, because names can't pass through each other (below), so the order the layout starts in is roughly the order it ends in; started at random, couples were split by strangers and siblings scattered. It walks the tree from the oldest row down: a person is placed with their spouses beside them, and each family's children together, in the order of their parents above. `x`, `y` and `z` are all seeded: d3 re-places a node at random if any is missing, and a frame drawn before d3's first tick would frame the camera on an undefined `y` (a NaN camera, and a blank view for good). Four forces in `flat.ts` then refine it, in 2D and 3D: `spreadRows` keeps names on a row apart, with `GROUP_SPACE` more between people who are neither partners nor siblings; `clusterSiblings` and `pullCouples` keep brothers and sisters and couples together; `parentsOverChildren` pulls each family's parents and children towards each other's centre, so a couple sits over its own children.
+
 ### Forces
 
 - **Bounded repulsion.** `charge` has `distanceMax(120)`. Every saga contains families that aren't connected, and with unlimited repulsion they pushed each other apart forever (a tree grew from 175 to over 700 units wide in 8 s).
@@ -331,7 +335,7 @@ Other approaches were measured and rejected: forcing every set onto one row afte
 
 ### 2D mode (`src/graph/flat.ts`)
 
-The menu's 2D toggle (or `?view=2d`) eases the graph's z scale towards about 0, squashing the house planes flat. Each person object is counter-scaled so spheres stay round; links, sibling lines and guides simply flatten. Not exactly 0, which would make the matrices singular for raycasting. Two forces act only while flat: one spreads each generation row so names don't overlap, the other clusters siblings together. The camera turns to face the plane and rotation is disabled (`setFlatView`). Everything else, picking included, uses `drawnZ()` for the flattened depth.
+The menu's 2D toggle (or `?view=2d`) eases the graph's z scale towards about 0, squashing the house planes flat. Each person object is counter-scaled so spheres stay round; links, sibling lines and guides simply flatten. Not exactly 0, which would make the matrices singular for raycasting. Links become right-angled connectors while flat (the menu's **Right-angles**, shown only in 2D, switches back to straight), each family's bars at its own height (`Node.lane`, four lanes per row) so neighbouring families' bars don't overlap. The camera turns to face the plane and rotation is disabled (`setFlatView`). Everything else, picking included, uses `drawnZ()` for the flattened depth.
 
 ### Switching trees and the camera
 
@@ -394,7 +398,7 @@ Before any of that it collects every descendant of each collapsed person into a 
 
 **Escape**, in order: end a tour, close a suggestion list, close the finder, deselect, clear a house, clear a group. Dialogs close themselves (native `<dialog>`).
 
-**URL state** (`url.ts`). `?saga`, `person`, `with`, `house`, `view=2d|3d` and `siblings=apart` (left out for the default, `together`). Selecting a new person adds a history entry; everything else uses `replaceState`. A person (or pair) wins over a house. At start-up, `?saga` picks the saga; a person, pair or house is applied after 1.5 s, once the layout has placed nodes and built the objects a highlight dims. An imported file has nothing shareable, so its URL keeps only `view`.
+**URL state** (`url.ts`). `?saga`, `person`, `with`, `house`, and `view=2d|3d`. Selecting a new person adds a history entry; everything else uses `replaceState`. A person (or pair) wins over a house. At start-up, `?saga` picks the saga; a person, pair or house is applied after 1.5 s, once the layout has placed nodes and built the objects a highlight dims. An imported file has nothing shareable, so its URL keeps only `view`.
 
 **Idle throttling.** A settled tree that nobody touches was redrawn 60 times a second for nothing. Each frame `app.ts` compares a cheap fingerprint (camera, orbit target and a stride of node positions, to one decimal); while it changes, or for 600 ms after any input, frames run at full rate. Once still, whole frames are skipped down to `quality.idleFps`. Any pointer, key, wheel or resize wakes it. Comparing real state rather than trusting "moving" flags means a forgotten flag can never freeze the view. Measured idle frames over 2 s: low 19–20 (was 48–51), medium 37, high 25.
 

@@ -38,7 +38,7 @@ export const state = {
     focus: "off" as Focus,
     focusDepth: 0, // generations up and down that focus mode shows; 0 = all
     view2d: false, // ?view=2d|3d, 3d by default
-    siblings: "together" as SiblingMode, // ?siblings=apart keeps couples on one row instead of siblings
+    siblings: "together" as SiblingMode, // always: brothers and sisters share a row (the "apart" mode is unused)
 };
 
 // What to light up, in priority order: a relationship path; a house from the legend; the selected (or hovered)

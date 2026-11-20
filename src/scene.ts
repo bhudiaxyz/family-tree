@@ -105,11 +105,16 @@ export function setSky(tex: THREE.Texture | null): void {
     nebulaBackground = tex;
     scene.background = tex ?? fallbackBackground;
 }
-/** Keep the fog band just behind what you're looking at: starts a little past the orbit target. */
+/**
+ * Depth shading: people darken the further back they are, and brighten as rotating brings them forward. The band
+ * starts a little in front of the orbit target and is sized to the tree's depth (about 175 units of house planes),
+ * not the camera distance: at 2.4× the distance (as it was) the back of the tree was hardly fogged at all.
+ */
+const FOG_DEPTH = 320; // world units behind the start of the band at which fog is complete
 export function updateFog(): void {
     const d = camera.position.distanceTo(controls.target);
-    fog.near = d * 0.9;
-    fog.far = d * 2.4 + 120;
+    fog.near = d * 0.85;
+    fog.far = d + FOG_DEPTH;
 }
 
 // 50° keeps perspective (and so pan parallax) visible without fish-eye distortion at the tree edges.

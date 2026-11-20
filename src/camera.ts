@@ -41,13 +41,19 @@ export function takeCamera(): void {
 }
 controls.addEventListener("start", takeCamera);
 
-/** Ease back to the whole tree (after loading a saga, deselecting, or the pad's fit button). */
-export function fitTree(): void {
+/**
+ * Ease back to the whole tree (after loading a saga, deselecting, or the pad's fit button). With `top`, a tree much
+ * taller than the screen (the Bible's 78 rows) is framed by its width from the oldest rows down, rather than shrunk
+ * to a sliver; Page Down then walks down it. Only a fresh load asks for that; F and ◯ still show everything.
+ */
+export function fitTree(top = false): void {
     flight = null;
     glide = null;
     fitGroup = null;
+    fitTop = top;
     autoFit = true;
 }
+let fitTop = false;
 
 /** Ease to frame just these people (a person and their immediate family), keeping the current viewing angle. */
 export function fitPeople(nodes: Pos[]): void {
@@ -103,7 +109,9 @@ export function setViewInsets(top: number, bottom: number): void {
 const center = new THREE.Vector3();
 const goal = new THREE.Vector3();
 const offset = new THREE.Vector3();
-function stepFit(bbox: Bbox, dt: number) {
+const TALL = 2; // a tree needing over twice the distance for its height as for its width counts as tall...
+const TALL_MIN_H = 480; // ...and is then framed at least this high (six rows), from its top
+function stepFit(bbox: Bbox, dt: number, top: boolean) {
     const { x, y, z } = bbox;
     center.set((x[0] + x[1]) / 2, (y[0] + y[1]) / 2, (z[0] + z[1]) / 2);
     const tanHalf = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2);
@@ -113,7 +121,14 @@ function stepFit(bbox: Bbox, dt: number) {
     const free = Math.max(0.25, (viewH - insetTop - insetBottom) / viewH);
     const fitH = (y[1] - y[0]) / 2 / (tanHalf * free);
     const fitW = (x[1] - x[0]) / 2 / (tanHalf * camera.aspect);
-    const dist = Math.max(fitH, fitW) * FIT_MARGIN;
+    let dist = Math.max(fitH, fitW) * FIT_MARGIN;
+    if (top && fitH > TALL * fitW) {
+        // Tall: fit the width (or six rows, if narrower still) and put the oldest row at the top of the free band.
+        // Never further out than the plain fit: a short narrow tree (Dune's 5 rows) counts as tall, and six rows
+        // there were taller than the whole tree, which zoomed most sagas' first view out instead of in.
+        dist = Math.min(dist, Math.max(fitW, TALL_MIN_H / 2 / (tanHalf * free)) * FIT_MARGIN);
+        center.y = y[1] - dist * tanHalf * free;
+    }
     // Centre the box in the free band, not the whole view: move the target by the band's offset from the view centre.
     // At distance `dist` the view spans 2·dist·tanHalf world units vertically; the band's centre sits
     // (insetBottom - insetTop) / 2 px above the view's centre.
@@ -215,7 +230,8 @@ export function nudgeRotate(dir: Dir): void {
 /** Advance all camera behaviour by one frame. `bbox` is only read while auto-fitting. */
 export function stepCamera(dt: number, bbox: () => Bbox | null): void {
     const box = autoFit ? (fitGroup ? groupBox(fitGroup) : bbox()) : null;
-    if (box) stepFit(box, dt);
+    // A box with a NaN in it (a node not yet placed) would put the camera at NaN, and it never recovers: skip it.
+    if (box && [...box.x, ...box.y, ...box.z].every(Number.isFinite)) stepFit(box, dt, fitTop && !fitGroup);
     stepFlight(dt);
     stepGlide(dt);
     stepPan(dt);

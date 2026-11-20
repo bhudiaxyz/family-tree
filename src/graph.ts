@@ -20,19 +20,21 @@ import {
     disposeObject,
     graph,
     isShown,
+    LANES,
     type Link,
+    linkResolution,
     markLayoutRunning,
     type Node,
     useTree,
 } from "./graph/core.ts";
-import { drawnZ, setSiblingGroups, stepFlat } from "./graph/flat.ts";
+import { drawnZ, setCouples, setFamilies, setSiblingGroups, stepFlat } from "./graph/flat.ts";
 import { setGuides, stepGuides } from "./graph/guides.ts";
 import { clearFocus, stepFades } from "./graph/highlight.ts";
 import { declutter, fadeLabels, stepNames } from "./graph/names.ts";
 import { setSiblings, updateSiblings } from "./graph/siblings.ts";
 
-export { graph, isShown, layoutRunning, type Node } from "./graph/core.ts";
-export { drawnZ, setFlat } from "./graph/flat.ts";
+export { endId, graph, isShown, layoutRunning, type Link, type Node } from "./graph/core.ts";
+export { drawnZ, setFlat, setRightAngles } from "./graph/flat.ts";
 export { generationRows, onRowPicked, setGuidesVisible } from "./graph/guides.ts";
 export { type HighlightOptions, highlight, setFolded } from "./graph/highlight.ts";
 export { setFoldBadges, setRelativeTags } from "./graph/names.ts";
@@ -53,9 +55,21 @@ export function showTree(t: Tree, mode: SiblingMode = "together"): void {
     rowCount = rows + 1;
     const y = (g: number) => (rows / 2 - g) * GEN_GAP;
 
-    const nodes: Node[] = Object.entries(t.people).map(([id, p]) => ({ id, ...p, fy: y(gen.get(id)!) }));
+    const seed = seedX(t, gen);
+    const nodes: Node[] = Object.entries(t.people).map(([id, p]) => ({
+        id,
+        ...p,
+        fy: y(gen.get(id)!),
+        // Seeded in family order (seedX). All three must be set: d3 re-places a node at random if any is missing, and
+        // a frame drawn before d3's first tick would frame the camera on an undefined y (NaN: a blank view for good).
+        x: seed.get(id),
+        y: y(gen.get(id)!),
+        z: 0,
+    }));
+    const mean = (ids: string[]) => ids.reduce((s, id) => s + seed.get(id)!, 0) / ids.length;
     const links: Link[] = [];
     const pairs: [string, string][] = [];
+    const lanesUsed = new Map<number, number>(); // per parent row
     t.families.forEach((f, i) => {
         // One parent and no children (common in imported GEDCOM files) is a link to a dot leading nowhere: skip it.
         if (f.parents.length + f.children.length < 2) return;
@@ -65,7 +79,17 @@ export function showTree(t: Tree, mode: SiblingMode = "together"): void {
             : f.children.length
               ? Math.min(...f.children.map((c) => gen.get(c)!)) - 1
               : 0;
-        nodes.push({ id: u, fy: y(parentRow + 0.5) });
+        // Families on the same row take bar lanes in turn (file order keeps neighbours apart), for 2D connectors.
+        const lane = lanesUsed.get(parentRow) ?? 0;
+        lanesUsed.set(parentRow, lane + 1);
+        nodes.push({
+            id: u,
+            fy: y(parentRow + 0.5),
+            lane: lane % LANES,
+            x: mean([...f.parents, ...f.children]),
+            y: y(parentRow + 0.5),
+            z: 0,
+        });
         for (const p of f.parents) links.push({ source: p, target: u, kind: "spouse", label: parentLabel(t, p, f) });
         for (const c of f.children) links.push({ source: u, target: c, kind: "child", label: childLabel(t, c, f) });
         // Chain consecutive siblings rather than all pairs, to keep large families readable.
@@ -75,17 +99,84 @@ export function showTree(t: Tree, mode: SiblingMode = "together"): void {
     // Free the previous tree's per-node materials and label textures before the library drops the objects.
     for (const n of boundNodes()) disposeObject(n.__threeObj);
     for (const l of boundLinks()) {
-        disposeObject(l.__lineObj?.children[1]);
+        disposeObject(l.__lineObj); // the line's material and buffer, and the label
         disposeObject(l.__photonsObj?.children[0]); // the dots share one material per link
     }
 
     const byId = new Map(nodes.map((n) => [n.id, n]));
     setSiblingGroups(t.families.filter((f) => f.children.length > 1).map((f) => f.children.map((c) => byId.get(c)!)));
+    setCouples(
+        t.families
+            .filter((f) => f.parents.length === 2 && gen.get(f.parents[0]) === gen.get(f.parents[1]))
+            .map((f) => [byId.get(f.parents[0])!, byId.get(f.parents[1])!])
+    );
+    setFamilies(
+        t.families
+            .filter((f) => f.parents.length && f.children.length)
+            .map((f) => ({
+                parents: f.parents.map((p) => byId.get(p)!),
+                children: f.children.map((c) => byId.get(c)!),
+            }))
+    );
     setSiblings(t, byId, pairs);
     setGuides(rows, y);
     markLayoutRunning();
     graph.graphData({ nodes, links });
     clearFocus();
+}
+
+// --- Starting order along each row ----------------------------------------------------------------------------------
+// The forces only nudge people sideways, and names can't pass through each other (spreadRows), so whatever order the
+// layout starts in is roughly the order it ends in. Started at random, couples were split by strangers and brothers
+// and sisters scattered. So each row starts in family order: walk the tree from the oldest row down; a person is
+// placed with their spouses beside them, and each family's children are placed together, in the order of their
+// parents above, so a couple starts over its own children. A new group (not a spouse or sibling of the one before)
+// starts SEED_GROUP further along. Each row is then centred. The forces refine this; they don't have to find it.
+const SEED_STEP = 26; // world units between neighbours in a group
+const SEED_GROUP = 34; // extra space before a new group
+function seedX(t: Tree, gen: Map<string, number>): Map<string, number> {
+    const asParent = new Map<string, Tree["families"]>();
+    for (const f of t.families) for (const p of f.parents) asParent.set(p, [...(asParent.get(p) ?? []), f]);
+    const isChild = new Set(t.families.flatMap((f) => f.children));
+    const spouses = (id: string) =>
+        (asParent.get(id) ?? []).flatMap((f) => f.parents).filter((p) => p !== id && gen.get(p) === gen.get(id));
+    const x = new Map<string, number>();
+    const next = new Map<number, number>(); // the next free x on each row
+    const place = (id: string, newGroup: boolean) => {
+        if (x.has(id)) return;
+        const row = gen.get(id)!;
+        const at = next.get(row);
+        const pos = at === undefined ? 0 : at + (newGroup ? SEED_GROUP : 0);
+        x.set(id, pos);
+        next.set(row, pos + SEED_STEP);
+        for (const s of spouses(id)) place(s, false);
+    };
+    const ids = Object.keys(t.people);
+    const done = new Set<Tree["families"][number]>();
+    for (let row = 0; row <= Math.max(0, ...gen.values()); row++) {
+        const inRow = ids.filter((id) => gen.get(id) === row);
+        // People with no parents recorded, unless they married someone who has (they're placed beside them).
+        for (const id of inRow) if (!isChild.has(id) && spouses(id).every((s) => !isChild.has(s))) place(id, true);
+        for (const id of inRow) place(id, true); // anyone still left (a spouse placed nowhere else)
+        for (const id of inRow.sort((a, b) => x.get(a)! - x.get(b)!))
+            for (const f of asParent.get(id) ?? []) {
+                if (done.has(f)) continue;
+                done.add(f);
+                f.children.forEach((c, i) => place(c, i === 0));
+            }
+    }
+    for (const id of ids) place(id, true); // defensive: anyone without a row walk (shouldn't happen)
+    const span = new Map<number, [number, number]>();
+    for (const [id, v] of x) {
+        const r = gen.get(id)!;
+        const [lo, hi] = span.get(r) ?? [v, v];
+        span.set(r, [Math.min(lo, v), Math.max(hi, v)]);
+    }
+    for (const [id, v] of x) {
+        const [lo, hi] = span.get(gen.get(id)!)!;
+        x.set(id, v - (lo + hi) / 2);
+    }
+    return x;
 }
 
 /**
@@ -116,7 +207,7 @@ export function peopleBbox(): { x: [number, number]; y: [number, number]; z: [nu
         const grow = Math.max(0, min - (hi - lo)) / 2;
         return [lo - grow, hi + grow];
     };
-    return { x: atLeast([x[0] - 6, x[1] + 6], MIN_FRAME_W), y: atLeast([y[0] - 9, y[1] + 12], MIN_FRAME_H), z };
+    return { x: atLeast([x[0] - 6, x[1] + 6], MIN_FRAME_W), y: atLeast([y[0] - 9, y[1] + 16], MIN_FRAME_H), z };
 }
 const MIN_FRAME_W = 120; // world units; a generation row is 80 apart
 const MIN_FRAME_H = 100;
@@ -133,6 +224,7 @@ export function stepGraph(
     viewW: number,
     viewH: number
 ): void {
+    linkResolution.set(viewW, viewH); // fat link lines are sized in CSS px against this
     graph.tickFrame();
     stepFlat(dt);
     updateSiblings();

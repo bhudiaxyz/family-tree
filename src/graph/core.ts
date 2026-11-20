@@ -2,23 +2,39 @@
 //
 // What it does: defines how a person, union (marriage) node, link, link label and particle look (nodeThreeObject etc.),
 // configures the physics (charge range, per-house depth pull, fast cooldown) and exposes helpers for the other files.
+// Links are our own objects (a fat screen-space line plus its label): straight in 3D, right-angled elbows in 2D.
 // Usage: every other file in src/graph/ builds on this one; src/graph.ts calls useTree() and re-exports graph, isShown
 // and Node. Exports include graph, Node/Link/Bound types, boundNodes/boundLinks, nameOf, disposeObject, approach.
 // Notes: useTree() must run before graphData(). Per-object materials (not the library's shared ones) are essential,
 // because highlight.ts fades each object separately. The userData flags set here (isName, isTag, isPathRing,
-// isLineRing, isUnion, isUnionRing, personId) are read by highlight.ts, names.ts and picking: keep them in sync.
+// isLineRing, isUnion, isUnionRing, personId, isLinkLine, link) are read by highlight.ts, names.ts and picking: keep
+// them in sync. A link object is a Group of [line, label, glow], in that order (highlight.ts and names.ts index it).
+// linkResolution must hold the view size in CSS px (stepGraph sets it each frame), or line widths and link picking
+// are wrong.
 
 import * as THREE from "three";
 import { forceZ } from "d3-force-3d";
 import ThreeForceGraph from "three-forcegraph";
 import SpriteText from "three-spritetext";
+import { LineMaterial } from "three/addons/lines/LineMaterial.js";
+import { LineSegments2 } from "three/addons/lines/LineSegments2.js";
+import { LineSegmentsGeometry } from "three/addons/lines/LineSegmentsGeometry.js";
 import { quality } from "../device.ts";
 import type { Tree } from "../data/schema.ts";
 import { houseDepths } from "../family.ts";
 import { disposeLabel, houseBadge, nameLabel, relationLabel } from "../labels.ts";
 import { palette } from "../palettes.ts";
 
-export type Node = { id: string; name?: string; house?: string; x?: number; y?: number; z?: number; fy?: number };
+export type Node = {
+    id: string;
+    name?: string;
+    house?: string;
+    x?: number;
+    y?: number;
+    z?: number;
+    fy?: number;
+    lane?: number; // union nodes only: which bar height its 2D connectors use (see placeLink)
+};
 /** A node while the simulation runs: d3 adds a velocity, which the custom forces (flat.ts) push on. */
 export type SimNode = Node & { vx?: number };
 // The library swaps link source/target ids for node objects once the simulation starts.
@@ -36,6 +52,13 @@ export const approach = (cur: number, target: number, k: number) => cur + (targe
 
 export const DEPTH = 240; // front-to-back spread of the house planes (world units)
 export const LINK_OPACITY = 0.45; // resting opacity of family links (the library default, 0.2, is too faint at a distance)
+// Links are drawn this many CSS px wide at any distance. The old 0.6-unit cylinders thinned to broken, shimmering
+// sub-pixel lines when zoomed out; a screen-space width stays crisp and visible. Path links are wider (highlight.ts).
+export const LINK_PX = 1.6;
+export const NAME_Y = 10; // centre of a person's name label above theirs: two lines, ~8.6 tall (names.ts grows it)
+export const TAG_Y = 17.5; // the "relative to" tag, just above the name (names.ts lifts it as the name grows)
+/** The view size in CSS px, shared by every link material (fat lines need it); set each frame by stepGraph. */
+export const linkResolution = new THREE.Vector2(innerWidth, innerHeight);
 
 // Detail per tier (device.ts): 48×24 ≈ 2,300 triangles per person on high, 20×12 ≈ 480 on low: a 5× saving for old
 // GPUs, with no visible difference at the size spheres appear on a phone.
@@ -59,6 +82,23 @@ function ringTexture(): THREE.CanvasTexture {
     ringTex = new THREE.CanvasTexture(c);
     ringTex.colorSpace = THREE.SRGBColorSpace;
     return ringTex;
+}
+// A soft radial glow, drawn once and shared: the halo behind a selected person or one on a relationship path.
+let haloTex: THREE.CanvasTexture | null = null;
+function haloTexture(): THREE.CanvasTexture {
+    if (haloTex) return haloTex;
+    const c = document.createElement("canvas");
+    c.width = c.height = 64;
+    const g = c.getContext("2d")!;
+    const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grad.addColorStop(0, "rgba(255,255,255,0.9)");
+    grad.addColorStop(0.3, "rgba(255,255,255,0.45)");
+    grad.addColorStop(1, "rgba(255,255,255,0)");
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 64, 64);
+    haloTex = new THREE.CanvasTexture(c);
+    haloTex.colorSpace = THREE.SRGBColorSpace;
+    return haloTex;
 }
 function ring(colour: THREE.ColorRepresentation, size: number, opacity: number): THREE.Sprite {
     const s = new THREE.Sprite(
@@ -109,13 +149,13 @@ export const graph = new ThreeForceGraph<Node, Link>()
         const sphere = new THREE.Mesh(personGeo, mat);
         sphere.userData.personId = n.id; // picked by the raycaster for hover/click
         const label = nameLabel(n.name);
-        label.position.y = 8;
+        label.position.y = NAME_Y;
         label.userData.isName = true;
         // House badge just below the sphere, and a "relative to" tag above the name (filled in by setRelativeTags).
         const badge = houseBadge(n.house!, tree.houseColors[n.house!] ?? palette().unknownHouse);
         badge.position.set(0, -6.2, 0);
         const tag = relationLabel(" ", palette().labels.tag);
-        tag.position.y = 12;
+        tag.position.y = TAG_Y;
         tag.visible = false;
         tag.userData.isTag = true;
         // Ring around the person while they're on a relationship path (faded in by highlight.ts; starts hidden).
@@ -129,25 +169,29 @@ export const graph = new ThreeForceGraph<Node, Link>()
         lineRing.userData.isLineRing = true;
         lineRing.userData.dim = lineRing.userData.dimTarget = 0;
         lineRing.visible = false;
+        // A soft halo in the person's own colour while they're selected or on a relationship path, so they're easy to
+        // find with the Glow (bloom) option off as well. Additive, so it brightens what's behind rather than covers it.
+        const halo = new THREE.Sprite(
+            new THREE.SpriteMaterial({
+                map: haloTexture(),
+                color: tree.houseColors[n.house!] ?? palette().unknownHouse,
+                transparent: true,
+                opacity: 0.9,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending,
+            })
+        );
+        halo.scale.setScalar(22);
+        halo.userData.isHalo = true;
+        halo.userData.dim = halo.userData.dimTarget = 0;
+        halo.visible = false;
         // These never move or resize relative to their person, so compute their local matrices once rather than every
         // frame: three.js otherwise recomposes ~5 matrices per person per frame (measured ~20% of a frame orbiting the
         // Bible). The group itself still updates (the layout moves it, 2D mode counter-scales it). The tag is left
         // automatic because SpriteText rescales itself when its text changes.
-        for (const o of [sphere, label, badge, pathRing, lineRing]) freeze(o);
-        return new THREE.Group().add(sphere, label, badge, tag, pathRing, lineRing);
+        for (const o of [sphere, label, badge, pathRing, lineRing, halo]) freeze(o);
+        return new THREE.Group().add(sphere, label, badge, tag, pathRing, lineRing, halo);
     })
-    // One material per link. The library otherwise shares one material per colour, so dimming one link dimmed every
-    // link of that colour and the last one processed decided them all.
-    .linkMaterial(
-        (l) =>
-            new THREE.MeshLambertMaterial({
-                color: l.kind === "spouse" ? palette().links.spouse : palette().links.child,
-                transparent: true,
-                opacity: LINK_OPACITY,
-                depthWrite: false,
-            })
-    )
-    .linkWidth(0.6)
     .linkDirectionalParticles((l) => (l.kind === "child" ? 2 : 0))
     // Own material per link (the library shares one per colour), so a link's dots fade with its highlight.
     // Same look as the library default: 0.6 radius, 4 segments, at opacity 0.6; colour from the palette.
@@ -158,27 +202,127 @@ export const graph = new ThreeForceGraph<Node, Link>()
                 new THREE.MeshLambertMaterial({ color: palette().particle, transparent: true, opacity: 0.6 })
             )
     )
-    .linkThreeObjectExtend(true)
-    .linkThreeObject((l) =>
-        relationLabel(l.label, l.kind === "spouse" ? palette().labels.spouse : palette().labels.child)
-    )
-    // A label sits beside the person it describes: "son"/"daughter" near the child, "father"/"mother"/"wife" near the
-    // parent, at most LABEL_REACH along the link. On an ordinary link (half a row, 40 units) that's its midpoint, as
-    // before. A link across several rows (Ginny sits with Harry, two rows below Arthur and Molly) used to put its
-    // label at the midpoint, among her brothers, where "daughter" read as Bill's.
-    .linkPositionUpdate((label, { start, end }, l) => {
-        const near = l.kind === "child" ? end : start; // child links run union → child; spouse links parent → union
-        const far = near === end ? start : end;
-        const len = Math.hypot(far.x! - near.x!, far.y! - near.y!, far.z! - near.z!);
-        const t = len > 0 ? Math.min(0.5, LABEL_REACH / len) : 0.5;
-        label.position.set(
-            near.x! + (far.x! - near.x!) * t,
-            near.y! + (far.y! - near.y!) * t,
-            near.z! + (far.z! - near.z!) * t
-        );
-        return false; // still let the library position the default line
+    // Our own link object, replacing the library's cylinder: [line, label]. The line is a fat screen-space line
+    // (LineSegments2) with its own material, so each link fades on its own (the library shares one per colour) and
+    // keeps a constant pixel width at any zoom. It is raycastable, so links can be hovered and clicked (picking.ts).
+    .linkThreeObjectExtend(false)
+    .linkThreeObject((l) => {
+        const line = linkLine(l);
+        const label = relationLabel(l.label, l.kind === "spouse" ? palette().labels.spouse : palette().labels.child);
+        return new THREE.Group().add(line, label, linkGlow(line));
+    })
+    .linkPositionUpdate((obj, { start, end }, l) => {
+        const [line, label] = obj.children as [LineSegments2, THREE.Object3D];
+        placeLink(line, label, start, end, l);
+        return true; // fully placed here: the library has no default line to update
     });
-const LABEL_REACH = 20; // world units along a link from its person; half an ordinary link (a union sits 40 below)
+
+function linkLine(l: Link): LineSegments2 {
+    const geometry = new LineSegmentsGeometry();
+    geometry.setPositions(new Float32Array(SEGMENTS * 6)); // written in place by placeLink
+    const material = new LineMaterial({
+        color: l.kind === "spouse" ? palette().links.spouse : palette().links.child,
+        linewidth: LINK_PX,
+        transparent: true,
+        opacity: LINK_OPACITY,
+        depthWrite: false,
+        fog: true,
+    });
+    material.uniforms.resolution.value = linkResolution; // one shared vector, updated each frame
+    material.userData.base = material.color.clone(); // highlight.ts tints towards gold from this
+    const line = new LineSegments2(geometry, material);
+    line.userData.isLinkLine = true;
+    line.userData.ownGeometry = true; // disposeObject frees it (other geometries are shared)
+    line.userData.link = l; // picking.ts: which link the pointer is on
+    return line;
+}
+
+/**
+ * A wide, faint, additive copy of a link line (sharing its buffer), shown under a relationship path so the route
+ * glows without the Glow option. Hidden at rest; highlight.ts fades it with the path.
+ */
+function linkGlow(line: LineSegments2): LineSegments2 {
+    const material = new LineMaterial({
+        color: palette().links.pathGlow,
+        linewidth: LINK_PX * 6,
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        fog: true,
+    });
+    material.uniforms.resolution.value = linkResolution;
+    const glow = new LineSegments2(line.geometry, material);
+    glow.userData.isLinkLine = true; // faded by highlight.ts's link pass, not the generic one
+    glow.visible = false;
+    return glow;
+}
+
+// --- Where a link and its label go -----------------------------------------------------------------------------------
+// Every link is three segments (four points), so its buffer never needs resizing: in 3D a straight line split in
+// thirds; in 2D a right-angled family-tree connector. In 2D a parent drops from under their badge and runs across to
+// the union, so a couple reads as joined by a bar; a child link drops below the union, runs across to above the child
+// and down to just over their name, so brothers and sisters hang off one shared bar.
+// Lanes: if every couple's bar sat at its union's height (and every sibling bar the same drop below it), neighbouring
+// families' horizontal runs lay on top of each other and you couldn't tell whose mother line was whose. So each
+// family on a row gets a lane (graph.ts assigns them in turn, `Node.lane`), and its bars sit at that lane's height.
+const SEGMENTS = 3;
+const BELOW_BADGE = 8; // a parent's line starts under their house badge (it sits 6.2 below centre, 3.2 across)
+const ABOVE_NAME = 15.5; // a child's line ends above their name (two lines centred on NAME_Y)
+const BAR_DROP = 12; // the sibling bar sits at least this far below the union
+export const LANES = 4; // bar heights per row, so up to four neighbouring families' bars never coincide
+const LANE_GAP = 4; // world units between lanes (a row is 80; the union sits 40 below its parents)
+const LABEL_REACH = 20; // world units along a straight link from its person; half an ordinary link
+let elbows = false;
+/** Draw links as right-angled connectors (2D) or straight (3D). Called by flat.ts; takes effect as the layout runs. */
+export const setElbowLinks = (on: boolean) => (elbows = on);
+
+const pts = new Float32Array((SEGMENTS + 1) * 3);
+const put = (i: number, x: number, y: number, z: number) => pts.set([x, y, z], i * 3);
+function placeLink(line: LineSegments2, label: THREE.Object3D, start: Pos, end: Pos, l: Link): void {
+    const [a, b] = [start as Required<Pos>, end as Required<Pos>];
+    const kind = l.kind;
+    const union = kind === "spouse" ? l.target : l.source;
+    const lane = typeof union === "string" ? 0 : (union.lane ?? 0);
+    if (elbows && kind === "child") {
+        // a = union, b = child; the sibling bar drops further below the union the higher its family's lane
+        const top = b.y + ABOVE_NAME;
+        const bar = Math.max(top, a.y - BAR_DROP - lane * LANE_GAP);
+        put(0, a.x, a.y, a.z);
+        put(1, a.x, bar, a.z);
+        put(2, b.x, bar, b.z);
+        put(3, b.x, top, b.z);
+        label.position.set(b.x, (bar + top) / 2, b.z);
+    } else if (elbows) {
+        // a = parent, b = union: down from the parent to the family's lane, across, and up or down into the union
+        const from = a.y - BELOW_BADGE;
+        const bar = b.y + (lane - (LANES - 1) / 2) * LANE_GAP;
+        put(0, a.x, from, a.z);
+        put(1, a.x, bar, a.z);
+        put(2, b.x, bar, b.z);
+        put(3, b.x, b.y, b.z);
+        label.position.set(a.x, (from + bar) / 2, a.z);
+    } else {
+        for (let i = 0; i <= SEGMENTS; i++) {
+            const t = i / SEGMENTS;
+            put(i, a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t, a.z + (b.z - a.z) * t);
+        }
+        // A label sits beside the person it describes: "son"/"daughter" near the child, "father"/"mother"/"wife" near
+        // the parent, at most LABEL_REACH along the link. On an ordinary link (half a row, 40 units) that's its
+        // midpoint. A link across several rows (Ginny sits with Harry, two rows below Arthur and Molly) used to put
+        // its label at the midpoint, among her brothers, where "daughter" read as Bill's.
+        const [near, far] = kind === "child" ? [b, a] : [a, b]; // child links run union → child; spouse parent → union
+        const len = Math.hypot(far.x - near.x, far.y - near.y, far.z - near.z);
+        const t = len > 0 ? Math.min(0.5, LABEL_REACH / len) : 0.5;
+        label.position.set(near.x + (far.x - near.x) * t, near.y + (far.y - near.y) * t, near.z + (far.z - near.z) * t);
+    }
+    // Segment s runs from point s to point s + 1, so the interleaved buffer is the points with each inner one twice.
+    const start3 = line.geometry.attributes.instanceStart as THREE.InterleavedBufferAttribute;
+    const buf = start3.data.array as Float32Array;
+    for (let s = 0; s < SEGMENTS; s++) for (let j = 0; j < 6; j++) buf[s * 6 + j] = pts[s * 3 + j];
+    start3.data.needsUpdate = true;
+    line.geometry.computeBoundingSphere(); // culling and picking use it
+}
 
 // Unbounded repulsion drives disconnected families apart forever; cap its range so the tree stays compact.
 graph.d3Force("charge")!.distanceMax(120);
@@ -210,10 +354,11 @@ export const isShown = (n: Node & Bound) => (n.__threeObj?.userData.dimTarget ??
 export const nameOf = (n: Node & Bound) =>
     n.__threeObj?.children.find((c) => c.userData.isName) as SpriteText | undefined;
 
-/** Free an object's per-object materials and label textures (shared geometries and badge textures are kept). */
+/** Free an object's per-object materials, label textures and link buffers (shared geometries and badges are kept). */
 export function disposeObject(obj: THREE.Object3D | undefined): void {
     obj?.traverse((o) => {
         if (o instanceof SpriteText) return disposeLabel(o);
+        if (o.userData.ownGeometry) (o as THREE.Mesh).geometry.dispose(); // a link's line buffer
         // Disposing a SpriteMaterial leaves its shared (cached badge) texture alone.
         ((o as THREE.Mesh).material as THREE.Material | undefined)?.dispose();
     });

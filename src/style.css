@@ -596,6 +596,42 @@ header {
     color: var(--ink);
 }
 
+/* ── Off-screen pointer: at the screen edge, towards the selected person when they're out of view (navigate.ts) ── */
+#offscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 200px;
+    padding: 4px 10px 4px 6px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm);
+    font: 700 var(--text-sm) var(--fd);
+    color: var(--gold-bright);
+    cursor: pointer;
+}
+#offscreen[hidden] {
+    display: none;
+}
+#offscreen:hover,
+#offscreen:focus-visible {
+    background: var(--surface-hover);
+}
+#offscreen .arrow {
+    display: inline-block;
+    color: var(--gold);
+}
+#offscreen .name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 /* ── House legend: a "Houses" folder in the menu (ui/legend.ts) ──────────────────────────────────────────── */
 #legend-list {
     max-height: 40vh;
@@ -878,6 +914,10 @@ body.no-3d #pad {
     --hover-color: var(--surface-hover);
     --focus-color: var(--surface-active);
     --widget-border-radius: var(--radius);
+}
+/* A faint outline, so an unticked box doesn't vanish into the menu's background. */
+.lil-gui input[type="checkbox"] {
+    box-shadow: inset 0 0 0 1px var(--line);
 }
 .lil-gui.lil-root {
     border: 1px solid var(--panel-border);

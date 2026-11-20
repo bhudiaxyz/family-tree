@@ -2,9 +2,10 @@
 //
 // What it does: frames the selected person's family (`fitFamily`), zooms by steps (`zoomIn`, `zoomOut`), moves a
 // generation at a time (`goToGeneration`, `stepGeneration`), keeps pinned people (`pinned`, `togglePin`,
-// `onPinsChanged`) and remembers the view per saga (`rememberView`, `restoreView`).
-// Usage: input.ts (keys, touch pad), panel.ts (fit, pins), sagas.ts (views, pin list). The camera moves themselves
-// are in camera.ts.
+// `onPinsChanged`), remembers the view per saga (`rememberView`, `restoreView`) and points to the selected person
+// when they're off screen (`stepOffscreen`).
+// Usage: input.ts (keys, touch pad), panel.ts (fit, pins), sagas.ts (views, pin list), app.ts (stepOffscreen each
+// frame). The camera moves themselves are in camera.ts.
 // Notes: pins are stored per saga in localStorage ("ft.pins.<saga>") and filtered to people still in the tree. The
 // remembered views are kept in memory only, so a fresh visit or shared link starts from the whole tree. Clicking a
 // generation row in the scene calls goToGeneration (via onRowPicked, registered at import time).
@@ -12,10 +13,10 @@
 import * as THREE from "three";
 import { fitPeople, glideTo, setViewInsets, viewState, zoomBy } from "../camera.ts";
 import { immediateFamily } from "../family.ts";
-import { generationRows, nodeById, onRowPicked } from "../graph.ts";
+import { drawnZ, generationRows, nodeById, onRowPicked } from "../graph.ts";
 import { camera, controls } from "../scene.ts";
-import { panel, relatePanel } from "./dom.ts";
-import { state } from "./state.ts";
+import { $, panel, relatePanel } from "./dom.ts";
+import { flyToPerson, state } from "./state.ts";
 
 // --- Fit the family: the selected person with their parents, siblings, spouses and children -------------------------
 export function fitFamily(): void {
@@ -94,6 +95,8 @@ export function restoreView(saga: string): boolean {
 // covered and tell the camera. A full-width panel (phones) covers the bottom outright; a desktop card in the lower
 // left counts for a third of its height, enough to lift the youngest row clear of it.
 const header = document.querySelector("header");
+let coverTop = 0; // the insets in CSS px, also kept for the off-screen pointer
+let coverBottom = 0;
 function measureInsets(): void {
     const top = header?.getBoundingClientRect().bottom ?? 0;
     let bottom = 0;
@@ -105,7 +108,9 @@ function measureInsets(): void {
         // little above it, without shrinking the view by the card's whole height.
         bottom = Math.max(bottom, r.width > innerWidth / 3 ? covered : covered / 3);
     }
-    setViewInsets(top + 8, bottom ? bottom + 8 : 0);
+    coverTop = top + 8;
+    coverBottom = bottom ? bottom + 8 : 0;
+    setViewInsets(coverTop, coverBottom);
 }
 const watch = new ResizeObserver(measureInsets);
 for (const el of [header, panel, relatePanel]) if (el) watch.observe(el);
@@ -114,3 +119,48 @@ addEventListener("resize", measureInsets);
 new MutationObserver(measureInsets).observe(panel, { attributes: true, attributeFilter: ["hidden"] });
 new MutationObserver(measureInsets).observe(relatePanel, { attributes: true, attributeFilter: ["hidden"] });
 measureInsets();
+
+// --- Off-screen pointer: when the selected person is out of view, a chip at the screen edge points to them --------
+// On a big tree (the Bible's 78 rows) it's easy to pan away and lose whoever you were looking at. Click it to fly
+// back. Called every drawn frame by app.ts; it only touches the DOM when what it shows changes.
+const offscreen = $<HTMLButtonElement>("offscreen");
+const offArrow = offscreen.querySelector<HTMLElement>(".arrow")!;
+const offName = offscreen.querySelector<HTMLElement>(".name")!;
+offscreen.onclick = () => state.selected && flyToPerson(state.selected);
+const proj = new THREE.Vector3();
+const EDGE = 0.92; // inside this much of the view (in NDC) counts as on screen
+let shownAt = "";
+export function stepOffscreen(): void {
+    const node = state.selected ? nodeById(state.selected) : undefined;
+    if (!node || node.x === undefined) return hideOffscreen();
+    proj.set(node.x, node.y!, drawnZ(node.z!)).project(camera);
+    // Behind the camera the projection comes out mirrored: flip it so the arrow still points the right way.
+    const behind = proj.z > 1;
+    const [x, y] = behind ? [-proj.x, -proj.y] : [proj.x, proj.y];
+    if (!behind && Math.abs(x) < EDGE && Math.abs(y) < EDGE) return hideOffscreen();
+    // Push the direction out to the edge of the view, then keep the chip inside it and clear of the header and panel.
+    const s = 1 / Math.max(Math.abs(x), Math.abs(y), 1e-6);
+    const w = offscreen.offsetWidth || 120;
+    const h = offscreen.offsetHeight || 28;
+    const left = THREE.MathUtils.clamp(((x * s + 1) / 2) * innerWidth - w / 2, 8, innerWidth - w - 8);
+    const top = THREE.MathUtils.clamp(
+        ((1 - y * s) / 2) * innerHeight - h / 2,
+        coverTop,
+        innerHeight - coverBottom - h - 8
+    );
+    const angle = Math.atan2(-y, x); // screen y runs down
+    const name = state.tree!.people[state.selected!].name;
+    const at = `${Math.round(left)},${Math.round(top)},${angle.toFixed(2)},${name}`;
+    if (at === shownAt) return;
+    shownAt = at;
+    offName.textContent = name;
+    offscreen.title = `${name} is off screen: fly back to them`;
+    offArrow.style.transform = `rotate(${angle}rad)`;
+    offscreen.style.transform = `translate(${Math.round(left)}px, ${Math.round(top)}px)`;
+    offscreen.hidden = false;
+}
+function hideOffscreen(): void {
+    if (offscreen.hidden) return;
+    offscreen.hidden = true;
+    shownAt = "";
+}

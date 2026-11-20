@@ -1,7 +1,8 @@
 // Names: label visibility, i.e. distance fade, name de-overlap, and the "relative to" tags above each person.
 //
 // What it does: fadeLabels() fades relationship labels with camera distance; declutter() hides names that collide on
-// screen, keeping highlighted people and then the nearest; stepNames() eases name and tag opacity each frame;
+// screen, keeping highlighted people and then the nearest, and grows highlighted names that would be too small to
+// read (userData.baseScale is a name's resting size); stepNames() eases name size, name and tag opacity each frame;
 // setRelativeTags() and setFoldBadges() set the small tag text above a person (a fold badge wins).
 // Usage: all called from graph.ts (stepGraph) and re-exported for the UI.
 // Notes: declutter runs only every quality.labelDeclutterMs, then visibility eases so names fade rather than pop; its
@@ -12,7 +13,7 @@
 import * as THREE from "three";
 import SpriteText from "three-spritetext";
 import { quality } from "../device.ts";
-import { approach, boundLinks, boundNodes, layoutRunning, nameOf } from "./core.ts";
+import { approach, boundLinks, boundNodes, layoutRunning, NAME_Y, nameOf, TAG_Y } from "./core.ts";
 import { fadesSettled, focus } from "./highlight.ts";
 import { siblingLabels } from "./siblings.ts";
 
@@ -52,19 +53,42 @@ export function fadeLabels(camera: THREE.Camera): void {
     siblingLabels.forEach(fade);
 }
 
+// Names are always shown for anyone on screen: a person faded behind a highlight keeps their name at NAME_FLOOR
+// (other text fades with textDim), scaled down smoothly to nothing only as the person is hidden altogether (focus
+// mode, a collapsed branch), so they never pop.
+const NAME_FLOOR = 0.35;
+const FADED = 0.06; // the dim a selection fades the rest to (ui/state.ts); the floor is full from here up
+const nameDim = (dim: number) => Math.max(textDim(dim), NAME_FLOOR * Math.min(1, dim / FADED));
+
 // --- Name de-overlap ----------------------------------------------------------------------------------------------
-// Names that collide on screen are faded out, keeping the most important one: highlighted people first, then the
-// person nearest the camera. Screen boxes are estimated from the projected label width/height. The layout is
-// recomputed a few times a second (not every frame); visibility then eases, so names fade rather than pop.
+// Names never disappear. Where two collide on screen, the more important keeps full strength (highlighted people
+// first, then the person nearest the camera) and the other is drawn at COLLIDED, still readable but clearly behind.
+// Screen boxes are estimated from the projected label width/height. The layout is recomputed a few times a second
+// (not every frame); opacity then eases, so names fade rather than pop.
 // Placed boxes go in a coarse screen grid, so each name is tested only against boxes in the cells it overlaps rather
 // than every name placed so far (that was O(n²): ~170k comparisons for the Bible's 583 names, several times a second).
 const NAME_GAP = 4; // px of clearance kept between name boxes
+const COLLIDED = 0.4; // strength of a name overlapped by a more important one
+const MIN_NAME_PX = 20; // a lit name (two lines) is grown to at least this many px tall, if it has room...
+const MAX_GROW = 2.5; // ...but never past this many times its own size
 const CELL = 96; // px; about the width of a typical name at the whole-tree zoom
 let declutterAt = 0;
-const nameShown = new WeakMap<SpriteText, number>(); // target opacity per name (0/1)
+const nameShown = new WeakMap<SpriteText, number>(); // target strength per name (1 or COLLIDED)
 const p = new THREE.Vector3();
 const edge = new THREE.Vector3();
-type Box = { s: SpriteText; x0: number; x1: number; y0: number; y1: number; prio: number };
+type Box = {
+    s: SpriteText;
+    x0: number;
+    x1: number;
+    y0: number;
+    y1: number;
+    prio: number;
+    grow: number;
+    cx: number;
+    cy: number;
+    w: number;
+    h: number;
+};
 
 export function declutter(camera: THREE.PerspectiveCamera, viewW: number, viewH: number, now: number): void {
     if (now - declutterAt < quality.labelDeclutterMs) return;
@@ -73,8 +97,9 @@ export function declutter(camera: THREE.PerspectiveCamera, viewW: number, viewH:
     for (const n of boundNodes()) {
         const s = nameOf(n);
         if (!s) continue;
+        s.userData.growTarget = 1;
         const target = (n.__threeObj!.userData.dimTarget ?? 1) as number;
-        if (textDim(target) < 0.02) continue; // hidden, or faded past reading: doesn't take up room
+        if (nameDim(target) < 0.02) continue; // hidden: doesn't take up room
         p.setFromMatrixPosition(s.matrixWorld); // updated by the last render; avoids recomputing every parent
         const depth = p.distanceTo(camera.position);
         edge.copy(p).project(camera);
@@ -83,18 +108,23 @@ export function declutter(camera: THREE.PerspectiveCamera, viewW: number, viewH:
         const cy = ((1 - edge.y) / 2) * viewH;
         // World size of the sprite → pixels at this depth.
         const pxPerUnit = viewH / (2 * depth * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2));
-        const w = s.scale.x * pxPerUnit;
-        const h = s.scale.y * pxPerUnit;
         const lit = focus !== null && focus.has(n.id); // in the highlighted line (its dim may be < 1 by distance)
-        boxes.push({
-            s,
-            x0: cx - w / 2,
-            x1: cx + w / 2,
-            y0: cy - h / 2,
-            y1: cy + h / 2,
-            prio: (lit ? 1e6 : 0) - depth,
-        });
+        // Names in the highlighted line keep a readable size when zoomed out: grown (up to MAX_GROW) so they're at
+        // least MIN_NAME_PX tall, but only where the grown name has room (tested below). Everyone else: world size.
+        const base = (s.userData.baseScale ??= s.scale.clone()) as THREE.Vector3;
+        const grow = lit ? THREE.MathUtils.clamp(MIN_NAME_PX / (base.y * pxPerUnit), 1, MAX_GROW) : 1;
+        const w = base.x * pxPerUnit;
+        const h = base.y * pxPerUnit;
+        boxes.push({ s, cx, cy, w, h, grow, x0: 0, x1: 0, y0: 0, y1: 0, prio: (lit ? 1e6 : 0) - depth });
     }
+    // The box at a given size (it grows upwards from the name's base, like growName does).
+    const size = (b: Box, g: number) => {
+        b.x0 = b.cx - (b.w * g) / 2;
+        b.x1 = b.cx + (b.w * g) / 2;
+        b.y1 = b.cy + b.h / 2;
+        b.y0 = b.y1 - b.h * g;
+        return b;
+    };
     boxes.sort((a, b) => b.prio - a.prio);
     const grid = new Map<number, Box[]>();
     const cells = (b: Box) => {
@@ -108,11 +138,15 @@ export function declutter(camera: THREE.PerspectiveCamera, viewW: number, viewH:
     };
     const overlaps = (b: Box, o: Box) =>
         b.x0 < o.x1 + NAME_GAP && b.x1 > o.x0 - NAME_GAP && b.y0 < o.y1 + NAME_GAP && b.y1 > o.y0 - NAME_GAP;
+    const hits = (b: Box) => cells(b).some((c) => grid.get(c)?.some((o) => overlaps(b, o)));
     for (const b of boxes) {
-        const keys = cells(b);
-        const hit = keys.some((c) => grid.get(c)?.some((o) => overlaps(b, o)));
-        nameShown.set(b.s, hit ? 0 : 1);
-        if (!hit) for (const c of keys) (grid.get(c) ?? grid.set(c, []).get(c)!).push(b);
+        // Grown if that fits, else at its own size; if even that overlaps a stronger name, drawn behind it.
+        let grow = b.grow;
+        if (grow > 1 && hits(size(b, grow))) grow = 1;
+        const hit = hits(size(b, grow));
+        b.s.userData.growTarget = grow;
+        nameShown.set(b.s, hit ? COLLIDED : 1);
+        if (!hit) for (const c of cells(b)) (grid.get(c) ?? grid.set(c, []).get(c)!).push(b);
     }
 }
 
@@ -121,6 +155,7 @@ export function stepNames(dt: number): void {
     for (const n of boundNodes()) {
         const s = nameOf(n);
         if (!s) continue;
+        growName(s, k);
         const want = nameShown.get(s) ?? 1;
         const dim = (n.__threeObj!.userData.dim ?? 1) as number;
         // Skip a name that's already where it should be (most of them, once the view has settled).
@@ -129,7 +164,7 @@ export function stepNames(dt: number): void {
         s.userData.shown = Math.abs(shown - want) < 0.002 ? want : shown;
         s.userData.lastDim = dim;
         s.material.transparent = true;
-        s.material.opacity = (s.userData.shown as number) * textDim(dim);
+        s.material.opacity = (s.userData.shown as number) * nameDim(dim);
         s.visible = s.material.opacity > 0.02;
         // "Relative to" tags fade with their person too (focus mode hides them with the person).
         const tag = tagOf(n.__threeObj!);
@@ -139,6 +174,22 @@ export function stepNames(dt: number): void {
             tag.visible = tag.material.opacity > 0.02;
         }
     }
+}
+
+/** Ease a name towards the size declutter() chose, lifting it so it stays clear of the sphere as it grows. */
+function growName(s: SpriteText, k: number): void {
+    const want = (s.userData.growTarget ?? 1) as number;
+    const now = (s.userData.growNow ?? 1) as number;
+    if (now === want) return;
+    const next = approach(now, want, k);
+    const g = Math.abs(next - want) < 0.005 ? want : next;
+    s.userData.growNow = g;
+    const base = s.userData.baseScale as THREE.Vector3;
+    s.scale.copy(base).multiplyScalar(g);
+    s.position.y = NAME_Y + ((g - 1) * base.y) / 2;
+    s.updateMatrix(); // names don't update their matrix automatically (core.ts freezes them)
+    const tag = s.parent && tagOf(s.parent);
+    if (tag) tag.position.y = TAG_Y + (g - 1) * base.y; // keep the tag above the grown name
 }
 
 /** The tag sprite above a person, cached on their object (looked up every frame otherwise). */

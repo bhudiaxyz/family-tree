@@ -12,9 +12,10 @@
 
 import * as THREE from "three";
 import SpriteText from "three-spritetext";
+import type { LineSegments2 } from "three/addons/lines/LineSegments2.js";
 import type { LineRole } from "../family.ts";
 import { palette } from "../palettes.ts";
-import { approach, boundLinks, boundNodes, endId, graph, type Link, LINK_OPACITY } from "./core.ts";
+import { approach, boundLinks, boundNodes, endId, graph, type Link, LINK_OPACITY, LINK_PX } from "./core.ts";
 import { siblingLabels, siblingMat, siblingPairs, siblings } from "./siblings.ts";
 
 const DIM = 0.12; // opacity of everything outside a highlighted line
@@ -39,6 +40,8 @@ export type HighlightOptions = {
     hideOthers?: boolean;
     /** How far to dim everything outside the highlight (default DIM); a house view fades the rest further. */
     dim?: number;
+    /** The selected person: glows and gets a halo, so they're easy to pick out (a hover preview passes none). */
+    centre?: string | null;
 };
 
 /** People folded away under a collapsed branch: hidden whatever the highlight. Set by the UI (state.collapsed). */
@@ -47,7 +50,7 @@ export const setFolded = (ids: Set<string>) => (folded = ids);
 
 /** Dim everything outside `people` (null clears it); see HighlightOptions for the extras. */
 export function highlight(people: Set<string> | null, opts: HighlightOptions = {}): void {
-    const { roles, path = [], step = null, hideOthers = false, dim = DIM } = opts;
+    const { roles, path = [], step = null, hideOthers = false, dim = DIM, centre = null } = opts;
     focus = people;
     settled = false;
     const out = people && hideOthers ? HIDDEN : dim;
@@ -81,11 +84,17 @@ export function highlight(people: Set<string> | null, opts: HighlightOptions = {
         setTarget(obj, folded.has(n.id) ? HIDDEN : lit(n.id) ? level(n.id) : out);
         if (obj?.userData.isUnion) obj.userData.scaleTarget = people && lit(n.id) ? 1.35 : 1; // couples stand out
         const pathRing = obj?.children.find((c) => c.userData.isPathRing);
-        if (pathRing) pathRing.userData.dimTarget = onPath.has(n.id) && path.length > 1 ? 1 : 0;
+        const pathed = onPath.has(n.id) && path.length > 1;
+        if (pathRing) pathRing.userData.dimTarget = pathed ? 1 : 0;
+        // Halo: the selected person, and everyone on a relationship path (its two ends brighter).
+        const halo = obj?.children.find((c) => c.userData.isHalo);
+        if (halo && !folded.has(n.id))
+            halo.userData.dimTarget =
+                n.id === centre || n.id === path[0] || n.id === path.at(-1) ? 1 : pathed ? 0.55 : 0;
         const sphere = obj?.children[0] as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial> | undefined;
         if (!sphere?.material.emissive) continue;
-        // Glow: the path's people in their own colour, the hovered step's two people brighter.
-        sphere.userData.glow = onStep.has(n.id) ? 1.6 : onPath.has(n.id) && path.length > 1 ? 1 : 0;
+        // Glow: the path's people in their own colour, the hovered step's two people brighter; the selected person too.
+        sphere.userData.glow = onStep.has(n.id) ? 1.6 : pathed ? 1 : n.id === centre ? 0.8 : 0;
         // Direction tint (only for a person's line, not a relationship path, which has its own gold).
         const side = path.length ? undefined : roles?.get(n.id)?.side;
         const tint = side && side !== "self" && side !== "spouse" ? p[side] : null;
@@ -154,6 +163,7 @@ function setTarget(obj: THREE.Object3D | undefined, dim: number) {
 }
 
 const tintColour = new THREE.Color();
+const goldColour = new THREE.Color();
 const stepGold = new THREE.Color();
 
 // Ease every object's dim, glow and tint towards its target. Meshes and lines get opacity directly; labels keep the
@@ -200,24 +210,29 @@ export function stepFades(dt: number): void {
             unionRing.scale.setScalar(3.6 * s);
         }
     }
-    const gold = palette().links.pathGlow;
+    goldColour.set(palette().links.pathGlow);
     stepGold.set(palette().lineage.step);
     for (const l of boundLinks()) {
         fadeObject(l.__lineObj);
         fadeObject(l.__photonsObj); // the travelling dots: the library re-uses the template's material for them
-        // Path links: brighter (full opacity, gold) and thicker than resting links; the hovered step more so.
-        const line = l.__lineObj?.children[0] as
-            THREE.Mesh<THREE.BufferGeometry, THREE.MeshLambertMaterial> | undefined;
+        // Path links: brighter (full opacity, gold) and wider than resting links; the hovered step more so.
+        const line = l.__lineObj?.children[0] as LineSegments2 | undefined;
         if (!line) continue;
-        line.userData.isLinkLine = true;
         const p = ease((line.userData.pathNow ?? 0) as number, (l.__lineObj!.userData.path ?? 0) as number, k);
         line.userData.pathNow = p;
         const dim = (line.userData.dim ?? 1) as number;
+        const m = line.material;
         line.visible = dim > 0.01;
-        line.material.opacity = dim * Math.min(1, LINK_OPACITY + (1 - LINK_OPACITY) * p);
-        line.material.emissive.set(gold).multiplyScalar(0.6 * Math.min(p, 1));
-        if (p > 1) line.material.emissive.lerp(stepGold, Math.min(1, p - 1));
-        line.scale.x = line.scale.y = 1 + 1.6 * p;
+        m.opacity = dim * Math.min(1, LINK_OPACITY + (1 - LINK_OPACITY) * p);
+        m.color.copy(m.userData.base as THREE.Color).lerp(goldColour, Math.min(p, 1));
+        if (p > 1) m.color.lerp(stepGold, Math.min(1, p - 1));
+        m.linewidth = LINK_PX * (1 + 1.6 * p);
+        // The glow line under a path link: faint at rest on the path, stronger on the hovered step.
+        const glow = l.__lineObj!.children[2] as LineSegments2 | undefined;
+        if (glow) {
+            glow.material.opacity = dim * 0.28 * Math.min(p, 1.6);
+            glow.visible = glow.material.opacity > 0.01;
+        }
     }
     siblingLabels.forEach(fadeObject);
     const sd = ease((siblings.userData.dim ?? 1) as number, (siblings.userData.dimTarget ?? 1) as number, k);

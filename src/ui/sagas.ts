@@ -1,6 +1,7 @@
 // Sagas: loading and showing a saga (or an imported tree), the nebula sky behind it, and the menu (lil-gui).
 //
-// What it does: `start()` reads the URL, builds the menu (saga picker, glow, guides, 2D, siblings, nebula, Houses and
+// What it does: `start()` reads the URL, builds the menu (saga picker, glow, guides, 2D, 2D right-angled links,
+// Settings folder (glow, guides, nebula), Houses and
 // Pinned folders) and opens the first saga; `openSaga` loads one; `showImported` shows a GEDCOM file.
 // Usage: app.ts calls start() and rebuildAfterContextLoss(); files.ts calls showImported().
 // Notes: `show()` resets all per-tree state (selection, relationship, group, collapsed, trail, card, panel, palette)
@@ -15,8 +16,7 @@ import { fitTree, setFlatView } from "../camera.ts";
 import type { SagaIndexEntry, Tree } from "../data/schema.ts";
 import { listSagas, loadSaga, sagaTitle } from "../data/source.ts";
 import { houseNamed } from "../family.ts";
-import type { SiblingMode } from "../generations.ts";
-import { setFlat, setGuidesVisible, showTree } from "../graph.ts";
+import { setFlat, setGuidesVisible, setRightAngles, showTree } from "../graph.ts";
 import { fontsReady, resetBadges } from "../labels.ts";
 import { bakeNebula } from "../nebula.ts";
 import { paletteFor, usePalette } from "../palettes.ts";
@@ -106,7 +106,7 @@ function show(t: Tree) {
     title.textContent = t.title;
     author.textContent = t.author;
     controls.reset();
-    if (!restoreView(state.sagaId)) fitTree(); // back to where you were in this saga, else the whole tree
+    if (!restoreView(state.sagaId)) fitTree(true); // back to where you were, else the tree (a tall one from its top)
     showPins();
     writeUrl();
 }
@@ -120,19 +120,6 @@ export function rebuildAfterContextLoss(): void {
     void warmUp(); // every program died with the context
     afterRebuild(); // the new objects start lit and untagged
     scheduleSky(skyId());
-}
-
-/**
- * Re-lay the current tree with siblings together or apart (the menu toggle). The selection, highlight, collapsed
- * branches and relationship stay as they are; people glide to their new rows as the layout settles.
- */
-function setSiblingMode(mode: SiblingMode): void {
-    state.siblings = mode;
-    if (state.sagaId) writeUrl();
-    if (!state.tree) return;
-    showTree(state.tree, mode);
-    fitTree();
-    afterRebuild();
 }
 
 /**
@@ -207,38 +194,50 @@ function buildMenu(sagas: SagaIndexEntry[], first: string, params: URLSearchPara
                 menu.options(Object.fromEntries(sagas.map((x) => [names.get(x.id)!, x.id])));
             })
             .catch(() => {}); // an unreadable saga keeps its id as the label; opening it shows the error
-    // Display options. Glow defaults off on touch devices (GPU/battery); these are remembered between visits.
-    const stored = (k: string, dflt: boolean) => (localStorage.getItem(k) ?? String(dflt)) === "true";
-    const view = { glow: stored("ft.glow", glow), guides: stored("ft.guides", true) };
-    setGlow(view.glow);
-    setGuidesVisible(view.guides);
-    gui.add(view, "glow")
-        .name("Glow")
-        .onChange((on: boolean) => (setGlow(on), localStorage.setItem("ft.glow", String(on))));
-    gui.add(view, "guides")
-        .name("Generation guides")
-        .onChange((on: boolean) => (setGuidesVisible(on), localStorage.setItem("ft.guides", String(on))));
     // 2D: the tree flattens onto its front plane (animated), the camera turns to face it, rotation is disabled.
     // Comes from the URL (so links share it), not localStorage: no ?view=2d means 3D.
+    const stored = (k: string, dflt: boolean) => (localStorage.getItem(k) ?? String(dflt)) === "true";
     const flat = { on: params.get("view") === "2d" };
+    // In 2D, links as right-angled family-tree connectors (default) or straight lines. Remembered on this device, and
+    // only offered while 2D is on, since 3D links are always straight.
+    const links = { rightAngles: stored("ft.rightAngles", true) };
+    setRightAngles(links.rightAngles);
     const set2d = (on: boolean) => {
         state.view2d = on;
         setFlat(on);
         setFlatView(on);
+        rightAnglesItem.show(on);
         if (state.sagaId) writeUrl(); // at start-up openSaga writes it once the saga id is known
     };
-    set2d(flat.on);
     gui.add(flat, "on").name("2D").onChange(set2d);
-    // Siblings together (default) puts brothers and sisters on one row; off keeps couples on one row instead. From
-    // the URL like 2D (?siblings=apart), so a shared link shows the same layout.
-    const layout = { together: params.get("siblings") !== "apart" };
-    state.siblings = layout.together ? "together" : "apart";
-    gui.add(layout, "together")
-        .name("Siblings together")
-        .onChange((on: boolean) => setSiblingMode(on ? "together" : "apart"));
-    const sky = { nebula: stored("ft.nebula", true) };
-    nebulaOn = sky.nebula;
-    gui.add(sky, "nebula")
+    // Its own row, just under 2D (lil-gui has one control per row).
+    const rightAnglesItem = gui
+        .add(links, "rightAngles")
+        .name("Right-angles")
+        .onChange((on: boolean) => (setRightAngles(on), localStorage.setItem("ft.rightAngles", String(on))));
+    set2d(flat.on);
+    // Brothers and sisters always share a row (generations.ts "together"); there's no longer a menu choice for it.
+    // Display settings, in a folder that starts closed. Glow defaults off on touch devices (GPU/battery); all are
+    // remembered between visits.
+    const settings = gui.addFolder("Settings").close();
+    const view = {
+        glow: stored("ft.glow", glow),
+        guides: stored("ft.guides", true),
+        nebula: stored("ft.nebula", true),
+    };
+    setGlow(view.glow);
+    setGuidesVisible(view.guides);
+    nebulaOn = view.nebula;
+    settings
+        .add(view, "glow")
+        .name("Glow")
+        .onChange((on: boolean) => (setGlow(on), localStorage.setItem("ft.glow", String(on))));
+    settings
+        .add(view, "guides")
+        .name("Generation guides")
+        .onChange((on: boolean) => (setGuidesVisible(on), localStorage.setItem("ft.guides", String(on))));
+    settings
+        .add(view, "nebula")
         .name("Nebula sky")
         .onChange((on: boolean) => {
             nebulaOn = on;

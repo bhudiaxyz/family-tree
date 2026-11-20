@@ -2,7 +2,7 @@
 //
 // What it does: `select`/`deselect`; fills the panel (relatives, line of descent, recent chips, generation, namesakes,
 // descendant count, pin); the back trail (`goBack`, `onHistoryBack`, `clearTrail`); "relative to" mode; moving between
-// relatives (`stepToRelative`, Alt + arrows or a swipe); groups (`showGroup`, `clearGroup`).
+// relatives (`stepToRelative`, Alt + arrows or a swipe; `stepToSpouse`, Alt + S); groups (`showGroup`, `clearGroup`).
 // Usage: imported by input, search, picking, legend, guide, relate, sagas and others; also wires the panel's buttons.
 // Notes: `select()` and `deselect()` are the only ways in and out of a selection; they set state, call refreshHighlight
 // and update the URL (select pushes history, the rest replace). The trail is kept here, as well as in the browser's
@@ -160,18 +160,25 @@ export function setRelativeTo(id: string | null): void {
 }
 btnRelativeTo.onclick = () => setRelativeTo(relativeTo === state.selected ? null : state.selected);
 
-// --- Moving between relatives from the keyboard (Alt + arrows) or a swipe ------------------------------------------
-// Up: the parent the line of descent above the name follows, so the two always agree. Down: the first child.
-// Left/right: the previous/next sibling (wrapping), or a spouse when there are none.
+// --- Moving between relatives from the keyboard (Alt + arrows, Alt + S) or a swipe ----------------------------------
+// Up: the parent the line of descent above the name follows, so the two always agree. Down: the child you last came
+// up from, so up then down returns you along the same line, else the first child. Left/right: the previous/next
+// sibling (wrapping), or a spouse when there are none.
+const cameUpFrom = new Map<string, string>(); // parent → the child last stepped up from (checked before use)
 export function stepToRelative(dir: "up" | "down" | "left" | "right"): void {
     const { tree, selected } = state;
     if (!tree || !selected) return;
     const birth = birthFamily(tree, selected);
     const own = tree.families.filter((f) => f.parents.includes(selected));
     let next: string | undefined;
-    if (dir === "up") next = ancestry(tree, selected).at(-2);
-    else if (dir === "down") next = own.flatMap((f) => f.children)[0];
-    else {
+    if (dir === "up") {
+        next = ancestry(tree, selected).at(-2);
+        if (next) cameUpFrom.set(next, selected);
+    } else if (dir === "down") {
+        const children = own.flatMap((f) => f.children);
+        const back = cameUpFrom.get(selected);
+        next = back && children.includes(back) ? back : children[0];
+    } else {
         const sibs = birth?.children ?? [];
         if (sibs.length > 1) {
             const i = sibs.indexOf(selected);
@@ -179,6 +186,17 @@ export function stepToRelative(dir: "up" | "down" | "left" | "right"): void {
         } else next = own.flatMap((f) => f.parents).find((p) => p !== selected);
     }
     if (next) select(next, true);
+}
+
+/** Alt + S: go to a spouse; again for the next one (from Cersei, having come from Robert, it goes on to Jaime). */
+export function stepToSpouse(): void {
+    const { tree, selected } = state;
+    if (!tree || !selected) return;
+    const spouses = [
+        ...new Set(tree.families.filter((f) => f.parents.includes(selected)).flatMap((f) => f.parents)),
+    ].filter((p) => p !== selected);
+    if (!spouses.length) return notify(`${tree.people[selected].name} has no recorded spouse.`);
+    select(spouses[(spouses.indexOf(trail.at(-1) ?? "") + 1) % spouses.length], true);
 }
 
 // --- Line of descent: a clickable trail from the oldest known ancestor down to this person ---------------------------

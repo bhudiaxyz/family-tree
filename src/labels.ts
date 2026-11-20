@@ -25,9 +25,12 @@ export const fontsReady: Promise<unknown> = Promise.race([
     new Promise((r) => setTimeout(r, 3000)),
 ]);
 
-/** Person name, shown above their sphere. */
+/**
+ * Person name, shown above their sphere: the last word (usually the surname) on a second line, both lines centred.
+ * Half as wide as one line, so neighbours in a row collide far less and every name can stay readable.
+ */
 export function nameLabel(text: string): SpriteText {
-    const s = new SpriteText(text, 4, palette().labels.name);
+    const s = new SpriteText(text.replace(/\s+(\S+)$/, "\n$1"), 4, palette().labels.name);
     s.fontFace = DISPLAY_FONT;
     s.fontWeight = "700";
     return s;

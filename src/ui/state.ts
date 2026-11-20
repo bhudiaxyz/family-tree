@@ -89,7 +89,12 @@ export function refreshHighlight(): void {
     // A selected person fades the rest well back (like a house), so their line reads clearly; a hover preview dims
     // more lightly, so moving the mouse across the tree doesn't keep blanking it out.
     const selected = id === state.selected;
-    highlight(new Set(roles.keys()), { roles, hideOthers: hideOthers && selected, dim: selected ? FADED : undefined });
+    highlight(new Set(roles.keys()), {
+        roles,
+        hideOthers: hideOthers && selected,
+        dim: selected ? FADED : undefined,
+        centre: selected ? id : null, // the selected person glows; a hover preview doesn't
+    });
 }
 
 const toast = $("toast");

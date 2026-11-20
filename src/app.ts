@@ -20,6 +20,7 @@ import "./ui/search.ts";
 import "./ui/input.ts";
 import "./ui/picking.ts";
 import { stepMinimap } from "./ui/minimap.ts";
+import { stepOffscreen } from "./ui/navigate.ts";
 
 scene.add(graph);
 
@@ -93,6 +94,7 @@ renderer.setAnimationLoop((now) => {
     stepGraph(camera, controls.target, step, now, innerWidth, innerHeight);
     stepMinimap();
     stepCamera(step, peopleBbox);
+    stepOffscreen();
     updateFog();
     draw();
 });

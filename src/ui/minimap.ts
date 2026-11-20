@@ -19,8 +19,10 @@ import { el } from "./dom.ts";
 
 // The map's shape follows the tree's: landscape for a wide tree, portrait for a tall one (the Bible is 78 rows by a
 // handful of people), about the same area either way. Set per saga in fit().
-let W = 168;
-let H = 120;
+// Start at 0 so the first resize() really sizes the canvas: starting at the wide shape made it return early, leaving
+// the browser's default 300 × 150 canvas (too wide, unscaled, and only partly cleared, which left streaks).
+let W = 0;
+let H = 0;
 const SHAPES = { wide: [168, 120], tall: [110, 190] } as const;
 const PAD = 8;
 const wrap = el("div", { id: "minimap" });
@@ -95,7 +97,12 @@ function footprint(): [number, number][] {
         ray.setFromCamera(ndc.set(x, y), camera);
         if (ray.ray.intersectPlane(plane, hit)) pts.push([hit.x, hit.y]);
     }
-    return pts;
+    // Near edge-on (rotated well round in 3D), corners land absurdly far away and the "frame" is a meaningless sliver
+    // of huge lines: show none rather than that.
+    const far = 20 * Math.max(box.x1 - box.x0, box.y1 - box.y0, 100);
+    return pts.every(([x, y]) => Math.abs(x - controls.target.x) < far && Math.abs(y - controls.target.y) < far)
+        ? pts
+        : [];
 }
 
 /** Redraw if anything visible changed; called from the frame loop. */
@@ -127,7 +134,16 @@ export function stepMinimap(): void {
     if (key === last) return;
     last = key;
     fit(nodes);
-    g.clearRect(0, 0, W, H);
+    // Clear the whole pixel buffer whatever the transform, and clip everything to the map: rotated to an oblique 3D
+    // angle, the view's footprint lands far off the tree, and strokes out there left streaks that were never cleared.
+    g.save();
+    g.setTransform(1, 0, 0, 1, 0, 0);
+    g.clearRect(0, 0, canvas.width, canvas.height);
+    g.restore();
+    g.save();
+    g.beginPath();
+    g.rect(0, 0, W, H);
+    g.clip();
     const colours = state.tree.houseColors;
     for (const n of nodes) {
         if (n.x! < box.x0 - 1 || n.x! > box.x1 + 1) continue; // an outlier beyond the framed width
@@ -163,6 +179,7 @@ export function stepMinimap(): void {
         g.closePath();
         g.stroke();
     }
+    g.restore(); // the clip
 }
 
 // Click or drag: move the view's centre to that point of the tree, at the current distance.

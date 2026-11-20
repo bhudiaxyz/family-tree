@@ -85,7 +85,9 @@
                 <dt><kbd>/</kbd></dt>
                 <dd>Find a person, or a relationship: <em>Arya's cousins</em>, <em>children of Zeus</em></dd>
                 <dt><kbd>Alt</kbd> + <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd></dt>
-                <dd>Go to the selected person's parent, child or sibling</dd>
+                <dd>Go to the selected person's parent, child or sibling (↓ returns to the child you came up from)</dd>
+                <dt><kbd>Alt</kbd> + <kbd>S</kbd></dt>
+                <dd>Go to the selected person's spouse (again for the next)</dd>
                 <dt><kbd>Backspace</kbd></dt>
                 <dd>Back to the person before</dd>
                 <dt><kbd>G</kbd></dt>
@@ -118,6 +120,10 @@
             <p class="tip">
                 In the <strong>Houses</strong> menu, click a house to light it, again to frame it, and a third time to
                 clear it.
+            </p>
+            <p class="tip">
+                Click a line between people to follow it. If the selected person is off screen, the chip at the edge of
+                the view points to them; click it to fly back.
             </p>
         </dialog>
 
@@ -157,6 +163,9 @@
 
         <div id="toast" role="status" aria-live="polite" hidden></div>
         <div id="hovercard" role="tooltip" hidden></div>
+        <button id="offscreen" hidden>
+            <span class="arrow" aria-hidden="true">&#10148;</span><span class="name"></span>
+        </button>
         <div id="gen-labels" aria-hidden="true"></div>
 
         <div id="no-webgl" hidden>

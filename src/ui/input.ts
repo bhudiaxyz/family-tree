@@ -2,7 +2,7 @@
 //
 // What it does: maps keys to actions (/ search, ? help, C chart, T tour, R relate, P save PNG, F fit, G family, + -
 // zoom, Page Up/Down generation, M minimap, L line focus, Backspace back, Escape, arrows pan, Shift or Ctrl + arrows
-// rotate, Alt + arrows move to a relative) and wires the pad's buttons (hold to pan, fit, zoom).
+// rotate, Alt + arrows move to a relative, Alt + S to a spouse) and wires the pad's buttons (hold to pan, fit, zoom).
 // Usage: no exports. A side-effect module: app.ts imports it for its listeners. It is also what pulls in guide.ts,
 // files.ts and minimap.ts.
 // Notes: shortcuts are ignored while typing in an input. Escape is handled twice: a capture-phase listener ends a
@@ -18,7 +18,7 @@ import { setHouse } from "./legend.ts";
 import { toggleMinimap } from "./minimap.ts";
 import { fitFamily, stepGeneration, zoomIn, zoomOut } from "./navigate.ts";
 import { setFocus } from "./visibility.ts";
-import { clearGroup, deselect, goBack, stepToRelative } from "./panel.ts";
+import { clearGroup, deselect, goBack, stepToRelative, stepToSpouse } from "./panel.ts";
 import { closeRelate, toggleRelate } from "./relate.ts";
 import { state } from "./state.ts";
 
@@ -39,6 +39,8 @@ addEventListener("keydown", (e) => {
     // Alt + arrows: move to a relative of the selected person (up: parent, down: child, left/right: sibling).
     if (e.altKey && !typing() && KEY_DIR[e.key] && state.selected)
         return (e.preventDefault(), stepToRelative(KEY_DIR[e.key]));
+    // Alt + S: a spouse (e.code, because Alt + S types "ß" on a Mac keyboard).
+    if (e.altKey && !typing() && e.code === "KeyS" && state.selected) return (e.preventDefault(), stepToSpouse());
     if (typing() || e.ctrlKey || e.metaKey || e.altKey) {
         if (!typing() && KEY_DIR[e.key] && (e.ctrlKey || e.metaKey)) (e.preventDefault(), nudgeRotate(KEY_DIR[e.key]));
         return;
@@ -89,6 +91,6 @@ for (const btn of document.querySelectorAll<HTMLButtonElement>("#pad button[data
     for (const ev of ["pointerup", "pointercancel", "lostpointercapture"])
         btn.addEventListener(ev, () => releasePan(dir));
 }
-document.querySelector<HTMLButtonElement>("#pad [data-action=fit]")!.onclick = fitTree;
+document.querySelector<HTMLButtonElement>("#pad [data-action=fit]")!.onclick = () => fitTree();
 document.querySelector<HTMLButtonElement>("#pad [data-action=zoom-in]")!.onclick = zoomIn;
 document.querySelector<HTMLButtonElement>("#pad [data-action=zoom-out]")!.onclick = zoomOut;

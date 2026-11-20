@@ -111,6 +111,8 @@ const goal = new THREE.Vector3();
 const offset = new THREE.Vector3();
 const TALL = 2; // a tree needing over twice the distance for its height as for its width counts as tall...
 const TALL_MIN_H = 480; // ...and is then framed at least this high (six rows), from its top
+const NAME_LINE = 4; // world units per line of a name label (labels.ts)
+const FIRST_NAME_PX = 10; // a saga's first view is never so far out that a name line is under this many px
 function stepFit(bbox: Bbox, dt: number, top: boolean) {
     const { x, y, z } = bbox;
     center.set((x[0] + x[1]) / 2, (y[0] + y[1]) / 2, (z[0] + z[1]) / 2);
@@ -128,6 +130,13 @@ function stepFit(bbox: Bbox, dt: number, top: boolean) {
         // there were taller than the whole tree, which zoomed most sagas' first view out instead of in.
         dist = Math.min(dist, Math.max(fitW, TALL_MIN_H / 2 / (tanHalf * free)) * FIT_MARGIN);
         center.y = y[1] - dist * tanHalf * free;
+    }
+    if (top && dist > (viewH * NAME_LINE) / (2 * tanHalf * FIRST_NAME_PX)) {
+        // A saga's first view opens close enough to read names (most whole-tree fits left them 5–6 px tall). If the
+        // tree doesn't fit at that zoom, start from its oldest rows, centred sideways; F shows the whole tree.
+        dist = (viewH * NAME_LINE) / (2 * tanHalf * FIRST_NAME_PX);
+        const half = dist * tanHalf * free; // half the free band's height, in world units
+        if ((y[1] - y[0]) / 2 > half) center.y = y[1] - half;
     }
     // Centre the box in the free band, not the whole view: move the target by the band's offset from the view centre.
     // At distance `dist` the view spans 2·dist·tanHalf world units vertically; the band's centre sits

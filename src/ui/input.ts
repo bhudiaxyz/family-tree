@@ -1,7 +1,7 @@
 // Input: keyboard shortcuts and the on-screen touch pad.
 //
 // What it does: maps keys to actions (/ search, ? help, C chart, T tour, R relate, P save PNG, F fit, G family, + -
-// zoom, Page Up/Down generation, M minimap, L line focus, Backspace back, Escape, arrows pan, Shift or Ctrl + arrows
+// zoom, Page Up/Down generation, M minimap, D 2D/3D, L line focus, Backspace back, Escape, arrows pan, Shift or Ctrl + arrows
 // rotate, Alt + arrows move to a relative, Alt + S to a spouse) and wires the pad's buttons (hold to pan, fit, zoom).
 // Usage: no exports. A side-effect module: app.ts imports it for its listeners. It is also what pulls in guide.ts,
 // files.ts and minimap.ts.
@@ -20,6 +20,7 @@ import { fitFamily, stepGeneration, zoomIn, zoomOut } from "./navigate.ts";
 import { setFocus } from "./visibility.ts";
 import { clearGroup, deselect, goBack, stepToRelative, stepToSpouse } from "./panel.ts";
 import { closeRelate, toggleRelate } from "./relate.ts";
+import { toggle2d } from "./sagas.ts";
 import { state } from "./state.ts";
 
 // --- Keyboard -------------------------------------------------------------------------------------------------------
@@ -59,6 +60,7 @@ addEventListener("keydown", (e) => {
     if (e.key === "PageUp" || e.key === "PageDown")
         return (e.preventDefault(), stepGeneration(e.key === "PageUp" ? -1 : 1));
     if (e.key === "m" || e.key === "M") return toggleMinimap();
+    if (e.key === "d" || e.key === "D") return toggle2d();
     // L: show only this person's line, or everyone again. Backspace: back to the person before.
     if ((e.key === "l" || e.key === "L") && state.selected) return setFocus(state.focus === "off" ? "all" : "off");
     if (e.key === "Backspace" && state.selected) return (e.preventDefault(), goBack());

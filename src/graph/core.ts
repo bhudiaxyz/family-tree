@@ -136,6 +136,7 @@ export const graph = new ThreeForceGraph<Node, Link>()
             freeze(dot); // the ring is rescaled by highlight.ts, so it stays automatic
             const group = new THREE.Group().add(dot, unionRing);
             group.userData.isUnion = true;
+            group.userData.unionId = n.id; // picking.ts: hover or click a family's marriage node
             return group;
         }
         // Matte, satin-like surface: high roughness spreads the highlight wide and soft, so the form reads from the
@@ -277,8 +278,21 @@ const LANE_GAP = 6; // world units between lanes (a row is 110; the union sits a
 export const laneOffset = (lane: number) => ((lane % LANES) - (LANES - 1) / 2) * LANE_GAP;
 const LABEL_REACH = 20; // world units along a straight link from its person; half an ordinary link
 let elbows = false;
-/** Draw links as right-angled connectors (2D) or straight (3D). Called by flat.ts; takes effect as the layout runs. */
-export const setElbowLinks = (on: boolean) => (elbows = on);
+/**
+ * Draw links as right-angled connectors (2D) or straight (3D). Called by flat.ts. Every link is re-placed at once, so
+ * switching needs no layout restart (that restart, at full energy, made Game of Thrones shimmy for seconds).
+ */
+export function setElbowLinks(on: boolean): void {
+    if (on === elbows) return;
+    elbows = on;
+    for (const l of boundLinks()) {
+        const obj = l.__lineObj;
+        if (!obj || typeof l.source === "string" || typeof l.target === "string" || l.source.x === undefined) continue;
+        placeLink(obj.children[0] as LineSegments2, obj.children[1], l.source, l.target, l);
+    }
+}
+/** True while links are drawn as right-angled connectors. */
+export const elbowLinks = () => elbows;
 
 const pts = new Float32Array((SEGMENTS + 1) * 3);
 const put = (i: number, x: number, y: number, z: number) => pts.set([x, y, z], i * 3);
@@ -334,7 +348,7 @@ graph.d3Force("charge")!.distanceMax(120);
 // left to solve, so cool faster (alphaDecay 0.045 ≈ 150 ticks to rest vs d3's 300), damp more so it doesn't wobble
 // while settling, and stop hard at 300 ticks or 5 s, whichever comes first. Once stopped, nothing moves, so the
 // frame loop's idle throttling (app.ts) can take over. Interaction never needs the simulation running.
-graph.d3AlphaDecay(0.045).d3VelocityDecay(0.5).cooldownTicks(300).cooldownTime(5000);
+graph.d3AlphaDecay(0.045).d3VelocityDecay(0.65).cooldownTicks(300).cooldownTime(5000);
 // Per-frame passes that skip work once things are still (names.ts) need to know the layout has stopped moving nodes.
 graph.onEngineStop(() => (layoutRunning = false));
 // Depth for parallax: pull each house towards its own z plane, so panning moves near families faster than far ones.

@@ -53,12 +53,13 @@ Press `?` in the app for the full list of keyboard shortcuts.
 | Scroll, or `+` / `-`                          | Zoom                                                                                                        |
 | `Shift` + arrow keys                          | Orbit in small steps                                                                                        |
 | Hover a person                                | Preview their line; with someone selected, see how they relate                                              |
-| Click a person                                | Select them and open their details; click empty space to deselect                                           |
+| Click a person                                | Select them and open their details; click them again, or empty space, to deselect                           |
 | Double-click a person                         | Select them and fly to them                                                                                 |
 | `/`                                           | Find a person, or a relationship                                                                            |
 | `Alt` + arrow keys                            | Go to the selected person's parent (↑), child (↓) or sibling (← →); ↓ returns to the child you came up from |
 | `Alt` + `S`                                   | Go to the selected person's spouse (again for the next)                                                     |
-| Hover or click a line between people          | See whose link it is; click to go to that person, or across the family                                      |
+| Hover or click a line between people          | See whose link it is (it brightens); click to go to that person, or across the family                       |
+| Hover or click a marriage dot                 | See the couple and their children; click to light up and frame the family, again to clear                   |
 | `Backspace`, or the browser's Back            | Back to the person before                                                                                   |
 | `G`                                           | Frame the selected person's immediate family                                                                |
 | `C`                                           | Chart of the selected person's ancestors and descendants                                                    |
@@ -67,6 +68,7 @@ Press `?` in the app for the full list of keyboard shortcuts.
 | `T`                                           | Guided tour down the selected person's line                                                                 |
 | `F`                                           | Fit the whole tree (a saga first opens close enough to read names, from its oldest rows)                    |
 | `Page Up` / `Page Down`, or a **Row n** label | Move a row up or down, or go to that row                                                                    |
+| `D`                                           | Switch between 2D and 3D                                                                                    |
 | `M`                                           | Show or hide the overview map                                                                               |
 | `P`                                           | Save the view as an image                                                                                   |
 | `Esc`                                         | Close, deselect, end a tour, or clear a highlight                                                           |

@@ -33,6 +33,8 @@ const textDim = (dim: number) => (dim < 0.5 ? dim * dim : dim);
 // only depends on the camera position and each label's dim, so when neither changed since the last pass there's
 // nothing to do (a settled, still view would otherwise walk every link label each frame).
 const lastCam = new THREE.Vector3(Infinity, 0, 0);
+const MIN_LABEL_PX = 7; // relationship labels shorter than this on screen fade out (fully under 5 px)
+const TAN_HALF_FOV = Math.tan(THREE.MathUtils.degToRad(50) / 2); // scene.ts's camera is 50°
 export function fadeLabels(camera: THREE.Camera): void {
     if (!layoutRunning && fadesSettled() && camera.position.equals(lastCam)) return;
     lastCam.copy(camera.position);
@@ -43,7 +45,10 @@ export function fadeLabels(camera: THREE.Camera): void {
         const d = camera.position.distanceTo(tmp.setFromMatrixPosition(s.matrixWorld));
         const near = focus !== null && dim === 1 ? 1 : (LABEL_FAR - d) / (LABEL_FAR - LABEL_NEAR);
         s.material.transparent = true;
-        s.material.opacity = textDim(dim) * THREE.MathUtils.clamp(near, 0, 1);
+        // Too small to read (under ~5 px tall, e.g. "son" at the whole-tree zoom) is only a smudge: fade it out by 7 px.
+        const px = (s.scale.y * innerHeight) / (2 * d * TAN_HALF_FOV);
+        const readable = THREE.MathUtils.smoothstep(px, MIN_LABEL_PX - 2, MIN_LABEL_PX);
+        s.material.opacity = textDim(dim) * THREE.MathUtils.clamp(near, 0, 1) * readable;
         s.visible = s.material.opacity > 0.02;
     };
     for (const l of boundLinks()) {
@@ -58,7 +63,12 @@ export function fadeLabels(camera: THREE.Camera): void {
 // mode, a collapsed branch), so they never pop.
 const NAME_FLOOR = 0.35;
 const FADED = 0.06; // the dim a selection fades the rest to (ui/state.ts); the floor is full from here up
-const nameDim = (dim: number) => Math.max(textDim(dim), NAME_FLOOR * Math.min(1, dim / FADED));
+// `near` (0–1, from declutter) scales the floor down for faded people close to the camera: their names are big, and
+// at the full floor they shouted over the line you're reading (Bellatrix and Rosier, in front of the Weasleys).
+const nameDim = (dim: number, near = 1) => Math.max(textDim(dim), NAME_FLOOR * near * Math.min(1, dim / FADED));
+const NEAR_FROM = 60; // world units from the camera: a faded name's floor is smallest (FLOOR_NEAR) here...
+const NEAR_TO = 240; // ...and full from here
+const FLOOR_NEAR = 0.3;
 
 // --- Name de-overlap ----------------------------------------------------------------------------------------------
 // Names never disappear. Where two collide on screen, the more important keeps full strength (highlighted people
@@ -102,6 +112,7 @@ export function declutter(camera: THREE.PerspectiveCamera, viewW: number, viewH:
         if (nameDim(target) < 0.02) continue; // hidden: doesn't take up room
         p.setFromMatrixPosition(s.matrixWorld); // updated by the last render; avoids recomputing every parent
         const depth = p.distanceTo(camera.position);
+        s.userData.near = THREE.MathUtils.clamp((depth - NEAR_FROM) / (NEAR_TO - NEAR_FROM), FLOOR_NEAR, 1);
         edge.copy(p).project(camera);
         if (edge.z > 1) continue; // behind the camera
         const cx = ((edge.x + 1) / 2) * viewW;
@@ -159,12 +170,14 @@ export function stepNames(dt: number): void {
         const want = nameShown.get(s) ?? 1;
         const dim = (n.__threeObj!.userData.dim ?? 1) as number;
         // Skip a name that's already where it should be (most of them, once the view has settled).
-        if (s.userData.shown === want && s.userData.lastDim === dim) continue;
+        const near = (s.userData.near ?? 1) as number;
+        if (s.userData.shown === want && s.userData.lastDim === dim && s.userData.lastNear === near) continue;
         const shown = approach((s.userData.shown ?? 1) as number, want, k);
         s.userData.shown = Math.abs(shown - want) < 0.002 ? want : shown;
         s.userData.lastDim = dim;
+        s.userData.lastNear = near;
         s.material.transparent = true;
-        s.material.opacity = (s.userData.shown as number) * nameDim(dim);
+        s.material.opacity = (s.userData.shown as number) * nameDim(dim, near);
         s.visible = s.material.opacity > 0.02;
         // "Relative to" tags fade with their person too (focus mode hides them with the person).
         const tag = tagOf(n.__threeObj!);

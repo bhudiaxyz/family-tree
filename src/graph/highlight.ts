@@ -139,6 +139,15 @@ function linksAlong(links: Link[], path: string[]): Set<Link> {
     return found;
 }
 
+/** The link under the pointer (picking.ts): drawn a little brighter and wider, so you can see which the card is about. */
+let hoverLink: Link | null = null;
+export function setHoverLink(l: Link | null): void {
+    if (l === hoverLink) return;
+    hoverLink = l;
+    settled = false;
+}
+const HOVER_LIFT = 0.7; // how far towards path styling a hovered link goes
+
 /** Forget the highlight without touching objects (a new tree's objects start lit). */
 export const clearFocus = () => {
     focus = null;
@@ -218,7 +227,8 @@ export function stepFades(dt: number): void {
         // Path links: brighter (full opacity, gold) and wider than resting links; the hovered step more so.
         const line = l.__lineObj?.children[0] as LineSegments2 | undefined;
         if (!line) continue;
-        const p = ease((line.userData.pathNow ?? 0) as number, (l.__lineObj!.userData.path ?? 0) as number, k);
+        const want = Math.max((l.__lineObj!.userData.path ?? 0) as number, l === hoverLink ? HOVER_LIFT : 0);
+        const p = ease((line.userData.pathNow ?? 0) as number, want, k);
         line.userData.pathNow = p;
         const dim = (line.userData.dim ?? 1) as number;
         const m = line.material;

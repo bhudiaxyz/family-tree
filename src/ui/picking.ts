@@ -12,21 +12,24 @@
 // it. Hidden (focus mode) objects are skipped by hand. The card hides when the view starts moving.
 
 import * as THREE from "three";
-import { drawnZ, endId, graph, isShown, type Link, type Node } from "../graph.ts";
+import { drawnZ, endId, graph, isShown, type Link, type Node, setHoverLink } from "../graph.ts";
 import { relate } from "../relationship.ts";
 import { camera, controls, renderer } from "../scene.ts";
 import { $, el, relatePanel } from "./dom.ts";
 import { setHouse } from "./legend.ts";
-import { deselect, select } from "./panel.ts";
+import { clearGroup, deselect, select, showGroup } from "./panel.ts";
 import { fillRelate } from "./relate.ts";
 import { refreshHighlight, state } from "./state.ts";
 
 const raycaster = new THREE.Raycaster();
-// Fat link lines (LineSegments2) are hit within their width plus this many px, so a 1.6 px line is easy to point at.
-Object.assign(raycaster.params, { Line2: { threshold: 6 } });
+// Fat link lines (LineSegments2) are hit within their width plus this many px: enough to point at a 1.6 px line, but
+// tight enough that a click in a busy 2D area still reaches empty space (and deselects); 6 px caught most clicks.
+Object.assign(raycaster.params, { Line2: { threshold: 3 } });
 const pointer = new THREE.Vector2();
 /** The link under the pointer at the last pick(), when no person was: hovered for its card, clicked to follow it. */
 let pickedLink: Link | null = null;
+/** The family whose marriage node is under the pointer at the last pick(), when no person was (its index). */
+let pickedUnion: number | null = null;
 // Who is under the pointer?
 //  - Mouse/pen: an exact raycast, nearest sphere wins. A cursor is precise, so "the one in front" is what you meant.
 //  - Touch: a fingertip covers ~7 mm and hides what's beneath it, so a raycast often hits a sphere in FRONT of the
@@ -35,6 +38,7 @@ let pickedLink: Link | null = null;
 const FINGER_PX = 28;
 function pick(e: PointerEvent | MouseEvent): string | null {
     pickedLink = null;
+    pickedUnion = null;
     if ((e as PointerEvent).pointerType === "touch") {
         const id = nearestOnScreen(e.clientX, e.clientY, FINGER_PX);
         if (id) return id;
@@ -47,10 +51,33 @@ function pick(e: PointerEvent | MouseEvent): string | null {
         const id = hit.object.userData.personId as string | undefined;
         if (id && hit.object.visible) return id;
     }
-    // No person: a link? Only a clearly visible one, not one faded back behind a highlight.
+    // No person: a marriage node (its dot or ring; the group holds the id)? Then a link. Only clearly visible ones,
+    // not ones faded back behind a highlight.
+    const onUnion = hits.find(
+        (h) => h.object.parent?.userData.unionId && h.object.visible && (h.object.userData.dim ?? 1) > 0.3
+    );
+    if (onUnion) {
+        pickedUnion = Number((onUnion.object.parent!.userData.unionId as string).slice("family".length));
+        return null;
+    }
     const onLink = hits.find((h) => h.object.userData.link && h.object.visible && (h.object.userData.dim ?? 1) > 0.3);
     pickedLink = (onLink?.object.userData.link as Link | undefined) ?? null;
     return null;
+}
+
+/** A family's parents and children, and a short name for it ("Arthur & Molly Weasley"). */
+function familyOf(i: number) {
+    const f = state.tree!.families[i];
+    const name = (ids: string[]) => ids.map((id) => state.tree!.people[id].name).join(" & ");
+    return { f, members: [...f.parents, ...f.children], title: f.parents.length ? name(f.parents) : name(f.children) };
+}
+
+/** Click a marriage node: light up that whole family and frame it (showGroup does both). */
+function showFamily(i: number): void {
+    const { f, members, title } = familyOf(i);
+    const label = f.parents.length ? `${title}'s family` : `Children: ${title}`;
+    if (state.group?.label === label) return clearGroup(); // clicking the lit family's dot again clears it
+    showGroup(members, label);
 }
 
 /** The family a link belongs to (its union node is `family<i>`), and the person at its other end. */
@@ -134,7 +161,7 @@ canvas.addEventListener("pointercancel", (e) => {
     hideCard();
     downAt = null;
 });
-canvas.addEventListener("pointerleave", (e) => e.pointerType === "mouse" && hideCard());
+canvas.addEventListener("pointerleave", (e) => e.pointerType === "mouse" && (hideCard(), setHoverLink(null)));
 addEventListener("pointerup", () => setTimeout(() => (downAt = null)));
 canvas.addEventListener("pointermove", (e) => {
     // Moving past the slop cancels the long-press (it's a drag).
@@ -142,8 +169,10 @@ canvas.addEventListener("pointermove", (e) => {
         clearTimeout(holdTimer);
     if (e.pointerType !== "mouse" || e.buttons) return; // hover is mouse-only; touch uses long-press
     const id = pick(e);
-    canvas.style.cursor = id || pickedLink ? "pointer" : "";
+    canvas.style.cursor = id || pickedLink || pickedUnion !== null ? "pointer" : "";
+    setHoverLink(id ? null : pickedLink);
     if (id) showCard(id, e.clientX, e.clientY);
+    else if (pickedUnion !== null) showUnionCard(pickedUnion, e.clientX, e.clientY);
     else if (pickedLink) showLinkCard(pickedLink, e.clientX, e.clientY);
     else hideCard();
     if (id !== state.hovered) {
@@ -165,14 +194,19 @@ canvas.addEventListener("pointerup", (e) => {
     const id = pick(e);
     // With the finder open, taps fill it: the first sets "From" if empty, otherwise "To".
     if (id && !relatePanel.hidden && state.tree) return fillRelate(id);
+    if (!id && pickedUnion !== null && state.tree) return (hideCard(), showFamily(pickedUnion));
     if (!id && pickedLink && state.tree) return (hideCard(), followLink(pickedLink));
     const now = performance.now();
     const double = !!id && lastTap?.id === id && now - lastTap.at < DOUBLE_MS;
     lastTap = id ? { id, at: now } : null;
-    if (id)
+    if (id && id === state.selected && !double)
+        deselect(); // clicking the selected person again unselects them (a double click still flies to them)
+    else if (id)
         select(id, double); // a double tap / double click flies to them
     else if (state.selected) deselect();
-    else if (state.house) setHouse(null); // clicking empty space also clears a house picked in the legend
+    else if (state.house)
+        setHouse(null); // clicking empty space also clears a house picked in the legend
+    else if (state.group) clearGroup(); // ...and a family lit from its marriage dot, or a search group
 });
 
 // --- Hover card: who this is, and how they're related to the selected person ----------------------------------------
@@ -233,6 +267,32 @@ function showLinkCard(l: Link, x: number, y: number) {
             el("strong", { textContent: tree.people[person].name }),
             el("span", { className: "card-rel", textContent: rel }),
             el("span", { className: "card-house", textContent: "Click to follow" })
+        );
+    }
+    placeCard(x, y, false);
+}
+
+/** The card for a marriage node: the couple, their children, and that a click shows the family. */
+function showUnionCard(i: number, x: number, y: number) {
+    const key = `union${i}`;
+    if (cardFor !== key) {
+        cardFor = key;
+        const { f, title } = familyOf(i);
+        const n = f.children.length;
+        card.replaceChildren(
+            el("strong", { textContent: title }),
+            el("span", {
+                className: "card-rel",
+                textContent:
+                    f.parents.length < 2
+                        ? n
+                            ? `${n} child${n === 1 ? "" : "ren"}`
+                            : ""
+                        : n
+                          ? `married, ${n} child${n === 1 ? "" : "ren"}`
+                          : "married",
+            }),
+            el("span", { className: "card-house", textContent: "Click to show the family" })
         );
     }
     placeCard(x, y, false);

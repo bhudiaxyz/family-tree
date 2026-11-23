@@ -18,6 +18,7 @@ import {
     boundLinks,
     boundNodes,
     disposeObject,
+    elbowLinks,
     graph,
     isShown,
     laneOffset,
@@ -31,12 +32,12 @@ import { drawnZ, setCouples, setFamilies, setSiblingGroups, setUnions, stepFlat 
 import { setGuides, stepGuides } from "./graph/guides.ts";
 import { clearFocus, stepFades } from "./graph/highlight.ts";
 import { declutter, fadeLabels, stepNames } from "./graph/names.ts";
-import { setSiblings, updateSiblings } from "./graph/siblings.ts";
+import { setSiblings, siblings, updateSiblings } from "./graph/siblings.ts";
 
 export { endId, graph, isShown, layoutRunning, type Link, type Node } from "./graph/core.ts";
 export { drawnZ, setFlat, setRightAngles } from "./graph/flat.ts";
 export { generationRows, onRowPicked, setGuidesVisible } from "./graph/guides.ts";
-export { type HighlightOptions, highlight, setFolded } from "./graph/highlight.ts";
+export { type HighlightOptions, highlight, setFolded, setHoverLink } from "./graph/highlight.ts";
 export { setFoldBadges, setRelativeTags } from "./graph/names.ts";
 
 // Vertical gap between generations (world units). The same in 2D and 3D, so switching never moves rows; 110 (it was
@@ -143,7 +144,7 @@ export function showTree(t: Tree, mode: SiblingMode = "together"): void {
 // parents above, so a couple starts over its own children. A new group (not a spouse or sibling of the one before)
 // starts SEED_GROUP further along. Each row is then centred. The forces refine this; they don't have to find it.
 const SEED_STEP = 26; // world units between neighbours in a group
-const SEED_GROUP = 34; // extra space before a new group
+const SEED_GROUP = 45; // extra space before a new group (matches GROUP_SPACE in flat.ts)
 function seedX(t: Tree, gen: Map<string, number>): Map<string, number> {
     const asParent = new Map<string, Tree["families"]>();
     for (const f of t.families) for (const p of f.parents) asParent.set(p, [...(asParent.get(p) ?? []), f]);
@@ -161,6 +162,22 @@ function seedX(t: Tree, gen: Map<string, number>): Map<string, number> {
         next.set(row, pos + SEED_STEP);
         for (const s of spouses(id)) place(s, false);
     };
+    // A family's children, kept together: siblings with a partner on their row go to the ends of the group, with the
+    // partner outside it, so a couple doesn't split the brothers and sisters (placing each child's spouse right after
+    // them did) and the partner isn't left far off. The first such sibling goes on the left, partner first; the rest
+    // on the right, each followed by their partner.
+    const placeSiblings = (children: string[]) => {
+        const kids = children.filter((c) => !x.has(c));
+        const partnered = kids.filter((c) => spouses(c).some((s) => !x.has(s)));
+        const [left, ...right] = partnered;
+        if (left)
+            place(
+                spouses(left).find((s) => !x.has(s))!,
+                true
+            ); // the partner, then (beside them) the sibling
+        kids.filter((c) => !partnered.includes(c)).forEach((c, i) => place(c, i === 0 && !left));
+        right.forEach((c) => place(c, false));
+    };
     const ids = Object.keys(t.people);
     const done = new Set<Tree["families"][number]>();
     for (let row = 0; row <= Math.max(0, ...gen.values()); row++) {
@@ -172,7 +189,7 @@ function seedX(t: Tree, gen: Map<string, number>): Map<string, number> {
             for (const f of asParent.get(id) ?? []) {
                 if (done.has(f)) continue;
                 done.add(f);
-                f.children.forEach((c, i) => place(c, i === 0));
+                placeSiblings(f.children);
             }
     }
     for (const id of ids) place(id, true); // defensive: anyone without a row walk (shouldn't happen)
@@ -239,6 +256,9 @@ export function stepGraph(
     stepFlat(dt);
     updateSiblings();
     stepFades(dt);
+    // Right-angled connectors already show brothers and sisters hanging off one bar: the dashed sibling lines and
+    // their "brothers" labels only cluttered the name row, so they're hidden then (3D and straight 2D keep them).
+    siblings.visible = !elbowLinks() && ((siblings.userData.dim ?? 1) as number) > 0.01;
     fadeLabels(camera);
     declutter(camera, viewW, viewH, now);
     stepNames(dt);

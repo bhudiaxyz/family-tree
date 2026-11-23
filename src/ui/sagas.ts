@@ -178,6 +178,9 @@ export function start(): void {
         });
 }
 
+/** Switch between 2D and 3D (the D key), as the menu's checkbox does. Set once the menu is built. */
+export let toggle2d = () => {};
+
 function buildMenu(sagas: SagaIndexEntry[], first: string, params: URLSearchParams) {
     const gui = new GUI({ title: "Sagas" });
     // sagas.json has only ids, so the menu starts with ids as labels and takes each saga's title from its own file
@@ -209,7 +212,8 @@ function buildMenu(sagas: SagaIndexEntry[], first: string, params: URLSearchPara
         rightAnglesItem.show(on);
         if (state.sagaId) writeUrl(); // at start-up openSaga writes it once the saga id is known
     };
-    gui.add(flat, "on").name("2D").onChange(set2d);
+    const twoD = gui.add(flat, "on").name("2D").onChange(set2d);
+    toggle2d = () => twoD.setValue(!flat.on); // the D key: setValue updates the checkbox and calls set2d
     // Its own row, just under 2D (lil-gui has one control per row).
     const rightAnglesItem = gui
         .add(links, "rightAngles")

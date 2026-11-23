@@ -20,14 +20,14 @@ import {
     disposeObject,
     graph,
     isShown,
-    LANES,
+    laneOffset,
     type Link,
     linkResolution,
     markLayoutRunning,
     type Node,
     useTree,
 } from "./graph/core.ts";
-import { drawnZ, setCouples, setFamilies, setSiblingGroups, stepFlat } from "./graph/flat.ts";
+import { drawnZ, setCouples, setFamilies, setSiblingGroups, setUnions, stepFlat } from "./graph/flat.ts";
 import { setGuides, stepGuides } from "./graph/guides.ts";
 import { clearFocus, stepFades } from "./graph/highlight.ts";
 import { declutter, fadeLabels, stepNames } from "./graph/names.ts";
@@ -39,7 +39,9 @@ export { generationRows, onRowPicked, setGuidesVisible } from "./graph/guides.ts
 export { type HighlightOptions, highlight, setFolded } from "./graph/highlight.ts";
 export { setFoldBadges, setRelativeTags } from "./graph/names.ts";
 
-const GEN_GAP = 80; // vertical gap between generations (world units)
+// Vertical gap between generations (world units). The same in 2D and 3D, so switching never moves rows; 110 (it was
+// 80) leaves 2D's right-angled connectors a long drop to each child, with its "son"/"daughter" label clear of names.
+const GEN_GAP = 110;
 
 let rowOf = new Map<string, number>();
 let rowCount = 0;
@@ -79,15 +81,16 @@ export function showTree(t: Tree, mode: SiblingMode = "together"): void {
             : f.children.length
               ? Math.min(...f.children.map((c) => gen.get(c)!)) - 1
               : 0;
-        // Families on the same row take bar lanes in turn (file order keeps neighbours apart), for 2D connectors.
+        // Families on the same row take lanes in turn (file order keeps neighbours apart): the union sits a little
+        // above or below the half row, so neighbouring families' 2D bars, drawn from it, never coincide.
         const lane = lanesUsed.get(parentRow) ?? 0;
         lanesUsed.set(parentRow, lane + 1);
+        const uy = y(parentRow + 0.5) + laneOffset(lane);
         nodes.push({
             id: u,
-            fy: y(parentRow + 0.5),
-            lane: lane % LANES,
+            fy: uy,
             x: mean([...f.parents, ...f.children]),
-            y: y(parentRow + 0.5),
+            y: uy,
             z: 0,
         });
         for (const p of f.parents) links.push({ source: p, target: u, kind: "spouse", label: parentLabel(t, p, f) });
@@ -117,6 +120,13 @@ export function showTree(t: Tree, mode: SiblingMode = "together"): void {
                 parents: f.parents.map((p) => byId.get(p)!),
                 children: f.children.map((c) => byId.get(c)!),
             }))
+    );
+    setUnions(
+        t.families.flatMap((f, i) =>
+            f.parents.length && byId.has(`family${i}`)
+                ? [{ union: byId.get(`family${i}`)!, parents: f.parents.map((p) => byId.get(p)!) }]
+                : []
+        )
     );
     setSiblings(t, byId, pairs);
     setGuides(rows, y);
@@ -209,8 +219,8 @@ export function peopleBbox(): { x: [number, number]; y: [number, number]; z: [nu
     };
     return { x: atLeast([x[0] - 6, x[1] + 6], MIN_FRAME_W), y: atLeast([y[0] - 9, y[1] + 16], MIN_FRAME_H), z };
 }
-const MIN_FRAME_W = 120; // world units; a generation row is 80 apart
-const MIN_FRAME_H = 100;
+const MIN_FRAME_W = 120; // world units; a generation row is 110 apart
+const MIN_FRAME_H = 130;
 
 /** Live node for a person (its position is updated by the simulation), if the tree has been laid out. */
 export const nodeById = (id: string): Node | undefined => graph.graphData().nodes.find((n) => n.id === id);

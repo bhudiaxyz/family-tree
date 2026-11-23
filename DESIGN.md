@@ -288,7 +288,7 @@ Sibling lines are not graph links (they'd pull siblings together and distort the
 
 ### Generations (`src/generations.ts`)
 
-`generations(tree, mode)` gives every person a row, and `showTree()` pins each node's `fy` to `GEN_GAP` (80) × row, with union nodes half a row below their parents. This replaces the library's `dagMode`, which counted depth from the roots, so married-in spouses with no parents in the data (Elia Martell, Khal Drogo) floated up to the top row.
+`generations(tree, mode)` gives every person a row, and `showTree()` pins each node's `fy` to `GEN_GAP` (110, the same in 2D and 3D, so switching never moves rows; it was 80, which left 2D connectors too short a drop for their labels) × row, with union nodes half a row below their parents. This replaces the library's `dagMode`, which counted depth from the roots, so married-in spouses with no parents in the data (Elia Martell, Khal Drogo) floated up to the top row.
 
 **Two modes.** Siblings, couples and "parents above children" can't all hold when someone marries into another generation (Ginny married Harry, a generation below the Weasleys). Descent always holds; `mode` says which of the other two wins:
 
@@ -335,7 +335,7 @@ Other approaches were measured and rejected: forcing every set onto one row afte
 
 ### 2D mode (`src/graph/flat.ts`)
 
-The menu's 2D toggle (or `?view=2d`) eases the graph's z scale towards about 0, squashing the house planes flat. Each person object is counter-scaled so spheres stay round; links, sibling lines and guides simply flatten. Not exactly 0, which would make the matrices singular for raycasting. Links become right-angled connectors while flat (the menu's **Right-angles**, shown only in 2D, switches back to straight), each family's bars at its own height (`Node.lane`, four lanes per row) so neighbouring families' bars don't overlap. The camera turns to face the plane and rotation is disabled (`setFlatView`). Everything else, picking included, uses `drawnZ()` for the flattened depth.
+The menu's 2D toggle (or `?view=2d`) eases the graph's z scale towards about 0, squashing the house planes flat. Each person object is counter-scaled so spheres stay round; links, sibling lines and guides simply flatten. Not exactly 0, which would make the matrices singular for raycasting. Links become right-angled connectors while flat (the menu's **Right-angles**, shown only in 2D, switches back to straight), each family's union node pinned a little above or below the half row (`laneOffset`, four lanes per row) and both its bars drawn from it, so the lines always meet at the dot and neighbouring families' bars don't overlap. The camera turns to face the plane and rotation is disabled (`setFlatView`). Everything else, picking included, uses `drawnZ()` for the flattened depth.
 
 ### Switching trees and the camera
 

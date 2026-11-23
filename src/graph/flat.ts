@@ -162,3 +162,20 @@ function parentsOverChildren(alpha: number) {
     }
 }
 graph.d3Force("parentsOverChildren", parentsOverChildren);
+
+// A union (marriage) node sits between its parents: pinned to their midpoint, sideways and in depth, every tick (one
+// parent: under them). Left to the springs it settled between the parents and their children, so in 2D the couple's
+// bar ran off to one side (James and Lily's ended halfway to Harry). The springs still pull the parents towards the
+// children; only the union's own position is fixed.
+let unions: { union: SimNode & { vz?: number }; parents: SimNode[] }[] = [];
+/** Each union node with its parents; set when a tree is shown. */
+export const setUnions = (us: typeof unions) => (unions = us);
+function unionsBetweenParents() {
+    for (const { union, parents } of unions) {
+        if (parents.some((p) => p.x === undefined)) continue;
+        union.x = meanX(parents);
+        union.z = parents.reduce((s, p) => s + p.z!, 0) / parents.length;
+        union.vx = union.vz = 0;
+    }
+}
+graph.d3Force("unionsBetweenParents", unionsBetweenParents);

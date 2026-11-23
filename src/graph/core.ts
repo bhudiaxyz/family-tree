@@ -33,7 +33,6 @@ export type Node = {
     y?: number;
     z?: number;
     fy?: number;
-    lane?: number; // union nodes only: which bar height its 2D connectors use (see placeLink)
 };
 /** A node while the simulation runs: d3 adds a velocity, which the custom forces (flat.ts) push on. */
 export type SimNode = Node & { vx?: number };
@@ -265,13 +264,17 @@ function linkGlow(line: LineSegments2): LineSegments2 {
 // and down to just over their name, so brothers and sisters hang off one shared bar.
 // Lanes: if every couple's bar sat at its union's height (and every sibling bar the same drop below it), neighbouring
 // families' horizontal runs lay on top of each other and you couldn't tell whose mother line was whose. So each
-// family on a row gets a lane (graph.ts assigns them in turn, `Node.lane`), and its bars sit at that lane's height.
+// family on a row gets a lane (graph.ts assigns them in turn): its union node is pinned at that lane's height
+// (laneOffset), and both its bars are drawn from the union, so the lines always meet at the dot.
 const SEGMENTS = 3;
 const BELOW_BADGE = 8; // a parent's line starts under their house badge (it sits 6.2 below centre, 3.2 across)
 const ABOVE_NAME = 15.5; // a child's line ends above their name (two lines centred on NAME_Y)
-const BAR_DROP = 12; // the sibling bar sits at least this far below the union
+const BAR_DROP = 6; // the sibling bar sits just under the union, so the drop to each child is long (2D rows are
+// taller too, graph.ts GEN_GAP): its "son"/"daughter" label then sits clear of the names
 export const LANES = 4; // bar heights per row, so up to four neighbouring families' bars never coincide
-const LANE_GAP = 4; // world units between lanes (a row is 80; the union sits 40 below its parents)
+const LANE_GAP = 6; // world units between lanes (a row is 110; the union sits about 55 below its parents)
+/** How far a family's union node sits above (+) or below (−) the half-row height, for its lane. */
+export const laneOffset = (lane: number) => ((lane % LANES) - (LANES - 1) / 2) * LANE_GAP;
 const LABEL_REACH = 20; // world units along a straight link from its person; half an ordinary link
 let elbows = false;
 /** Draw links as right-angled connectors (2D) or straight (3D). Called by flat.ts; takes effect as the layout runs. */
@@ -282,26 +285,24 @@ const put = (i: number, x: number, y: number, z: number) => pts.set([x, y, z], i
 function placeLink(line: LineSegments2, label: THREE.Object3D, start: Pos, end: Pos, l: Link): void {
     const [a, b] = [start as Required<Pos>, end as Required<Pos>];
     const kind = l.kind;
-    const union = kind === "spouse" ? l.target : l.source;
-    const lane = typeof union === "string" ? 0 : (union.lane ?? 0);
     if (elbows && kind === "child") {
-        // a = union, b = child; the sibling bar drops further below the union the higher its family's lane
+        // a = union, b = child: down a little from the union, across, and down to just above the child's name
         const top = b.y + ABOVE_NAME;
-        const bar = Math.max(top, a.y - BAR_DROP - lane * LANE_GAP);
+        const bar = Math.max(top, a.y - BAR_DROP);
         put(0, a.x, a.y, a.z);
         put(1, a.x, bar, a.z);
         put(2, b.x, bar, b.z);
         put(3, b.x, top, b.z);
         label.position.set(b.x, (bar + top) / 2, b.z);
     } else if (elbows) {
-        // a = parent, b = union: down from the parent to the family's lane, across, and up or down into the union
+        // a = parent, b = union: down from the parent to the union's height and across to it; the bar is split in two
+        // to make the third segment
         const from = a.y - BELOW_BADGE;
-        const bar = b.y + (lane - (LANES - 1) / 2) * LANE_GAP;
         put(0, a.x, from, a.z);
-        put(1, a.x, bar, a.z);
-        put(2, b.x, bar, b.z);
+        put(1, a.x, b.y, a.z);
+        put(2, (a.x + b.x) / 2, b.y, (a.z + b.z) / 2);
         put(3, b.x, b.y, b.z);
-        label.position.set(a.x, (from + bar) / 2, a.z);
+        label.position.set(a.x, (from + b.y) / 2, a.z);
     } else {
         for (let i = 0; i <= SEGMENTS; i++) {
             const t = i / SEGMENTS;

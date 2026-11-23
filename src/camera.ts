@@ -110,7 +110,7 @@ const center = new THREE.Vector3();
 const goal = new THREE.Vector3();
 const offset = new THREE.Vector3();
 const TALL = 2; // a tree needing over twice the distance for its height as for its width counts as tall...
-const TALL_MIN_H = 480; // ...and is then framed at least this high (six rows), from its top
+const TALL_MIN_H = 660; // ...and is then framed at least this high (six rows of 110), from its top
 const NAME_LINE = 4; // world units per line of a name label (labels.ts)
 const FIRST_NAME_PX = 10; // a saga's first view is never so far out that a name line is under this many px
 function stepFit(bbox: Bbox, dt: number, top: boolean) {

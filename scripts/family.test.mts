@@ -1,4 +1,4 @@
-// Test for src/family.ts: lineage, relatives, siblings, labels, search and house depth.
+// Test for src/tree/family.ts: lineage, relatives, siblings, labels, search and house depth.
 //
 // Data: real sagas (got, starwars and others) via treeById(), so the expectations are facts about the stories.
 // Run alone: node --experimental-strip-types --no-warnings scripts/family.test.mts  (also part of npm test)
@@ -12,8 +12,6 @@ import {
     birthFamily,
     childLabel,
     descendantCount,
-    distinguish,
-    findByName,
     houseDepths,
     immediateFamily,
     lineage,
@@ -21,9 +19,9 @@ import {
     parentLabel,
     siblingsOf,
     relatives,
-    searchPeople,
     siblingLabel,
-} from "../src/family.ts";
+} from "../src/tree/family.ts";
+import { distinguish, findByName, searchPeople } from "../src/tree/search.ts";
 import { treeById } from "./data.mts";
 
 const saga = (id: string): Tree => treeById(id);
@@ -132,7 +130,8 @@ console.log("ok  family queries: lineage, relatives, ancestry, link labels, sear
 
 // --- Navigation helpers: cousins, namesakes, branches, the tour line, relationship search ---------------------------
 {
-    const { cousinsOf, namesakes, descendantsOf, longestLine, searchRelation } = await import("../src/family.ts");
+    const { cousinsOf, namesakes, descendantsOf, longestLine } = await import("../src/tree/family.ts");
+    const { searchRelation } = await import("../src/tree/search.ts");
     // Jon Snow is Lyanna's son, so Eddard's children are his first cousins.
     for (const c of ["robb", "sansa", "arya", "bran", "rickon"])
         assert.ok(cousinsOf(got, "jon").includes(c), `${c} is Jon's cousin`);
@@ -160,7 +159,7 @@ console.log("ok  family queries: lineage, relatives, ancestry, link labels, sear
     assert.equal(bible.people[jacob!.from].name, "Jacob (Israel)", "sons of Jacob finds Jacob (Israel)");
     assert.equal(jacob!.ids.length, 11, "Jacob (Israel)'s eleven sons in this data (Dinah is his daughter)");
     // The tour follows the selected person: Tyrion's runs through Tywin, not the Starks (the saga's longest line).
-    const { tourLine } = await import("../src/family.ts");
+    const { tourLine } = await import("../src/tree/family.ts");
     const tyrion = tourLine(got, "tyrion");
     assert.ok(tyrion.includes("tyrion") && tyrion.includes("tywin"), `Tyrion's tour: ${tyrion}`);
     assert.ok(!tyrion.includes("rickard"), "Tyrion's tour doesn't go through Rickard Stark");
@@ -168,7 +167,7 @@ console.log("ok  family queries: lineage, relatives, ancestry, link labels, sear
     assert.equal(rickard[0], "rickard", "Rickard's tour starts with him (no recorded parents)");
     assert.ok(rickard.length >= 3, "…and runs down through his descendants");
     assert.deepEqual(tourLine(got, null), longestLine(got), "nobody selected: the saga's longest line");
-    const { houseNamed } = await import("../src/family.ts");
+    const { houseNamed } = await import("../src/tree/search.ts");
     for (const q of ["Stark", "stark", "STARK", "House Stark", "house  stark"])
         assert.equal(houseNamed(got, q), "Stark", `house link "${q}"`);
     assert.equal(houseNamed(got, "Nope"), null, "unknown house");

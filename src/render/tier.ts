@@ -23,6 +23,20 @@ export type GpuInfo = {
     mobile: boolean; // touch-first device (coarse pointer) — affects battery-sensitive defaults, not capability
 };
 
+/** Every cost-bearing setting, by tier. Change quality here, not in the modules that use it. */
+export type Quality = {
+    pixelRatio: number; // cap on device pixels per CSS pixel for the main render
+    antialias: boolean; // MSAA on the default framebuffer
+    bloom: boolean; // default for the "Glow" toggle (user can still turn it on/off)
+    bloomScale: number; // bloom render-target size as a fraction of the screen (it's a blur; low res is fine)
+    nebulaSize: number; // cube face size for the baked sky
+    nebulaOctaves: number;
+    nebulaMipmaps: boolean;
+    sphereSegments: [number, number]; // person sphere detail
+    labelDeclutterMs: number; // how often to re-run the name overlap pass
+    idleFps: number; // frame rate once nothing is moving (battery)
+};
+
 // Renderer-string families. Order matters: first match wins. Patterns are case-insensitive.
 const FAMILIES: [RegExp, Tier][] = [
     // Software renderers: always low (a GPU-less VM, or a blocklisted driver falling back to the CPU).
@@ -49,57 +63,6 @@ const FAMILIES: [RegExp, Tier][] = [
     [/intel/i, "low"],
     [/amd|radeon/i, "medium"], // APUs (Vega 3–8 integrated)
 ];
-
-/** Classify a device into a tier. Pure: unit-tested in scripts/tier.test.mts. */
-export function classify(g: GpuInfo): { tier: Tier; reason: string } {
-    // Hard capability floors first: these are never wrong, whatever the renderer string says.
-    if (g.maxTextureSize < 4096) return { tier: "low", reason: `max texture ${g.maxTextureSize}px` };
-    if (!g.halfFloatTargets) return { tier: "low", reason: "no float render targets" };
-
-    let tier: Tier | null = null;
-    let reason = "";
-    for (const [re, t] of FAMILIES)
-        if (re.test(g.renderer)) {
-            tier = t;
-            reason = `GPU "${g.renderer.slice(0, 60)}"`;
-            break;
-        }
-    // Unknown or masked GPU: decide from memory/cores, conservatively (medium unless clearly weak or strong).
-    if (!tier) {
-        const mem = g.deviceMemory ?? (g.mobile ? 4 : 8);
-        const cores = g.cores ?? 4;
-        tier = mem <= 2 || cores <= 2 ? "low" : mem >= 8 && cores >= 8 && !g.mobile ? "high" : "medium";
-        reason = `unknown GPU; ${g.deviceMemory ?? "?"} GB, ${g.cores ?? "?"} cores`;
-    }
-    // Low memory caps the tier regardless of GPU (large textures and the nebula bake must fit).
-    if (g.deviceMemory !== undefined && g.deviceMemory <= 2 && tier !== "low") {
-        tier = "low";
-        reason += "; ≤2 GB memory";
-    } else if (g.deviceMemory !== undefined && g.deviceMemory <= 4 && tier === "high" && g.mobile) {
-        tier = "medium";
-        reason += "; ≤4 GB on mobile";
-    }
-    // No full float targets: bloom falls back to half-float, which is fine, but keep the very top tier honest.
-    if (tier === "high" && !g.floatTargets) {
-        tier = "medium";
-        reason += "; no 32-bit float targets";
-    }
-    return { tier, reason };
-}
-
-/** Every cost-bearing setting, by tier. Change quality here, not in the modules that use it. */
-export type Quality = {
-    pixelRatio: number; // cap on device pixels per CSS pixel for the main render
-    antialias: boolean; // MSAA on the default framebuffer
-    bloom: boolean; // default for the "Glow" toggle (user can still turn it on/off)
-    bloomScale: number; // bloom render-target size as a fraction of the screen (it's a blur; low res is fine)
-    nebulaSize: number; // cube face size for the baked sky
-    nebulaOctaves: number;
-    nebulaMipmaps: boolean;
-    sphereSegments: [number, number]; // person sphere detail
-    labelDeclutterMs: number; // how often to re-run the name overlap pass
-    idleFps: number; // frame rate once nothing is moving (battery)
-};
 
 export const QUALITY: Record<Tier, Quality> = {
     low: {
@@ -139,6 +102,43 @@ export const QUALITY: Record<Tier, Quality> = {
         idleFps: 30,
     },
 };
+
+/** Classify a device into a tier. Pure: unit-tested in scripts/tier.test.mts. */
+export function classify(g: GpuInfo): { tier: Tier; reason: string } {
+    // Hard capability floors first: these are never wrong, whatever the renderer string says.
+    if (g.maxTextureSize < 4096) return { tier: "low", reason: `max texture ${g.maxTextureSize}px` };
+    if (!g.halfFloatTargets) return { tier: "low", reason: "no float render targets" };
+
+    let tier: Tier | null = null;
+    let reason = "";
+    for (const [re, t] of FAMILIES)
+        if (re.test(g.renderer)) {
+            tier = t;
+            reason = `GPU "${g.renderer.slice(0, 60)}"`;
+            break;
+        }
+    // Unknown or masked GPU: decide from memory/cores, conservatively (medium unless clearly weak or strong).
+    if (!tier) {
+        const mem = g.deviceMemory ?? (g.mobile ? 4 : 8);
+        const cores = g.cores ?? 4;
+        tier = mem <= 2 || cores <= 2 ? "low" : mem >= 8 && cores >= 8 && !g.mobile ? "high" : "medium";
+        reason = `unknown GPU; ${g.deviceMemory ?? "?"} GB, ${g.cores ?? "?"} cores`;
+    }
+    // Low memory caps the tier regardless of GPU (large textures and the nebula bake must fit).
+    if (g.deviceMemory !== undefined && g.deviceMemory <= 2 && tier !== "low") {
+        tier = "low";
+        reason += "; ≤2 GB memory";
+    } else if (g.deviceMemory !== undefined && g.deviceMemory <= 4 && tier === "high" && g.mobile) {
+        tier = "medium";
+        reason += "; ≤4 GB on mobile";
+    }
+    // No full float targets: bloom falls back to half-float, which is fine, but keep the very top tier honest.
+    if (tier === "high" && !g.floatTargets) {
+        tier = "medium";
+        reason += "; no 32-bit float targets";
+    }
+    return { tier, reason };
+}
 
 /** Probe the browser. Uses a throwaway canvas, so it can run before the renderer exists. */
 export function probe(): GpuInfo | null {

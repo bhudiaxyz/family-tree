@@ -10,16 +10,14 @@
 
 import type GUI from "lil-gui";
 import type { Tree } from "../data/schema.ts";
-import { fitPeople } from "../camera.ts";
-import { nodeById } from "../graph.ts";
-import { palette } from "../palettes.ts";
+import { fitPeople } from "../render/camera.ts";
+import { nodeById } from "../graph/graph.ts";
+import { palette } from "../render/palettes.ts";
 import { deselect } from "./panel.ts";
-import { refreshHighlight, state } from "./state.ts";
-import { writeUrl } from "./url.ts";
-import { el } from "./dom.ts";
+import { el, refreshHighlight, state, writeUrl } from "./state.ts";
 
 const list = el("ul", { id: "legend-list" });
-list.setAttribute("aria-label", "Houses");
+let framed = false; // the lit house has been framed (its second click), so the next click clears it
 
 /** Put the legend in a collapsed "Houses" folder of the menu. */
 export function mountLegend(gui: GUI): void {
@@ -65,8 +63,6 @@ export function setLegend(tree: Tree): void {
     setHouse(null);
 }
 
-let framed = false; // the lit house has been framed (its second click), so the next click clears it
-
 /** Bring every member of a house into view. */
 export function frameHouse(house: string): void {
     const tree = state.tree;
@@ -90,3 +86,5 @@ export function setHouse(house: string | null): void {
     refreshHighlight();
     if (state.tree) writeUrl(); // ?house= (only once a tree is up: setLegend clears it while a saga is being shown)
 }
+
+list.setAttribute("aria-label", "Houses");

@@ -1,4 +1,4 @@
-// Test for src/tier.ts: GPU tier classification (classify).
+// Test for src/render/tier.ts: GPU tier classification (classify).
 //
 // Data: renderer strings real devices report (WEBGL_debug_renderer_info, or the masked string when a browser hides it),
 //   written inline; no saga files. Covers the supported range, devices up to ~7 years old.
@@ -6,7 +6,7 @@
 // Notes: no ratchets. When a new device is misclassified, add its renderer string here with the tier it should get.
 
 import assert from "node:assert/strict";
-import { classify, type GpuInfo, QUALITY } from "../src/tier.ts";
+import { classify, type GpuInfo, QUALITY } from "../src/render/tier.ts";
 
 const base: GpuInfo = {
     renderer: "",

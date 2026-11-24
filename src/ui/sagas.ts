@@ -3,7 +3,7 @@
 // What it does: `start()` reads the URL, builds the menu (saga picker, glow, guides, 2D, 2D right-angled links,
 // Settings folder (glow, guides, nebula), Houses and
 // Pinned folders) and opens the first saga; `openSaga` loads one; `showImported` shows a GEDCOM file.
-// Usage: app.ts calls start() and rebuildAfterContextLoss(); files.ts calls showImported().
+// Usage: main.ts calls start() and rebuildAfterContextLoss(); files.ts calls showImported().
 // Notes: `show()` resets all per-tree state (selection, relationship, group, collapsed, trail, card, panel, palette)
 // before building the new tree, then fits (or restores the remembered view) and writes the URL. `openSaga` ignores a
 // slow response if another saga was picked since. A linked person or house is applied 1.5 s later, once the layout
@@ -12,24 +12,37 @@
 // so the tree draws first.
 
 import GUI from "lil-gui";
-import { fitTree, setFlatView } from "../camera.ts";
+import { fitTree, setFlatView } from "../render/camera.ts";
 import type { SagaIndexEntry, Tree } from "../data/schema.ts";
 import { listSagas, loadSaga, sagaTitle } from "../data/source.ts";
-import { houseNamed } from "../family.ts";
-import { setFlat, setGuidesVisible, setRightAngles, showTree } from "../graph.ts";
-import { fontsReady, resetBadges } from "../labels.ts";
-import { bakeNebula } from "../nebula.ts";
-import { paletteFor, usePalette } from "../palettes.ts";
-import { applyScenePalette, controls, glow, renderer, setGlow, setSky, warmUp } from "../scene.ts";
-import { setPerson, setSuggestions } from "../suggest.ts";
-import { author, el, panel, relA, relB, search, title } from "./dom.ts";
+import { houseNamed } from "../tree/search.ts";
+import { setFlat, setGuidesVisible, setRightAngles, showTree } from "../graph/graph.ts";
+import { fontsReady, resetBadges } from "../render/labels.ts";
+import { bakeNebula } from "../render/nebula.ts";
+import { paletteFor, usePalette } from "../render/palettes.ts";
+import { applyScenePalette, controls, glow, renderer, setGlow, setSky, warmUp } from "../render/scene.ts";
+import { setPerson, setSuggestions } from "./suggest.ts";
+
+import {
+    author,
+    el,
+    IMPORTED,
+    onPopState,
+    panel,
+    refreshHighlight,
+    relA,
+    relB,
+    search,
+    state,
+    title,
+    writeUrl,
+} from "./state.ts";
+
 import { mountLegend, setHouse, setLegend } from "./legend.ts";
 import { onPinsChanged, pinned, rememberView, restoreView } from "./navigate.ts";
 import { clearTrail, onHistoryBack, refreshPanel, relativeToId, select, setRelativeTo } from "./panel.ts";
 import { resetCard } from "./picking.ts";
 import { openRelate, resetRelate } from "./relate.ts";
-import { IMPORTED, refreshHighlight, state } from "./state.ts";
-import { onPopState, writeUrl } from "./url.ts";
 import { refreshFolds, setFocus } from "./visibility.ts";
 
 // The manifest (sagas.json), keyed by id. The URL and the menu only carry an id; the entry adds the category that
@@ -37,6 +50,19 @@ import { refreshFolds, setFocus } from "./visibility.ts";
 const sagaIndex = new Map<string, SagaIndexEntry>();
 
 let request = 0; // ignore a slow response if the user has already picked another saga
+
+// --- Nebula sky: baked per saga, a frame after the tree appears -------------------------------------------------
+// Baking takes a few hundred ms on a phone. Doing it in the next frame lets the new tree draw first (against the flat
+// vignette), then the sky fades in instead of the saga switch feeling stuck. A newer request supersedes an older one.
+let skyRequest = 0;
+
+let nebulaOn = true;
+
+// --- Pinned people: a menu folder listing the people starred in the panel ---------------------------------------
+const pinList = el("ul", { id: "pin-list" });
+
+let pinFolder: GUI | null = null;
+
 async function openSaga(id: string, person?: string | null, withPerson?: string | null, house?: string | null) {
     const mine = ++request;
     rememberView(state.sagaId); // so switching back here returns to this view
@@ -141,11 +167,6 @@ function afterRebuild(): void {
 /** Run `fn` two frames from now: after the library's next tick has built objects, and after the tree has drawn. */
 const afterTwoFrames = (fn: () => void) => requestAnimationFrame(() => requestAnimationFrame(fn));
 
-// --- Nebula sky: baked per saga, a frame after the tree appears -------------------------------------------------
-// Baking takes a few hundred ms on a phone. Doing it in the next frame lets the new tree draw first (against the flat
-// vignette), then the sky fades in instead of the saga switch feeling stuck. A newer request supersedes an older one.
-let skyRequest = 0;
-let nebulaOn = true;
 function scheduleSky(id: string) {
     const mine = ++skyRequest;
     if (!nebulaOn) return setSky(null);
@@ -220,7 +241,7 @@ function buildMenu(sagas: SagaIndexEntry[], first: string, params: URLSearchPara
         .name("Right-angles")
         .onChange((on: boolean) => (setRightAngles(on), localStorage.setItem("ft.rightAngles", String(on))));
     set2d(flat.on);
-    // Brothers and sisters always share a row (generations.ts "together"); there's no longer a menu choice for it.
+    // Brothers and sisters always share a row (tree/generations.ts "together"); there's no longer a menu choice for it.
     // Display settings, in a folder that starts closed. Glow defaults off on touch devices (GPU/battery); all are
     // remembered between visits.
     const settings = gui.addFolder("Settings").close();
@@ -253,14 +274,12 @@ function buildMenu(sagas: SagaIndexEntry[], first: string, params: URLSearchPara
     if (matchMedia("(max-width: 600px)").matches) gui.close(); // on phones the open menu covers the title
 }
 
-// --- Pinned people: a menu folder listing the people starred in the panel ---------------------------------------
-const pinList = el("ul", { id: "pin-list" });
-let pinFolder: GUI | null = null;
 function mountPins(gui: GUI) {
     pinFolder = gui.addFolder("Pinned").close();
     pinFolder.$children.append(pinList);
     showPins();
 }
+
 function showPins() {
     const ids = pinned();
     pinFolder?.show(ids.length > 0);
@@ -274,4 +293,5 @@ function showPins() {
         })
     );
 }
+
 onPinsChanged(showPins);

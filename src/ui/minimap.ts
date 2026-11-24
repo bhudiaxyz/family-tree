@@ -3,38 +3,56 @@
 // What it does: draws a dot per person in their house colour, the highlight, and the view's footprint; click or drag
 // on it to move the view there (`stepMinimap` draws, `setMinimap`/`toggleMinimap` show or hide, remembered in
 // localStorage "ft.minimap").
-// Usage: app.ts calls stepMinimap() every frame; input.ts calls toggleMinimap (M).
+// Usage: main.ts calls stepMinimap() every frame; input.ts calls toggleMinimap (M).
 // Notes: drawn in 2D from the front, not as a second 3D render; it only redraws when a fingerprint of the view, layout
 // or highlight changes. The shape follows the tree (landscape for wide, portrait for tall) and frames the 2nd to 98th
 // percentile sideways so one outlier can't squash the tree. Clicks clamp to the tree's extent. The elements are
 // created here and appended to <body>; see #minimap in style.css.
 
 import * as THREE from "three";
-import { glideTo } from "../camera.ts";
-import { graph, isShown, layoutRunning, type Node } from "../graph.ts";
-import { palette } from "../palettes.ts";
-import { camera, controls } from "../scene.ts";
-import { state } from "./state.ts";
-import { el } from "./dom.ts";
+import { glideTo } from "../render/camera.ts";
+import { graph, isShown, layoutRunning, type Node } from "../graph/graph.ts";
+import { palette } from "../render/palettes.ts";
+import { camera, controls } from "../render/scene.ts";
+import { el, state } from "./state.ts";
 
 // The map's shape follows the tree's: landscape for a wide tree, portrait for a tall one (the Bible is 78 rows by a
 // handful of people), about the same area either way. Set per saga in fit().
 // Start at 0 so the first resize() really sizes the canvas: starting at the wide shape made it return early, leaving
 // the browser's default 300 × 150 canvas (too wide, unscaled, and only partly cleared, which left streaks).
 let W = 0;
+
 let H = 0;
 const SHAPES = { wide: [168, 120], tall: [110, 190] } as const;
 const PAD = 8;
 const wrap = el("div", { id: "minimap" });
 const canvas = document.createElement("canvas"); // drawn at 2× for sharpness (see resize)
-canvas.setAttribute("role", "img");
-canvas.setAttribute("aria-label", "Overview of the whole tree; click to move the view there");
 const toggle = el("button", { id: "minimap-toggle", textContent: "▣" });
-toggle.title = "Show or hide the overview map (M)";
-toggle.setAttribute("aria-pressed", "true");
-wrap.append(canvas);
-document.body.append(wrap, toggle);
 const g = canvas.getContext("2d")!;
+let last = ""; // fingerprint of the last drawn state (see stepMinimap); declared before setMinimap runs below
+let on = localStorage.getItem("ft.minimap") !== "false";
+
+// World → map: fit the people's x/y extent into the canvas, keeping proportions.
+let box = { x0: 0, x1: 1, y0: 0, y1: 1, s: 1, ox: 0, oy: 0 };
+
+// The view's footprint on the tree's plane (z = 0 is close enough for an overview): where the screen corners land.
+const ray = new THREE.Raycaster();
+
+const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+const hit = new THREE.Vector3();
+const ndc = new THREE.Vector2();
+
+/** Redraw if anything visible changed; called from the frame loop. */
+// A still camera over a settled layout with the same highlight needs no redraw: check that cheaply first, before
+// filtering the nodes and building the full key (which allocated every frame).
+const lastCam = new THREE.Vector3(Infinity, 0, 0);
+
+const lastTarget = new THREE.Vector3();
+let lastState = "";
+
+// Click or drag: move the view's centre to that point of the tree, at the current distance.
+const aim = new THREE.Vector3();
+
 function resize(w: number, h: number) {
     if (w === W && h === H && canvas.width) return;
     W = w;
@@ -46,10 +64,7 @@ function resize(w: number, h: number) {
     document.documentElement.style.setProperty("--map-h", `${H}px`); // the toggle sits just above the map
     g.setTransform(2, 0, 0, 2, 0, 0);
 }
-resize(SHAPES.wide[0], SHAPES.wide[1]);
 
-let last = ""; // fingerprint of the last drawn state (see stepMinimap); declared before setMinimap runs below
-let on = localStorage.getItem("ft.minimap") !== "false";
 export function setMinimap(show: boolean): void {
     on = show;
     wrap.hidden = !show;
@@ -57,12 +72,9 @@ export function setMinimap(show: boolean): void {
     localStorage.setItem("ft.minimap", String(show));
     last = "";
 }
-export const toggleMinimap = () => setMinimap(!on);
-toggle.onclick = toggleMinimap;
-setMinimap(on);
 
-// World → map: fit the people's x/y extent into the canvas, keeping proportions.
-let box = { x0: 0, x1: 1, y0: 0, y1: 1, s: 1, ox: 0, oy: 0 };
+export const toggleMinimap = () => setMinimap(!on);
+
 // Frame the 2nd–98th percentile sideways, like the camera's fit: one outlier (the Bible's Mariam, who has no relatives
 // and drifts off on her own) would otherwise squash the whole tree into a sliver. Every generation is kept.
 function fit(nodes: Node[]) {
@@ -78,14 +90,10 @@ function fit(nodes: Node[]) {
     const s = Math.min((W - 2 * PAD) / Math.max(1, x1 - x0), (H - 2 * PAD) / Math.max(1, y1 - y0));
     box = { x0, x1, y0, y1, s, ox: (W - (x1 - x0) * s) / 2, oy: (H - (y1 - y0) * s) / 2 };
 }
+
 const toMap = (x: number, y: number) => [box.ox + (x - box.x0) * box.s, box.oy + (box.y1 - y) * box.s] as const;
 const toWorld = (mx: number, my: number) => [box.x0 + (mx - box.ox) / box.s, box.y1 - (my - box.oy) / box.s] as const;
 
-// The view's footprint on the tree's plane (z = 0 is close enough for an overview): where the screen corners land.
-const ray = new THREE.Raycaster();
-const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
-const hit = new THREE.Vector3();
-const ndc = new THREE.Vector2();
 function footprint(): [number, number][] {
     const pts: [number, number][] = [];
     for (const [x, y] of [
@@ -105,12 +113,6 @@ function footprint(): [number, number][] {
         : [];
 }
 
-/** Redraw if anything visible changed; called from the frame loop. */
-// A still camera over a settled layout with the same highlight needs no redraw: check that cheaply first, before
-// filtering the nodes and building the full key (which allocated every frame).
-const lastCam = new THREE.Vector3(Infinity, 0, 0);
-const lastTarget = new THREE.Vector3();
-let lastState = "";
 export function stepMinimap(): void {
     if (!on || !state.tree) return;
     const quickState = `${state.selected}|${state.house}|${state.focus}|${state.group?.label}`;
@@ -182,8 +184,6 @@ export function stepMinimap(): void {
     g.restore(); // the clip
 }
 
-// Click or drag: move the view's centre to that point of the tree, at the current distance.
-const aim = new THREE.Vector3();
 // Clamped to the tree's extent: a click in the map's empty margin moves to the nearest edge of the tree, never off
 // into empty space.
 function moveTo(e: PointerEvent) {
@@ -193,8 +193,20 @@ function moveTo(e: PointerEvent) {
         aim.set(THREE.MathUtils.clamp(x, box.x0, box.x1), THREE.MathUtils.clamp(y, box.y0, box.y1), controls.target.z)
     );
 }
+
+canvas.setAttribute("role", "img");
+canvas.setAttribute("aria-label", "Overview of the whole tree; click to move the view there");
+toggle.title = "Show or hide the overview map (M)";
+toggle.setAttribute("aria-pressed", "true");
+wrap.append(canvas);
+document.body.append(wrap, toggle);
+resize(SHAPES.wide[0], SHAPES.wide[1]);
+toggle.onclick = toggleMinimap;
+setMinimap(on);
+
 canvas.addEventListener("pointerdown", (e) => {
     canvas.setPointerCapture(e.pointerId);
     moveTo(e);
 });
+
 canvas.addEventListener("pointermove", (e) => e.buttons && moveTo(e));

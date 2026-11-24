@@ -275,6 +275,20 @@
             <button data-dir="down" aria-label="Pan down">&#9660;</button>
         </nav>
 
-        <script type="module" src="/src/main.ts"></script>
+        <!-- Entry point: load the stylesheet, then the 3D app by dynamic import, so a browser without WebGL 2 (render/
+             scene.ts throws NoWebGLError) or a failed download gets the #no-webgl notice instead of a blank page. The
+             saga list stays readable in that state, which is what "no-3d" is for in style.css. -->
+        <script type="module">
+            import "/src/style.css";
+            import("/src/main.ts").catch((e) => {
+                document.getElementById("no-webgl-reason").textContent =
+                    e.name === "NoWebGLError" || /webgl/i.test(e.message)
+                        ? e.message
+                        : `The app failed to load: ${e.message}`;
+                document.getElementById("no-webgl").hidden = false;
+                document.body.classList.add("no-3d");
+                console.error(e);
+            });
+        </script>
     </body>
 </html>

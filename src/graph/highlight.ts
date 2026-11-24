@@ -13,21 +13,12 @@
 import * as THREE from "three";
 import SpriteText from "three-spritetext";
 import type { LineSegments2 } from "three/addons/lines/LineSegments2.js";
-import type { LineRole } from "../family.ts";
-import { palette } from "../palettes.ts";
-import { approach, boundLinks, boundNodes, endId, graph, type Link, LINK_OPACITY, LINK_PX } from "./core.ts";
+import type { LineRole } from "../tree/family.ts";
+import { palette } from "../render/palettes.ts";
+import { boundLinks, boundNodes, graph } from "./core.ts";
+import { approach, endId, type Link } from "./graph-types.ts";
+import { LINK_OPACITY, LINK_PX } from "./links.ts";
 import { siblingLabels, siblingMat, siblingPairs, siblings } from "./siblings.ts";
-
-const DIM = 0.12; // opacity of everything outside a highlighted line
-const HIDDEN = 0; // ...or, in focus mode, nothing at all
-const FADE_RATE = 10; // highlight fades converge at this rate per second (≈ 0.3 s to settle)
-const DISTANCE_FADE = 0.12; // each generation away from the centre person is this much fainter...
-const MIN_LIT = 0.55; // ...down to this, so even distant ancestors stay clearly part of the line
-const TINT = 0.32; // strength of the ancestor/descendant tint (emissive, on top of the house colour)
-
-/** People in the highlighted line, or null to show everything (read by names.ts to keep their labels readable). */
-export let focus: Set<string> | null = null;
-let pathLinks = new Set<Link>(); // links on a relationship path, drawn brighter and thicker
 
 export type HighlightOptions = {
     /** Side and distance per person (a selected person's line), for the direction tint and distance fade. */
@@ -44,8 +35,36 @@ export type HighlightOptions = {
     centre?: string | null;
 };
 
+const DIM = 0.12; // opacity of everything outside a highlighted line
+const HIDDEN = 0; // ...or, in focus mode, nothing at all
+const FADE_RATE = 10; // highlight fades converge at this rate per second (≈ 0.3 s to settle)
+const DISTANCE_FADE = 0.12; // each generation away from the centre person is this much fainter...
+const MIN_LIT = 0.55; // ...down to this, so even distant ancestors stay clearly part of the line
+const TINT = 0.32; // strength of the ancestor/descendant tint (emissive, on top of the house colour)
+
+/** People in the highlighted line, or null to show everything (read by names.ts to keep their labels readable). */
+export let focus: Set<string> | null = null;
+
+let pathLinks = new Set<Link>(); // links on a relationship path, drawn brighter and thicker
+
 /** People folded away under a collapsed branch: hidden whatever the highlight. Set by the UI (state.collapsed). */
 let folded = new Set<string>();
+
+/** The link under the pointer (picking.ts): drawn a little brighter and wider, so you can see which the card is about. */
+let hoverLink: Link | null = null;
+
+const HOVER_LIFT = 0.7; // how far towards path styling a hovered link goes
+
+// Once every fade has reached its target, stepFades() has nothing to do until a new highlight() (or a new tree):
+// skipping it then saves a walk over every person and link object each frame, the largest per-frame CPU cost in a
+// big saga (measured 18% of a frame while orbiting the Bible). `moved` is set by any value that still changed.
+let settled = false;
+
+let moved = false;
+const tintColour = new THREE.Color();
+const goldColour = new THREE.Color();
+const stepGold = new THREE.Color();
+
 export const setFolded = (ids: Set<string>) => (folded = ids);
 
 /** Dim everything outside `people` (null clears it); see HighlightOptions for the extras. */
@@ -139,14 +158,11 @@ function linksAlong(links: Link[], path: string[]): Set<Link> {
     return found;
 }
 
-/** The link under the pointer (picking.ts): drawn a little brighter and wider, so you can see which the card is about. */
-let hoverLink: Link | null = null;
 export function setHoverLink(l: Link | null): void {
     if (l === hoverLink) return;
     hoverLink = l;
     settled = false;
 }
-const HOVER_LIFT = 0.7; // how far towards path styling a hovered link goes
 
 /** Forget the highlight without touching objects (a new tree's objects start lit). */
 export const clearFocus = () => {
@@ -154,11 +170,6 @@ export const clearFocus = () => {
     settled = false; // the new tree's objects have no fade state yet
 };
 
-// Once every fade has reached its target, stepFades() has nothing to do until a new highlight() (or a new tree):
-// skipping it then saves a walk over every person and link object each frame, the largest per-frame CPU cost in a
-// big saga (measured 18% of a frame while orbiting the Bible). `moved` is set by any value that still changed.
-let settled = false;
-let moved = false;
 /** Ease `cur` towards `target`, snapping when close so it settles; notes that something moved. */
 const ease = (cur: number, target: number, k: number) => {
     if (cur === target) return cur;
@@ -170,10 +181,6 @@ const ease = (cur: number, target: number, k: number) => {
 function setTarget(obj: THREE.Object3D | undefined, dim: number) {
     obj?.traverse((o) => (o.userData.dimTarget = dim));
 }
-
-const tintColour = new THREE.Color();
-const goldColour = new THREE.Color();
-const stepGold = new THREE.Color();
 
 // Ease every object's dim, glow and tint towards its target. Meshes and lines get opacity directly; labels keep the
 // factor in userData.dim, which names.ts combines with the distance fade. Anything fully faded is made invisible, so

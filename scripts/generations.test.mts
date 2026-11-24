@@ -1,4 +1,4 @@
-// Test for src/generations.ts: generation layering of every saga, in both sibling modes.
+// Test for src/tree/generations.ts: generation layering of every saga, in both sibling modes.
 //
 // Checks: DESCENT always (every child sits below EVERY parent, not just the first); "together" (default): brothers
 //   and sisters share a row, couples line up where that allows; "apart": couples share a row except in INTERMARRIED
@@ -14,7 +14,8 @@
 import assert from "node:assert/strict";
 import type { Tree } from "../src/data/schema.ts";
 import { toTree } from "../src/data/source.ts";
-import { generations, type SiblingMode } from "../src/generations.ts";
+import { generations, type SiblingMode } from "../src/tree/generations.ts";
+import { linkCrossings, rowOrder } from "../src/tree/row-order.ts";
 import { readIndex, readSaga, treeById } from "./data.mts";
 
 // Sagas where "spouses share a row" cannot hold alongside "parents above children", so descent wins and these couples
@@ -23,7 +24,7 @@ import { readIndex, readSaga, treeById } from "./data.mts";
 const INTERMARRIED = new Set(["roman-gods", "bible"]);
 
 const LIMITS: Record<SiblingMode, { siblingSets: number; couples: number }> = {
-    together: { siblingSets: 1, couples: 49 }, // the one split set: a Roman sibling the descent repair must move
+    together: { siblingSets: 1, couples: 38 }, // the one split set: a Roman sibling the descent repair must move
     apart: { siblingSets: 19, couples: 35 },
 };
 
@@ -90,9 +91,12 @@ console.log("ok  together: every set of siblings shares a row, except where one 
     const g = generations(treeById("potter"));
     for (const b of ["bill", "charlie", "percy", "fred", "george", "ron"])
         assert.equal(g.get("ginny"), g.get(b), `together: Ginny on ${b}'s row`);
+    // ...and, since the Weasley branch moves down a row (alignSpouses), with Harry too, and her parents with his.
+    assert.equal(g.get("ginny"), g.get("harry"), "together: Ginny on Harry's row");
+    assert.equal(g.get("arthur"), g.get("james"), "together: Arthur and Molly on James and Lily's row");
     const a = generations(treeById("potter"), "apart");
     assert.equal(a.get("ginny"), a.get("harry"), "apart: Ginny on Harry's row");
-    console.log("ok  Ginny: with her brothers (together), with Harry (apart)");
+    console.log("ok  Ginny: with her brothers and with Harry (together), with Harry (apart); Arthur level with James");
 }
 
 // Both modes: married-in spouses with no parents in the data line up with their partner (the original problem), and
@@ -121,4 +125,36 @@ for (const mode of ["together", "apart"] as const) {
             for (const c of f.children) assert.ok(b.get(c)! > b.get(d)!, `${mode}: ${c} below ${d} and Lot`);
     }
     console.log(`ok  ${mode}: Elia, Drogo and Selyse with their spouses; descent holds for Aeneas, Mars and Lot`);
+}
+
+// Fewer crossing lines: the starting order along each row (rowOrder) sweeps whole blocks (brothers and sisters with
+// the partners beside them) by where their relatives sit. Ratchet: lower it when the order improves, never raise it.
+// 777 crossings across every saga before the sweeps and family chaining; 299 after.
+{
+    const MAX_CROSSINGS = 299;
+    let total = 0;
+    for (const e of readIndex()) {
+        const t = treeById(e.id);
+        const g = generations(t);
+        const x = rowOrder(t, g);
+        // Blocks are never split: each family's children sit in one unbroken run of their row (partners may sit at
+        // its ends, but nobody else in between).
+        // (Someone recorded in two families, by adoption or as Daphne is in the Roman file, can't sit inside both runs,
+        // so they're left out of the check.)
+        const families = new Map<string, number>();
+        for (const f of t.families) for (const c of f.children) families.set(c, (families.get(c) ?? 0) + 1);
+        for (const f of t.families) {
+            const kids = f.children.filter((c) => families.get(c) === 1 && g.get(c) === g.get(f.children[0]));
+            if (kids.length < 2) continue;
+            const xs = kids.map((c) => x.get(c)!);
+            const [lo, hi] = [Math.min(...xs), Math.max(...xs)];
+            const between = Object.keys(t.people).filter(
+                (id) => g.get(id) === g.get(kids[0]) && !f.children.includes(id) && x.get(id)! > lo && x.get(id)! < hi
+            );
+            assert.deepEqual(between, [], `${e.id}: nobody sits between ${kids.join(", ")}`);
+        }
+        total += linkCrossings(t, g, x);
+    }
+    assert.ok(total <= MAX_CROSSINGS, `${total} crossing lines across every saga (at most ${MAX_CROSSINGS})`);
+    console.log(`ok  row order: ${total} crossing lines across every saga; brothers and sisters never split`);
 }

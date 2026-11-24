@@ -8,7 +8,7 @@
 // and at quality.bloomScale of the screen; it needs half-float targets, so setGlow() refuses without them. draw() turns
 // renderer tone mapping off while the composer runs (OutputPass tones instead), otherwise the image is mapped twice.
 // captureView() copies the frame into a 2D canvas in the same task, avoiding preserveDrawingBuffer. Context events are
-// re-dispatched on window as ft:contextlost / ft:contextrestored, which app.ts listens for.
+// re-dispatched on window as ft:contextlost / ft:contextrestored, which main.ts listens for.
 
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
@@ -21,27 +21,18 @@ import { device, quality } from "./device.ts";
 import { palette } from "./palettes.ts";
 import { disposeNebula } from "./nebula.ts";
 
-/** True if this browser can create a WebGL2 context (three.js r163+ requires WebGL2). */
-export function hasWebGL(): boolean {
-    try {
-        return !!document.createElement("canvas").getContext("webgl2");
-    } catch {
-        return false;
-    }
-}
-
-/** Error thrown when the 3D view cannot start; main.ts catches it and shows a message instead of a blank page. */
-export class NoWebGLError extends Error {
-    override name = "NoWebGLError";
-}
-
-if (!hasWebGL()) throw new NoWebGLError("WebGL 2 is not available");
-
 // The device tier and its quality settings (device.ts) were detected on import, before the renderer: antialiasing
 // can only be chosen at context creation. Re-exported for modules that already import scene.ts.
 export { device, quality };
 
+/** Error thrown when the 3D view cannot start (a class, so it's declared before the renderer that throws it); the
+ * loader in index.html catches it and shows a message instead of a blank page. */
+export class NoWebGLError extends Error {
+    override name = "NoWebGLError";
+}
+
 export const renderer = (() => {
+    if (!hasWebGL()) throw new NoWebGLError("WebGL 2 is not available"); // before trying, for a clear message
     try {
         return new THREE.WebGLRenderer({
             antialias: quality.antialias,
@@ -54,29 +45,64 @@ export const renderer = (() => {
         throw new NoWebGLError((e as Error).message); // e.g. GPU blocklisted, or the context limit was reached
     }
 })();
-renderer.setPixelRatio(Math.min(devicePixelRatio, quality.pixelRatio));
-renderer.setSize(innerWidth, innerHeight);
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-document.body.appendChild(renderer.domElement);
 
 export const scene = new THREE.Scene();
-// Lighting for depth: one strong warm key from upper left gives each sphere a clear lit side, terminator and shadow
-// side. The fill is kept low so the shadow side stays dark (but not black), the environment adds only a faint
-// ambient tint (more would flatten the gradient), and a cool rim from behind separates the spheres from the background.
-scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment()).texture;
 const key = new THREE.DirectionalLight();
-key.position.set(-2, 3, 2.5);
 const rim = new THREE.DirectionalLight();
-rim.position.set(2, 1, -3);
 const fill = new THREE.HemisphereLight();
-scene.add(fill, key, rim);
+
 // Depth fog towards the background colour: far people fade back, near ones stay crisp. Its range follows the camera
 // (see updateFog), so it works the same for the whole-tree view and close-ups.
 const fog = new THREE.Fog(0x000000, 200, 900);
-scene.fog = fog;
 
 let fallbackBackground: THREE.Texture | null = null;
 let nebulaBackground: THREE.Texture | null = null;
+
+/**
+ * Depth shading: people darken the further back they are, and brighten as rotating brings them forward. The band
+ * starts a little in front of the orbit target and is sized to the tree's depth (about 175 units of house planes),
+ * not the camera distance: at 2.4× the distance (as it was) the back of the tree was hardly fogged at all.
+ */
+const FOG_DEPTH = 320; // world units behind the start of the band at which fog is complete
+
+// 50° keeps perspective (and so pan parallax) visible without fish-eye distortion at the tree edges.
+export const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 1, 5000);
+
+export const controls = new OrbitControls(camera, renderer.domElement);
+
+// With KHR_parallel_shader_compile the driver compiles in the background and compileAsync() just waits. Without it
+// (older Safari and Firefox, software renderers), compile() blocks until each program is built, so compiling the
+// whole scene at once is one long freeze. Instead compile one object at a time, each of a different material kind,
+// yielding a frame between them: three.js caches programs by their shader source, so the first object of a kind pays
+// for it and every other object sharing that program is then free.
+const parallelCompile = !!renderer.getContext().getExtension("KHR_parallel_shader_compile");
+
+let warming = false;
+let warmRequest = 0;
+const backdrop = new THREE.Scene(); // empty: drawn while warming, showing only the background
+
+// --- Glow (bloom) ---------------------------------------------------------------------------------------------------
+// A soft bloom so the gold relationship path and lit spheres glow. It's several full-screen passes per frame, so:
+//  - it's on by default only on the "high" tier (the user can still toggle it from the menu on any tier);
+//  - the composer is built lazily, the first time glow is turned on, so low-tier devices never allocate its
+//    render targets (several full-screen float buffers, ~30 MB at 1080p);
+//  - its buffers are rendered at quality.bloomScale of the screen: it's a blur, so a third to half resolution
+//    looks the same and costs a quarter or less (the main render keeps full resolution and MSAA).
+// UnrealBloomPass needs half-float render targets; classify() already puts GPUs without them in "low", and
+// setGlow() refuses to enable bloom there, so it can't render black on an unsupported GPU.
+let composer: EffectComposer | null = null;
+
+export const glowSupported = !!device.gpu?.halfFloatTargets;
+export let glow = quality.bloom && glowSupported;
+
+/** True if this browser can create a WebGL2 context (three.js r163+ requires WebGL2). */
+export function hasWebGL(): boolean {
+    try {
+        return !!document.createElement("canvas").getContext("webgl2");
+    } catch {
+        return false;
+    }
+}
 
 /**
  * Apply the active palette's lights, fog and fallback background (palettes.ts). Called at start-up and whenever a
@@ -97,7 +123,6 @@ export function applyScenePalette(): void {
     fallbackBackground = vignette(p.vignette.inner, p.vignette.outer);
     scene.background = nebulaBackground ?? fallbackBackground;
 }
-applyScenePalette();
 
 /** Use `tex` (a baked nebula cube texture) as the sky, or null to show the flat vignette. Disposes the previous sky. */
 export function setSky(tex: THREE.Texture | null): void {
@@ -105,25 +130,12 @@ export function setSky(tex: THREE.Texture | null): void {
     nebulaBackground = tex;
     scene.background = tex ?? fallbackBackground;
 }
-/**
- * Depth shading: people darken the further back they are, and brighten as rotating brings them forward. The band
- * starts a little in front of the orbit target and is sized to the tree's depth (about 175 units of house planes),
- * not the camera distance: at 2.4× the distance (as it was) the back of the tree was hardly fogged at all.
- */
-const FOG_DEPTH = 320; // world units behind the start of the band at which fog is complete
+
 export function updateFog(): void {
     const d = camera.position.distanceTo(controls.target);
     fog.near = d * 0.85;
     fog.far = d + FOG_DEPTH;
 }
-
-// 50° keeps perspective (and so pan parallax) visible without fish-eye distortion at the tree edges.
-export const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 1, 5000);
-camera.position.set(0, 0, 320);
-
-export const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.saveState();
 
 // --- Shader warm-up (declared before the glow setup, which may start a warm-up while this module loads) -----------------------------------------------------------------------------------------------
 // The first frame that meets a new material compiles its shader program on the main thread and blocks until it's
@@ -149,12 +161,7 @@ export async function warmUp(): Promise<void> {
     }
     if (mine === warmRequest) warming = false;
 }
-// With KHR_parallel_shader_compile the driver compiles in the background and compileAsync() just waits. Without it
-// (older Safari and Firefox, software renderers), compile() blocks until each program is built, so compiling the
-// whole scene at once is one long freeze. Instead compile one object at a time, each of a different material kind,
-// yielding a frame between them: three.js caches programs by their shader source, so the first object of a kind pays
-// for it and every other object sharing that program is then free.
-const parallelCompile = !!renderer.getContext().getExtension("KHR_parallel_shader_compile");
+
 async function compileInSteps(): Promise<void> {
     const seen = new Set<string>();
     const reps: THREE.Object3D[] = [];
@@ -171,6 +178,7 @@ async function compileInSteps(): Promise<void> {
         await nextFrame();
     }
 }
+
 // The glow passes render their own full-screen quads, which aren't in `scene`: run the composer once off screen so
 // their programs are built while the tree is still held back.
 async function compileGlow(): Promise<void> {
@@ -184,20 +192,7 @@ async function compileGlow(): Promise<void> {
     }
     await nextFrame();
 }
-let warming = false;
-let warmRequest = 0;
-const backdrop = new THREE.Scene(); // empty: drawn while warming, showing only the background
 
-// --- Glow (bloom) ---------------------------------------------------------------------------------------------------
-// A soft bloom so the gold relationship path and lit spheres glow. It's several full-screen passes per frame, so:
-//  - it's on by default only on the "high" tier (the user can still toggle it from the menu on any tier);
-//  - the composer is built lazily, the first time glow is turned on, so low-tier devices never allocate its
-//    render targets (several full-screen float buffers, ~30 MB at 1080p);
-//  - its buffers are rendered at quality.bloomScale of the screen: it's a blur, so a third to half resolution
-//    looks the same and costs a quarter or less (the main render keeps full resolution and MSAA).
-// UnrealBloomPass needs half-float render targets; classify() already puts GPUs without them in "low", and
-// setGlow() refuses to enable bloom there, so it can't render black on an unsupported GPU.
-let composer: EffectComposer | null = null;
 // The composer resizes every pass to the full device-pixel size, and UnrealBloomPass then always uses half of
 // that, so a size given to its constructor is overwritten on the first resize. This subclass applies the tier's
 // bloomScale instead (its internal /2 included), so the blur buffers really are a third or half of the screen.
@@ -207,6 +202,7 @@ class ScaledBloomPass extends UnrealBloomPass {
         super.setSize(Math.max(2, Math.round(width * k)), Math.max(2, Math.round(height * k)));
     }
 }
+
 function buildComposer(): EffectComposer {
     const c = new EffectComposer(renderer);
     c.addPass(new RenderPass(scene, camera));
@@ -216,8 +212,7 @@ function buildComposer(): EffectComposer {
     c.setSize(innerWidth, innerHeight);
     return c;
 }
-export const glowSupported = !!device.gpu?.halfFloatTargets;
-export let glow = quality.bloom && glowSupported;
+
 export const setGlow = (on: boolean) => {
     glow = on && glowSupported;
     if (glow && !composer) {
@@ -231,7 +226,6 @@ export const setGlow = (on: boolean) => {
         }
     }
 };
-setGlow(glow);
 
 /**
  * Draw one frame, with or without the glow pass. OutputPass applies tone mapping itself, so the renderer's own tone
@@ -258,6 +252,7 @@ function setRenderSize(ratio: number, updateStyle = true) {
     composer?.setPixelRatio(ratio);
     composer?.setSize(innerWidth, innerHeight);
 }
+
 // Dense phone screens (3×) cost 9× the pixels of 1×. The tier caps it: 2× looks sharp on high/medium, and low
 // renders at 1.25×, which on a 7-year-old phone is the difference between smooth and stuttering.
 const screenRatio = () => Math.min(devicePixelRatio, quality.pixelRatio);
@@ -267,19 +262,6 @@ function resize() {
     camera.updateProjectionMatrix();
     setRenderSize(screenRatio());
 }
-addEventListener("resize", resize);
-// Mobile browsers resize the visual viewport (URL bar showing/hiding, on-screen keyboard) without always firing
-// window resize; follow it too so the canvas never ends up stretched or cut off.
-visualViewport?.addEventListener("resize", resize);
-
-// Losing the GPU context (driver reset, too many tabs) would otherwise freeze the view silently.
-renderer.domElement.addEventListener("webglcontextlost", (e) => {
-    e.preventDefault(); // allow the browser to restore it
-    dispatchEvent(new CustomEvent("ft:contextlost"));
-});
-renderer.domElement.addEventListener("webglcontextrestored", () =>
-    dispatchEvent(new CustomEvent("ft:contextrestored"))
-);
 
 function vignette(inner: string, outer: string): THREE.Texture {
     const c = document.createElement("canvas");
@@ -324,3 +306,38 @@ export async function captureView(scale = 2, overlay?: (g: CanvasRenderingContex
     if (!blob) throw new Error("The browser could not encode the image");
     return blob;
 }
+
+renderer.setPixelRatio(Math.min(devicePixelRatio, quality.pixelRatio));
+renderer.setSize(innerWidth, innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+document.body.appendChild(renderer.domElement);
+
+// Lighting for depth: one strong warm key from upper left gives each sphere a clear lit side, terminator and shadow
+// side. The fill is kept low so the shadow side stays dark (but not black), the environment adds only a faint
+// ambient tint (more would flatten the gradient), and a cool rim from behind separates the spheres from the background.
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment()).texture;
+
+key.position.set(-2, 3, 2.5);
+rim.position.set(2, 1, -3);
+scene.add(fill, key, rim);
+scene.fog = fog;
+applyScenePalette();
+camera.position.set(0, 0, 320);
+controls.enableDamping = true;
+controls.saveState();
+setGlow(glow);
+addEventListener("resize", resize);
+
+// Mobile browsers resize the visual viewport (URL bar showing/hiding, on-screen keyboard) without always firing
+// window resize; follow it too so the canvas never ends up stretched or cut off.
+visualViewport?.addEventListener("resize", resize);
+
+// Losing the GPU context (driver reset, too many tabs) would otherwise freeze the view silently.
+renderer.domElement.addEventListener("webglcontextlost", (e) => {
+    e.preventDefault(); // allow the browser to restore it
+    dispatchEvent(new CustomEvent("ft:contextlost"));
+});
+
+renderer.domElement.addEventListener("webglcontextrestored", () =>
+    dispatchEvent(new CustomEvent("ft:contextrestored"))
+);

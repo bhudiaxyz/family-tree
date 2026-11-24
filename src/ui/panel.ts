@@ -9,16 +9,28 @@
 // history, so the back button can name who it returns to. Focus mode and collapse live in visibility.ts; the panel only
 // hosts their controls. Panel element ids must match index.html.
 
-import { fitPeople, fitTree } from "../camera.ts";
-import { ancestry, birthFamily, descendantCount, namesakes, relatives, siblingsOf } from "../family.ts";
-import { generationOf, nodeById, setRelativeTags } from "../graph.ts";
-import { labelAll } from "../relationship.ts";
-import { setPerson } from "../suggest.ts";
-import { $, el, panel, search } from "./dom.ts";
+import { fitPeople, fitTree } from "../render/camera.ts";
+import { ancestry, birthFamily, descendantCount, namesakes, relatives, siblingsOf } from "../tree/family.ts";
+import { generationOf, nodeById, setRelativeTags } from "../graph/graph.ts";
+import { labelAll } from "../tree/relationship.ts";
+import { setPerson } from "./suggest.ts";
+
+import {
+    $,
+    el,
+    flyToPerson,
+    notify,
+    panel,
+    personLink,
+    pushUrl,
+    refreshHighlight,
+    search,
+    state,
+    writeUrl,
+} from "./state.ts";
+
 import { fitFamily, isPinned, onPinsChanged, togglePin } from "./navigate.ts";
 import { openRelate } from "./relate.ts";
-import { flyToPerson, notify, personLink, refreshHighlight, state } from "./state.ts";
-import { pushUrl, writeUrl } from "./url.ts";
 import { setFocus, showCollapse, showDepths } from "./visibility.ts";
 
 const panelName = $("panel-name-text");
@@ -35,6 +47,29 @@ const backName = $("panel-back-name");
 // Kept here (not only in the browser's history) so the panel's ◀ can name who you'd go back to. Each new selection
 // is also a browser history entry, so the browser's Back button and a phone's back gesture walk the same trail.
 const trail: string[] = [];
+
+// --- Recently viewed: the last few people as chips, newest first, so you can jump back several steps at once ------
+const RECENT = 3;
+
+// --- "Relative to" mode ---------------------------------------------------------------------------------------------
+const btnRelativeTo = $("panel-relative-to");
+
+let relativeTo: string | null = null;
+
+// --- Moving between relatives from the keyboard (Alt + arrows, Alt + S) or a swipe ----------------------------------
+// Up: the parent the line of descent above the name follows, so the two always agree. Down: the child you last came
+// up from, so up then down returns you along the same line, else the first child. Left/right: the previous/next
+// sibling (wrapping), or a spouse when there are none.
+const cameUpFrom = new Map<string, string>(); // parent → the child last stepped up from (checked before use)
+
+// --- Line of descent: a clickable trail from the oldest known ancestor down to this person ---------------------------
+// Long lines (the Bible runs 70+ generations) show the start, an ellipsis that expands, and the last few steps.
+const TRAIL_HEAD = 2;
+
+const TRAIL_TAIL = 3;
+
+// --- Swipe the panel left/right (touch) to move to the next/previous sibling, like Alt + ← → ---------------------------
+let swipeFrom: { x: number; y: number } | null = null;
 
 /** Select a person: light their line, fill the panel, and (unless `fromHistory`) add them to the trail. */
 export function select(id: string, fly = false, fromHistory = false): void {
@@ -91,9 +126,6 @@ export function goBack(): void {
     if (prev && state.tree?.people[prev]) select(prev, true, true);
     else updateBack();
 }
-// The ◀ and Backspace walk the panel's own trail (never off the page, unlike history.back() on a fresh deep link);
-// the browser's Back walks the history entries pushUrl() made. Either way you return to the person before.
-back.onclick = goBack;
 
 /** Called on the browser's Back: the URL's person is where to go (or nobody). */
 export function onHistoryBack(person: string | null): void {
@@ -106,8 +138,6 @@ export function onHistoryBack(person: string | null): void {
 /** Forget the trail (a new tree). */
 export const clearTrail = () => (trail.length = 0);
 
-// --- Recently viewed: the last few people as chips, newest first, so you can jump back several steps at once ------
-const RECENT = 3;
 function showRecent(id: string) {
     const seen = [...new Set([...trail].reverse())].filter((p) => p !== id && state.tree!.people[p]).slice(0, RECENT);
     panelRecent.hidden = !seen.length;
@@ -144,27 +174,17 @@ export function deselect(fromHistory = false): void {
     refreshHighlight();
     writeUrl();
 }
-$("panel-close").onclick = () => deselect();
-$("panel-relate").onclick = () => state.selected && openRelate(state.selected);
 
-// --- "Relative to" mode ---------------------------------------------------------------------------------------------
-const btnRelativeTo = $("panel-relative-to");
-let relativeTo: string | null = null;
 /** Who the "relative to" tags describe, if they're on. */
 export const relativeToId = () => relativeTo;
+
 export function setRelativeTo(id: string | null): void {
     relativeTo = id && state.tree ? id : null;
     setRelativeTags(relativeTo ? labelAll(state.tree!, relativeTo) : null);
     btnRelativeTo.setAttribute("aria-pressed", String(!!relativeTo));
     btnRelativeTo.textContent = relativeTo ? "Hide relationship tags" : "Tag everyone's relationship";
 }
-btnRelativeTo.onclick = () => setRelativeTo(relativeTo === state.selected ? null : state.selected);
 
-// --- Moving between relatives from the keyboard (Alt + arrows, Alt + S) or a swipe ----------------------------------
-// Up: the parent the line of descent above the name follows, so the two always agree. Down: the child you last came
-// up from, so up then down returns you along the same line, else the first child. Left/right: the previous/next
-// sibling (wrapping), or a spouse when there are none.
-const cameUpFrom = new Map<string, string>(); // parent → the child last stepped up from (checked before use)
 export function stepToRelative(dir: "up" | "down" | "left" | "right"): void {
     const { tree, selected } = state;
     if (!tree || !selected) return;
@@ -199,10 +219,6 @@ export function stepToSpouse(): void {
     select(spouses[(spouses.indexOf(trail.at(-1) ?? "") + 1) % spouses.length], true);
 }
 
-// --- Line of descent: a clickable trail from the oldest known ancestor down to this person ---------------------------
-// Long lines (the Bible runs 70+ generations) show the start, an ellipsis that expands, and the last few steps.
-const TRAIL_HEAD = 2;
-const TRAIL_TAIL = 3;
 function showTrail(id: string) {
     const line = ancestry(state.tree!, id);
     panelTrail.hidden = line.length < 2;
@@ -286,10 +302,6 @@ function showPin(id: string) {
     pinButton.setAttribute("aria-pressed", String(on));
     pinButton.title = on ? "Unpin" : "Pin this person (they're listed in the menu)";
 }
-pinButton.onclick = () => state.selected && togglePin(state.selected);
-onPinsChanged(() => state.selected && showPin(state.selected));
-
-$("panel-fit").onclick = fitFamily;
 
 // --- A group of people found by a search or a namesake link, lit on their own like a house ---------------------
 export function showGroup(ids: string[], label: string): void {
@@ -300,17 +312,28 @@ export function showGroup(ids: string[], label: string): void {
     fitPeople(ids.flatMap((i) => nodeById(i) ?? []));
     notify(`${label}: ${ids.length}. Press Esc to clear.`);
 }
+
 export function clearGroup(): void {
     if (!state.group) return;
     state.group = null;
     refreshHighlight();
 }
 
-// --- Swipe the panel left/right (touch) to move to the next/previous sibling, like Alt + ← → ---------------------------
-let swipeFrom: { x: number; y: number } | null = null;
+// The ◀ and Backspace walk the panel's own trail (never off the page, unlike history.back() on a fresh deep link);
+// the browser's Back walks the history entries pushUrl() made. Either way you return to the person before.
+back.onclick = goBack;
+
+$("panel-close").onclick = () => deselect();
+$("panel-relate").onclick = () => state.selected && openRelate(state.selected);
+btnRelativeTo.onclick = () => setRelativeTo(relativeTo === state.selected ? null : state.selected);
+pinButton.onclick = () => state.selected && togglePin(state.selected);
+onPinsChanged(() => state.selected && showPin(state.selected));
+$("panel-fit").onclick = fitFamily;
+
 panel.addEventListener("pointerdown", (e) => {
     if (e.pointerType === "touch") swipeFrom = { x: e.clientX, y: e.clientY };
 });
+
 panel.addEventListener("pointerup", (e) => {
     if (!swipeFrom) return;
     const dx = e.clientX - swipeFrom.x;
@@ -319,4 +342,5 @@ panel.addEventListener("pointerup", (e) => {
     // A clear sideways swipe only: at least 60 px, and mostly horizontal, so scrolling the panel isn't mistaken for it.
     if (Math.abs(dx) > 60 && Math.abs(dx) > 2 * Math.abs(dy)) stepToRelative(dx < 0 ? "right" : "left");
 });
+
 panel.addEventListener("pointercancel", () => (swipeFrom = null));

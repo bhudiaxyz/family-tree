@@ -14,6 +14,7 @@ import { palette } from "./palettes.ts";
 
 // Must match the Google Fonts families loaded in index.html and --fd / --fb in style.css.
 const DISPLAY_FONT = '"Roboto Condensed", "Arial Narrow", Arial, sans-serif';
+
 const BODY_FONT = 'Roboto, "Helvetica Neue", Arial, sans-serif';
 
 /**
@@ -24,6 +25,12 @@ export const fontsReady: Promise<unknown> = Promise.race([
     Promise.all(["700 16px 'Roboto Condensed'", "500 16px Roboto"].map((f) => document.fonts.load(f))),
     new Promise((r) => setTimeout(r, 3000)),
 ]);
+
+/**
+ * Small round house badge: a disc in the house colour with the house's initial, drawn as a camera-facing sprite.
+ * One texture per house (cached), shared by everyone in it. Original artwork: no real-world or franchise sigils.
+ */
+const badgeTextures = new Map<string, THREE.CanvasTexture>();
 
 /**
  * Person name, shown above their sphere: the last word (usually the surname) on a second line, both lines centred.
@@ -46,11 +53,6 @@ export function relationLabel(text: string, color: string): SpriteText {
     return s;
 }
 
-/**
- * Small round house badge: a disc in the house colour with the house's initial, drawn as a camera-facing sprite.
- * One texture per house (cached), shared by everyone in it. Original artwork: no real-world or franchise sigils.
- */
-const badgeTextures = new Map<string, THREE.CanvasTexture>();
 export function houseBadge(house: string, color: string): THREE.Sprite {
     const key = `${house}|${color}`;
     let tex = badgeTextures.get(key);
@@ -82,6 +84,7 @@ export function houseBadge(house: string, color: string): THREE.Sprite {
     s.userData.badge = true;
     return s;
 }
+
 /** Drop cached badge textures (e.g. after a GPU context loss, when they must be recreated). */
 export function resetBadges(): void {
     for (const t of badgeTextures.values()) t.dispose();

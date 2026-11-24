@@ -1,4 +1,4 @@
-// Test for src/relationship.ts: the relationship finder (relate, labelAll).
+// Test for src/tree/relationship.ts: the relationship finder (relate, labelAll).
 //
 // Data: real sagas (got, fireblood, starwars, lotr, potter) for facts from the stories, plus a synthetic tree for the
 //   cousin chart (degree and removal), where the answer is fixed by the standard table.
@@ -7,7 +7,7 @@
 
 import assert from "node:assert/strict";
 import type { Tree } from "../src/data/schema.ts";
-import { labelAll, relate } from "../src/relationship.ts";
+import { labelAll, relate } from "../src/tree/relationship.ts";
 import { treeById } from "./data.mts";
 
 const saga = (id: string): Tree => treeById(id);

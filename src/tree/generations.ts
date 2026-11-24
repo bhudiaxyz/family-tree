@@ -6,13 +6,13 @@
 //   "together" (default): each family's children share a row; a couple may sit on two rows (alignSpouses).
 //   "apart": each family's co-parents share a row; a sibling who married across generations sits with their partner
 //   (alignSiblings).
-// Usage: generations(tree, mode) is called by graph.ts showTree() and by scripts/generations.test.mts, which covers
-// it. No three.js or DOM imports.
+// Usage: generations(tree, mode) is called by graph/graph.ts showTree() and by scripts/generations.test.mts, which
+// covers it. The order along each row is row-order.ts's. No three.js or DOM imports.
 // Notes: priorities, highest first: descent always holds (every parent strictly above every child, even in a cyclic or
 // densely intermarried tree); then the chosen mode's grouping; then the other preference only where it fits. The
 // alignment passes are greedy and bounded (5 or 8 passes), so they always end but may leave some splits.
 
-import type { Tree } from "./data/schema.ts";
+import type { Tree } from "../data/schema.ts";
 
 /**
  * Which rule wins when siblings and couples can't both share a row (someone married into another generation):
@@ -104,7 +104,7 @@ export function generations(t: Tree, mode: SiblingMode = "together"): Map<string
             if (remaining.get(c) === 0) ready.push(c);
         }
     }
-    if (mode === "together") alignSpouses(t, gen, kidsOf);
+    if (mode === "together") alignSpouses(t, gen, kidsOf, ready);
     else alignSiblings(t, gen, kidsOf);
     return gen;
 }
@@ -114,8 +114,15 @@ export function generations(t: Tree, mode: SiblingMode = "together"): Map<string
  * a spouse wherever their own family puts them, often a row from their partner. For each couple on two rows, try
  * moving either partner (with all their brothers and sisters, so no set is split) to the other's row; keep the move
  * only if every parent stays above every child and fewer couples are split. Greedy and bounded, so it always ends.
+ *
+ * If that can't work (the partner's parents would then be on their row), try moving their whole branch instead: the
+ * brothers and sisters, every ancestor and the ancestors' own brothers and sisters, so generations of one family stay
+ * level with the other's. Anyone below then too close to a parent is pushed down. Kept only if fewer couples are
+ * split and no brothers and sisters are. Harry Potter's line has three recorded generations and the Weasleys' two, so
+ * Ginny sat a row above Harry; moving the Weasley branch down a row puts Arthur and Molly level with James and Lily,
+ * and Ginny with Harry (and Ron with Hermione).
  */
-function alignSpouses(t: Tree, gen: Map<string, number>, kidsOf: Map<string, string[]>): void {
+function alignSpouses(t: Tree, gen: Map<string, number>, kidsOf: Map<string, string[]>, order: string[]): void {
     const siblingsOf = new Map<string, Set<string>>([...kidsOf.keys()].map((id) => [id, new Set([id])]));
     for (const f of t.families) for (const a of f.children) for (const b of f.children) siblingsOf.get(a)?.add(b);
     // Sibling groups are transitive (half-siblings link two families): close each person's set.
@@ -128,7 +135,35 @@ function alignSpouses(t: Tree, gen: Map<string, number>, kidsOf: Map<string, str
                 kidsOf.get(g)!.every((c) => gen.get(c)! > gen.get(g)!) &&
                 [...kidsOf].every(([p, kids]) => !kids.includes(g) || gen.get(p)! < gen.get(g)!)
         );
+    const parentsOf = new Map<string, string[]>([...kidsOf.keys()].map((id) => [id, []]));
+    for (const [p, kids] of kidsOf) for (const c of kids) parentsOf.get(c)!.push(p);
+    const sets = t.families.filter((f) => f.children.length > 1).map((f) => f.children.filter((c) => gen.has(c)));
+    const siblingSplits = () => sets.reduce((n, set) => n + new Set(set.map((c) => gen.get(c))).size - 1, 0);
+    const spousesOf = new Map<string, string[]>([...kidsOf.keys()].map((id) => [id, []]));
+    for (const [x, y] of couples) (spousesOf.get(x)!.push(y), spousesOf.get(y)!.push(x));
+    // Someone's branch: their brothers and sisters and every ancestor, with each ancestor's brothers and sisters, and
+    // anyone married into it on the same row (Fleur beside Bill, Hermione beside Ron), so those couples move together.
+    const branchOf = (who: string) => {
+        const branch = new Set<string>();
+        const todo = [who];
+        for (let x = todo.pop(); x !== undefined; x = todo.pop()) {
+            const row = gen.get(x)!;
+            const spouses = spousesOf.get(x)!.filter((s) => gen.get(s) === row);
+            for (const y of [...siblingsOf.get(x)!, ...parentsOf.get(x)!, ...spouses])
+                if (!branch.has(y)) branch.add(y) && todo.push(y);
+        }
+        return branch;
+    };
+    // Move a branch by `delta` rows, then push anyone left on or above a parent down below them (parents first).
+    const moveBranch = (branch: Set<string>, delta: number) => {
+        for (const g of branch) gen.set(g, gen.get(g)! + delta);
+        for (const c of order) {
+            const lowest = Math.max(-Infinity, ...parentsOf.get(c)!.map((p) => gen.get(p)!));
+            if (gen.get(c)! <= lowest) gen.set(c, lowest + 1);
+        }
+    };
     let best = split();
+    let bestSiblings = siblingSplits();
     for (let pass = 0; pass < 8 && best > 0; pass++) {
         let moved = false;
         for (const [a, b] of couples) {
@@ -147,6 +182,27 @@ function alignSpouses(t: Tree, gen: Map<string, number>, kidsOf: Map<string, str
                     break;
                 }
                 for (const g of group) gen.set(g, gen.get(g)! - delta); // undo
+            }
+            if (moved || gen.get(a) === gen.get(b)) continue;
+            // The whole branch instead (see above): the higher partner's, moved down. Only down: moving a branch up
+            // left its descendants behind (Harry and Ginny's children two rows below them), whereas moving down pushes
+            // anyone below along with it.
+            for (const [who, to] of [
+                [a, gen.get(b)!],
+                [b, gen.get(a)!],
+            ] as const) {
+                if (to <= gen.get(who)!) continue;
+                const saved = new Map(gen);
+                moveBranch(branchOf(who), to - gen.get(who)!);
+                const now = split();
+                const sib = siblingSplits();
+                if (now < best && sib <= bestSiblings) {
+                    best = now;
+                    bestSiblings = sib;
+                    moved = true;
+                    break;
+                }
+                for (const [id, g] of saved) gen.set(id, g); // undo
             }
         }
         if (!moved) break;

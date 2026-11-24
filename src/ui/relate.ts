@@ -9,16 +9,34 @@
 // pair and is skipped for reduced motion. Button and box handlers are attached at import time (loaded via panel.ts).
 // Element ids (#rel-result, #rel-steps, #rel-notes, #rel-swap, #relate-close) must match index.html.
 
-import { fitTree } from "../camera.ts";
-import { relate, stepWord } from "../relationship.ts";
-import { personIn, setPerson } from "../suggest.ts";
-import { $, btnRelate, el, relA, relatePanel, relB } from "./dom.ts";
-import { flyToPerson, personLink, refreshHighlight, state } from "./state.ts";
-import { writeUrl } from "./url.ts";
+import { fitTree } from "../render/camera.ts";
+import { relate, stepWord } from "../tree/relationship.ts";
+import { personIn, setPerson } from "./suggest.ts";
+
+import {
+    $,
+    btnRelate,
+    el,
+    flyToPerson,
+    personLink,
+    refreshHighlight,
+    relA,
+    relatePanel,
+    relB,
+    state,
+    writeUrl,
+} from "./state.ts";
 
 const relResult = $("rel-result");
 const relSteps = $("rel-steps");
 const relNotes = $("rel-notes");
+
+// --- Pulse: when a new relationship appears, light each step in turn, from the first person to the second ------------
+// Shows which way the path runs, once per pair. Reduced motion skips it (the whole path is already lit).
+const PULSE_MS = 380;
+
+let pulseTimer = 0;
+let lastPulsed = "";
 
 export function openRelate(from?: string): void {
     relatePanel.hidden = false;
@@ -135,17 +153,13 @@ function setStep(step: [string, string] | null) {
     refreshHighlight();
 }
 
-// --- Pulse: when a new relationship appears, light each step in turn, from the first person to the second ------------
-// Shows which way the path runs, once per pair. Reduced motion skips it (the whole path is already lit).
-const PULSE_MS = 380;
-let pulseTimer = 0;
-let lastPulsed = "";
 const pulsed = (a: string, b: string) => {
     const key = `${a}|${b}`;
     const seen = key === lastPulsed;
     lastPulsed = key;
     return seen;
 };
+
 function pulse(steps: [string, string][]) {
     stopPulse();
     if (!steps.length || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -156,6 +170,7 @@ function pulse(steps: [string, string][]) {
     };
     next();
 }
+
 function stopPulse() {
     clearTimeout(pulseTimer);
     pulseTimer = 0;
@@ -165,11 +180,13 @@ for (const input of [relA, relB]) {
     input.addEventListener("change", updateRelate);
     input.addEventListener("input", () => !input.value && updateRelate());
 }
+
 $("rel-swap").onclick = () => {
     const [a, b] = [personIn(relA), personIn(relB)];
     setPerson(relA, b);
     setPerson(relB, a);
     updateRelate();
 };
+
 btnRelate.onclick = toggleRelate;
 $("relate-close").onclick = closeRelate;

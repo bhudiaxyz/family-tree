@@ -14,7 +14,6 @@
  * the same value is stored in the `saga.category` column. Add a value here to add a category; the list is closed so
  * a bad manifest entry can't make the loader request an arbitrary path.
  */
-export const CATEGORIES = ["fiction", "history", "mythology", "religion"] as const;
 export type Category = (typeof CATEGORIES)[number];
 
 /**
@@ -22,7 +21,49 @@ export type Category = (typeof CATEGORIES)[number];
  * everything else about a saga (title, author, …) is in its own data file. Read it with readManifest().
  */
 export type SagaIndexEntry = { id: string; category: Category };
+
 export type SagaManifest = Record<string, Category>;
+
+/**
+ * A saga data file as written by hand (public/data/<category>/<id>.json): families inline, with their members.
+ * Expanded into the normalised SagaRecord by expandSaga(); nothing else reads this shape.
+ */
+export type SagaFile = {
+    id: string;
+    title: string;
+    source: SagaRecord["source"];
+    notes: string[];
+    /** House name → colour. */
+    houses: Record<string, string>;
+    people: SagaRecord["people"];
+    /** 0–2 parents and 0+ children; a remarriage is a separate family. `adoptive` only when true. */
+    families: { parents: string[]; children: string[]; adoptive?: boolean }[];
+};
+
+/** The normalised form: one array per database table (db/schema.sql). Built from a SagaFile by expandSaga(). */
+export type SagaRecord = {
+    id: string;
+    title: string;
+    source: { work: string; medium: string; author: string; canon: string; genre: string; covers: string };
+    notes: string[];
+    houses: { name: string; color: string }[];
+    people: { id: string; name: string; house: string; sex: "m" | "f" }[];
+    families: { id: string; adoptive: boolean }[];
+    members: { family: string; person: string; role: "parent" | "child" }[];
+};
+
+// App view: what the renderer consumes. Built from a SagaRecord by toTree().
+// A family is a union of 0-2 parents with 0+ children; remarriages are separate families.
+// `parents: []` groups siblings whose parents are unknown. `adoptive` labels the links as adoptive/adopted.
+export type Tree = {
+    title: string;
+    author: string;
+    people: Record<string, { name: string; house: string; sex: "m" | "f" }>;
+    families: { parents: string[]; children: string[]; adoptive?: boolean }[];
+    houseColors: Record<string, string>;
+};
+
+export const CATEGORIES = ["fiction", "history", "mythology", "religion"] as const;
 
 /**
  * The manifest as entries, in menu order (the first is opened at start-up), checked as it's read. Saga ids are
@@ -50,22 +91,6 @@ export function sagaPath(entry: SagaIndexEntry): string {
         );
     return `${entry.category}/${encodeURIComponent(entry.id)}.json`;
 }
-
-/**
- * A saga data file as written by hand (public/data/<category>/<id>.json): families inline, with their members.
- * Expanded into the normalised SagaRecord by expandSaga(); nothing else reads this shape.
- */
-export type SagaFile = {
-    id: string;
-    title: string;
-    source: SagaRecord["source"];
-    notes: string[];
-    /** House name → colour. */
-    houses: Record<string, string>;
-    people: SagaRecord["people"];
-    /** 0–2 parents and 0+ children; a remarriage is a separate family. `adoptive` only when true. */
-    families: { parents: string[]; children: string[]; adoptive?: boolean }[];
-};
 
 /**
  * Expand a data file into the normalised record (the database's tables): generated family ids `<saga>-f1`, `-f2`, …
@@ -121,26 +146,3 @@ export function compactSaga(s: SagaRecord): SagaFile {
         families: s.families.map((f) => ({ ...byFamily.get(f.id)!, ...(f.adoptive ? { adoptive: true } : {}) })),
     };
 }
-
-/** The normalised form: one array per database table (db/schema.sql). Built from a SagaFile by expandSaga(). */
-export type SagaRecord = {
-    id: string;
-    title: string;
-    source: { work: string; medium: string; author: string; canon: string; genre: string; covers: string };
-    notes: string[];
-    houses: { name: string; color: string }[];
-    people: { id: string; name: string; house: string; sex: "m" | "f" }[];
-    families: { id: string; adoptive: boolean }[];
-    members: { family: string; person: string; role: "parent" | "child" }[];
-};
-
-// App view: what the renderer consumes. Built from a SagaRecord by toTree().
-// A family is a union of 0-2 parents with 0+ children; remarriages are separate families.
-// `parents: []` groups siblings whose parents are unknown. `adoptive` labels the links as adoptive/adopted.
-export type Tree = {
-    title: string;
-    author: string;
-    people: Record<string, { name: string; house: string; sex: "m" | "f" }>;
-    families: { parents: string[]; children: string[]; adoptive?: boolean }[];
-    houseColors: Record<string, string>;
-};

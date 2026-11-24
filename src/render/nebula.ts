@@ -15,12 +15,33 @@ import { quality } from "./device.ts";
 import { type Palette, palette } from "./palettes.ts";
 import fragmentShader from "./nebula.frag?raw";
 
+// The fragment shader lives in nebula.frag (bundled as a string by Vite's ?raw import, so it's plain GLSL with
+// editor highlighting rather than a template string).
+
+/**
+ * Bake settings. Defaults come from the device tier (device.ts / tier.ts QUALITY). Memory per sky: 6 faces × size² ×
+ * 4 bytes, ×4/3 with mipmaps: 256 px ≈ 1.6 MB (low), 512 ≈ 8 MB (medium), 1024 ≈ 34 MB (high).
+ */
+export type NebulaOptions = { resolution: number; octaves: number; mipmaps: boolean; maxLuma: number };
+
+// --- Shader: the nebula, evaluated per direction on the inside of a sphere -----------------------------------------
+// Rendered by a CubeCamera from the centre of an inverted sphere, so each fragment's normalised position IS the view
+// direction: no per-face coordinate maths is needed (the original's getSphericalCoord).
+const vertexShader = /* glsl */ `
+    varying vec3 vDir;
+    void main() {
+        vDir = normalize(position);
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+`;
+
 // --- Seeded random (mulberry32), so a saga id always gives the same palette and noise offsets ---------------------
 function hashString(s: string): number {
     let h = 2166136261;
     for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
     return h >>> 0;
 }
+
 function rng(seed: number) {
     let a = seed >>> 0;
     return () => {
@@ -66,26 +87,6 @@ function paletteTexture(rand: () => number, theme: Palette["nebula"]): THREE.Can
     t.wrapS = t.wrapT = THREE.MirroredRepeatWrapping;
     return t;
 }
-
-// --- Shader: the nebula, evaluated per direction on the inside of a sphere -----------------------------------------
-// Rendered by a CubeCamera from the centre of an inverted sphere, so each fragment's normalised position IS the view
-// direction: no per-face coordinate maths is needed (the original's getSphericalCoord).
-const vertexShader = /* glsl */ `
-    varying vec3 vDir;
-    void main() {
-        vDir = normalize(position);
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-`;
-
-// The fragment shader lives in nebula.frag (bundled as a string by Vite's ?raw import, so it's plain GLSL with
-// editor highlighting rather than a template string).
-
-/**
- * Bake settings. Defaults come from the device tier (device.ts / tier.ts QUALITY). Memory per sky: 6 faces × size² ×
- * 4 bytes, ×4/3 with mipmaps: 256 px ≈ 1.6 MB (low), 512 ≈ 8 MB (medium), 1024 ≈ 34 MB (high).
- */
-export type NebulaOptions = { resolution: number; octaves: number; mipmaps: boolean; maxLuma: number };
 
 export const defaultNebulaOptions = (): NebulaOptions => ({
     resolution: quality.nebulaSize,

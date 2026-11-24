@@ -10,15 +10,18 @@
 
 import { parseGedcom } from "../data/gedcom.ts";
 import { toRecord, toTree } from "../data/source.ts";
-import { palette } from "../palettes.ts";
-import { captureView } from "../scene.ts";
-import { $, el } from "./dom.ts";
+import { palette } from "../render/palettes.ts";
+import { captureView } from "../render/scene.ts";
+import { $, el, notify, state } from "./state.ts";
 import { showImported } from "./sagas.ts";
-import { notify, state } from "./state.ts";
 
 // --- PNG export -----------------------------------------------------------------------------------------------------
 type SaveHandle = { createWritable(): Promise<{ write(b: Blob): Promise<void>; close(): Promise<void> }> };
+
 type SavePicker = (o: object) => Promise<SaveHandle>;
+
+// --- GEDCOM import --------------------------------------------------------------------------------------------------
+const fileInput = $<HTMLInputElement>("file");
 
 export async function savePng(): Promise<void> {
     const { tree } = state;
@@ -71,25 +74,6 @@ export async function savePng(): Promise<void> {
         notify(`Couldn't save the image: ${(e as Error).message}`, true);
     }
 }
-$("btn-png").onclick = savePng;
-
-// --- GEDCOM import --------------------------------------------------------------------------------------------------
-const fileInput = $<HTMLInputElement>("file");
-$("btn-import").onclick = () => fileInput.click();
-fileInput.onchange = () => {
-    const f = fileInput.files?.[0];
-    if (f) importFile(f);
-    fileInput.value = ""; // allow re-importing the same file
-};
-addEventListener("dragover", (e) => {
-    if (e.dataTransfer?.types.includes("Files")) e.preventDefault();
-});
-addEventListener("drop", (e) => {
-    const f = e.dataTransfer?.files[0];
-    if (!f) return;
-    e.preventDefault();
-    importFile(f);
-});
 
 async function importFile(file: File) {
     if (file.size > 20 * 1024 * 1024)
@@ -117,3 +101,23 @@ async function importFile(file: File) {
         notify(`Couldn't import ${file.name}: ${(e as Error).message}`, true);
     }
 }
+
+$("btn-png").onclick = savePng;
+$("btn-import").onclick = () => fileInput.click();
+
+fileInput.onchange = () => {
+    const f = fileInput.files?.[0];
+    if (f) importFile(f);
+    fileInput.value = ""; // allow re-importing the same file
+};
+
+addEventListener("dragover", (e) => {
+    if (e.dataTransfer?.types.includes("Files")) e.preventDefault();
+});
+
+addEventListener("drop", (e) => {
+    const f = e.dataTransfer?.files[0];
+    if (!f) return;
+    e.preventDefault();
+    importFile(f);
+});

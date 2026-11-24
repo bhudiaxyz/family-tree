@@ -1,27 +1,30 @@
-// Input: keyboard shortcuts and the on-screen touch pad.
+// Input: keyboard shortcuts, the Find-a-person box and the on-screen touch pad.
 //
 // What it does: maps keys to actions (/ search, ? help, C chart, T tour, R relate, P save PNG, F fit, G family, + -
 // zoom, Page Up/Down generation, M minimap, D 2D/3D, L line focus, Backspace back, Escape, arrows pan, Shift or Ctrl + arrows
 // rotate, Alt + arrows move to a relative, Alt + S to a spouse) and wires the pad's buttons (hold to pan, fit, zoom).
-// Usage: no exports. A side-effect module: app.ts imports it for its listeners. It is also what pulls in guide.ts,
+// The Find box: a relationship phrase ("Arya's cousins") lights up who it finds, otherwise the named person is
+// selected; clearing it or pressing Escape deselects.
+// Usage: no exports. A side-effect module: main.ts imports it for its listeners. It is also what pulls in guide.ts,
 // files.ts and minimap.ts.
 // Notes: shortcuts are ignored while typing in an input. Escape is handled twice: a capture-phase listener ends a
 // tour before any input can take the key, then the main handler closes the finder, deselects, clears the house, then
 // the group, in that order. Panning stops on keyup and on window blur. Keep the help dialog in index.html in sync
 // with the keys here.
 
-import { type Dir, fitTree, holdPan, nudgeRotate, releaseAllPans, releasePan } from "../camera.ts";
-import { relatePanel, search } from "./dom.ts";
+import { type Dir, fitTree, holdPan, nudgeRotate, releaseAllPans, releasePan } from "../render/camera.ts";
+import { notify, relatePanel, search, state } from "./state.ts";
 import { savePng } from "./files.ts";
 import { endTour, openChart, startTour, toggleHelp, touring } from "./guide.ts";
 import { setHouse } from "./legend.ts";
 import { toggleMinimap } from "./minimap.ts";
 import { fitFamily, stepGeneration, zoomIn, zoomOut } from "./navigate.ts";
 import { setFocus } from "./visibility.ts";
-import { clearGroup, deselect, goBack, stepToRelative, stepToSpouse } from "./panel.ts";
+import { clearGroup, deselect, goBack, select, showGroup, stepToRelative, stepToSpouse } from "./panel.ts";
 import { closeRelate, toggleRelate } from "./relate.ts";
 import { toggle2d } from "./sagas.ts";
-import { state } from "./state.ts";
+import { searchRelation } from "../tree/search.ts";
+import { personIn } from "./suggest.ts";
 
 // --- Keyboard -------------------------------------------------------------------------------------------------------
 const KEY_DIR: Record<string, Dir> = { ArrowLeft: "left", ArrowRight: "right", ArrowUp: "up", ArrowDown: "down" };
@@ -96,3 +99,29 @@ for (const btn of document.querySelectorAll<HTMLButtonElement>("#pad button[data
 document.querySelector<HTMLButtonElement>("#pad [data-action=fit]")!.onclick = () => fitTree();
 document.querySelector<HTMLButtonElement>("#pad [data-action=zoom-in]")!.onclick = zoomIn;
 document.querySelector<HTMLButtonElement>("#pad [data-action=zoom-out]")!.onclick = zoomOut;
+
+// --- The Find box ("Find a person or relation"): by name or by relationship ---------------------------------------
+// `change` also fires on blur. Clicking a relative in the panel selects them and writes them into the box first, so
+// the blur's `change` then names the person already selected and is ignored; acting on stale text used to re-select
+// the person searched for. The box holds a person (picked from its list), not just a name; see suggest.ts.
+search.addEventListener("change", () => {
+    // "Arya's cousins", "children of Zeus": light up who that finds, rather than picking one person by name.
+    const rel = state.tree && !search.dataset.person ? searchRelation(state.tree, search.value) : null;
+    if (rel) {
+        const name = state.tree!.people[rel.from].name;
+        if (!rel.ids.length) return notify(`No ${rel.word} of ${name} in this tree.`);
+        return showGroup(rel.ids, `${name}'s ${rel.word}`);
+    }
+    const id = personIn(search);
+    if (id && id !== state.selected) select(id, true);
+});
+// The clear (✕) button and deleting the text fire `input`, not `change` (which waits for blur).
+search.addEventListener("input", () => {
+    if (!search.value && state.selected) deselect();
+});
+search.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    search.blur();
+    if (state.selected) deselect();
+    else search.value = "";
+});

@@ -1,29 +1,42 @@
-// State: what the app is showing, shared by all the UI modules, and the one place that turns it into what is lit.
+// State: what the app is showing, the page's fixed elements, and the shareable URL: what every UI module shares.
 //
 // What it does: holds `state` (tree, saga id, selected, hovered, relationship pair and step, house, searched group,
-// collapsed branches, focus mode and depth, 2D flag, sibling mode) and the helpers every feature needs:
-// `refreshHighlight`, `notify` (toast), `flyToPerson`, `personLink`, plus the `Focus` type and the `IMPORTED` saga id.
+// collapsed branches, focus mode and depth, 2D flag, sibling mode) and `refreshHighlight()`, the one place that turns
+// it into what is lit; the page elements from index.html, looked up once (`$`, `el`, title, author, panel, search,
+// the finder's boxes); the toast (`notify`), `flyToPerson` and `personLink`; and the URL kept in step with the state
+// (`writeUrl`, `pushUrl`, `onPopState`).
 // Usage: imported by every other ui module.
-// Notes: `refreshHighlight()` is the single place that turns state into what is lit, dimmed or hidden. Other modules
-// change `state` and then call it; none of them call graph.ts's highlight() directly. Priority: relationship path,
-// then searched group, then house, then the selected-or-hovered person's line (narrowed by focus mode and depth).
-// Collapsed branches are applied first, whatever else is lit.
-
-import { flyTo } from "../camera.ts";
+// Notes: other modules change `state` and then call refreshHighlight(); none of them call graph's highlight()
+// directly. Priority: relationship path, then searched group, then house, then the selected-or-hovered person's line
+// (narrowed by focus mode and depth); collapsed branches are applied first, whatever else is lit. Element ids are
+// looked up at import time and must exist in index.html. Name suggestions are attached to the name boxes here, before
+// any feature module adds listeners to them, so an open suggestion list gets Escape first (see suggest.ts). Selecting
+// a new person pushes a history entry (pushUrl), so the browser's Back walks the people visited; everything else uses
+// replaceState (writeUrl). A file imported from disk isn't shareable, so only ?view= is written for it.
+import { flyTo } from "../render/camera.ts";
 import type { Tree } from "../data/schema.ts";
-import type { SiblingMode } from "../generations.ts";
-import { cousinsOf, descendantsOf, type LineRole, lineageRoles, siblingsOf } from "../family.ts";
-import { highlight, nodeById, setFolded } from "../graph.ts";
-import { relate } from "../relationship.ts";
-import { $, el } from "./dom.ts";
+import type { SiblingMode } from "../tree/generations.ts";
+import { cousinsOf, descendantsOf, type LineRole, lineageRoles, siblingsOf } from "../tree/family.ts";
+import { highlight, nodeById, setFolded } from "../graph/graph.ts";
+import { relate } from "../tree/relationship.ts";
+import { attachSuggestions } from "./suggest.ts";
+
+/** Focus mode: show only the highlighted line ("all"), or just one side of it; "off" dims the rest instead. */
+export type Focus = "off" | "all" | "ancestors" | "descendants" | "siblings" | "cousins";
+
+export const title = $("title");
+export const author = $("author");
+export const panel = $("panel");
+export const search = $<HTMLInputElement>("search");
+export const relatePanel = $("relate");
+export const relA = $<HTMLInputElement>("rel-a");
+export const relB = $<HTMLInputElement>("rel-b");
+export const btnRelate = $("btn-relate");
 
 /** How far a selection, house or group fades everything else (the default dim, for hovering, is 12%). */
 const FADED = 0.06;
 
 export const IMPORTED = "imported"; // saga id used in the URL / GUI for a GEDCOM file loaded from disk
-
-/** Focus mode: show only the highlighted line ("all"), or just one side of it; "off" dims the rest instead. */
-export type Focus = "off" | "all" | "ancestors" | "descendants" | "siblings" | "cousins";
 
 export const state = {
     tree: null as Tree | null,
@@ -40,6 +53,23 @@ export const state = {
     view2d: false, // ?view=2d|3d, 3d by default
     siblings: "together" as SiblingMode, // always: brothers and sisters share a row (the "apart" mode is unused)
 };
+
+const toast = $("toast");
+let toastTimer = 0;
+
+// --- Page elements, looked up once ------------------------------------------------------------------------------
+/** A page element by id (typed). A function declaration, so the element lookups below can use it at load time. */
+export function $<T extends HTMLElement = HTMLElement>(id: string): T {
+    return document.getElementById(id) as T;
+}
+
+/** A new element with properties set: `el("button", { className: "chip", textContent: name })`. */
+export function el<K extends keyof HTMLElementTagNameMap>(
+    tag: K,
+    props: Partial<HTMLElementTagNameMap[K]> = {}
+): HTMLElementTagNameMap[K] {
+    return Object.assign(document.createElement(tag), props);
+}
 
 // What to light up, in priority order: a relationship path; a house from the legend; the selected (or hovered)
 // person's line, with direction and distance so ancestors and descendants read apart.
@@ -97,8 +127,6 @@ export function refreshHighlight(): void {
     });
 }
 
-const toast = $("toast");
-let toastTimer = 0;
 export function notify(message: string, error = false): void {
     toast.textContent = message;
     toast.classList.toggle("error", error);
@@ -121,3 +149,33 @@ export function personLink(id: string, onClick: () => void): HTMLAnchorElement {
     };
     return a;
 }
+
+// --- The URL: shareable links, kept in step with the state ---------------------------------------------------------
+function query(): string {
+    const view = state.view2d ? "2d" : "3d";
+    const q = new URLSearchParams(state.sagaId === IMPORTED ? { view } : { saga: state.sagaId, view });
+    if (state.sagaId === IMPORTED) return `?${q}`; // nothing else shareable for a file loaded from disk
+    if (state.relPair) {
+        q.set("person", state.relPair[0]);
+        q.set("with", state.relPair[1]);
+    } else if (state.selected) q.set("person", state.selected);
+    else if (state.house) q.set("house", state.house);
+    return `?${q}`;
+}
+
+export const writeUrl = (): void => history.replaceState({ person: state.selected }, "", query());
+
+/** A new history entry for selecting `person` (state.selected is set by the caller just after). */
+export function pushUrl(person: string): void {
+    const was = state.selected;
+    state.selected = person;
+    history.pushState({ person }, "", query());
+    state.selected = was;
+}
+
+/** Run `onBack(person)` when the browser goes back or forward to an entry made by pushUrl / writeUrl. */
+export function onPopState(onBack: (person: string | null) => void): void {
+    addEventListener("popstate", (e) => onBack((e.state as { person?: string | null } | null)?.person ?? null));
+}
+
+for (const box of [search, relA, relB]) attachSuggestions(box);

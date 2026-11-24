@@ -9,11 +9,11 @@
 // partner's row. A row under the header is pinned just below it; only labels whose position changed are touched.
 
 import * as THREE from "three";
-import { palette } from "../palettes.ts";
+import { palette } from "../render/palettes.ts";
 import { graph } from "./core.ts";
 
 const guides = new THREE.Group();
-graph.add(guides);
+
 const guideMat = new THREE.LineBasicMaterial({
     color: palette().guideLine,
     transparent: true,
@@ -23,9 +23,24 @@ const guideMat = new THREE.LineBasicMaterial({
 
 // The screen labels live in #gen-labels (index.html); one <span> per row, moved each frame by stepGuides().
 const labelLayer = document.getElementById("gen-labels") as HTMLElement;
+
 let rowY: number[] = []; // world height of each generation row
 let rowLabels: HTMLElement[] = [];
 let shown = true;
+let rowPicked: ((row: number) => void) | null = null;
+
+// Each frame: where does each row's height cross the left part of the screen? Project a point on the row straight
+// in front of the camera (its x and z), so the label tracks the row whatever the pan, zoom or orbit. Rows off screen,
+// or seen too edge-on to place (looking straight down), are hidden. Only labels whose position changed are touched.
+const pt = new THREE.Vector3();
+
+// Bottom edge of the header overlay, measured on resize (reading layout every frame would force reflows).
+const header = document.querySelector("header");
+
+let headerEdge = 0;
+let lastTops: number[] = [];
+const raws: number[] = [];
+const LABEL_H = 16; // px a label needs before the next one
 
 /** Rebuild the guides for generations 0…rows, at the heights given by `y`. */
 export function setGuides(rows: number, y: (g: number) => number): void {
@@ -62,7 +77,6 @@ export function setGuides(rows: number, y: (g: number) => number): void {
 /** World height of each row, top (oldest) first: for stepping a row at a time (Page Up / Page Down). */
 export const generationRows = (): readonly number[] => rowY;
 
-let rowPicked: ((row: number) => void) | null = null;
 /** Called with the row number when a "Row n" label is clicked. */
 export const onRowPicked = (fn: (row: number) => void) => (rowPicked = fn);
 
@@ -71,19 +85,9 @@ export function setGuidesVisible(on: boolean): void {
     labelLayer.hidden = !on;
 }
 
-// Each frame: where does each row's height cross the left part of the screen? Project a point on the row straight
-// in front of the camera (its x and z), so the label tracks the row whatever the pan, zoom or orbit. Rows off screen,
-// or seen too edge-on to place (looking straight down), are hidden. Only labels whose position changed are touched.
-const pt = new THREE.Vector3();
-// Bottom edge of the header overlay, measured on resize (reading layout every frame would force reflows).
-const header = document.querySelector("header");
-let headerEdge = 0;
 const measureHeader = () => (headerEdge = (header?.getBoundingClientRect().bottom ?? 0) + 4);
-addEventListener("resize", measureHeader);
 const headerBottom = () => headerEdge || measureHeader();
-let lastTops: number[] = [];
-const raws: number[] = [];
-const LABEL_H = 16; // px a label needs before the next one
+
 export function stepGuides(camera: THREE.PerspectiveCamera, target: THREE.Vector3, viewH: number): void {
     if (!shown || !rowLabels.length) return;
     for (let g = 0; g < rowY.length; g++) {
@@ -106,3 +110,6 @@ export function stepGuides(camera: THREE.PerspectiveCamera, target: THREE.Vector
         if (top >= 0) el.style.transform = `translateY(${top}px)`;
     }
 }
+
+graph.add(guides);
+addEventListener("resize", measureHeader);

@@ -30,85 +30,19 @@ The ten fiction sagas were written from memory and reviewed against fan wikis th
 
 ## Highlights
 
-- **Generations on rows.** Brothers and sisters share a row and sit together, each couple sits side by side above their own children, and families are spaced apart so each reads as a group. Ancestors glow rose and descendants blue, fading with each generation away. The selected person, and everyone on a relationship path, get a soft halo. In 2D, links are drawn as right-angled family-tree connectors (or straight, if you prefer), each family's bars in its own lane so they don't overlap. Names sit on two centred lines and are always shown.
+- **A tree that reads like one.** Every generation has its own row, with families married into one another kept level (Harry and Ginny share a row, and so do their parents). Brothers and sisters sit together, each couple sits above its own children, and family groups are spaced apart, arranged so that as few lines cross as possible. Names sit on two lines and are always shown.
+- **3D or 2D.** Orbit a 3D tree, where people further back darken and brighten as they turn towards you, or flatten it to 2D with classic right-angled family-tree connectors (or straight lines, if you prefer). Press `D` to switch.
+- **See whose line it is.** Ancestors glow rose and descendants blue, fading with each generation away. The selected person and anyone on a relationship path get a soft halo. Hover a line or a marriage dot to see whose it is; click it to follow it or to light up the whole family.
 - **Search that forgives.** Accents and small typos don't matter (`apsu` finds Apsû, `Ghandi` finds Gandhi), and people who share a name are told apart. Type a relationship to find people by it: _Arya's cousins_, _children of Zeus_, _sons of Jacob_.
 - **How are they related?** Pick any two people for a plain-English answer (_Jon Snow is the nephew of Daenerys Targaryen_): cousins by degree and removal, half-, step- and in-law relations, adoption, common ancestors, and every route between intermarried houses, with the path drawn in gold.
 - **Focus on part of the tree.** Show just one person's line, ancestors, descendants, siblings or first cousins, limited to a few generations if you like. Collapse a branch to fold its descendants away.
-- **Find your way around.** The details panel shows the line of descent, the generation, recently viewed people and pinned favourites. There's an outline chart for each person, an overview map, a guided tour down a line, and Back to retrace your steps.
+- **Find your way around.** Step between parents, children, siblings and spouses from the keyboard. The details panel shows the line of descent, the generation, recently viewed people and pinned favourites. There's an outline chart for each person, an overview map, a guided tour down a line, a pointer back to the selected person when they're off screen, and Back to retrace your steps.
 - **Houses.** Light up a house to see how it spreads through the tree, then frame all its members.
-- **Your own family.** Load a GEDCOM file from any genealogy program, or a saga JSON file, straight in the browser. Nothing is uploaded.
+- **Your own family.** Load a GEDCOM file from any genealogy program, or a saga JSON file, straight in the browser; every surname gets a colour of its own. Nothing is uploaded.
 - **Share a view.** The address bar tracks the saga, person, relationship, house, and 2D/3D, so any view can be bookmarked or shared.
-- **Runs on most devices.** Desktops, tablets and phones from about 2018 onwards. Quality adjusts to the device's graphics, every feature works everywhere, and it redraws rarely when idle to save battery.
+- **Runs on most devices.** Desktops, tablets and phones from about 2018 onwards, by mouse, keyboard or touch. Quality adjusts to the device's graphics, every feature works everywhere, and it redraws rarely when idle to save battery.
 
-## Controls
-
-Press `?` in the app for the full list of keyboard shortcuts.
-
-### Mouse and keyboard
-
-| Do this                                       | To                                                                                                          |
-| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Drag                                          | Orbit (in 2D: pan)                                                                                          |
-| Right-drag, or arrow keys                     | Pan                                                                                                         |
-| Scroll, or `+` / `-`                          | Zoom                                                                                                        |
-| `Shift` + arrow keys                          | Orbit in small steps                                                                                        |
-| Hover a person                                | Preview their line; with someone selected, see how they relate                                              |
-| Click a person                                | Select them and open their details; click them again, or empty space, to deselect                           |
-| Double-click a person                         | Select them and fly to them                                                                                 |
-| `/`                                           | Find a person, or a relationship                                                                            |
-| `Alt` + arrow keys                            | Go to the selected person's parent (↑), child (↓) or sibling (← →); ↓ returns to the child you came up from |
-| `Alt` + `S`                                   | Go to the selected person's spouse (again for the next)                                                     |
-| Hover or click a line between people          | See whose link it is (it brightens); click to go to that person, or across the family                       |
-| Hover or click a marriage dot                 | See the couple and their children; click to light up and frame the family, again to clear                   |
-| `Backspace`, or the browser's Back            | Back to the person before                                                                                   |
-| `G`                                           | Frame the selected person's immediate family                                                                |
-| `C`                                           | Chart of the selected person's ancestors and descendants                                                    |
-| `L`                                           | Show only the selected person's line (again for everyone)                                                   |
-| `R`                                           | How are two people related?                                                                                 |
-| `T`                                           | Guided tour down the selected person's line                                                                 |
-| `F`                                           | Fit the whole tree (a saga first opens close enough to read names, from its oldest rows)                    |
-| `Page Up` / `Page Down`, or a **Row n** label | Move a row up or down, or go to that row                                                                    |
-| `D`                                           | Switch between 2D and 3D                                                                                    |
-| `M`                                           | Show or hide the overview map                                                                               |
-| `P`                                           | Save the view as an image                                                                                   |
-| `Esc`                                         | Close, deselect, end a tour, or clear a highlight                                                           |
-| `?`                                           | Keyboard shortcuts                                                                                          |
-
-### Touch
-
-| Do this                      | To                                                     |
-| ---------------------------- | ------------------------------------------------------ |
-| One-finger drag              | Orbit (in 2D: pan)                                     |
-| Two-finger drag              | Pan                                                    |
-| Pinch                        | Zoom                                                   |
-| Tap a person                 | Select them; tap empty space to deselect               |
-| Double-tap a person          | Select them and fly to them                            |
-| Press and hold a person      | Preview their line                                     |
-| Swipe the details panel ← →  | Next or previous sibling                               |
-| On-screen pad (bottom right) | Hold an arrow to pan, ◯ to fit the tree, + / − to zoom |
-
-On touch screens every control is at least 44 px tall, a tap picks the nearest person even where people overlap, and the page itself never zooms or scrolls, so pinch and drag always move the tree.
-
-### On screen
-
-- **Toolbar** (top left): _How are they related?_, load a file (folder), save an image (camera), tour (play) and help (?).
-- **Details panel** (bottom left, once someone is selected): their relatives as links, line of descent, generation, recent people, a ☆ to pin them, _Fit family_, _Chart_, _Collapse branch_, _Tag everyone's relationship_, and the **Focus** buttons.
-- **Menu** (top right): the saga, 2D (with **Right-angles** for right-angled links while in 2D), a **Settings** folder (glow, generation guides, nebula sky), the **Houses** list (click a house to light it, again to frame it, a third time to clear it) and your **Pinned** people.
-- **Overview map** (bottom right): the whole tree and the part on screen; click or drag on it to move there.
-- **Off-screen chip**: when the selected person is out of view, a chip at the edge of the screen points to them; click it to fly back.
-
-## Getting started
-
-```sh
-npm install
-npm run dev        # http://localhost:5173/family-tree/
-npm test           # data, layout, relationships, GEDCOM, database seed
-npm run build      # type-check and build into dist/
-```
-
-Built with [three.js](https://threejs.org/), [three-forcegraph](https://github.com/vasturiano/three-forcegraph), [three-spritetext](https://github.com/vasturiano/three-spritetext), TypeScript and Vite. The output is a static site: `dist/` runs on GitHub Pages or any static host.
-
-To add a saga of your own, write a JSON file or import a GEDCOM file with `npm run import:gedcom`. [DESIGN.md](DESIGN.md) covers the data format, the importer, loading data from a database or object store, and how the app works inside.
+Press `?` in the app for the keyboard shortcuts. [DESIGN.md](DESIGN.md) has everything else: the full controls reference, getting started and building, the data format and adding a saga, and how the app works inside.
 
 ## Licence
 

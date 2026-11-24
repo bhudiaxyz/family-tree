@@ -2,7 +2,7 @@
 //
 // What it does: runs tier.ts detect() once at first import and exports the result as `device` and its row of QUALITY
 // as `quality`; logs the tier so bug reports can name it. `?tier=low|medium|high` forces one.
-// Usage: scene.ts, nebula.ts, app.ts, graph/core.ts and graph/names.ts import `device` and `quality`.
+// Usage: scene.ts, nebula.ts, main.ts, graph/core.ts and graph/names.ts import `device` and `quality`.
 // Notes: separate from scene.ts to avoid a cycle: scene.ts imports nebula.ts, so nebula.ts could not import scene.ts
 // for these values. It depends only on tier.ts and the browser, and must be imported before the renderer is created.
 

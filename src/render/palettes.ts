@@ -96,8 +96,15 @@ export type Palette = {
     /** Saved PNG: title and author stamped in the corner (≈ CSS --gold-bright and --ink-soft). */
     png: { title: string; author: string; shadow: string };
 
-    /** Colours handed out to houses in an imported GEDCOM file (by surname), which has none of its own. */
+    /**
+     * Colours handed out to houses in an imported GEDCOM file (by surname, alphabetically), which has none of its
+     * own. Past the end of the list, data/gedcom.ts makes up more (golden-angle hues), so no two houses share one.
+     */
     importHouses: string[];
+};
+
+type DeepPartial<T> = {
+    [K in keyof T]?: T[K] extends readonly unknown[] ? T[K] : T[K] extends object ? Partial<T[K]> : T[K];
 };
 
 /** The default theme: warm gold accents on a deep blue-violet night sky. */
@@ -171,6 +178,27 @@ export const DEFAULT_PALETTE: Palette = {
         "#8a8f6a",
         "#4b4f6b",
         "#e58fa8",
+        // 20 more, for large imported trees (each mid-bright, so it reads on the dark sky and takes a light ink badge)
+        "#2f8f83",
+        "#b5651d",
+        "#7d5ba6",
+        "#c9c03a",
+        "#3c8dbc",
+        "#a83279",
+        "#6fbf73",
+        "#d9534f",
+        "#5a6fd6",
+        "#d4a373",
+        "#8cb4a0",
+        "#e8743b",
+        "#9b59b6",
+        "#1f9e89",
+        "#c4a000",
+        "#bc6c25",
+        "#5e8c31",
+        "#d16ba5",
+        "#4a90a4",
+        "#a0522d",
     ],
 };
 
@@ -183,15 +211,12 @@ export const DEFAULT_PALETTE: Palette = {
  */
 const SAGA_PALETTES: Record<string, DeepPartial<Palette>> = {};
 
-type DeepPartial<T> = {
-    [K in keyof T]?: T[K] extends readonly unknown[] ? T[K] : T[K] extends object ? Partial<T[K]> : T[K];
-};
-
 // --- The active palette ---------------------------------------------------------------------------------------------
 // Modules read `palette()` when they build objects. Colours are baked into materials, labels and the nebula when
-// those are created, so changing palette takes effect for whatever is built next: app.ts calls usePalette() before
+// those are created, so changing palette takes effect for whatever is built next: main.ts calls usePalette() before
 // building a saga's tree and re-baking its sky, and scene.ts re-applies lights and fog in applyScenePalette().
 let active: Palette = DEFAULT_PALETTE;
+
 export const palette = (): Palette => active;
 export const usePalette = (p: Palette): void => void (active = p);
 

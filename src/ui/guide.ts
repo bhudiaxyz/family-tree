@@ -5,27 +5,38 @@
 // Usage: input.ts calls these for the keys; the dialogs' buttons are wired here at import time (loaded via input.ts).
 // Notes: the dialogs are native <dialog>s (#help, #chart), which handle Escape, focus and the backdrop themselves; a
 // click on the backdrop closes them. The tour goes through the selected person (ancestors, them, longest line of
-// descendants) if there is one, else down the saga's longest line (tourLine in family.ts). Escape ends a tour first
+// descendants) if there is one, else down the saga's longest line (tourLine in tree/family.ts). Escape ends a tour first
 // (see the capture-phase listener in input.ts). The help text in index.html must match the shortcuts.
 
-import { ancestry, relatives, tourLine } from "../family.ts";
-import { $, el } from "./dom.ts";
+import { ancestry, relatives, tourLine } from "../tree/family.ts";
+import { $, el, notify, personLink, state } from "./state.ts";
 import { deselect, select } from "./panel.ts";
-import { notify, personLink, state } from "./state.ts";
 
 // --- Dialogs: open, and close on ✕ or a click on the backdrop ----------------------------------------------------
 const help = $<HTMLDialogElement>("help");
+
 const chart = $<HTMLDialogElement>("chart");
-for (const d of [help, chart]) {
-    d.querySelector<HTMLButtonElement>("[data-close]")!.onclick = () => d.close();
-    d.addEventListener("click", (e) => e.target === d && d.close()); // the backdrop is the dialog itself
-}
-export const toggleHelp = () => (help.open ? help.close() : help.showModal());
-$("btn-help").onclick = toggleHelp;
 
 // --- Chart: one person's line as an outline. Ancestors above (oldest first), descendants below as nested lists ----
 // Each branch is a <details>, so the browser folds and unfolds it; the first two levels start open.
 const OPEN_LEVELS = 2;
+
+// --- Guided tour: fly down a line of descent, a few seconds per person ----------------------------------------------
+// Through the selected person when there is one (their ancestors, them, then their longest line of descendants),
+// otherwise down the saga's longest line.
+const STEP_MS = 4000;
+
+const bar = $("tour");
+const text = $("tour-text");
+const stepLabel = $("tour-step");
+const play = $<HTMLButtonElement>("tour-play");
+let stops: string[] = [];
+let centre: string | null = null; // who the tour was started from, if anyone
+let at = 0;
+let timer = 0;
+
+export const toggleHelp = () => (help.open ? help.close() : help.showModal());
+
 export function openChart(): void {
     const tree = state.tree;
     const id = state.selected;
@@ -83,21 +94,8 @@ export function openChart(): void {
         );
     chart.showModal();
 }
-const heading = (text: string) => el("h3", { textContent: text });
-$("panel-chart").onclick = openChart;
 
-// --- Guided tour: fly down a line of descent, a few seconds per person ----------------------------------------------
-// Through the selected person when there is one (their ancestors, them, then their longest line of descendants),
-// otherwise down the saga's longest line.
-const STEP_MS = 4000;
-const bar = $("tour");
-const text = $("tour-text");
-const stepLabel = $("tour-step");
-const play = $<HTMLButtonElement>("tour-play");
-let stops: string[] = [];
-let centre: string | null = null; // who the tour was started from, if anyone
-let at = 0;
-let timer = 0;
+const heading = (text: string) => el("h3", { textContent: text });
 
 function show(i: number) {
     const tree = state.tree;
@@ -115,11 +113,13 @@ function show(i: number) {
         (next ? "" : " The end of the line.");
     stepLabel.textContent = `${at + 1} / ${stops.length}`;
 }
+
 function schedule() {
     clearTimeout(timer);
     if (play.getAttribute("aria-pressed") === "true" && at < stops.length - 1)
         timer = window.setTimeout(() => (show(at + 1), schedule()), STEP_MS);
 }
+
 export function startTour(): void {
     if (!state.tree) return;
     centre = state.selected;
@@ -134,6 +134,7 @@ export function startTour(): void {
     show(0);
     schedule();
 }
+
 /** Stop the tour and go back to whoever you'd selected before it (each stop selects its person on the way). */
 export function endTour(): void {
     clearTimeout(timer);
@@ -142,11 +143,21 @@ export function endTour(): void {
     if (centre && state.tree?.people[centre]) select(centre, true);
     else deselect();
 }
+
 export const touring = () => !bar.hidden;
+
+for (const d of [help, chart]) {
+    d.querySelector<HTMLButtonElement>("[data-close]")!.onclick = () => d.close();
+    d.addEventListener("click", (e) => e.target === d && d.close()); // the backdrop is the dialog itself
+}
+
+$("btn-help").onclick = toggleHelp;
+$("panel-chart").onclick = openChart;
 $("btn-tour").onclick = () => (touring() ? endTour() : startTour());
 $("tour-end").onclick = endTour;
 $("tour-prev").onclick = () => (show(at - 1), schedule());
 $("tour-next").onclick = () => (show(at + 1), schedule());
+
 play.onclick = () => {
     const on = play.getAttribute("aria-pressed") !== "true";
     play.setAttribute("aria-pressed", String(on));

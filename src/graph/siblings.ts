@@ -10,10 +10,11 @@
 import * as THREE from "three";
 import type SpriteText from "three-spritetext";
 import type { Tree } from "../data/schema.ts";
-import { siblingLabel } from "../family.ts";
-import { disposeLabel, relationLabel } from "../labels.ts";
-import { palette } from "../palettes.ts";
-import { graph, midpoint, type Node } from "./core.ts";
+import { siblingLabel } from "../tree/family.ts";
+import { disposeLabel, relationLabel } from "../render/labels.ts";
+import { palette } from "../render/palettes.ts";
+import { graph } from "./core.ts";
+import { midpoint, type Node } from "./graph-types.ts";
 
 /** The dashed-line material; its opacity is faded as one by the highlight (highlight.ts). */
 export const siblingMat = new THREE.LineDashedMaterial({
@@ -22,12 +23,11 @@ export const siblingMat = new THREE.LineDashedMaterial({
     gapSize: 1.5,
     transparent: true,
 });
+
 export const siblings = new THREE.Group();
-graph.add(siblings);
 export let siblingPairs: [Node, Node][] = [];
 export let siblingLabels: SpriteText[] = [];
 const siblingLines = new THREE.LineSegments(new THREE.BufferGeometry(), siblingMat);
-siblings.add(siblingLines);
 
 export function setSiblings(t: Tree, byId: Map<string, Node>, pairs: [string, string][]): void {
     siblingLabels.forEach(disposeLabel);
@@ -53,3 +53,6 @@ export function updateSiblings(): void {
     siblingLines.geometry.computeBoundingSphere();
     siblingLines.computeLineDistances();
 }
+
+graph.add(siblings);
+siblings.add(siblingLines);

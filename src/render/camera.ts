@@ -2,7 +2,7 @@
 //
 // What it does: keeps module-level state for auto-fit (whole tree or a group), a timed flight to a node, a glide to a
 // fixed target and distance, held pan directions, and a 2D mode that eases the view face-on. stepCamera() advances all.
-// Usage: app.ts calls stepCamera() each frame and setReducedMotion(); ui/ calls fitTree, fitPeople, flyTo, glideTo,
+// Usage: main.ts calls stepCamera() each frame and setReducedMotion(); ui/ calls fitTree, fitPeople, flyTo, glideTo,
 // zoomBy, viewState, holdPan / releasePan / releaseAllPans, nudgeRotate, setFlatView and takeCamera.
 // Notes: the user always wins: any OrbitControls "start" event, arrow key or pad press calls takeCamera(), which
 // cancels auto-fit, flight and glide. Motion is frame-rate independent: easing is 1 - exp(-rate * dt) and panning
@@ -11,27 +11,69 @@
 
 import * as THREE from "three";
 import { camera, controls } from "./scene.ts";
-import { drawnZ } from "./graph.ts";
+import { drawnZ } from "../graph/graph.ts";
 
 type Pos = { x?: number; y?: number; z?: number };
 type Bbox = { x: [number, number]; y: [number, number]; z: [number, number] };
 
-/** Fraction to close per frame so a lerp converges at `rate` per second regardless of frame time. */
-const ease = (rate: number, dt: number) => (reducedMotion ? 1 : 1 - Math.exp(-rate * dt));
+// --- Held-direction panning (arrow keys and the touch pad share this) ----------------------------------------------
+export type Dir = "left" | "right" | "up" | "down";
 
 // prefers-reduced-motion: camera moves (fit, fly-to) jump straight to their end instead of animating.
 let reducedMotion = false;
+
+let autoFit = true;
+let flight: { node: Pos; dir: THREE.Vector3; t: number } | null = null;
+
+// What auto-fit frames: the whole tree (null), or a group of people (fitPeople), followed live while the layout moves.
+let fitGroup: Pos[] | null = null;
+
+// A camera glide to a fixed target and distance (glideTo): generation steps, the minimap, a restored view.
+let glide: { target: THREE.Vector3; dist: number } | null = null;
+
+let fitTop = false;
+
+// Fits the people's width and height to the view, measured to the box centre. Depth is left out on purpose: the house
+// planes spread people front to back for parallax, and fitting the front face (as before) pushed the camera back by
+// that whole depth, so the first view was far too zoomed out. Near people may now sit slightly past the frame edge
+// in perspective, which reads as closer and more immersive; the 5–95% box (peopleBbox) already trims stragglers.
+//
+// The fit is into the part of the screen that isn't covered: the header and toolbar take the top, and the details
+// panel (or, on phones, the finder) the bottom. Without that, Ancestors put the oldest rows under the toolbar and
+// Descendants put the youngest behind the panel. The UI reports those insets with setViewInsets().
+const FIT_MARGIN = 1.08; // breathing room around what's framed, so the outer rows aren't on the very edge
+
+let insetTop = 0; // px of the view covered at the top (header) and bottom (panel), set by the UI
+let insetBottom = 0;
+
+// Scratch vectors, reused every frame: allocating new ones per frame made garbage-collection pauses on phones.
+const center = new THREE.Vector3();
+
+const goal = new THREE.Vector3();
+const offset = new THREE.Vector3();
+const TALL = 2; // a tree needing over twice the distance for its height as for its width counts as tall...
+const TALL_MIN_H = 660; // ...and is then framed at least this high (six rows of 110), from its top
+const NAME_LINE = 4; // world units per line of a name label (labels.ts)
+const FIRST_NAME_PX = 10; // a saga's first view is never so far out that a name line is under this many px
+const offsetDir = new THREE.Vector3();
+const FLY_SECONDS = 1;
+const FLY_DISTANCE = 90;
+const held = new Set<Dir>();
+const PAN_PX_PER_SECOND = 540;
+const PAN: Record<Dir, [number, number]> = { left: [1, 0], right: [-1, 0], up: [0, 1], down: [0, -1] };
+
+// --- 2D mode: no rotation; left drag / one finger pans; the camera eases round to face the tree head-on -----------
+let flat = false;
+
+const FRONT = new THREE.Vector3(0, 0, 1);
+
+/** Fraction to close per frame so a lerp converges at `rate` per second regardless of frame time. */
+const ease = (rate: number, dt: number) => (reducedMotion ? 1 : 1 - Math.exp(-rate * dt));
+
 export const setReducedMotion = (on: boolean) => {
     reducedMotion = on;
     controls.enableDamping = !on;
 };
-
-let autoFit = true;
-let flight: { node: Pos; dir: THREE.Vector3; t: number } | null = null;
-// What auto-fit frames: the whole tree (null), or a group of people (fitPeople), followed live while the layout moves.
-let fitGroup: Pos[] | null = null;
-// A camera glide to a fixed target and distance (glideTo): generation steps, the minimap, a restored view.
-let glide: { target: THREE.Vector3; dist: number } | null = null;
 
 /** Hand the camera to the user: stop auto-fit, any fly-to or glide. */
 export function takeCamera(): void {
@@ -39,7 +81,6 @@ export function takeCamera(): void {
     flight = null;
     glide = null;
 }
-controls.addEventListener("start", takeCamera);
 
 /**
  * Ease back to the whole tree (after loading a saga, deselecting, or the pad's fit button). With `top`, a tree much
@@ -53,7 +94,6 @@ export function fitTree(top = false): void {
     fitTop = top;
     autoFit = true;
 }
-let fitTop = false;
 
 /** Ease to frame just these people (a person and their immediate family), keeping the current viewing angle. */
 export function fitPeople(nodes: Pos[]): void {
@@ -89,30 +129,12 @@ export function flyTo(node: Pos): void {
     flight = { node, dir: camera.position.clone().sub(controls.target).normalize(), t: 0 };
 }
 
-// Fits the people's width and height to the view, measured to the box centre. Depth is left out on purpose: the house
-// planes spread people front to back for parallax, and fitting the front face (as before) pushed the camera back by
-// that whole depth, so the first view was far too zoomed out. Near people may now sit slightly past the frame edge
-// in perspective, which reads as closer and more immersive; the 5–95% box (peopleBbox) already trims stragglers.
-//
-// The fit is into the part of the screen that isn't covered: the header and toolbar take the top, and the details
-// panel (or, on phones, the finder) the bottom. Without that, Ancestors put the oldest rows under the toolbar and
-// Descendants put the youngest behind the panel. The UI reports those insets with setViewInsets().
-const FIT_MARGIN = 1.08; // breathing room around what's framed, so the outer rows aren't on the very edge
-let insetTop = 0; // px of the view covered at the top (header) and bottom (panel), set by the UI
-let insetBottom = 0;
 /** Tell the camera how much of the view is covered by overlays, top and bottom (CSS px), so fits avoid them. */
 export function setViewInsets(top: number, bottom: number): void {
     insetTop = Math.max(0, top);
     insetBottom = Math.max(0, bottom);
 }
-// Scratch vectors, reused every frame: allocating new ones per frame made garbage-collection pauses on phones.
-const center = new THREE.Vector3();
-const goal = new THREE.Vector3();
-const offset = new THREE.Vector3();
-const TALL = 2; // a tree needing over twice the distance for its height as for its width counts as tall...
-const TALL_MIN_H = 660; // ...and is then framed at least this high (six rows of 110), from its top
-const NAME_LINE = 4; // world units per line of a name label (labels.ts)
-const FIRST_NAME_PX = 10; // a saga's first view is never so far out that a name line is under this many px
+
 function stepFit(bbox: Bbox, dt: number, top: boolean) {
     const { x, y, z } = bbox;
     center.set((x[0] + x[1]) / 2, (y[0] + y[1]) / 2, (z[0] + z[1]) / 2);
@@ -160,7 +182,6 @@ function groupBox(nodes: Pos[]): Bbox {
     return { x, y, z: [Math.min(...zs), Math.max(...zs)] };
 }
 
-const offsetDir = new THREE.Vector3();
 function stepGlide(dt: number) {
     if (!glide) return;
     const k = ease(6, dt);
@@ -174,8 +195,6 @@ function stepGlide(dt: number) {
         glide = null;
 }
 
-const FLY_SECONDS = 1;
-const FLY_DISTANCE = 90;
 function stepFlight(dt: number) {
     if (!flight) return;
     const { node, dir } = flight;
@@ -186,12 +205,6 @@ function stepFlight(dt: number) {
     camera.position.lerp(goal.copy(center).addScaledVector(dir, FLY_DISTANCE), k);
     if (flight.t === 1) flight = null;
 }
-
-// --- Held-direction panning (arrow keys and the touch pad share this) ----------------------------------------------
-export type Dir = "left" | "right" | "up" | "down";
-const held = new Set<Dir>();
-const PAN_PX_PER_SECOND = 540;
-const PAN: Record<Dir, [number, number]> = { left: [1, 0], right: [-1, 0], up: [0, 1], down: [0, -1] };
 
 export const holdPan = (dir: Dir) => (takeCamera(), held.add(dir));
 export const releasePan = (dir: Dir) => held.delete(dir);
@@ -208,15 +221,13 @@ function stepPan(dt: number) {
     controls.pan(dx * PAN_PX_PER_SECOND * dt, dy * PAN_PX_PER_SECOND * dt);
 }
 
-// --- 2D mode: no rotation; left drag / one finger pans; the camera eases round to face the tree head-on -----------
-let flat = false;
 export function setFlatView(on: boolean): void {
     flat = on;
     controls.enableRotate = !on;
     controls.mouseButtons.LEFT = on ? THREE.MOUSE.PAN : THREE.MOUSE.ROTATE;
     controls.touches.ONE = on ? THREE.TOUCH.PAN : THREE.TOUCH.ROTATE;
 }
-const FRONT = new THREE.Vector3(0, 0, 1);
+
 function stepFlatView(dt: number) {
     if (!flat) return;
     offset.subVectors(camera.position, controls.target);
@@ -247,3 +258,5 @@ export function stepCamera(dt: number, bbox: () => Bbox | null): void {
     stepFlatView(dt);
     controls.update();
 }
+
+controls.addEventListener("start", takeCamera);

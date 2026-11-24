@@ -14,11 +14,12 @@
 // Notes: the closest common ancestor gives the headline, but every other route is also reported (common in
 // intermarried houses). path/steps are what the graph highlights as the gold path, so keep them a connected chain.
 
-import type { Tree } from "./data/schema.ts";
+import type { Tree } from "../data/schema.ts";
 
 type Sex = "m" | "f";
 export type Step = { from: string; to: string; via: "parent" | "child" | "spouse"; adoptive: boolean };
 export type Route = { label: string; ancestors: string[]; adoptive: boolean };
+
 export type Relationship = {
     /** Plain-English summary, e.g. "Jon Snow is the nephew of Daenerys Targaryen". */
     summary: string;
@@ -38,20 +39,45 @@ export type Relationship = {
     adoptive: boolean;
 };
 
-const ORDINAL = ["", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"];
-const TIMES = ["", "once", "twice", "three times", "four times", "five times", "six times"];
-const ordinal = (n: number) => ORDINAL[n] ?? `${n}th`;
-const times = (n: number) => TIMES[n] ?? `${n} times`;
-const by = (sex: Sex, m: string, f: string) => (sex === "m" ? m : f);
-/** "great-great-" style prefix for n extra generations; beyond 3, "4× great-". */
-const greats = (n: number) => (n <= 0 ? "" : n <= 3 ? "great-".repeat(n) : `${n}× great-`);
-
 // --- Graph indexes (built once per tree, cached) ----------------------------------------------------------------
 type Index = {
     up: Map<string, { id: string; adoptive: boolean }[]>; // child → parents
     spouses: Map<string, Set<string>>; // person → co-parents in any family
 };
+
+type Blood = { ga: number; gb: number; label: string; ancestors: string[]; adoptive: boolean };
+
+const ORDINAL = ["", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"];
+const TIMES = ["", "once", "twice", "three times", "four times", "five times", "six times"];
 const cache = new WeakMap<Tree, Index>();
+
+// In-law and step names from a blood label (b's relative → a, plus one marriage). Only the common, unambiguous
+// ones get a name; deeper chains fall back to the described path.
+const IN_LAW: Record<string, [string, string]> = {
+    father: ["father-in-law", "mother-in-law"],
+    mother: ["father-in-law", "mother-in-law"],
+    son: ["son-in-law", "daughter-in-law"],
+    daughter: ["son-in-law", "daughter-in-law"],
+    brother: ["brother-in-law", "sister-in-law"],
+    sister: ["brother-in-law", "sister-in-law"],
+    "half-brother": ["brother-in-law", "sister-in-law"],
+    "half-sister": ["brother-in-law", "sister-in-law"],
+    uncle: ["uncle by marriage", "aunt by marriage"],
+    aunt: ["uncle by marriage", "aunt by marriage"],
+    nephew: ["nephew by marriage", "niece by marriage"],
+    niece: ["nephew by marriage", "niece by marriage"],
+    grandfather: ["grandfather-in-law", "grandmother-in-law"],
+    grandmother: ["grandfather-in-law", "grandmother-in-law"],
+    "first cousin": ["cousin by marriage", "cousin by marriage"],
+};
+
+const ordinal = (n: number) => ORDINAL[n] ?? `${n}th`;
+const times = (n: number) => TIMES[n] ?? `${n} times`;
+const by = (sex: Sex, m: string, f: string) => (sex === "m" ? m : f);
+
+/** "great-great-" style prefix for n extra generations; beyond 3, "4× great-". */
+const greats = (n: number) => (n <= 0 ? "" : n <= 3 ? "great-".repeat(n) : `${n}× great-`);
+
 function index(tree: Tree): Index {
     let ix = cache.get(tree);
     if (ix) return ix;
@@ -85,8 +111,6 @@ function bloodLabel(sexA: Sex, ga: number, gb: number, half: boolean): string {
     const removed = Math.abs(ga - gb);
     return `${h}${ordinal(degree)} cousin${removed ? ` ${times(removed)} removed` : ""}`;
 }
-
-type Blood = { ga: number; gb: number; label: string; ancestors: string[]; adoptive: boolean };
 
 // Every (generations-up) distance from `from` to each ancestor, by any route: Map<ancestor, Set<distance>>.
 // Unlike ancestors(), which keeps only the shortest, this keeps all of them, so a double descent shows twice.
@@ -192,26 +216,6 @@ export function stepWord(tree: Tree, s: Step): string {
     if (s.via === "child") return (s.adoptive ? "adopted " : "") + by(sex, "son", "daughter");
     return by(sex, "husband", "wife");
 }
-
-// In-law and step names from a blood label (b's relative → a, plus one marriage). Only the common, unambiguous
-// ones get a name; deeper chains fall back to the described path.
-const IN_LAW: Record<string, [string, string]> = {
-    father: ["father-in-law", "mother-in-law"],
-    mother: ["father-in-law", "mother-in-law"],
-    son: ["son-in-law", "daughter-in-law"],
-    daughter: ["son-in-law", "daughter-in-law"],
-    brother: ["brother-in-law", "sister-in-law"],
-    sister: ["brother-in-law", "sister-in-law"],
-    "half-brother": ["brother-in-law", "sister-in-law"],
-    "half-sister": ["brother-in-law", "sister-in-law"],
-    uncle: ["uncle by marriage", "aunt by marriage"],
-    aunt: ["uncle by marriage", "aunt by marriage"],
-    nephew: ["nephew by marriage", "niece by marriage"],
-    niece: ["nephew by marriage", "niece by marriage"],
-    grandfather: ["grandfather-in-law", "grandmother-in-law"],
-    grandmother: ["grandfather-in-law", "grandmother-in-law"],
-    "first cousin": ["cousin by marriage", "cousin by marriage"],
-};
 
 /** How `a` is related to `b`, or null if they are not connected at all in this tree. */
 export function relate(tree: Tree, a: string, b: string): Relationship | null {

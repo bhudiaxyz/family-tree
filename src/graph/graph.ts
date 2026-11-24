@@ -2,43 +2,37 @@
 //
 // What it does: showTree() builds the nodes (people pinned to a row height, plus one union node per family) and links
 // for a Tree, frames it (peopleBbox) and resets highlight and guides; stepGraph() advances everything once per frame.
-// Usage: imported by app.ts and src/ui/*; re-exports the public parts of src/graph/. The parts:
-//   core.ts       the graph instance, node/link objects, force layout, shared types and helpers
-//   siblings.ts   dashed sibling lines and labels        guides.ts   "Row n" guides and labels
-//   flat.ts       2D mode: depth squash, row spacing, sibling clustering
-//   highlight.ts  dimming outside a line, path glow      names.ts    label fades, name de-overlap, relation tags
+// Usage: imported by main.ts and src/ui/*; re-exports the public parts of src/graph/. The parts:
+//   core.ts         the graph instance, person and marriage-node objects, physics settings
+//   graph-types.ts  shared node and link types and small helpers
+//   links.ts        link lines, path glow, straight and right-angled geometry
+//   forces.ts       row forces: name spacing, siblings, couples, parents over children, marriage nodes
+//   flat.ts         2D mode: depth squash and the right-angled link switch
+//   highlight.ts    dimming outside a line, path glow     names.ts     label fades, name de-overlap, relation tags
+//   siblings.ts     dashed sibling lines and labels        guides.ts    "Row n" guides and labels
 // Notes: showTree must dispose the previous tree's per-node materials before graphData() replaces them. The order in
 // stepGraph matters: highlight fades set opacity targets that fadeLabels/declutter/stepNames then combine for labels.
 
 import type * as THREE from "three";
-import type { Tree } from "./data/schema.ts";
-import { childLabel, parentLabel } from "./family.ts";
-import { generations, type SiblingMode } from "./generations.ts";
-import {
-    boundLinks,
-    boundNodes,
-    disposeObject,
-    elbowLinks,
-    graph,
-    isShown,
-    laneOffset,
-    type Link,
-    linkResolution,
-    markLayoutRunning,
-    type Node,
-    useTree,
-} from "./graph/core.ts";
-import { drawnZ, setCouples, setFamilies, setSiblingGroups, setUnions, stepFlat } from "./graph/flat.ts";
-import { setGuides, stepGuides } from "./graph/guides.ts";
-import { clearFocus, stepFades } from "./graph/highlight.ts";
-import { declutter, fadeLabels, stepNames } from "./graph/names.ts";
-import { setSiblings, siblings, updateSiblings } from "./graph/siblings.ts";
-
-export { endId, graph, isShown, layoutRunning, type Link, type Node } from "./graph/core.ts";
-export { drawnZ, setFlat, setRightAngles } from "./graph/flat.ts";
-export { generationRows, onRowPicked, setGuidesVisible } from "./graph/guides.ts";
-export { type HighlightOptions, highlight, setFolded, setHoverLink } from "./graph/highlight.ts";
-export { setFoldBadges, setRelativeTags } from "./graph/names.ts";
+import type { Tree } from "../data/schema.ts";
+import { childLabel, parentLabel } from "../tree/family.ts";
+import { generations, type SiblingMode } from "../tree/generations.ts";
+import { rowOrder } from "../tree/row-order.ts";
+import { boundLinks, boundNodes, disposeObject, graph, isShown, markLayoutRunning, useTree } from "./core.ts";
+import { type Link, type Node } from "./graph-types.ts";
+import { drawnZ, stepFlat } from "./flat.ts";
+import { elbowLinks, laneOffset, linkResolution } from "./links.ts";
+import { setCouples, setFamilies, setSiblingGroups, setUnions } from "./forces.ts";
+import { setGuides, stepGuides } from "./guides.ts";
+import { clearFocus, stepFades } from "./highlight.ts";
+import { declutter, fadeLabels, stepNames } from "./names.ts";
+import { setSiblings, siblings, updateSiblings } from "./siblings.ts";
+export { graph, isShown, layoutRunning } from "./core.ts";
+export { endId, type Link, type Node } from "./graph-types.ts";
+export { drawnZ, setFlat, setRightAngles } from "./flat.ts";
+export { generationRows, onRowPicked, setGuidesVisible } from "./guides.ts";
+export { type HighlightOptions, highlight, setFolded, setHoverLink } from "./highlight.ts";
+export { setFoldBadges, setRelativeTags } from "./names.ts";
 
 // Vertical gap between generations (world units). The same in 2D and 3D, so switching never moves rows; 110 (it was
 // 80) leaves 2D's right-angled connectors a long drop to each child, with its "son"/"daughter" label clear of names.
@@ -46,6 +40,9 @@ const GEN_GAP = 110;
 
 let rowOf = new Map<string, number>();
 let rowCount = 0;
+const MIN_FRAME_W = 120; // world units; a generation row is 110 apart
+const MIN_FRAME_H = 130;
+
 /** A person's generation row (0 = oldest) in the shown tree, and how many rows there are. */
 export const generationOf = (id: string) => ({ row: rowOf.get(id) ?? 0, of: rowCount });
 
@@ -58,7 +55,7 @@ export function showTree(t: Tree, mode: SiblingMode = "together"): void {
     rowCount = rows + 1;
     const y = (g: number) => (rows / 2 - g) * GEN_GAP;
 
-    const seed = seedX(t, gen);
+    const seed = rowOrder(t, gen);
     const nodes: Node[] = Object.entries(t.people).map(([id, p]) => ({
         id,
         ...p,
@@ -136,76 +133,6 @@ export function showTree(t: Tree, mode: SiblingMode = "together"): void {
     clearFocus();
 }
 
-// --- Starting order along each row ----------------------------------------------------------------------------------
-// The forces only nudge people sideways, and names can't pass through each other (spreadRows), so whatever order the
-// layout starts in is roughly the order it ends in. Started at random, couples were split by strangers and brothers
-// and sisters scattered. So each row starts in family order: walk the tree from the oldest row down; a person is
-// placed with their spouses beside them, and each family's children are placed together, in the order of their
-// parents above, so a couple starts over its own children. A new group (not a spouse or sibling of the one before)
-// starts SEED_GROUP further along. Each row is then centred. The forces refine this; they don't have to find it.
-const SEED_STEP = 26; // world units between neighbours in a group
-const SEED_GROUP = 45; // extra space before a new group (matches GROUP_SPACE in flat.ts)
-function seedX(t: Tree, gen: Map<string, number>): Map<string, number> {
-    const asParent = new Map<string, Tree["families"]>();
-    for (const f of t.families) for (const p of f.parents) asParent.set(p, [...(asParent.get(p) ?? []), f]);
-    const isChild = new Set(t.families.flatMap((f) => f.children));
-    const spouses = (id: string) =>
-        (asParent.get(id) ?? []).flatMap((f) => f.parents).filter((p) => p !== id && gen.get(p) === gen.get(id));
-    const x = new Map<string, number>();
-    const next = new Map<number, number>(); // the next free x on each row
-    const place = (id: string, newGroup: boolean) => {
-        if (x.has(id)) return;
-        const row = gen.get(id)!;
-        const at = next.get(row);
-        const pos = at === undefined ? 0 : at + (newGroup ? SEED_GROUP : 0);
-        x.set(id, pos);
-        next.set(row, pos + SEED_STEP);
-        for (const s of spouses(id)) place(s, false);
-    };
-    // A family's children, kept together: siblings with a partner on their row go to the ends of the group, with the
-    // partner outside it, so a couple doesn't split the brothers and sisters (placing each child's spouse right after
-    // them did) and the partner isn't left far off. The first such sibling goes on the left, partner first; the rest
-    // on the right, each followed by their partner.
-    const placeSiblings = (children: string[]) => {
-        const kids = children.filter((c) => !x.has(c));
-        const partnered = kids.filter((c) => spouses(c).some((s) => !x.has(s)));
-        const [left, ...right] = partnered;
-        if (left)
-            place(
-                spouses(left).find((s) => !x.has(s))!,
-                true
-            ); // the partner, then (beside them) the sibling
-        kids.filter((c) => !partnered.includes(c)).forEach((c, i) => place(c, i === 0 && !left));
-        right.forEach((c) => place(c, false));
-    };
-    const ids = Object.keys(t.people);
-    const done = new Set<Tree["families"][number]>();
-    for (let row = 0; row <= Math.max(0, ...gen.values()); row++) {
-        const inRow = ids.filter((id) => gen.get(id) === row);
-        // People with no parents recorded, unless they married someone who has (they're placed beside them).
-        for (const id of inRow) if (!isChild.has(id) && spouses(id).every((s) => !isChild.has(s))) place(id, true);
-        for (const id of inRow) place(id, true); // anyone still left (a spouse placed nowhere else)
-        for (const id of inRow.sort((a, b) => x.get(a)! - x.get(b)!))
-            for (const f of asParent.get(id) ?? []) {
-                if (done.has(f)) continue;
-                done.add(f);
-                placeSiblings(f.children);
-            }
-    }
-    for (const id of ids) place(id, true); // defensive: anyone without a row walk (shouldn't happen)
-    const span = new Map<number, [number, number]>();
-    for (const [id, v] of x) {
-        const r = gen.get(id)!;
-        const [lo, hi] = span.get(r) ?? [v, v];
-        span.set(r, [Math.min(lo, v), Math.max(hi, v)]);
-    }
-    for (const [id, v] of x) {
-        const [lo, hi] = span.get(gen.get(id)!)!;
-        x.set(id, v - (lo + hi) / 2);
-    }
-    return x;
-}
-
 /**
  * Box around the people (not union nodes or guides), for framing the camera. Uses the 5th–95th percentile on each
  * axis, so one stray family off to the side doesn't push the whole view out; padded by a person's radius and label.
@@ -236,8 +163,6 @@ export function peopleBbox(): { x: [number, number]; y: [number, number]; z: [nu
     };
     return { x: atLeast([x[0] - 6, x[1] + 6], MIN_FRAME_W), y: atLeast([y[0] - 9, y[1] + 16], MIN_FRAME_H), z };
 }
-const MIN_FRAME_W = 120; // world units; a generation row is 110 apart
-const MIN_FRAME_H = 130;
 
 /** Live node for a person (its position is updated by the simulation), if the tree has been laid out. */
 export const nodeById = (id: string): Node | undefined => graph.graphData().nodes.find((n) => n.id === id);

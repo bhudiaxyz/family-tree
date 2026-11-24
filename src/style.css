@@ -759,7 +759,7 @@ body.no-3d #pad {
     display: none;
 }
 
-/* Respect reduced-motion: no CSS transitions (the 3D camera also skips its fly-to animation, see app.ts). */
+/* Respect reduced-motion: no CSS transitions (the 3D camera also skips its fly-to animation, see main.ts). */
 @media (prefers-reduced-motion: reduce) {
     * {
         transition: none !important;

@@ -8,11 +8,12 @@
 // sex becomes "m" (the app needs m/f for labels) and is warned about. Adoption is read from CHIL PEDI / _FREL / _MREL
 // and also from PEDI on an individual's FAMC. House colours come from palette().importHouses (palettes.ts).
 
-import { palette } from "../palettes.ts";
+import { palette } from "../render/palettes.ts";
 import type { Tree } from "./schema.ts";
 
 type Line = { level: number; xref?: string; tag: string; value: string };
 type Rec = { line: Line; children: Rec[] };
+export type GedcomResult = { tree: Tree; warnings: string[] };
 
 // "0 @I1@ INDI", "1 NAME John /Smith/", "2 CONT …". Tolerates CRLF, a BOM, leading spaces and tabs.
 const LINE = /^\s*(\d+)\s+(?:(@[^@]+@)\s+)?(\S+)(?:\s(.*))?$/;
@@ -59,8 +60,6 @@ function parseName(indi: Rec): { name: string; surname: string } {
     const name = [given, raw.includes("/") ? surname : ""].filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
     return { name: name || surname || "Unknown", surname };
 }
-
-export type GedcomResult = { tree: Tree; warnings: string[] };
 
 /** Parse GEDCOM text into a Tree. Throws only if there are no individuals at all. */
 export function parseGedcom(text: string, title = "Imported family"): GedcomResult {
@@ -128,7 +127,11 @@ export function parseGedcom(text: string, title = "Imported family"): GedcomResu
     const kept = families.filter((f) => !emptied.has(f) && (f.parents.length || f.children.length));
     const surnames = [...new Set(Object.values(people).map((p) => p.house))].sort();
     const colours = palette().importHouses; // palettes.ts: the colour set handed out to imported surnames
-    const houseColors = Object.fromEntries(surnames.map((s, i) => [s, colours[i % colours.length]]));
+    // Past the palette's list, step round the colour wheel by the golden angle (≈137.5°), so every further house still
+    // gets a colour of its own instead of repeating one (a large Tudor-style file has dozens of surnames).
+    const colourFor = (i: number) =>
+        i < colours.length ? colours[i] : `hsl(${Math.round((i * 137.508) % 360)}, 55%, ${i % 2 ? 48 : 60}%)`;
+    const houseColors = Object.fromEntries(surnames.map((s, i) => [s, colourFor(i)]));
     return { tree: { title, author: "Imported from GEDCOM", people, families: kept, houseColors }, warnings };
 }
 

@@ -3,7 +3,7 @@
 // What it does: hover highlights (mouse only), click or tap selects, double tap flies to the person, long press
 // previews their line, and a hover card names the person and how they are related to the selected one. Links can be
 // hovered too (a card says whose link it is) and clicked to go to the person at its end, or across the family.
-// Usage: exports `resetCard` (called by sagas.ts show()). Otherwise a side-effect module: app.ts imports it for its
+// Usage: exports `resetCard` (called by sagas.ts show()). Otherwise a side-effect module: main.ts imports it for its
 // canvas listeners.
 // Notes: mouse and pen use an exact raycast, nearest sphere wins; touch picks the person whose screen centre is
 // nearest the tap within a finger-sized radius (a raycast often hit a sphere in front of the intended one). A tap
@@ -12,30 +12,56 @@
 // it. Hidden (focus mode) objects are skipped by hand. The card hides when the view starts moving.
 
 import * as THREE from "three";
-import { drawnZ, endId, graph, isShown, type Link, type Node, setHoverLink } from "../graph.ts";
-import { relate } from "../relationship.ts";
-import { camera, controls, renderer } from "../scene.ts";
-import { $, el, relatePanel } from "./dom.ts";
+import { drawnZ, endId, graph, isShown, type Link, type Node, setHoverLink } from "../graph/graph.ts";
+import { relate } from "../tree/relationship.ts";
+import { camera, controls, renderer } from "../render/scene.ts";
+import { $, el, refreshHighlight, relatePanel, state } from "./state.ts";
 import { setHouse } from "./legend.ts";
 import { clearGroup, deselect, select, showGroup } from "./panel.ts";
 import { fillRelate } from "./relate.ts";
-import { refreshHighlight, state } from "./state.ts";
 
 const raycaster = new THREE.Raycaster();
-// Fat link lines (LineSegments2) are hit within their width plus this many px: enough to point at a 1.6 px line, but
-// tight enough that a click in a busy 2D area still reaches empty space (and deselects); 6 px caught most clicks.
-Object.assign(raycaster.params, { Line2: { threshold: 3 } });
 const pointer = new THREE.Vector2();
+
 /** The link under the pointer at the last pick(), when no person was: hovered for its card, clicked to follow it. */
 let pickedLink: Link | null = null;
+
 /** The family whose marriage node is under the pointer at the last pick(), when no person was (its index). */
 let pickedUnion: number | null = null;
+
 // Who is under the pointer?
 //  - Mouse/pen: an exact raycast, nearest sphere wins. A cursor is precise, so "the one in front" is what you meant.
 //  - Touch: a fingertip covers ~7 mm and hides what's beneath it, so a raycast often hits a sphere in FRONT of the
 //    intended one when people overlap (measured: 2 of 14 taps picked the wrong person on a phone). Instead, pick the
 //    person whose on-screen centre is closest to the tap, within a finger-sized radius. Fall back to the raycast.
 const FINGER_PX = 28;
+
+const projected = new THREE.Vector3();
+
+// Tap/click handling that works the same for mouse, pen and touch:
+//  - A tap counts only if it started on the canvas, used one pointer, and moved less than TAP_SLOP (a finger moves a
+//    little even when "still"; 5 px was too tight on phones). A second finger turns it into a pinch, never a tap.
+//  - Two taps on the same person within DOUBLE_MS fly to them (dblclick is unreliable on mobile browsers).
+//  - Press and hold on a person (touch) previews their line, the touch equivalent of mouse hover.
+//  - pointercancel (the browser took over for scrolling/zooming) abandons the tap.
+// downAt is cleared after every pointerup, so a click on the panel can never also select whoever is behind it.
+const TAP_SLOP = { mouse: 5, pen: 8, touch: 12 } as Record<string, number>;
+
+const DOUBLE_MS = 350;
+const HOLD_MS = 450;
+const canvas = renderer.domElement;
+const active = new Set<number>(); // pointers currently down on the canvas
+let downAt: { x: number; y: number; type: string; multi: boolean } | null = null;
+let lastTap: { id: string; at: number } | null = null;
+let holdTimer = 0;
+
+// --- Hover card: who this is, and how they're related to the selected person ----------------------------------------
+// Answers "how is this person related to me?" without switching on tags for the whole tree. Follows the mouse; on
+// touch it shows during a long press. The relationship comes from relate(), the same as the finder's headline.
+const card = $("hovercard");
+
+let cardFor = "";
+
 function pick(e: PointerEvent | MouseEvent): string | null {
     pickedLink = null;
     pickedUnion = null;
@@ -99,7 +125,6 @@ function followLink(l: Link): void {
     if (other) select(other, true);
 }
 
-const projected = new THREE.Vector3();
 function nearestOnScreen(x: number, y: number, radius: number): string | null {
     let best: string | null = null;
     let bestD = radius;
@@ -116,104 +141,11 @@ function nearestOnScreen(x: number, y: number, radius: number): string | null {
     return best;
 }
 
-// Tap/click handling that works the same for mouse, pen and touch:
-//  - A tap counts only if it started on the canvas, used one pointer, and moved less than TAP_SLOP (a finger moves a
-//    little even when "still"; 5 px was too tight on phones). A second finger turns it into a pinch, never a tap.
-//  - Two taps on the same person within DOUBLE_MS fly to them (dblclick is unreliable on mobile browsers).
-//  - Press and hold on a person (touch) previews their line, the touch equivalent of mouse hover.
-//  - pointercancel (the browser took over for scrolling/zooming) abandons the tap.
-// downAt is cleared after every pointerup, so a click on the panel can never also select whoever is behind it.
-const TAP_SLOP = { mouse: 5, pen: 8, touch: 12 } as Record<string, number>;
-const DOUBLE_MS = 350;
-const HOLD_MS = 450;
-const canvas = renderer.domElement;
-const active = new Set<number>(); // pointers currently down on the canvas
-let downAt: { x: number; y: number; type: string; multi: boolean } | null = null;
-let lastTap: { id: string; at: number } | null = null;
-let holdTimer = 0;
-
-canvas.addEventListener("pointerdown", (e) => {
-    active.add(e.pointerId);
-    if (active.size > 1) {
-        if (downAt) downAt.multi = true; // pinch/rotate: not a tap
-        clearTimeout(holdTimer);
-        return;
-    }
-    downAt = { x: e.clientX, y: e.clientY, type: e.pointerType, multi: false };
-    if (e.pointerType !== "mouse") {
-        clearTimeout(holdTimer);
-        holdTimer = window.setTimeout(() => {
-            const id = pick(e);
-            if (!id || state.relPair) return;
-            state.hovered = id; // long-press preview of this person's line
-            refreshHighlight();
-            showCard(id, e.clientX, e.clientY);
-            navigator.vibrate?.(10);
-        }, HOLD_MS);
-    }
-});
 const endPointer = (e: PointerEvent) => {
     active.delete(e.pointerId);
     clearTimeout(holdTimer);
 };
-canvas.addEventListener("pointercancel", (e) => {
-    endPointer(e);
-    hideCard();
-    downAt = null;
-});
-canvas.addEventListener("pointerleave", (e) => e.pointerType === "mouse" && (hideCard(), setHoverLink(null)));
-addEventListener("pointerup", () => setTimeout(() => (downAt = null)));
-canvas.addEventListener("pointermove", (e) => {
-    // Moving past the slop cancels the long-press (it's a drag).
-    if (downAt && Math.hypot(e.clientX - downAt.x, e.clientY - downAt.y) > TAP_SLOP[downAt.type])
-        clearTimeout(holdTimer);
-    if (e.pointerType !== "mouse" || e.buttons) return; // hover is mouse-only; touch uses long-press
-    const id = pick(e);
-    canvas.style.cursor = id || pickedLink || pickedUnion !== null ? "pointer" : "";
-    setHoverLink(id ? null : pickedLink);
-    if (id) showCard(id, e.clientX, e.clientY);
-    else if (pickedUnion !== null) showUnionCard(pickedUnion, e.clientX, e.clientY);
-    else if (pickedLink) showLinkCard(pickedLink, e.clientX, e.clientY);
-    else hideCard();
-    if (id !== state.hovered) {
-        state.hovered = id;
-        if (!state.relPair) refreshHighlight(); // hover doesn't disturb a relationship being shown
-    }
-});
-canvas.addEventListener("pointerup", (e) => {
-    endPointer(e);
-    const start = downAt;
-    if (!start || start.multi || active.size) return;
-    if (Math.hypot(e.clientX - start.x, e.clientY - start.y) > (TAP_SLOP[start.type] ?? 8)) return;
-    // End a touch long-press preview on release.
-    if (start.type !== "mouse") hideCard();
-    if (start.type !== "mouse" && state.hovered && !state.selected) {
-        state.hovered = null;
-        refreshHighlight();
-    }
-    const id = pick(e);
-    // With the finder open, taps fill it: the first sets "From" if empty, otherwise "To".
-    if (id && !relatePanel.hidden && state.tree) return fillRelate(id);
-    if (!id && pickedUnion !== null && state.tree) return (hideCard(), showFamily(pickedUnion));
-    if (!id && pickedLink && state.tree) return (hideCard(), followLink(pickedLink));
-    const now = performance.now();
-    const double = !!id && lastTap?.id === id && now - lastTap.at < DOUBLE_MS;
-    lastTap = id ? { id, at: now } : null;
-    if (id && id === state.selected && !double)
-        deselect(); // clicking the selected person again unselects them (a double click still flies to them)
-    else if (id)
-        select(id, double); // a double tap / double click flies to them
-    else if (state.selected) deselect();
-    else if (state.house)
-        setHouse(null); // clicking empty space also clears a house picked in the legend
-    else if (state.group) clearGroup(); // ...and a family lit from its marriage dot, or a search group
-});
 
-// --- Hover card: who this is, and how they're related to the selected person ----------------------------------------
-// Answers "how is this person related to me?" without switching on tags for the whole tree. Follows the mouse; on
-// touch it shows during a long press. The relationship comes from relate(), the same as the finder's headline.
-const card = $("hovercard");
-let cardFor = "";
 function showCard(id: string, x: number, y: number) {
     const { tree, selected } = state;
     if (!tree) return;
@@ -307,15 +239,100 @@ function placeCard(x: number, y: number, touch: boolean) {
     const top = touch ? y - h - 40 : y + 16 + h > innerHeight ? y - 16 - h : y + 16;
     card.style.transform = `translate(${Math.max(4, left)}px, ${Math.max(4, top)}px)`;
 }
+
 function hideCard() {
     card.hidden = true;
     cardFor = "";
 }
+
 /** Refresh the card's text after the selection changes (its relationship is to the selected person). */
 export const resetCard = () => (cardFor = "");
+
+// Fat link lines (LineSegments2) are hit within their width plus this many px: enough to point at a 1.6 px line, but
+// tight enough that a click in a busy 2D area still reaches empty space (and deselects); 6 px caught most clicks.
+Object.assign(raycaster.params, { Line2: { threshold: 3 } });
+
+canvas.addEventListener("pointerdown", (e) => {
+    active.add(e.pointerId);
+    if (active.size > 1) {
+        if (downAt) downAt.multi = true; // pinch/rotate: not a tap
+        clearTimeout(holdTimer);
+        return;
+    }
+    downAt = { x: e.clientX, y: e.clientY, type: e.pointerType, multi: false };
+    if (e.pointerType !== "mouse") {
+        clearTimeout(holdTimer);
+        holdTimer = window.setTimeout(() => {
+            const id = pick(e);
+            if (!id || state.relPair) return;
+            state.hovered = id; // long-press preview of this person's line
+            refreshHighlight();
+            showCard(id, e.clientX, e.clientY);
+            navigator.vibrate?.(10);
+        }, HOLD_MS);
+    }
+});
+
+canvas.addEventListener("pointercancel", (e) => {
+    endPointer(e);
+    hideCard();
+    downAt = null;
+});
+
+canvas.addEventListener("pointerleave", (e) => e.pointerType === "mouse" && (hideCard(), setHoverLink(null)));
+addEventListener("pointerup", () => setTimeout(() => (downAt = null)));
+
+canvas.addEventListener("pointermove", (e) => {
+    // Moving past the slop cancels the long-press (it's a drag).
+    if (downAt && Math.hypot(e.clientX - downAt.x, e.clientY - downAt.y) > TAP_SLOP[downAt.type])
+        clearTimeout(holdTimer);
+    if (e.pointerType !== "mouse" || e.buttons) return; // hover is mouse-only; touch uses long-press
+    const id = pick(e);
+    canvas.style.cursor = id || pickedLink || pickedUnion !== null ? "pointer" : "";
+    setHoverLink(id ? null : pickedLink);
+    if (id) showCard(id, e.clientX, e.clientY);
+    else if (pickedUnion !== null) showUnionCard(pickedUnion, e.clientX, e.clientY);
+    else if (pickedLink) showLinkCard(pickedLink, e.clientX, e.clientY);
+    else hideCard();
+    if (id !== state.hovered) {
+        state.hovered = id;
+        if (!state.relPair) refreshHighlight(); // hover doesn't disturb a relationship being shown
+    }
+});
+
+canvas.addEventListener("pointerup", (e) => {
+    endPointer(e);
+    const start = downAt;
+    if (!start || start.multi || active.size) return;
+    if (Math.hypot(e.clientX - start.x, e.clientY - start.y) > (TAP_SLOP[start.type] ?? 8)) return;
+    // End a touch long-press preview on release.
+    if (start.type !== "mouse") hideCard();
+    if (start.type !== "mouse" && state.hovered && !state.selected) {
+        state.hovered = null;
+        refreshHighlight();
+    }
+    const id = pick(e);
+    // With the finder open, taps fill it: the first sets "From" if empty, otherwise "To".
+    if (id && !relatePanel.hidden && state.tree) return fillRelate(id);
+    if (!id && pickedUnion !== null && state.tree) return (hideCard(), showFamily(pickedUnion));
+    if (!id && pickedLink && state.tree) return (hideCard(), followLink(pickedLink));
+    const now = performance.now();
+    const double = !!id && lastTap?.id === id && now - lastTap.at < DOUBLE_MS;
+    lastTap = id ? { id, at: now } : null;
+    if (id && id === state.selected && !double)
+        deselect(); // clicking the selected person again unselects them (a double click still flies to them)
+    else if (id)
+        select(id, double); // a double tap / double click flies to them
+    else if (state.selected) deselect();
+    else if (state.house)
+        setHouse(null); // clicking empty space also clears a house picked in the legend
+    else if (state.group) clearGroup(); // ...and a family lit from its marriage dot, or a search group
+});
+
 // The card is placed at the pointer, and only moves with it while no button is down; so while you rotate, zoom or
 // pan, the tree moved under a card left pointing at nothing. Hide it as soon as the view starts moving (drag, wheel,
 // pinch, arrow keys); the next mouse move over a person shows it again, in the right place.
 controls.addEventListener("start", hideCard);
+
 canvas.addEventListener("wheel", hideCard, { passive: true });
 addEventListener("keydown", (e) => e.key.startsWith("Arrow") && hideCard());

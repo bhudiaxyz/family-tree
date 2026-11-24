@@ -12,29 +12,83 @@
 
 import * as THREE from "three";
 import SpriteText from "three-spritetext";
-import { quality } from "../device.ts";
-import { approach, boundLinks, boundNodes, layoutRunning, NAME_Y, nameOf, TAG_Y } from "./core.ts";
+import { quality } from "../render/device.ts";
+import { boundLinks, boundNodes, layoutRunning, NAME_Y, nameOf, TAG_Y } from "./core.ts";
+import { approach } from "./graph-types.ts";
 import { fadesSettled, focus } from "./highlight.ts";
 import { siblingLabels } from "./siblings.ts";
+
+type Box = {
+    s: SpriteText;
+    x0: number;
+    x1: number;
+    y0: number;
+    y1: number;
+    prio: number;
+    grow: number;
+    cx: number;
+    cy: number;
+    w: number;
+    h: number;
+};
 
 // Relationship labels are fully visible within LABEL_NEAR of the camera and hidden beyond LABEL_FAR. The whole-tree
 // view of a typical saga is ~300–450 units away, so these keep the labels on at that zoom and only drop them when
 // zoomed well out, where they'd be too small to read anyway. (It was 110–240: they only appeared once zoomed in.)
 const LABEL_NEAR = 220;
+
 const LABEL_FAR = 480;
 
 // --- Distance fade ----------------------------------------------------------------------------------------------
 const tmp = new THREE.Vector3();
-// Text outside a highlight fades further than the spheres: a faint sphere still shows the tree's shape, but faint
-// text is only clutter around the line you're reading. Squaring the dim factor leaves lit labels (1) as they are and
-// takes a 12% dim to ~1.5% and a 6% one to ~0.4%. Within a line (dims of 0.55–1 by distance) labels stay readable.
-const textDim = (dim: number) => (dim < 0.5 ? dim * dim : dim);
+
 // Relationship labels fade out with distance; those on the highlighted line stay readable at any distance. The result
 // only depends on the camera position and each label's dim, so when neither changed since the last pass there's
 // nothing to do (a settled, still view would otherwise walk every link label each frame).
 const lastCam = new THREE.Vector3(Infinity, 0, 0);
+
 const MIN_LABEL_PX = 7; // relationship labels shorter than this on screen fade out (fully under 5 px)
 const TAN_HALF_FOV = Math.tan(THREE.MathUtils.degToRad(50) / 2); // scene.ts's camera is 50°
+
+// Names are always shown for anyone on screen: a person faded behind a highlight keeps their name at NAME_FLOOR
+// (other text fades with textDim), scaled down smoothly to nothing only as the person is hidden altogether (focus
+// mode, a collapsed branch), so they never pop.
+const NAME_FLOOR = 0.35;
+
+const FADED = 0.06; // the dim a selection fades the rest to (ui/state.ts); the floor is full from here up
+const NEAR_FROM = 60; // world units from the camera: a faded name's floor is smallest (FLOOR_NEAR) here...
+const NEAR_TO = 240; // ...and full from here
+const FLOOR_NEAR = 0.3;
+
+// --- Name de-overlap ----------------------------------------------------------------------------------------------
+// Names never disappear. Where two collide on screen, the more important keeps full strength (highlighted people
+// first, then the person nearest the camera) and the other is drawn at COLLIDED, still readable but clearly behind.
+// Screen boxes are estimated from the projected label width/height. The layout is recomputed a few times a second
+// (not every frame); opacity then eases, so names fade rather than pop.
+// Placed boxes go in a coarse screen grid, so each name is tested only against boxes in the cells it overlaps rather
+// than every name placed so far (that was O(n²): ~170k comparisons for the Bible's 583 names, several times a second).
+const NAME_GAP = 4; // px of clearance kept between name boxes
+
+const COLLIDED = 0.4; // strength of a name overlapped by a more important one
+const MIN_NAME_PX = 20; // a lit name (two lines) is grown to at least this many px tall, if it has room...
+const MAX_GROW = 2.5; // ...but never past this many times its own size
+const CELL = 96; // px; about the width of a typical name at the whole-tree zoom
+let declutterAt = 0;
+const nameShown = new WeakMap<SpriteText, number>(); // target strength per name (1 or COLLIDED)
+const p = new THREE.Vector3();
+const edge = new THREE.Vector3();
+
+// --- "Relative to" tags: a small label above each person saying how they relate to the centre person ------------
+// The same tag shows "+ 42" over a person whose branch is collapsed; that wins over a relationship word.
+let relative: Map<string, string | null> | null = null;
+
+let foldBadges = new Map<string, string>();
+
+// Text outside a highlight fades further than the spheres: a faint sphere still shows the tree's shape, but faint
+// text is only clutter around the line you're reading. Squaring the dim factor leaves lit labels (1) as they are and
+// takes a 12% dim to ~1.5% and a 6% one to ~0.4%. Within a line (dims of 0.55–1 by distance) labels stay readable.
+const textDim = (dim: number) => (dim < 0.5 ? dim * dim : dim);
+
 export function fadeLabels(camera: THREE.Camera): void {
     if (!layoutRunning && fadesSettled() && camera.position.equals(lastCam)) return;
     lastCam.copy(camera.position);
@@ -58,47 +112,9 @@ export function fadeLabels(camera: THREE.Camera): void {
     siblingLabels.forEach(fade);
 }
 
-// Names are always shown for anyone on screen: a person faded behind a highlight keeps their name at NAME_FLOOR
-// (other text fades with textDim), scaled down smoothly to nothing only as the person is hidden altogether (focus
-// mode, a collapsed branch), so they never pop.
-const NAME_FLOOR = 0.35;
-const FADED = 0.06; // the dim a selection fades the rest to (ui/state.ts); the floor is full from here up
 // `near` (0–1, from declutter) scales the floor down for faded people close to the camera: their names are big, and
 // at the full floor they shouted over the line you're reading (Bellatrix and Rosier, in front of the Weasleys).
 const nameDim = (dim: number, near = 1) => Math.max(textDim(dim), NAME_FLOOR * near * Math.min(1, dim / FADED));
-const NEAR_FROM = 60; // world units from the camera: a faded name's floor is smallest (FLOOR_NEAR) here...
-const NEAR_TO = 240; // ...and full from here
-const FLOOR_NEAR = 0.3;
-
-// --- Name de-overlap ----------------------------------------------------------------------------------------------
-// Names never disappear. Where two collide on screen, the more important keeps full strength (highlighted people
-// first, then the person nearest the camera) and the other is drawn at COLLIDED, still readable but clearly behind.
-// Screen boxes are estimated from the projected label width/height. The layout is recomputed a few times a second
-// (not every frame); opacity then eases, so names fade rather than pop.
-// Placed boxes go in a coarse screen grid, so each name is tested only against boxes in the cells it overlaps rather
-// than every name placed so far (that was O(n²): ~170k comparisons for the Bible's 583 names, several times a second).
-const NAME_GAP = 4; // px of clearance kept between name boxes
-const COLLIDED = 0.4; // strength of a name overlapped by a more important one
-const MIN_NAME_PX = 20; // a lit name (two lines) is grown to at least this many px tall, if it has room...
-const MAX_GROW = 2.5; // ...but never past this many times its own size
-const CELL = 96; // px; about the width of a typical name at the whole-tree zoom
-let declutterAt = 0;
-const nameShown = new WeakMap<SpriteText, number>(); // target strength per name (1 or COLLIDED)
-const p = new THREE.Vector3();
-const edge = new THREE.Vector3();
-type Box = {
-    s: SpriteText;
-    x0: number;
-    x1: number;
-    y0: number;
-    y1: number;
-    prio: number;
-    grow: number;
-    cx: number;
-    cy: number;
-    w: number;
-    h: number;
-};
 
 export function declutter(camera: THREE.PerspectiveCamera, viewW: number, viewH: number, now: number): void {
     if (now - declutterAt < quality.labelDeclutterMs) return;
@@ -210,18 +226,16 @@ function tagOf(obj: THREE.Object3D): SpriteText | undefined {
     return (obj.userData.tagSprite ??= obj.children.find((c) => c.userData.isTag)) as SpriteText | undefined;
 }
 
-// --- "Relative to" tags: a small label above each person saying how they relate to the centre person ------------
-// The same tag shows "+ 42" over a person whose branch is collapsed; that wins over a relationship word.
-let relative: Map<string, string | null> | null = null;
-let foldBadges = new Map<string, string>();
 export function setRelativeTags(labels: Map<string, string | null> | null): void {
     relative = labels;
     drawTags();
 }
+
 export function setFoldBadges(badges: Map<string, string>): void {
     foldBadges = badges;
     drawTags();
 }
+
 function drawTags(): void {
     for (const n of boundNodes()) {
         const tag = n.__threeObj && tagOf(n.__threeObj);

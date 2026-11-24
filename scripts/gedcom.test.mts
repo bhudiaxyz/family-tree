@@ -8,8 +8,8 @@
 
 import assert from "node:assert/strict";
 import { parseGedcom } from "../src/data/gedcom.ts";
-import { generations } from "../src/generations.ts";
-import { relate } from "../src/relationship.ts";
+import { generations } from "../src/tree/generations.ts";
+import { relate } from "../src/tree/relationship.ts";
 
 // A small three-generation family in GEDCOM 5.5.1, with CRLF line endings and a BOM as many exporters write it.
 const ged551 = [
@@ -162,3 +162,17 @@ assert.ok(messy.warnings.some((w) => w.includes("Gandalf") && w.includes("sex"))
 assert.throws(() => parseGedcom("hello world"), /No individuals/);
 
 console.log("ok  GEDCOM import: 5.5.1, GEDCOM 7, adoption (PEDI, _FREL, FAMC), messy input, works with app logic");
+
+// A large file: every surname still gets a colour of its own, past the palette's list (golden-angle hues after it).
+{
+    const n = 60;
+    const lines = ["0 HEAD", "1 GEDC", "2 VERS 5.5.1"];
+    for (let i = 0; i < n; i++)
+        lines.push(`0 @I${i}@ INDI`, `1 NAME Person /Surname${String(i).padStart(2, "0")}/`, "1 SEX M");
+    lines.push("0 TRLR");
+    const { tree } = parseGedcom(lines.join("\n"));
+    const colours = Object.values(tree.houseColors);
+    assert.equal(colours.length, n, `${n} houses`);
+    assert.equal(new Set(colours).size, n, "no two houses share a colour");
+    console.log(`ok  GEDCOM import: ${n} surnames, ${new Set(colours).size} distinct house colours`);
+}

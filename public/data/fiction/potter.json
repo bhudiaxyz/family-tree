@@ -9,7 +9,9 @@
         "genre": "Fantasy",
         "covers": "Potter, Evans/Dursley, Weasley, Black/Tonks/Lupin and Malfoy families, through the epilogue children."
     },
-    "notes": [],
+    "notes": [
+        "Birth dates (born) are from the Harry Potter Wiki (harrypotter.fandom.com, in English, French and German), Wikipedia and the Harry Potter Lexicon, mostly citing Pottermore; 00 marks an unknown month or day. Some are estimates there (Dudley's day, Andromeda between 1951 and 1955, Fleur c. 1976–77, Victoire 2000–2002). The next generation's years are worked out from when they start at Hogwarts (the 2017 epilogue, Cursed Child). Fleamont, Euphemia, Petunia, Vernon, Druella, Ted Tonks, Astoria and James Sirius are left undated: no confirmed date was found."
+    ],
     "houses": {
         "Potter": "#b8342f",
         "Evans": "#e58fa8",
@@ -42,13 +44,15 @@
             "id": "james",
             "name": "James Potter",
             "house": "Potter",
-            "sex": "m"
+            "sex": "m",
+            "born": "1960-03-27"
         },
         {
             "id": "lily",
             "name": "Lily Evans",
             "house": "Evans",
-            "sex": "f"
+            "sex": "f",
+            "born": "1960-01-30"
         },
         {
             "id": "petunia",
@@ -66,13 +70,15 @@
             "id": "dudley",
             "name": "Dudley Dursley",
             "house": "Dursley",
-            "sex": "m"
+            "sex": "m",
+            "born": "1980-06-23"
         },
         {
             "id": "harry",
             "name": "Harry Potter",
             "house": "Potter",
-            "sex": "m"
+            "sex": "m",
+            "born": "1980-07-31"
         },
         {
             "id": "jamesS",
@@ -84,103 +90,120 @@
             "id": "albus",
             "name": "Albus Severus Potter",
             "house": "Potter",
-            "sex": "m"
+            "sex": "m",
+            "born": "2006-00-00"
         },
         {
             "id": "lilyL",
             "name": "Lily Luna Potter",
             "house": "Potter",
-            "sex": "f"
+            "sex": "f",
+            "born": "2008-00-00"
         },
         {
             "id": "arthur",
             "name": "Arthur Weasley",
             "house": "Weasley",
-            "sex": "m"
+            "sex": "m",
+            "born": "1950-02-06"
         },
         {
             "id": "molly",
             "name": "Molly Weasley",
             "house": "Prewett",
-            "sex": "f"
+            "sex": "f",
+            "born": "1949-10-30"
         },
         {
             "id": "bill",
             "name": "Bill Weasley",
             "house": "Weasley",
-            "sex": "m"
+            "sex": "m",
+            "born": "1970-11-29"
         },
         {
             "id": "charlie",
             "name": "Charlie Weasley",
             "house": "Weasley",
-            "sex": "m"
+            "sex": "m",
+            "born": "1972-12-12"
         },
         {
             "id": "percy",
             "name": "Percy Weasley",
             "house": "Weasley",
-            "sex": "m"
+            "sex": "m",
+            "born": "1976-08-22"
         },
         {
             "id": "fred",
             "name": "Fred Weasley",
             "house": "Weasley",
-            "sex": "m"
+            "sex": "m",
+            "born": "1978-04-01"
         },
         {
             "id": "george",
             "name": "George Weasley",
             "house": "Weasley",
-            "sex": "m"
+            "sex": "m",
+            "born": "1978-04-01"
         },
         {
             "id": "ron",
             "name": "Ron Weasley",
             "house": "Weasley",
-            "sex": "m"
+            "sex": "m",
+            "born": "1980-03-01"
         },
         {
             "id": "ginny",
             "name": "Ginny Weasley",
             "house": "Weasley",
-            "sex": "f"
+            "sex": "f",
+            "born": "1981-08-11"
         },
         {
             "id": "fleur",
             "name": "Fleur Delacour",
             "house": "Delacour",
-            "sex": "f"
+            "sex": "f",
+            "born": "1977-00-00"
         },
         {
             "id": "victoire",
             "name": "Victoire Weasley",
             "house": "Weasley",
-            "sex": "f"
+            "sex": "f",
+            "born": "2000-05-02"
         },
         {
             "id": "hermione",
             "name": "Hermione Granger",
             "house": "Granger",
-            "sex": "f"
+            "sex": "f",
+            "born": "1979-09-19"
         },
         {
             "id": "rose",
             "name": "Rose Weasley",
             "house": "Weasley",
-            "sex": "f"
+            "sex": "f",
+            "born": "2006-00-00"
         },
         {
             "id": "hugo",
             "name": "Hugo Weasley",
             "house": "Weasley",
-            "sex": "m"
+            "sex": "m",
+            "born": "2008-00-00"
         },
         {
             "id": "cygnus",
             "name": "Cygnus Black",
             "house": "Black",
-            "sex": "m"
+            "sex": "m",
+            "born": "1929-00-00"
         },
         {
             "id": "druella",
@@ -192,19 +215,22 @@
             "id": "bellatrix",
             "name": "Bellatrix Lestrange",
             "house": "Black",
-            "sex": "f"
+            "sex": "f",
+            "born": "1951-00-00"
         },
         {
             "id": "andromeda",
             "name": "Andromeda Tonks",
             "house": "Black",
-            "sex": "f"
+            "sex": "f",
+            "born": "1953-00-00"
         },
         {
             "id": "narcissa",
             "name": "Narcissa Malfoy",
             "house": "Black",
-            "sex": "f"
+            "sex": "f",
+            "born": "1955-00-00"
         },
         {
             "id": "ted",
@@ -216,55 +242,64 @@
             "id": "tonks",
             "name": "Nymphadora Tonks",
             "house": "Tonks",
-            "sex": "f"
+            "sex": "f",
+            "born": "1973-00-00"
         },
         {
             "id": "remus",
             "name": "Remus Lupin",
             "house": "Lupin",
-            "sex": "m"
+            "sex": "m",
+            "born": "1960-03-10"
         },
         {
             "id": "teddy",
             "name": "Teddy Lupin",
             "house": "Lupin",
-            "sex": "m"
+            "sex": "m",
+            "born": "1998-04-00"
         },
         {
             "id": "orion",
             "name": "Orion Black",
             "house": "Black",
-            "sex": "m"
+            "sex": "m",
+            "born": "1929-00-00"
         },
         {
             "id": "walburga",
             "name": "Walburga Black",
             "house": "Black",
-            "sex": "f"
+            "sex": "f",
+            "born": "1925-00-00"
         },
         {
             "id": "sirius",
             "name": "Sirius Black",
             "house": "Black",
-            "sex": "m"
+            "sex": "m",
+            "born": "1959-11-03"
         },
         {
             "id": "regulus",
             "name": "Regulus Black",
             "house": "Black",
-            "sex": "m"
+            "sex": "m",
+            "born": "1961-00-00"
         },
         {
             "id": "lucius",
             "name": "Lucius Malfoy",
             "house": "Malfoy",
-            "sex": "m"
+            "sex": "m",
+            "born": "1954-00-00"
         },
         {
             "id": "draco",
             "name": "Draco Malfoy",
             "house": "Malfoy",
-            "sex": "m"
+            "sex": "m",
+            "born": "1980-06-05"
         },
         {
             "id": "astoria",
@@ -276,7 +311,8 @@
             "id": "scorpius",
             "name": "Scorpius Malfoy",
             "house": "Malfoy",
-            "sex": "m"
+            "sex": "m",
+            "born": "2006-00-00"
         }
     ],
     "families": [

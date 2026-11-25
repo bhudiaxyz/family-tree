@@ -85,7 +85,8 @@
             "id": "isaac",
             "name": "Isaac",
             "house": "Bible",
-            "sex": "m"
+            "sex": "m",
+            "born": "1946-00-00"
         },
         {
             "id": "rebekah",
@@ -1921,7 +1922,8 @@
             "id": "jehoram",
             "name": "King Jehoram (Joram) of Judah",
             "house": "Bible",
-            "sex": "m"
+            "sex": "m",
+            "born": "0925-00-00"
         },
         {
             "id": "ahaziah",
@@ -1945,49 +1947,57 @@
             "id": "garcia-ii",
             "name": "King García II of Navarre",
             "house": "Bible",
-            "sex": "m"
+            "sex": "m",
+            "born": "0940-00-00"
         },
         {
             "id": "chimene-ximena",
             "name": "Chimene (Ximena)",
             "house": "Bible",
-            "sex": "f"
+            "sex": "f",
+            "born": "0944-00-00"
         },
         {
             "id": "sancho-iii",
             "name": "King Sancho III of Navarre",
             "house": "Bible",
-            "sex": "m"
+            "sex": "m",
+            "born": "0970-00-00"
         },
         {
             "id": "munia-ninia",
             "name": "Munia (Ninia)",
             "house": "Bible",
-            "sex": "f"
+            "sex": "f",
+            "born": "0974-00-00"
         },
         {
             "id": "sancho-ii",
             "name": "Sancho II",
             "house": "Bible",
-            "sex": "m"
+            "sex": "m",
+            "born": "0910-00-00"
         },
         {
             "id": "urraca",
             "name": "Urraca",
             "house": "Bible",
-            "sex": "f"
+            "sex": "f",
+            "born": "0914-00-00"
         },
         {
             "id": "sancho-i",
             "name": "Sancho I",
             "house": "Bible",
-            "sex": "m"
+            "sex": "m",
+            "born": "0880-00-00"
         },
         {
             "id": "theuda-toda",
             "name": "Theuda (Toda)",
             "house": "Bible",
-            "sex": "f"
+            "sex": "f",
+            "born": "0884-00-00"
         },
         {
             "id": "ram",
@@ -2113,19 +2123,22 @@
             "id": "tros",
             "name": "King Tros of Troy",
             "house": "Bible",
-            "sex": "m"
+            "sex": "m",
+            "born": "0795-00-00"
         },
         {
             "id": "erichthonius",
             "name": "Erichthonius",
             "house": "Bible",
-            "sex": "m"
+            "sex": "m",
+            "born": "0760-00-00"
         },
         {
             "id": "darda",
             "name": "Darda",
             "house": "Bible",
-            "sex": "m"
+            "sex": "m",
+            "born": "0730-00-00"
         },
         {
             "id": "zarah-2",
@@ -2173,7 +2186,8 @@
             "id": "assaracus",
             "name": "Assaracus",
             "house": "Bible",
-            "sex": "m"
+            "sex": "m",
+            "born": "0825-00-00"
         },
         {
             "id": "shuah-2",
@@ -2257,7 +2271,8 @@
             "id": "azuarius",
             "name": "Azuarius",
             "house": "Bible",
-            "sex": "m"
+            "sex": "m",
+            "born": "0854-00-00"
         },
         {
             "id": "nashon-naasson",
@@ -2557,7 +2572,8 @@
             "id": "amon",
             "name": "King Amon of Judah",
             "house": "Bible",
-            "sex": "m"
+            "sex": "m",
+            "born": "0666-00-00"
         },
         {
             "id": "joseph-2",
@@ -3025,7 +3041,8 @@
             "id": "sigurd-i",
             "name": "King Sigurd I of Norway",
             "house": "Bible",
-            "sex": "m"
+            "sex": "m",
+            "born": "1091-00-00"
         },
         {
             "id": "tirzah",
@@ -3522,23 +3539,57 @@
     ],
     "families": [
         {
-            "parents": ["mizraim"],
-            "children": ["ludim", "anamim", "lehabim", "nephtuihim", "pethusim", "caphtorim", "casluhim"]
+            "parents": [
+                "mizraim"
+            ],
+            "children": [
+                "ludim",
+                "anamim",
+                "lehabim",
+                "nephtuihim",
+                "pethusim",
+                "caphtorim",
+                "casluhim"
+            ]
         },
         {
-            "parents": ["ham", "egyptus"],
-            "children": ["cush", "phut", "canaan", "mizraim"]
+            "parents": [
+                "ham",
+                "egyptus"
+            ],
+            "children": [
+                "cush",
+                "phut",
+                "canaan",
+                "mizraim"
+            ]
         },
         {
-            "parents": ["cush"],
-            "children": ["raamah", "sabtah", "havilah", "sabtecha", "seba", "nimrod"]
+            "parents": [
+                "cush"
+            ],
+            "children": [
+                "raamah",
+                "sabtah",
+                "havilah",
+                "sabtecha",
+                "seba",
+                "nimrod"
+            ]
         },
         {
-            "parents": ["raamah"],
-            "children": ["sheba", "dedan"]
+            "parents": [
+                "raamah"
+            ],
+            "children": [
+                "sheba",
+                "dedan"
+            ]
         },
         {
-            "parents": ["canaan"],
+            "parents": [
+                "canaan"
+            ],
             "children": [
                 "sidon",
                 "heth",
@@ -3554,243 +3605,538 @@
             ]
         },
         {
-            "parents": ["nahor-2", "reumah"],
-            "children": ["tebah", "gaham", "thahash", "maachah"]
+            "parents": [
+                "nahor-2",
+                "reumah"
+            ],
+            "children": [
+                "tebah",
+                "gaham",
+                "thahash",
+                "maachah"
+            ]
         },
         {
-            "parents": ["jacob", "leah"],
-            "children": ["levi", "simeon", "judah-judas", "zebulun", "reuben", "dinah"]
+            "parents": [
+                "jacob",
+                "leah"
+            ],
+            "children": [
+                "levi",
+                "simeon",
+                "judah-judas",
+                "zebulun",
+                "reuben",
+                "dinah"
+            ]
         },
         {
-            "parents": ["leah"],
+            "parents": [
+                "leah"
+            ],
             "children": []
         },
         {
-            "parents": ["laban"],
-            "children": ["leah", "rachal"]
+            "parents": [
+                "laban"
+            ],
+            "children": [
+                "leah",
+                "rachal"
+            ]
         },
         {
-            "parents": ["jacob", "rachal"],
-            "children": ["joseph", "benjaman"]
+            "parents": [
+                "jacob",
+                "rachal"
+            ],
+            "children": [
+                "joseph",
+                "benjaman"
+            ]
         },
         {
-            "parents": ["jacob", "bilhah"],
-            "children": ["dan", "naphtali"]
+            "parents": [
+                "jacob",
+                "bilhah"
+            ],
+            "children": [
+                "dan",
+                "naphtali"
+            ]
         },
         {
-            "parents": ["jacob", "zalpah"],
-            "children": ["gad", "asher"]
+            "parents": [
+                "jacob",
+                "zalpah"
+            ],
+            "children": [
+                "gad",
+                "asher"
+            ]
         },
         {
-            "parents": ["isaac", "rebekah"],
-            "children": ["jacob", "esau"]
+            "parents": [
+                "isaac",
+                "rebekah"
+            ],
+            "children": [
+                "jacob",
+                "esau"
+            ]
         },
         {
-            "parents": ["abraham-abram", "sarai"],
-            "children": ["isaac"]
+            "parents": [
+                "abraham-abram",
+                "sarai"
+            ],
+            "children": [
+                "isaac"
+            ]
         },
         {
-            "parents": ["bethuel"],
-            "children": ["rebekah", "laban"]
+            "parents": [
+                "bethuel"
+            ],
+            "children": [
+                "rebekah",
+                "laban"
+            ]
         },
         {
-            "parents": ["abraham-abram", "hagar"],
-            "children": ["ishmael"]
+            "parents": [
+                "abraham-abram",
+                "hagar"
+            ],
+            "children": [
+                "ishmael"
+            ]
         },
         {
-            "parents": ["abraham-abram", "keturah"],
-            "children": ["zemran", "jokshon", "madan", "ishbak", "shuah"]
+            "parents": [
+                "abraham-abram",
+                "keturah"
+            ],
+            "children": [
+                "zemran",
+                "jokshon",
+                "madan",
+                "ishbak",
+                "shuah"
+            ]
         },
         {
-            "parents": ["terah"],
-            "children": ["abraham-abram", "haran", "nahor-2"]
+            "parents": [
+                "terah"
+            ],
+            "children": [
+                "abraham-abram",
+                "haran",
+                "nahor-2"
+            ]
         },
         {
-            "parents": ["nahor"],
-            "children": ["terah"]
+            "parents": [
+                "nahor"
+            ],
+            "children": [
+                "terah"
+            ]
         },
         {
-            "parents": ["serug"],
-            "children": ["nahor"]
+            "parents": [
+                "serug"
+            ],
+            "children": [
+                "nahor"
+            ]
         },
         {
-            "parents": ["reu"],
-            "children": ["serug"]
+            "parents": [
+                "reu"
+            ],
+            "children": [
+                "serug"
+            ]
         },
         {
-            "parents": ["peleg"],
-            "children": ["reu"]
+            "parents": [
+                "peleg"
+            ],
+            "children": [
+                "reu"
+            ]
         },
         {
-            "parents": ["eber"],
-            "children": ["jokan", "peleg"]
+            "parents": [
+                "eber"
+            ],
+            "children": [
+                "jokan",
+                "peleg"
+            ]
         },
         {
-            "parents": ["salah"],
-            "children": ["eber"]
+            "parents": [
+                "salah"
+            ],
+            "children": [
+                "eber"
+            ]
         },
         {
-            "parents": ["arphaxad"],
-            "children": ["salah"]
+            "parents": [
+                "arphaxad"
+            ],
+            "children": [
+                "salah"
+            ]
         },
         {
-            "parents": ["shem"],
-            "children": ["arphaxad", "aram", "asshur", "lud", "elam"]
+            "parents": [
+                "shem"
+            ],
+            "children": [
+                "arphaxad",
+                "aram",
+                "asshur",
+                "lud",
+                "elam"
+            ]
         },
         {
-            "parents": ["noah", "titea"],
-            "children": ["shem", "ham", "japheth"]
+            "parents": [
+                "noah",
+                "titea"
+            ],
+            "children": [
+                "shem",
+                "ham",
+                "japheth"
+            ]
         },
         {
-            "parents": ["lamech"],
-            "children": ["noah"]
+            "parents": [
+                "lamech"
+            ],
+            "children": [
+                "noah"
+            ]
         },
         {
-            "parents": ["methuselah"],
-            "children": ["lamech"]
+            "parents": [
+                "methuselah"
+            ],
+            "children": [
+                "lamech"
+            ]
         },
         {
-            "parents": ["enoch"],
-            "children": ["methuselah"]
+            "parents": [
+                "enoch"
+            ],
+            "children": [
+                "methuselah"
+            ]
         },
         {
-            "parents": ["jared"],
-            "children": ["enoch"]
+            "parents": [
+                "jared"
+            ],
+            "children": [
+                "enoch"
+            ]
         },
         {
-            "parents": ["mahalaleel"],
-            "children": ["jared"]
+            "parents": [
+                "mahalaleel"
+            ],
+            "children": [
+                "jared"
+            ]
         },
         {
-            "parents": ["cainan"],
-            "children": ["mahalaleel"]
+            "parents": [
+                "cainan"
+            ],
+            "children": [
+                "mahalaleel"
+            ]
         },
         {
-            "parents": ["enos"],
-            "children": ["cainan"]
+            "parents": [
+                "enos"
+            ],
+            "children": [
+                "cainan"
+            ]
         },
         {
-            "parents": ["seth"],
-            "children": ["enos"]
+            "parents": [
+                "seth"
+            ],
+            "children": [
+                "enos"
+            ]
         },
         {
-            "parents": ["adam", "eve"],
-            "children": ["cain", "abel", "seth"]
+            "parents": [
+                "adam",
+                "eve"
+            ],
+            "children": [
+                "cain",
+                "abel",
+                "seth"
+            ]
         },
         {
-            "parents": ["japheth"],
-            "children": ["meshech", "magog", "madai", "tubul", "gomor", "tiras", "javan"]
+            "parents": [
+                "japheth"
+            ],
+            "children": [
+                "meshech",
+                "magog",
+                "madai",
+                "tubul",
+                "gomor",
+                "tiras",
+                "javan"
+            ]
         },
         {
-            "parents": ["tait"],
+            "parents": [
+                "tait"
+            ],
             "children": []
         },
         {
-            "parents": ["oghaman"],
-            "children": ["tait"]
+            "parents": [
+                "oghaman"
+            ],
+            "children": [
+                "tait"
+            ]
         },
         {
-            "parents": ["beouman"],
-            "children": ["oghaman"]
+            "parents": [
+                "beouman"
+            ],
+            "children": [
+                "oghaman"
+            ]
         },
         {
-            "parents": ["heber-scut-scott"],
-            "children": ["beouman"]
+            "parents": [
+                "heber-scut-scott"
+            ],
+            "children": [
+                "beouman"
+            ]
         },
         {
-            "parents": ["sruth"],
-            "children": ["heber-scut-scott"]
+            "parents": [
+                "sruth"
+            ],
+            "children": [
+                "heber-scut-scott"
+            ]
         },
         {
-            "parents": ["asruth-easruth"],
-            "children": ["sruth"]
+            "parents": [
+                "asruth-easruth"
+            ],
+            "children": [
+                "sruth"
+            ]
         },
         {
-            "parents": ["gaodhal-glas"],
-            "children": ["asruth-easruth"]
+            "parents": [
+                "gaodhal-glas"
+            ],
+            "children": [
+                "asruth-easruth"
+            ]
         },
         {
-            "parents": ["niul", "scota"],
-            "children": ["gaodhal-glas"]
+            "parents": [
+                "niul",
+                "scota"
+            ],
+            "children": [
+                "gaodhal-glas"
+            ]
         },
         {
-            "parents": ["niul"],
+            "parents": [
+                "niul"
+            ],
             "children": []
         },
         {
-            "parents": ["phoeniusa-farsaidh"],
-            "children": ["nenall", "niul"]
+            "parents": [
+                "phoeniusa-farsaidh"
+            ],
+            "children": [
+                "nenall",
+                "niul"
+            ]
         },
         {
-            "parents": ["boath"],
-            "children": ["phoeniusa-farsaidh"]
+            "parents": [
+                "boath"
+            ],
+            "children": [
+                "phoeniusa-farsaidh"
+            ]
         },
         {
-            "parents": ["magog"],
-            "children": ["boath"]
+            "parents": [
+                "magog"
+            ],
+            "children": [
+                "boath"
+            ]
         },
         {
             "parents": [],
-            "children": ["scota"]
+            "children": [
+                "scota"
+            ]
         },
         {
-            "parents": ["nahor-2", "milcah"],
-            "children": ["bethuel", "huz", "buz", "kemuel", "chesed", "hazo", "pildesh", "jidlaph"]
+            "parents": [
+                "nahor-2",
+                "milcah"
+            ],
+            "children": [
+                "bethuel",
+                "huz",
+                "buz",
+                "kemuel",
+                "chesed",
+                "hazo",
+                "pildesh",
+                "jidlaph"
+            ]
         },
         {
-            "parents": ["esau", "adah"],
+            "parents": [
+                "esau",
+                "adah"
+            ],
             "children": []
         },
         {
-            "parents": ["lamech-2", "zilah"],
-            "children": ["trbal-cain", "naamah"]
+            "parents": [
+                "lamech-2",
+                "zilah"
+            ],
+            "children": [
+                "trbal-cain",
+                "naamah"
+            ]
         },
         {
-            "parents": ["enoch-2"],
-            "children": ["irad"]
+            "parents": [
+                "enoch-2"
+            ],
+            "children": [
+                "irad"
+            ]
         },
         {
-            "parents": ["cain"],
-            "children": ["enoch-2"]
+            "parents": [
+                "cain"
+            ],
+            "children": [
+                "enoch-2"
+            ]
         },
         {
-            "parents": ["irad"],
-            "children": ["mahujael"]
+            "parents": [
+                "irad"
+            ],
+            "children": [
+                "mahujael"
+            ]
         },
         {
-            "parents": ["mahujael"],
-            "children": ["methusael"]
+            "parents": [
+                "mahujael"
+            ],
+            "children": [
+                "methusael"
+            ]
         },
         {
-            "parents": ["methusael"],
-            "children": ["lamech-2"]
+            "parents": [
+                "methusael"
+            ],
+            "children": [
+                "lamech-2"
+            ]
         },
         {
-            "parents": ["lamech-2", "adah-2"],
-            "children": ["jabal", "jubal"]
+            "parents": [
+                "lamech-2",
+                "adah-2"
+            ],
+            "children": [
+                "jabal",
+                "jubal"
+            ]
         },
         {
-            "parents": ["gomor"],
-            "children": ["ashkeraz", "riphath", "togarmar"]
+            "parents": [
+                "gomor"
+            ],
+            "children": [
+                "ashkeraz",
+                "riphath",
+                "togarmar"
+            ]
         },
         {
-            "parents": ["javan"],
-            "children": ["tarshish", "elisaah", "kittim", "dodanim"]
+            "parents": [
+                "javan"
+            ],
+            "children": [
+                "tarshish",
+                "elisaah",
+                "kittim",
+                "dodanim"
+            ]
         },
         {
-            "parents": ["ashkeraz"],
+            "parents": [
+                "ashkeraz"
+            ],
             "children": []
         },
         {
-            "parents": ["casluhim"],
-            "children": ["philstem"]
+            "parents": [
+                "casluhim"
+            ],
+            "children": [
+                "philstem"
+            ]
         },
         {
-            "parents": ["aram"],
-            "children": ["hul", "mash", "uz", "gether"]
+            "parents": [
+                "aram"
+            ],
+            "children": [
+                "hul",
+                "mash",
+                "uz",
+                "gether"
+            ]
         },
         {
-            "parents": ["jokan"],
+            "parents": [
+                "jokan"
+            ],
             "children": [
                 "almodad",
                 "sheleph",
@@ -3808,43 +4154,85 @@
             ]
         },
         {
-            "parents": ["haran"],
-            "children": ["sarai", "milcah", "lot", "iscah"]
+            "parents": [
+                "haran"
+            ],
+            "children": [
+                "sarai",
+                "milcah",
+                "lot",
+                "iscah"
+            ]
         },
         {
-            "parents": ["lot", "lot-elder-daughter"],
-            "children": ["moab"]
+            "parents": [
+                "lot",
+                "lot-elder-daughter"
+            ],
+            "children": [
+                "moab"
+            ]
         },
         {
-            "parents": ["lot", "lot-younger-daughter"],
-            "children": ["benammi"]
+            "parents": [
+                "lot",
+                "lot-younger-daughter"
+            ],
+            "children": [
+                "benammi"
+            ]
         },
         {
-            "parents": ["lot"],
-            "children": ["lot-elder-daughter", "lot-younger-daughter"]
+            "parents": [
+                "lot"
+            ],
+            "children": [
+                "lot-elder-daughter",
+                "lot-younger-daughter"
+            ]
         },
         {
-            "parents": ["kemuel"],
-            "children": ["aram-2"]
+            "parents": [
+                "kemuel"
+            ],
+            "children": [
+                "aram-2"
+            ]
         },
         {
-            "parents": ["esau", "bashemath"],
-            "children": ["reuel-jethro"]
+            "parents": [
+                "esau",
+                "bashemath"
+            ],
+            "children": [
+                "reuel-jethro"
+            ]
         },
         {
-            "parents": ["follian-falach"],
+            "parents": [
+                "follian-falach"
+            ],
             "children": []
         },
         {
-            "parents": ["esau", "judith"],
+            "parents": [
+                "esau",
+                "judith"
+            ],
             "children": []
         },
         {
-            "parents": ["anah"],
-            "children": ["aholitamah"]
+            "parents": [
+                "anah"
+            ],
+            "children": [
+                "aholitamah"
+            ]
         },
         {
-            "parents": ["ishmael"],
+            "parents": [
+                "ishmael"
+            ],
             "children": [
                 "massa",
                 "nebajoth",
@@ -3862,972 +4250,2081 @@
             ]
         },
         {
-            "parents": ["madan"],
-            "children": ["ephah", "epher", "hanoch", "abida", "eldaah"]
+            "parents": [
+                "madan"
+            ],
+            "children": [
+                "ephah",
+                "epher",
+                "hanoch",
+                "abida",
+                "eldaah"
+            ]
         },
         {
-            "parents": ["dedan-2"],
+            "parents": [
+                "dedan-2"
+            ],
             "children": []
         },
         {
-            "parents": ["jokshon"],
-            "children": ["sheba-3", "dedan-2"]
+            "parents": [
+                "jokshon"
+            ],
+            "children": [
+                "sheba-3",
+                "dedan-2"
+            ]
         },
         {
-            "parents": ["esau", "aholitamah"],
-            "children": ["aeush", "jaalam", "korah"]
+            "parents": [
+                "esau",
+                "aholitamah"
+            ],
+            "children": [
+                "aeush",
+                "jaalam",
+                "korah"
+            ]
         },
         {
-            "parents": ["reuel-jethro"],
-            "children": ["nahath", "zarah", "shanmah", "zipporah", "mizzah"]
+            "parents": [
+                "reuel-jethro"
+            ],
+            "children": [
+                "nahath",
+                "zarah",
+                "shanmah",
+                "zipporah",
+                "mizzah"
+            ]
         },
         {
-            "parents": ["zibeon"],
-            "children": ["anah", "ajah"]
+            "parents": [
+                "zibeon"
+            ],
+            "children": [
+                "anah",
+                "ajah"
+            ]
         },
         {
-            "parents": ["dishon"],
-            "children": ["hemden", "eshben", "ithran", "cheran"]
+            "parents": [
+                "dishon"
+            ],
+            "children": [
+                "hemden",
+                "eshben",
+                "ithran",
+                "cheran"
+            ]
         },
         {
-            "parents": ["seir"],
-            "children": ["timna", "lotan", "stobal", "zibeon", "ezer", "dishan"]
+            "parents": [
+                "seir"
+            ],
+            "children": [
+                "timna",
+                "lotan",
+                "stobal",
+                "zibeon",
+                "ezer",
+                "dishan"
+            ]
         },
         {
-            "parents": ["lotan"],
-            "children": ["hori", "hemam"]
+            "parents": [
+                "lotan"
+            ],
+            "children": [
+                "hori",
+                "hemam"
+            ]
         },
         {
-            "parents": ["stobal"],
-            "children": ["alvan", "manahath", "ebal", "shepho", "onam"]
+            "parents": [
+                "stobal"
+            ],
+            "children": [
+                "alvan",
+                "manahath",
+                "ebal",
+                "shepho",
+                "onam"
+            ]
         },
         {
-            "parents": ["ezer"],
-            "children": ["bilhan", "zaavan", "akan"]
+            "parents": [
+                "ezer"
+            ],
+            "children": [
+                "bilhan",
+                "zaavan",
+                "akan"
+            ]
         },
         {
-            "parents": ["dishan"],
-            "children": ["uz-2", "aran"]
+            "parents": [
+                "dishan"
+            ],
+            "children": [
+                "uz-2",
+                "aran"
+            ]
         },
         {
-            "parents": ["eithriall"],
-            "children": ["follian-falach"]
+            "parents": [
+                "eithriall"
+            ],
+            "children": [
+                "follian-falach"
+            ]
         },
         {
-            "parents": ["irial-faidh"],
-            "children": ["eithriall"]
+            "parents": [
+                "irial-faidh"
+            ],
+            "children": [
+                "eithriall"
+            ]
         },
         {
-            "parents": ["eochaid-i-heremon-ireland", "tamar-tephi"],
-            "children": ["irial-faidh"]
+            "parents": [
+                "eochaid-i-heremon-ireland",
+                "tamar-tephi"
+            ],
+            "children": [
+                "irial-faidh"
+            ]
         },
         {
-            "parents": ["mattaniah"],
-            "children": ["mulek", "tamar-tephi"]
+            "parents": [
+                "mattaniah"
+            ],
+            "children": [
+                "mulek",
+                "tamar-tephi"
+            ]
         },
         {
-            "parents": ["josiah", "hammutal"],
-            "children": ["mattaniah", "shallum-2"]
+            "parents": [
+                "josiah",
+                "hammutal"
+            ],
+            "children": [
+                "mattaniah",
+                "shallum-2"
+            ]
         },
         {
-            "parents": ["josiah"],
-            "children": ["johanan", "jehoiakim"]
+            "parents": [
+                "josiah"
+            ],
+            "children": [
+                "johanan",
+                "jehoiakim"
+            ]
         },
         {
-            "parents": ["jeremiah", "libnah"],
-            "children": ["hammutal"]
+            "parents": [
+                "jeremiah",
+                "libnah"
+            ],
+            "children": [
+                "hammutal"
+            ]
         },
         {
-            "parents": ["hilkiah"],
-            "children": ["jeremiah", "shaphan", "azaniah"]
+            "parents": [
+                "hilkiah"
+            ],
+            "children": [
+                "jeremiah",
+                "shaphan",
+                "azaniah"
+            ]
         },
         {
-            "parents": ["shallum"],
-            "children": ["hilkiah", "hanameel"]
+            "parents": [
+                "shallum"
+            ],
+            "children": [
+                "hilkiah",
+                "hanameel"
+            ]
         },
         {
-            "parents": ["shaphan", "gemariah"],
-            "children": ["elasah"]
+            "parents": [
+                "shaphan",
+                "gemariah"
+            ],
+            "children": [
+                "elasah"
+            ]
         },
         {
-            "parents": ["ahitub"],
-            "children": ["zadok"]
+            "parents": [
+                "ahitub"
+            ],
+            "children": [
+                "zadok"
+            ]
         },
         {
-            "parents": ["amariah"],
-            "children": ["ahitub"]
+            "parents": [
+                "amariah"
+            ],
+            "children": [
+                "ahitub"
+            ]
         },
         {
-            "parents": ["azariah"],
-            "children": ["amariah"]
+            "parents": [
+                "azariah"
+            ],
+            "children": [
+                "amariah"
+            ]
         },
         {
-            "parents": ["ezra", "holdiah"],
-            "children": ["jether", "mered", "ephar", "jalon"]
+            "parents": [
+                "ezra",
+                "holdiah"
+            ],
+            "children": [
+                "jether",
+                "mered",
+                "ephar",
+                "jalon"
+            ]
         },
         {
-            "parents": ["ezra", "jehudisah"],
-            "children": ["miriam", "shammai", "jerad", "heber", "ishbah", "jekuthiel"]
+            "parents": [
+                "ezra",
+                "jehudisah"
+            ],
+            "children": [
+                "miriam",
+                "shammai",
+                "jerad",
+                "heber",
+                "ishbah",
+                "jekuthiel"
+            ]
         },
         {
-            "parents": ["seriah"],
-            "children": ["josedech", "ezra"]
+            "parents": [
+                "seriah"
+            ],
+            "children": [
+                "josedech",
+                "ezra"
+            ]
         },
         {
-            "parents": ["zadok"],
-            "children": ["shallum"]
+            "parents": [
+                "zadok"
+            ],
+            "children": [
+                "shallum"
+            ]
         },
         {
-            "parents": ["meraioth"],
-            "children": ["azariah"]
+            "parents": [
+                "meraioth"
+            ],
+            "children": [
+                "azariah"
+            ]
         },
         {
-            "parents": ["zerahiah"],
-            "children": ["meraioth"]
+            "parents": [
+                "zerahiah"
+            ],
+            "children": [
+                "meraioth"
+            ]
         },
         {
-            "parents": ["uzzi"],
-            "children": ["zerahiah"]
+            "parents": [
+                "uzzi"
+            ],
+            "children": [
+                "zerahiah"
+            ]
         },
         {
-            "parents": ["bukki"],
-            "children": ["uzzi"]
+            "parents": [
+                "bukki"
+            ],
+            "children": [
+                "uzzi"
+            ]
         },
         {
-            "parents": ["abishuah"],
-            "children": ["bukki"]
+            "parents": [
+                "abishuah"
+            ],
+            "children": [
+                "bukki"
+            ]
         },
         {
-            "parents": ["phineas"],
-            "children": ["abishuah"]
+            "parents": [
+                "phineas"
+            ],
+            "children": [
+                "abishuah"
+            ]
         },
         {
-            "parents": ["eleazer"],
-            "children": ["phineas"]
+            "parents": [
+                "eleazer"
+            ],
+            "children": [
+                "phineas"
+            ]
         },
         {
-            "parents": ["aaron", "elisheba"],
-            "children": ["eleazer"]
+            "parents": [
+                "aaron",
+                "elisheba"
+            ],
+            "children": [
+                "eleazer"
+            ]
         },
         {
-            "parents": ["amram", "jochebed"],
-            "children": ["aaron", "mirham", "moses"]
+            "parents": [
+                "amram",
+                "jochebed"
+            ],
+            "children": [
+                "aaron",
+                "mirham",
+                "moses"
+            ]
         },
         {
-            "parents": ["kohath"],
-            "children": ["amram"]
+            "parents": [
+                "kohath"
+            ],
+            "children": [
+                "amram"
+            ]
         },
         {
-            "parents": ["levi"],
-            "children": ["gershon", "kohath", "jochebed", "merari"]
+            "parents": [
+                "levi"
+            ],
+            "children": [
+                "gershon",
+                "kohath",
+                "jochebed",
+                "merari"
+            ]
         },
         {
-            "parents": ["joiadah"],
+            "parents": [
+                "joiadah"
+            ],
             "children": []
         },
         {
-            "parents": ["eliashib"],
-            "children": ["joiadah"]
+            "parents": [
+                "eliashib"
+            ],
+            "children": [
+                "joiadah"
+            ]
         },
         {
-            "parents": ["joachim"],
-            "children": ["eliashib"]
+            "parents": [
+                "joachim"
+            ],
+            "children": [
+                "eliashib"
+            ]
         },
         {
-            "parents": ["joshuah"],
-            "children": ["joachim"]
+            "parents": [
+                "joshuah"
+            ],
+            "children": [
+                "joachim"
+            ]
         },
         {
-            "parents": ["josedech"],
-            "children": ["joshuah"]
+            "parents": [
+                "josedech"
+            ],
+            "children": [
+                "joshuah"
+            ]
         },
         {
-            "parents": ["azaniah"],
-            "children": ["seriah"]
+            "parents": [
+                "azaniah"
+            ],
+            "children": [
+                "seriah"
+            ]
         },
         {
-            "parents": ["merari"],
-            "children": ["mahali", "mushi"]
+            "parents": [
+                "merari"
+            ],
+            "children": [
+                "mahali",
+                "mushi"
+            ]
         },
         {
-            "parents": ["gershon"],
-            "children": ["libni", "shimi"]
+            "parents": [
+                "gershon"
+            ],
+            "children": [
+                "libni",
+                "shimi"
+            ]
         },
         {
-            "parents": ["moses", "zipporah"],
-            "children": ["gershom"]
+            "parents": [
+                "moses",
+                "zipporah"
+            ],
+            "children": [
+                "gershom"
+            ]
         },
         {
-            "parents": ["ishbah"],
-            "children": ["eshteemca"]
+            "parents": [
+                "ishbah"
+            ],
+            "children": [
+                "eshteemca"
+            ]
         },
         {
-            "parents": ["jerad"],
-            "children": ["gedor"]
+            "parents": [
+                "jerad"
+            ],
+            "children": [
+                "gedor"
+            ]
         },
         {
-            "parents": ["heber"],
-            "children": ["socho"]
+            "parents": [
+                "heber"
+            ],
+            "children": [
+                "socho"
+            ]
         },
         {
-            "parents": ["jekuthiel"],
-            "children": ["zanoah"]
+            "parents": [
+                "jekuthiel"
+            ],
+            "children": [
+                "zanoah"
+            ]
         },
         {
-            "parents": ["reuben"],
-            "children": ["hanoch-2", "phallu", "hezron", "carmi"]
+            "parents": [
+                "reuben"
+            ],
+            "children": [
+                "hanoch-2",
+                "phallu",
+                "hezron",
+                "carmi"
+            ]
         },
         {
-            "parents": ["jehoiakim"],
-            "children": ["jeconiah", "zedekiah"]
+            "parents": [
+                "jehoiakim"
+            ],
+            "children": [
+                "jeconiah",
+                "zedekiah"
+            ]
         },
         {
-            "parents": ["jeconiah"],
-            "children": ["assir", "salathiel", "malchiram", "pedaiah", "shenazar", "jacamiah", "hoshama", "nedabiah"]
+            "parents": [
+                "jeconiah"
+            ],
+            "children": [
+                "assir",
+                "salathiel",
+                "malchiram",
+                "pedaiah",
+                "shenazar",
+                "jacamiah",
+                "hoshama",
+                "nedabiah"
+            ]
         },
         {
-            "parents": ["pedaiah"],
-            "children": ["zerubbabel", "shimei"]
+            "parents": [
+                "pedaiah"
+            ],
+            "children": [
+                "zerubbabel",
+                "shimei"
+            ]
         },
         {
-            "parents": ["zerubbabel"],
-            "children": ["meshullam", "hananiah", "saeloith"]
+            "parents": [
+                "zerubbabel"
+            ],
+            "children": [
+                "meshullam",
+                "hananiah",
+                "saeloith"
+            ]
         },
         {
-            "parents": ["meshullam"],
+            "parents": [
+                "meshullam"
+            ],
             "children": []
         },
         {
-            "parents": ["hananiah"],
+            "parents": [
+                "hananiah"
+            ],
             "children": []
         },
         {
-            "parents": ["rephaiah", "saeloith"],
+            "parents": [
+                "rephaiah",
+                "saeloith"
+            ],
             "children": []
         },
         {
-            "parents": ["simeon"],
-            "children": ["jemeul", "jamin", "ohad", "jachin", "zohar"]
+            "parents": [
+                "simeon"
+            ],
+            "children": [
+                "jemeul",
+                "jamin",
+                "ohad",
+                "jachin",
+                "zohar"
+            ]
         },
         {
-            "parents": ["simeon"],
-            "children": ["shaul", "jachin", "jamin", "jemeul", "ohad", "zohar"]
+            "parents": [
+                "simeon"
+            ],
+            "children": [
+                "shaul",
+                "jachin",
+                "jamin",
+                "jemeul",
+                "ohad",
+                "zohar"
+            ]
         },
         {
-            "parents": ["garcia-ii", "chimene-ximena"],
-            "children": ["sancho-iii"]
+            "parents": [
+                "garcia-ii",
+                "chimene-ximena"
+            ],
+            "children": [
+                "sancho-iii"
+            ]
         },
         {
-            "parents": ["sancho-ii", "urraca"],
-            "children": ["garcia-ii"]
+            "parents": [
+                "sancho-ii",
+                "urraca"
+            ],
+            "children": [
+                "garcia-ii"
+            ]
         },
         {
-            "parents": ["sancho-iii", "munia-ninia"],
+            "parents": [
+                "sancho-iii",
+                "munia-ninia"
+            ],
             "children": []
         },
         {
-            "parents": ["sancho-i", "theuda-toda"],
-            "children": ["sancho-ii"]
+            "parents": [
+                "sancho-i",
+                "theuda-toda"
+            ],
+            "children": [
+                "sancho-ii"
+            ]
         },
         {
             "parents": [],
-            "children": ["urraca"]
+            "children": [
+                "urraca"
+            ]
         },
         {
-            "parents": ["azuarius"],
-            "children": ["theuda-toda"]
+            "parents": [
+                "azuarius"
+            ],
+            "children": [
+                "theuda-toda"
+            ]
         },
         {
-            "parents": ["ram"],
-            "children": ["amminadab"]
+            "parents": [
+                "ram"
+            ],
+            "children": [
+                "amminadab"
+            ]
         },
         {
-            "parents": ["hezron-2"],
-            "children": ["ram"]
+            "parents": [
+                "hezron-2"
+            ],
+            "children": [
+                "ram"
+            ]
         },
         {
-            "parents": ["amminadab"],
-            "children": ["nashon-naasson"]
+            "parents": [
+                "amminadab"
+            ],
+            "children": [
+                "nashon-naasson"
+            ]
         },
         {
-            "parents": ["jesse"],
-            "children": ["david"]
+            "parents": [
+                "jesse"
+            ],
+            "children": [
+                "david"
+            ]
         },
         {
-            "parents": ["salmon", "rahab-rachab"],
-            "children": ["boas"]
+            "parents": [
+                "salmon",
+                "rahab-rachab"
+            ],
+            "children": [
+                "boas"
+            ]
         },
         {
-            "parents": ["nashon-naasson"],
-            "children": ["salmon"]
+            "parents": [
+                "nashon-naasson"
+            ],
+            "children": [
+                "salmon"
+            ]
         },
         {
-            "parents": ["judah-judas", "shuah-2"],
-            "children": ["er", "shelah", "onan"]
+            "parents": [
+                "judah-judas",
+                "shuah-2"
+            ],
+            "children": [
+                "er",
+                "shelah",
+                "onan"
+            ]
         },
         {
-            "parents": ["boas", "ruth"],
-            "children": ["obed"]
+            "parents": [
+                "boas",
+                "ruth"
+            ],
+            "children": [
+                "obed"
+            ]
         },
         {
-            "parents": ["obed"],
-            "children": ["jesse"]
+            "parents": [
+                "obed"
+            ],
+            "children": [
+                "jesse"
+            ]
         },
         {
-            "parents": ["pharez"],
-            "children": ["hezron-2", "hamul"]
+            "parents": [
+                "pharez"
+            ],
+            "children": [
+                "hezron-2",
+                "hamul"
+            ]
         },
         {
-            "parents": ["judah-judas", "tamar"],
-            "children": ["pharez", "zarah-2"]
+            "parents": [
+                "judah-judas",
+                "tamar"
+            ],
+            "children": [
+                "pharez",
+                "zarah-2"
+            ]
         },
         {
-            "parents": ["vingener"],
+            "parents": [
+                "vingener"
+            ],
             "children": []
         },
         {
-            "parents": ["tror-thor"],
-            "children": ["vingener"]
+            "parents": [
+                "tror-thor"
+            ],
+            "children": [
+                "vingener"
+            ]
         },
         {
-            "parents": ["memnon", "priam-daughter"],
-            "children": ["tror-thor"]
+            "parents": [
+                "memnon",
+                "priam-daughter"
+            ],
+            "children": [
+                "tror-thor"
+            ]
         },
         {
-            "parents": ["priam"],
-            "children": ["priam-daughter"]
+            "parents": [
+                "priam"
+            ],
+            "children": [
+                "priam-daughter"
+            ]
         },
         {
-            "parents": ["lamoedon"],
-            "children": ["priam"]
+            "parents": [
+                "lamoedon"
+            ],
+            "children": [
+                "priam"
+            ]
         },
         {
-            "parents": ["ilus"],
-            "children": ["lamoedon"]
+            "parents": [
+                "ilus"
+            ],
+            "children": [
+                "lamoedon"
+            ]
         },
         {
-            "parents": ["tros"],
-            "children": ["assaracus", "ilus"]
+            "parents": [
+                "tros"
+            ],
+            "children": [
+                "assaracus",
+                "ilus"
+            ]
         },
         {
-            "parents": ["erichthonius"],
-            "children": ["tros"]
+            "parents": [
+                "erichthonius"
+            ],
+            "children": [
+                "tros"
+            ]
         },
         {
-            "parents": ["darda"],
-            "children": ["erichthonius"]
+            "parents": [
+                "darda"
+            ],
+            "children": [
+                "erichthonius"
+            ]
         },
         {
-            "parents": ["zarah-2"],
-            "children": ["darda"]
+            "parents": [
+                "zarah-2"
+            ],
+            "children": [
+                "darda"
+            ]
         },
         {
-            "parents": ["er", "tamar"],
+            "parents": [
+                "er",
+                "tamar"
+            ],
             "children": []
         },
         {
-            "parents": ["silvius"],
-            "children": ["brutus"]
+            "parents": [
+                "silvius"
+            ],
+            "children": [
+                "brutus"
+            ]
         },
         {
-            "parents": ["aeneas"],
-            "children": ["silvius"]
+            "parents": [
+                "aeneas"
+            ],
+            "children": [
+                "silvius"
+            ]
         },
         {
-            "parents": ["anchises"],
-            "children": ["aeneas"]
+            "parents": [
+                "anchises"
+            ],
+            "children": [
+                "aeneas"
+            ]
         },
         {
-            "parents": ["capps"],
-            "children": ["anchises"]
+            "parents": [
+                "capps"
+            ],
+            "children": [
+                "anchises"
+            ]
         },
         {
-            "parents": ["assaracus"],
-            "children": ["azuarius", "capps"]
+            "parents": [
+                "assaracus"
+            ],
+            "children": [
+                "azuarius",
+                "capps"
+            ]
         },
         {
-            "parents": ["brutus"],
+            "parents": [
+                "brutus"
+            ],
             "children": []
         },
         {
-            "parents": ["issachar"],
-            "children": ["tola", "shimron", "phuvah", "job"]
+            "parents": [
+                "issachar"
+            ],
+            "children": [
+                "tola",
+                "shimron",
+                "phuvah",
+                "job"
+            ]
         },
         {
-            "parents": ["zebulun"],
-            "children": ["sered", "elon", "jahleel"]
+            "parents": [
+                "zebulun"
+            ],
+            "children": [
+                "sered",
+                "elon",
+                "jahleel"
+            ]
         },
         {
-            "parents": ["joash"],
-            "children": ["amaziah"]
+            "parents": [
+                "joash"
+            ],
+            "children": [
+                "amaziah"
+            ]
         },
         {
-            "parents": ["ahaziah", "athaliah"],
-            "children": ["joash"]
+            "parents": [
+                "ahaziah",
+                "athaliah"
+            ],
+            "children": [
+                "joash"
+            ]
         },
         {
-            "parents": ["amaziah"],
-            "children": ["uzziah-azariah"]
+            "parents": [
+                "amaziah"
+            ],
+            "children": [
+                "uzziah-azariah"
+            ]
         },
         {
-            "parents": ["solomon", "nabah"],
-            "children": ["rehoboam-roboam"]
+            "parents": [
+                "solomon",
+                "nabah"
+            ],
+            "children": [
+                "rehoboam-roboam"
+            ]
         },
         {
-            "parents": ["david", "bathsheba"],
-            "children": ["shimea", "shabod", "nathan", "solomon"]
+            "parents": [
+                "david",
+                "bathsheba"
+            ],
+            "children": [
+                "shimea",
+                "shabod",
+                "nathan",
+                "solomon"
+            ]
         },
         {
-            "parents": ["rehoboam-roboam"],
-            "children": ["abia"]
+            "parents": [
+                "rehoboam-roboam"
+            ],
+            "children": [
+                "abia"
+            ]
         },
         {
-            "parents": ["nathan"],
-            "children": ["mattatha"]
+            "parents": [
+                "nathan"
+            ],
+            "children": [
+                "mattatha"
+            ]
         },
         {
-            "parents": ["abia"],
-            "children": ["asa"]
+            "parents": [
+                "abia"
+            ],
+            "children": [
+                "asa"
+            ]
         },
         {
-            "parents": ["asa"],
-            "children": ["josaphat"]
+            "parents": [
+                "asa"
+            ],
+            "children": [
+                "josaphat"
+            ]
         },
         {
-            "parents": ["josaphat"],
-            "children": ["jehoram"]
+            "parents": [
+                "josaphat"
+            ],
+            "children": [
+                "jehoram"
+            ]
         },
         {
-            "parents": ["jehoram"],
-            "children": ["ozias", "ahaziah"]
+            "parents": [
+                "jehoram"
+            ],
+            "children": [
+                "ozias",
+                "ahaziah"
+            ]
         },
         {
-            "parents": ["uzziah-azariah"],
-            "children": ["jotham"]
+            "parents": [
+                "uzziah-azariah"
+            ],
+            "children": [
+                "jotham"
+            ]
         },
         {
-            "parents": ["jotham"],
-            "children": ["ahaz"]
+            "parents": [
+                "jotham"
+            ],
+            "children": [
+                "ahaz"
+            ]
         },
         {
-            "parents": ["ahaz"],
-            "children": ["hezekiah"]
+            "parents": [
+                "ahaz"
+            ],
+            "children": [
+                "hezekiah"
+            ]
         },
         {
-            "parents": ["hezekiah"],
-            "children": ["manasseh"]
+            "parents": [
+                "hezekiah"
+            ],
+            "children": [
+                "manasseh"
+            ]
         },
         {
-            "parents": ["manasseh"],
-            "children": ["amon"]
+            "parents": [
+                "manasseh"
+            ],
+            "children": [
+                "amon"
+            ]
         },
         {
-            "parents": ["aodh-glas"],
+            "parents": [
+                "aodh-glas"
+            ],
             "children": []
         },
         {
             "parents": [],
-            "children": ["aodh-glas"]
+            "children": [
+                "aodh-glas"
+            ]
         },
         {
-            "parents": ["amon"],
-            "children": ["josiah"]
+            "parents": [
+                "amon"
+            ],
+            "children": [
+                "josiah"
+            ]
         },
         {
-            "parents": ["joseph-2"],
-            "children": ["janna"]
+            "parents": [
+                "joseph-2"
+            ],
+            "children": [
+                "janna"
+            ]
         },
         {
-            "parents": ["mattathias", "simon-daughter"],
-            "children": ["joseph-2"]
+            "parents": [
+                "mattathias",
+                "simon-daughter"
+            ],
+            "children": [
+                "joseph-2"
+            ]
         },
         {
-            "parents": ["amos"],
-            "children": ["mattathias"]
+            "parents": [
+                "amos"
+            ],
+            "children": [
+                "mattathias"
+            ]
         },
         {
-            "parents": ["semei"],
-            "children": ["mattathias-2"]
+            "parents": [
+                "semei"
+            ],
+            "children": [
+                "mattathias-2"
+            ]
         },
         {
-            "parents": ["joseph-3"],
-            "children": ["semei"]
+            "parents": [
+                "joseph-3"
+            ],
+            "children": [
+                "semei"
+            ]
         },
         {
-            "parents": ["juda"],
-            "children": ["joseph-3"]
+            "parents": [
+                "juda"
+            ],
+            "children": [
+                "joseph-3"
+            ]
         },
         {
-            "parents": ["joanna"],
-            "children": ["juda"]
+            "parents": [
+                "joanna"
+            ],
+            "children": [
+                "juda"
+            ]
         },
         {
-            "parents": ["rhesa"],
-            "children": ["joanna"]
+            "parents": [
+                "rhesa"
+            ],
+            "children": [
+                "joanna"
+            ]
         },
         {
-            "parents": ["zorobabel"],
-            "children": ["rhesa"]
+            "parents": [
+                "zorobabel"
+            ],
+            "children": [
+                "rhesa"
+            ]
         },
         {
-            "parents": ["salathiel-2"],
-            "children": ["zorobabel"]
+            "parents": [
+                "salathiel-2"
+            ],
+            "children": [
+                "zorobabel"
+            ]
         },
         {
-            "parents": ["neri"],
-            "children": ["salathiel-2"]
+            "parents": [
+                "neri"
+            ],
+            "children": [
+                "salathiel-2"
+            ]
         },
         {
-            "parents": ["melchi"],
-            "children": ["neri"]
+            "parents": [
+                "melchi"
+            ],
+            "children": [
+                "neri"
+            ]
         },
         {
-            "parents": ["addi"],
-            "children": ["melchi"]
+            "parents": [
+                "addi"
+            ],
+            "children": [
+                "melchi"
+            ]
         },
         {
-            "parents": ["cosam"],
-            "children": ["addi"]
+            "parents": [
+                "cosam"
+            ],
+            "children": [
+                "addi"
+            ]
         },
         {
-            "parents": ["elmodam"],
-            "children": ["cosam"]
+            "parents": [
+                "elmodam"
+            ],
+            "children": [
+                "cosam"
+            ]
         },
         {
-            "parents": ["er-2"],
-            "children": ["elmodam"]
+            "parents": [
+                "er-2"
+            ],
+            "children": [
+                "elmodam"
+            ]
         },
         {
-            "parents": ["jose"],
-            "children": ["er-2"]
+            "parents": [
+                "jose"
+            ],
+            "children": [
+                "er-2"
+            ]
         },
         {
-            "parents": ["eliezer"],
-            "children": ["jose"]
+            "parents": [
+                "eliezer"
+            ],
+            "children": [
+                "jose"
+            ]
         },
         {
-            "parents": ["jorim"],
-            "children": ["eliezer"]
+            "parents": [
+                "jorim"
+            ],
+            "children": [
+                "eliezer"
+            ]
         },
         {
-            "parents": ["matthat-2"],
-            "children": ["jorim"]
+            "parents": [
+                "matthat-2"
+            ],
+            "children": [
+                "jorim"
+            ]
         },
         {
-            "parents": ["joseph-5", "mary"],
-            "children": ["jesus"]
+            "parents": [
+                "joseph-5",
+                "mary"
+            ],
+            "children": [
+                "jesus"
+            ]
         },
         {
-            "parents": ["levi-2"],
-            "children": ["matthat-2"]
+            "parents": [
+                "levi-2"
+            ],
+            "children": [
+                "matthat-2"
+            ]
         },
         {
-            "parents": ["simeon-2"],
-            "children": ["levi-2"]
+            "parents": [
+                "simeon-2"
+            ],
+            "children": [
+                "levi-2"
+            ]
         },
         {
-            "parents": ["juda-2"],
-            "children": ["simeon-2"]
+            "parents": [
+                "juda-2"
+            ],
+            "children": [
+                "simeon-2"
+            ]
         },
         {
-            "parents": ["joseph-4"],
-            "children": ["juda-2"]
+            "parents": [
+                "joseph-4"
+            ],
+            "children": [
+                "juda-2"
+            ]
         },
         {
-            "parents": ["jonan"],
-            "children": ["joseph-4"]
+            "parents": [
+                "jonan"
+            ],
+            "children": [
+                "joseph-4"
+            ]
         },
         {
-            "parents": ["eliakim"],
-            "children": ["jonan"]
+            "parents": [
+                "eliakim"
+            ],
+            "children": [
+                "jonan"
+            ]
         },
         {
-            "parents": ["melea"],
-            "children": ["eliakim"]
+            "parents": [
+                "melea"
+            ],
+            "children": [
+                "eliakim"
+            ]
         },
         {
-            "parents": ["menan"],
-            "children": ["melea"]
+            "parents": [
+                "menan"
+            ],
+            "children": [
+                "melea"
+            ]
         },
         {
-            "parents": ["mattatha"],
-            "children": ["menan"]
+            "parents": [
+                "mattatha"
+            ],
+            "children": [
+                "menan"
+            ]
         },
         {
-            "parents": ["amalech"],
+            "parents": [
+                "amalech"
+            ],
             "children": []
         },
         {
-            "parents": ["beli"],
-            "children": ["lud-britons", "amalech"]
+            "parents": [
+                "beli"
+            ],
+            "children": [
+                "lud-britons",
+                "amalech"
+            ]
         },
         {
-            "parents": ["manogan", "anna"],
-            "children": ["penardin", "beli"]
+            "parents": [
+                "manogan",
+                "anna"
+            ],
+            "children": [
+                "penardin",
+                "beli"
+            ]
         },
         {
-            "parents": ["joseph-6"],
-            "children": ["anna"]
+            "parents": [
+                "joseph-6"
+            ],
+            "children": [
+                "anna"
+            ]
         },
         {
-            "parents": ["matthat"],
-            "children": ["heli", "joseph-6"]
+            "parents": [
+                "matthat"
+            ],
+            "children": [
+                "heli",
+                "joseph-6"
+            ]
         },
         {
-            "parents": ["levi-3"],
-            "children": ["matthat"]
+            "parents": [
+                "levi-3"
+            ],
+            "children": [
+                "matthat"
+            ]
         },
         {
-            "parents": ["melchi-2"],
-            "children": ["levi-3"]
+            "parents": [
+                "melchi-2"
+            ],
+            "children": [
+                "levi-3"
+            ]
         },
         {
-            "parents": ["janna"],
-            "children": ["melchi-2"]
+            "parents": [
+                "janna"
+            ],
+            "children": [
+                "melchi-2"
+            ]
         },
         {
-            "parents": ["bran"],
+            "parents": [
+                "bran"
+            ],
             "children": []
         },
         {
-            "parents": ["penardin", "llyr"],
-            "children": ["bran"]
+            "parents": [
+                "penardin",
+                "llyr"
+            ],
+            "children": [
+                "bran"
+            ]
         },
         {
-            "parents": ["azor"],
-            "children": ["sadoc"]
+            "parents": [
+                "azor"
+            ],
+            "children": [
+                "sadoc"
+            ]
         },
         {
-            "parents": ["eliakim-2"],
-            "children": ["azor"]
+            "parents": [
+                "eliakim-2"
+            ],
+            "children": [
+                "azor"
+            ]
         },
         {
-            "parents": ["lud-britons"],
+            "parents": [
+                "lud-britons"
+            ],
             "children": []
         },
         {
-            "parents": ["sadoc"],
-            "children": ["achim"]
+            "parents": [
+                "sadoc"
+            ],
+            "children": [
+                "achim"
+            ]
         },
         {
-            "parents": ["eleazar"],
-            "children": ["matthan"]
+            "parents": [
+                "eleazar"
+            ],
+            "children": [
+                "matthan"
+            ]
         },
         {
-            "parents": ["eliud"],
-            "children": ["eleazar"]
+            "parents": [
+                "eliud"
+            ],
+            "children": [
+                "eleazar"
+            ]
         },
         {
-            "parents": ["achim"],
-            "children": ["eliud"]
+            "parents": [
+                "achim"
+            ],
+            "children": [
+                "eliud"
+            ]
         },
         {
-            "parents": ["heli"],
-            "children": ["joseph-5"]
+            "parents": [
+                "heli"
+            ],
+            "children": [
+                "joseph-5"
+            ]
         },
         {
-            "parents": ["jacob-2"],
-            "children": ["mary"]
+            "parents": [
+                "jacob-2"
+            ],
+            "children": [
+                "mary"
+            ]
         },
         {
-            "parents": ["matthan"],
-            "children": ["elizabeth", "jacob-2"]
+            "parents": [
+                "matthan"
+            ],
+            "children": [
+                "elizabeth",
+                "jacob-2"
+            ]
         },
         {
-            "parents": ["abiud"],
-            "children": ["eliakim-2"]
+            "parents": [
+                "abiud"
+            ],
+            "children": [
+                "eliakim-2"
+            ]
         },
         {
-            "parents": ["zorobabel-2"],
-            "children": ["abiud"]
+            "parents": [
+                "zorobabel-2"
+            ],
+            "children": [
+                "abiud"
+            ]
         },
         {
-            "parents": ["salathiel-3"],
-            "children": ["zorobabel-2"]
+            "parents": [
+                "salathiel-3"
+            ],
+            "children": [
+                "zorobabel-2"
+            ]
         },
         {
-            "parents": ["jechonias"],
-            "children": ["salathiel-3"]
+            "parents": [
+                "jechonias"
+            ],
+            "children": [
+                "salathiel-3"
+            ]
         },
         {
-            "parents": ["josias"],
-            "children": ["jechonias"]
+            "parents": [
+                "josias"
+            ],
+            "children": [
+                "jechonias"
+            ]
         },
         {
-            "parents": ["amon-2"],
-            "children": ["josias"]
+            "parents": [
+                "amon-2"
+            ],
+            "children": [
+                "josias"
+            ]
         },
         {
-            "parents": ["manasses"],
-            "children": ["amon-2"]
+            "parents": [
+                "manasses"
+            ],
+            "children": [
+                "amon-2"
+            ]
         },
         {
-            "parents": ["ezekias"],
-            "children": ["manasses"]
+            "parents": [
+                "ezekias"
+            ],
+            "children": [
+                "manasses"
+            ]
         },
         {
-            "parents": ["achaz"],
-            "children": ["ezekias"]
+            "parents": [
+                "achaz"
+            ],
+            "children": [
+                "ezekias"
+            ]
         },
         {
-            "parents": ["joatham"],
-            "children": ["achaz"]
+            "parents": [
+                "joatham"
+            ],
+            "children": [
+                "achaz"
+            ]
         },
         {
-            "parents": ["ozias"],
-            "children": ["joatham"]
+            "parents": [
+                "ozias"
+            ],
+            "children": [
+                "joatham"
+            ]
         },
         {
-            "parents": ["mattathias-2"],
-            "children": ["maath"]
+            "parents": [
+                "mattathias-2"
+            ],
+            "children": [
+                "maath"
+            ]
         },
         {
-            "parents": ["maath"],
-            "children": ["nagga"]
+            "parents": [
+                "maath"
+            ],
+            "children": [
+                "nagga"
+            ]
         },
         {
-            "parents": ["nagga"],
-            "children": ["esli"]
+            "parents": [
+                "nagga"
+            ],
+            "children": [
+                "esli"
+            ]
         },
         {
-            "parents": ["esli"],
-            "children": ["naum"]
+            "parents": [
+                "esli"
+            ],
+            "children": [
+                "naum"
+            ]
         },
         {
-            "parents": ["elon-2"],
-            "children": ["adah"]
+            "parents": [
+                "elon-2"
+            ],
+            "children": [
+                "adah"
+            ]
         },
         {
-            "parents": ["naum"],
-            "children": ["amos"]
+            "parents": [
+                "naum"
+            ],
+            "children": [
+                "amos"
+            ]
         },
         {
-            "parents": ["sigurd-i"],
+            "parents": [
+                "sigurd-i"
+            ],
             "children": []
         },
         {
-            "parents": ["zachariah", "elizabeth"],
-            "children": ["john-baptist"]
+            "parents": [
+                "zachariah",
+                "elizabeth"
+            ],
+            "children": [
+                "john-baptist"
+            ]
         },
         {
-            "parents": ["iddo"],
-            "children": ["zachariah"]
+            "parents": [
+                "iddo"
+            ],
+            "children": [
+                "zachariah"
+            ]
         },
         {
-            "parents": ["gad"],
-            "children": ["ziphion", "eri", "haggi", "arodi", "shuni", "areli", "ezbon"]
+            "parents": [
+                "gad"
+            ],
+            "children": [
+                "ziphion",
+                "eri",
+                "haggi",
+                "arodi",
+                "shuni",
+                "areli",
+                "ezbon"
+            ]
         },
         {
-            "parents": ["asher"],
-            "children": ["jimnah", "sarah", "ishuah", "isui", "beriah"]
+            "parents": [
+                "asher"
+            ],
+            "children": [
+                "jimnah",
+                "sarah",
+                "ishuah",
+                "isui",
+                "beriah"
+            ]
         },
         {
-            "parents": ["beriah"],
-            "children": ["heber-2", "malchiel"]
+            "parents": [
+                "beriah"
+            ],
+            "children": [
+                "heber-2",
+                "malchiel"
+            ]
         },
         {
-            "parents": ["dan"],
-            "children": ["hushim"]
+            "parents": [
+                "dan"
+            ],
+            "children": [
+                "hushim"
+            ]
         },
         {
-            "parents": ["naphtali"],
-            "children": ["jahzeel", "guni", "jezer", "shillem"]
+            "parents": [
+                "naphtali"
+            ],
+            "children": [
+                "jahzeel",
+                "guni",
+                "jezer",
+                "shillem"
+            ]
         },
         {
-            "parents": ["joseph", "asenath"],
-            "children": ["manasseh-2", "ephraim"]
+            "parents": [
+                "joseph",
+                "asenath"
+            ],
+            "children": [
+                "manasseh-2",
+                "ephraim"
+            ]
         },
         {
-            "parents": ["manasseh-2"],
-            "children": ["abiezer", "helek", "asriel", "shechem", "hepher-2", "shemida", "machir"]
+            "parents": [
+                "manasseh-2"
+            ],
+            "children": [
+                "abiezer",
+                "helek",
+                "asriel",
+                "shechem",
+                "hepher-2",
+                "shemida",
+                "machir"
+            ]
         },
         {
-            "parents": ["machir"],
-            "children": ["gilead", "bashan"]
+            "parents": [
+                "machir"
+            ],
+            "children": [
+                "gilead",
+                "bashan"
+            ]
         },
         {
-            "parents": ["gilead"],
-            "children": ["hepher"]
+            "parents": [
+                "gilead"
+            ],
+            "children": [
+                "hepher"
+            ]
         },
         {
-            "parents": ["hepher"],
-            "children": ["zelophehad"]
+            "parents": [
+                "hepher"
+            ],
+            "children": [
+                "zelophehad"
+            ]
         },
         {
-            "parents": ["zelophehad"],
-            "children": ["mahlah", "noah-2", "hoglah", "milcah-2", "tirzah"]
+            "parents": [
+                "zelophehad"
+            ],
+            "children": [
+                "mahlah",
+                "noah-2",
+                "hoglah",
+                "milcah-2",
+                "tirzah"
+            ]
         },
         {
-            "parents": ["benjaman"],
-            "children": ["belah", "rosh", "ashbel", "huppim", "naaman", "ard", "becher", "gera", "eli", "muppim"]
+            "parents": [
+                "benjaman"
+            ],
+            "children": [
+                "belah",
+                "rosh",
+                "ashbel",
+                "huppim",
+                "naaman",
+                "ard",
+                "becher",
+                "gera",
+                "eli",
+                "muppim"
+            ]
         },
         {
-            "parents": ["lehi", "sariah"],
-            "children": ["laman", "lemul", "sam", "nephi", "joeph", "jacob-3"]
+            "parents": [
+                "lehi",
+                "sariah"
+            ],
+            "children": [
+                "laman",
+                "lemul",
+                "sam",
+                "nephi",
+                "joeph",
+                "jacob-3"
+            ]
         },
         {
-            "parents": ["jacob-3"],
-            "children": ["enos-2"]
+            "parents": [
+                "jacob-3"
+            ],
+            "children": [
+                "enos-2"
+            ]
         },
         {
-            "parents": ["enos-2"],
-            "children": ["jarom"]
+            "parents": [
+                "enos-2"
+            ],
+            "children": [
+                "jarom"
+            ]
         },
         {
-            "parents": ["jarom"],
-            "children": ["omni"]
+            "parents": [
+                "jarom"
+            ],
+            "children": [
+                "omni"
+            ]
         },
         {
-            "parents": ["omni"],
-            "children": ["chemish", "amaron"]
+            "parents": [
+                "omni"
+            ],
+            "children": [
+                "chemish",
+                "amaron"
+            ]
         },
         {
-            "parents": ["mohonria-moriancuma"],
-            "children": ["pagag"]
+            "parents": [
+                "mohonria-moriancuma"
+            ],
+            "children": [
+                "pagag"
+            ]
         },
         {
-            "parents": ["father-of-jared"],
-            "children": ["mohonria-moriancuma", "jared-2"]
+            "parents": [
+                "father-of-jared"
+            ],
+            "children": [
+                "mohonria-moriancuma",
+                "jared-2"
+            ]
         },
         {
-            "parents": ["orihah"],
-            "children": ["kib"]
+            "parents": [
+                "orihah"
+            ],
+            "children": [
+                "kib"
+            ]
         },
         {
-            "parents": ["jared-2"],
-            "children": ["gilgah", "jacon", "orihah", "mahah"]
+            "parents": [
+                "jared-2"
+            ],
+            "children": [
+                "gilgah",
+                "jacon",
+                "orihah",
+                "mahah"
+            ]
         },
         {
-            "parents": ["kib"],
-            "children": ["corihor", "shule"]
+            "parents": [
+                "kib"
+            ],
+            "children": [
+                "corihor",
+                "shule"
+            ]
         },
         {
-            "parents": ["shule"],
-            "children": ["omer"]
+            "parents": [
+                "shule"
+            ],
+            "children": [
+                "omer"
+            ]
         },
         {
-            "parents": ["omer"],
-            "children": ["emer", "esrom", "corianumr", "jared-3"]
+            "parents": [
+                "omer"
+            ],
+            "children": [
+                "emer",
+                "esrom",
+                "corianumr",
+                "jared-3"
+            ]
         },
         {
-            "parents": ["emer"],
-            "children": ["coriantum"]
+            "parents": [
+                "emer"
+            ],
+            "children": [
+                "coriantum"
+            ]
         },
         {
-            "parents": ["coriantum"],
-            "children": ["com"]
+            "parents": [
+                "coriantum"
+            ],
+            "children": [
+                "com"
+            ]
         },
         {
-            "parents": ["com"],
-            "children": ["heth-2"]
+            "parents": [
+                "com"
+            ],
+            "children": [
+                "heth-2"
+            ]
         },
         {
-            "parents": ["heth-2"],
-            "children": ["shez"]
+            "parents": [
+                "heth-2"
+            ],
+            "children": [
+                "shez"
+            ]
         },
         {
-            "parents": ["shez"],
-            "children": ["riplakish"]
+            "parents": [
+                "shez"
+            ],
+            "children": [
+                "riplakish"
+            ]
         },
         {
-            "parents": ["riplakish"],
-            "children": ["morianton"]
+            "parents": [
+                "riplakish"
+            ],
+            "children": [
+                "morianton"
+            ]
         },
         {
-            "parents": ["morianton"],
-            "children": ["kim"]
+            "parents": [
+                "morianton"
+            ],
+            "children": [
+                "kim"
+            ]
         },
         {
-            "parents": ["kim"],
-            "children": ["levi-4"]
+            "parents": [
+                "kim"
+            ],
+            "children": [
+                "levi-4"
+            ]
         },
         {
-            "parents": ["levi-4"],
-            "children": ["corom"]
+            "parents": [
+                "levi-4"
+            ],
+            "children": [
+                "corom"
+            ]
         },
         {
-            "parents": ["corom"],
-            "children": ["kish"]
+            "parents": [
+                "corom"
+            ],
+            "children": [
+                "kish"
+            ]
         },
         {
-            "parents": ["kish"],
-            "children": ["lib"]
+            "parents": [
+                "kish"
+            ],
+            "children": [
+                "lib"
+            ]
         },
         {
-            "parents": ["lib"],
-            "children": ["heth-3"]
+            "parents": [
+                "lib"
+            ],
+            "children": [
+                "heth-3"
+            ]
         },
         {
-            "parents": ["heth-3"],
-            "children": ["aaron-2"]
+            "parents": [
+                "heth-3"
+            ],
+            "children": [
+                "aaron-2"
+            ]
         },
         {
-            "parents": ["aaron-2"],
-            "children": ["amnigaddah"]
+            "parents": [
+                "aaron-2"
+            ],
+            "children": [
+                "amnigaddah"
+            ]
         },
         {
-            "parents": ["amnigaddah"],
-            "children": ["coriantam"]
+            "parents": [
+                "amnigaddah"
+            ],
+            "children": [
+                "coriantam"
+            ]
         },
         {
-            "parents": ["coriantam"],
-            "children": ["com-2"]
+            "parents": [
+                "coriantam"
+            ],
+            "children": [
+                "com-2"
+            ]
         },
         {
-            "parents": ["shiblon"],
-            "children": ["seth-2"]
+            "parents": [
+                "shiblon"
+            ],
+            "children": [
+                "seth-2"
+            ]
         },
         {
-            "parents": ["com-2"],
-            "children": ["shiblon"]
+            "parents": [
+                "com-2"
+            ],
+            "children": [
+                "shiblon"
+            ]
         },
         {
-            "parents": ["seth-2"],
-            "children": ["anah-2"]
+            "parents": [
+                "seth-2"
+            ],
+            "children": [
+                "anah-2"
+            ]
         },
         {
-            "parents": ["anah-2"],
-            "children": ["ethem"]
+            "parents": [
+                "anah-2"
+            ],
+            "children": [
+                "ethem"
+            ]
         },
         {
-            "parents": ["ethem"],
-            "children": ["moron"]
+            "parents": [
+                "ethem"
+            ],
+            "children": [
+                "moron"
+            ]
         },
         {
-            "parents": ["moron"],
-            "children": ["coriantor"]
+            "parents": [
+                "moron"
+            ],
+            "children": [
+                "coriantor"
+            ]
         },
         {
-            "parents": ["coriantor"],
-            "children": ["ether"]
+            "parents": [
+                "coriantor"
+            ],
+            "children": [
+                "ether"
+            ]
         },
         {
-            "parents": ["akish", "a-daughter-of-jared"],
-            "children": ["a-son-of-alish", "nimrah"]
+            "parents": [
+                "akish",
+                "a-daughter-of-jared"
+            ],
+            "children": [
+                "a-son-of-alish",
+                "nimrah"
+            ]
         },
         {
-            "parents": ["jared-3"],
-            "children": ["a-daughter-of-jared"]
+            "parents": [
+                "jared-3"
+            ],
+            "children": [
+                "a-daughter-of-jared"
+            ]
         },
         {
-            "parents": ["corihor"],
-            "children": ["noah-3", "cohor"]
+            "parents": [
+                "corihor"
+            ],
+            "children": [
+                "noah-3",
+                "cohor"
+            ]
         },
         {
-            "parents": ["noah-3"],
-            "children": ["cohor-2"]
+            "parents": [
+                "noah-3"
+            ],
+            "children": [
+                "cohor-2"
+            ]
         },
         {
-            "parents": ["cohor-2"],
-            "children": ["nimrod-2"]
+            "parents": [
+                "cohor-2"
+            ],
+            "children": [
+                "nimrod-2"
+            ]
         },
         {
-            "parents": ["anah"],
-            "children": ["dishon"],
+            "parents": [
+                "anah"
+            ],
+            "children": [
+                "dishon"
+            ],
             "adoptive": true
         },
         {
-            "parents": ["mariam"],
+            "parents": [
+                "mariam"
+            ],
             "children": []
         }
     ]

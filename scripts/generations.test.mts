@@ -163,7 +163,7 @@ for (const mode of ["together", "apart"] as const) {
 // (alignEras). Undated sagas must lay out exactly as without the pass; dated ones are held as ratchets (same-decade
 // pairs left on different rows; lower them when alignment improves, never raise them).
 {
-    const ERA_LIMITS: Record<string, number> = { "english-royal": 40, "nehru-gandhi": 1 };
+    const ERA_LIMITS: Record<string, number> = { "english-royal": 40, "nehru-gandhi": 1, potter: 3 };
     const strip = (t: Tree): Tree => ({
         ...t,
         people: Object.fromEntries(Object.entries(t.people).map(([id, { born: _, ...p }]) => [id, p])),

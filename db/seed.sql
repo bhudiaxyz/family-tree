@@ -1033,6 +1033,10 @@ DELETE FROM saga WHERE id = 'potter';
 INSERT INTO saga (id, category, position, title, work, medium, author, canon, genre, covers) VALUES
     ('potter', 'fiction', 5, 'Harry Potter', 'Harry Potter', 'Novel series (1997–2007)', 'J. K. Rowling', 'Novels, including the epilogue of Deathly Hallows, plus Rowling''s published family details (e.g. Fleamont Potter)', 'Fantasy', 'Potter, Evans/Dursley, Weasley, Black/Tonks/Lupin and Malfoy families, through the epilogue children.');
 
+-- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
+INSERT INTO saga_note (saga_id, position, note) VALUES
+    ('potter', 0, 'Birth dates (born) are from the Harry Potter Wiki (harrypotter.fandom.com, in English, French and German), Wikipedia and the Harry Potter Lexicon, mostly citing Pottermore; 00 marks an unknown month or day. Some are estimates there (Dudley''s day, Andromeda between 1951 and 1955, Fleur c. 1976–77, Victoire 2000–2002). The next generation''s years are worked out from when they start at Hogwarts (the 2017 epilogue, Cursed Child). Fleamont, Euphemia, Petunia, Vernon, Druella, Ted Tonks, Astoria and James Sirius are left undated: no confirmed date was found.');
+
 -- ── Houses (13) ────────────────────────────────────────────────────────────────────────────────
 INSERT INTO house (saga_id, name, color) VALUES
     ('potter', 'Potter', '#b8342f'),
@@ -1054,64 +1058,64 @@ INSERT INTO house (saga_id, name, color) VALUES
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('potter', 'fleamont', 'Fleamont Potter', 'Potter', 'm', NULL),
     ('potter', 'euphemia', 'Euphemia Potter', 'Potter', 'f', NULL),
-    ('potter', 'james', 'James Potter', 'Potter', 'm', NULL),
-    ('potter', 'harry', 'Harry Potter', 'Potter', 'm', NULL),
+    ('potter', 'james', 'James Potter', 'Potter', 'm', '1960-03-27'),
+    ('potter', 'harry', 'Harry Potter', 'Potter', 'm', '1980-07-31'),
     ('potter', 'jamesS', 'James Sirius Potter', 'Potter', 'm', NULL),
-    ('potter', 'albus', 'Albus Severus Potter', 'Potter', 'm', NULL),
-    ('potter', 'lilyL', 'Lily Luna Potter', 'Potter', 'f', NULL);
+    ('potter', 'albus', 'Albus Severus Potter', 'Potter', 'm', '2006-00-00'),
+    ('potter', 'lilyL', 'Lily Luna Potter', 'Potter', 'f', '2008-00-00');
 -- Evans (2)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('potter', 'lily', 'Lily Evans', 'Evans', 'f', NULL),
+    ('potter', 'lily', 'Lily Evans', 'Evans', 'f', '1960-01-30'),
     ('potter', 'petunia', 'Petunia Dursley', 'Evans', 'f', NULL);
 -- Dursley (2)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('potter', 'vernon', 'Vernon Dursley', 'Dursley', 'm', NULL),
-    ('potter', 'dudley', 'Dudley Dursley', 'Dursley', 'm', NULL);
+    ('potter', 'dudley', 'Dudley Dursley', 'Dursley', 'm', '1980-06-23');
 -- Weasley (11)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('potter', 'arthur', 'Arthur Weasley', 'Weasley', 'm', NULL),
-    ('potter', 'bill', 'Bill Weasley', 'Weasley', 'm', NULL),
-    ('potter', 'charlie', 'Charlie Weasley', 'Weasley', 'm', NULL),
-    ('potter', 'percy', 'Percy Weasley', 'Weasley', 'm', NULL),
-    ('potter', 'fred', 'Fred Weasley', 'Weasley', 'm', NULL),
-    ('potter', 'george', 'George Weasley', 'Weasley', 'm', NULL),
-    ('potter', 'ron', 'Ron Weasley', 'Weasley', 'm', NULL),
-    ('potter', 'ginny', 'Ginny Weasley', 'Weasley', 'f', NULL),
-    ('potter', 'victoire', 'Victoire Weasley', 'Weasley', 'f', NULL),
-    ('potter', 'rose', 'Rose Weasley', 'Weasley', 'f', NULL),
-    ('potter', 'hugo', 'Hugo Weasley', 'Weasley', 'm', NULL);
+    ('potter', 'arthur', 'Arthur Weasley', 'Weasley', 'm', '1950-02-06'),
+    ('potter', 'bill', 'Bill Weasley', 'Weasley', 'm', '1970-11-29'),
+    ('potter', 'charlie', 'Charlie Weasley', 'Weasley', 'm', '1972-12-12'),
+    ('potter', 'percy', 'Percy Weasley', 'Weasley', 'm', '1976-08-22'),
+    ('potter', 'fred', 'Fred Weasley', 'Weasley', 'm', '1978-04-01'),
+    ('potter', 'george', 'George Weasley', 'Weasley', 'm', '1978-04-01'),
+    ('potter', 'ron', 'Ron Weasley', 'Weasley', 'm', '1980-03-01'),
+    ('potter', 'ginny', 'Ginny Weasley', 'Weasley', 'f', '1981-08-11'),
+    ('potter', 'victoire', 'Victoire Weasley', 'Weasley', 'f', '2000-05-02'),
+    ('potter', 'rose', 'Rose Weasley', 'Weasley', 'f', '2006-00-00'),
+    ('potter', 'hugo', 'Hugo Weasley', 'Weasley', 'm', '2008-00-00');
 -- Prewett (1)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('potter', 'molly', 'Molly Weasley', 'Prewett', 'f', NULL);
+    ('potter', 'molly', 'Molly Weasley', 'Prewett', 'f', '1949-10-30');
 -- Delacour (1)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('potter', 'fleur', 'Fleur Delacour', 'Delacour', 'f', NULL);
+    ('potter', 'fleur', 'Fleur Delacour', 'Delacour', 'f', '1977-00-00');
 -- Granger (1)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('potter', 'hermione', 'Hermione Granger', 'Granger', 'f', NULL);
+    ('potter', 'hermione', 'Hermione Granger', 'Granger', 'f', '1979-09-19');
 -- Black (8)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('potter', 'cygnus', 'Cygnus Black', 'Black', 'm', NULL),
-    ('potter', 'bellatrix', 'Bellatrix Lestrange', 'Black', 'f', NULL),
-    ('potter', 'andromeda', 'Andromeda Tonks', 'Black', 'f', NULL),
-    ('potter', 'narcissa', 'Narcissa Malfoy', 'Black', 'f', NULL),
-    ('potter', 'orion', 'Orion Black', 'Black', 'm', NULL),
-    ('potter', 'walburga', 'Walburga Black', 'Black', 'f', NULL),
-    ('potter', 'sirius', 'Sirius Black', 'Black', 'm', NULL),
-    ('potter', 'regulus', 'Regulus Black', 'Black', 'm', NULL);
+    ('potter', 'cygnus', 'Cygnus Black', 'Black', 'm', '1929-00-00'),
+    ('potter', 'bellatrix', 'Bellatrix Lestrange', 'Black', 'f', '1951-00-00'),
+    ('potter', 'andromeda', 'Andromeda Tonks', 'Black', 'f', '1953-00-00'),
+    ('potter', 'narcissa', 'Narcissa Malfoy', 'Black', 'f', '1955-00-00'),
+    ('potter', 'orion', 'Orion Black', 'Black', 'm', '1929-00-00'),
+    ('potter', 'walburga', 'Walburga Black', 'Black', 'f', '1925-00-00'),
+    ('potter', 'sirius', 'Sirius Black', 'Black', 'm', '1959-11-03'),
+    ('potter', 'regulus', 'Regulus Black', 'Black', 'm', '1961-00-00');
 -- Tonks (2)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('potter', 'ted', 'Ted Tonks', 'Tonks', 'm', NULL),
-    ('potter', 'tonks', 'Nymphadora Tonks', 'Tonks', 'f', NULL);
+    ('potter', 'tonks', 'Nymphadora Tonks', 'Tonks', 'f', '1973-00-00');
 -- Lupin (2)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('potter', 'remus', 'Remus Lupin', 'Lupin', 'm', NULL),
-    ('potter', 'teddy', 'Teddy Lupin', 'Lupin', 'm', NULL);
+    ('potter', 'remus', 'Remus Lupin', 'Lupin', 'm', '1960-03-10'),
+    ('potter', 'teddy', 'Teddy Lupin', 'Lupin', 'm', '1998-04-00');
 -- Malfoy (3)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('potter', 'lucius', 'Lucius Malfoy', 'Malfoy', 'm', NULL),
-    ('potter', 'draco', 'Draco Malfoy', 'Malfoy', 'm', NULL),
-    ('potter', 'scorpius', 'Scorpius Malfoy', 'Malfoy', 'm', NULL);
+    ('potter', 'lucius', 'Lucius Malfoy', 'Malfoy', 'm', '1954-00-00'),
+    ('potter', 'draco', 'Draco Malfoy', 'Malfoy', 'm', '1980-06-05'),
+    ('potter', 'scorpius', 'Scorpius Malfoy', 'Malfoy', 'm', '2006-00-00');
 -- Greengrass (1)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('potter', 'astoria', 'Astoria Greengrass', 'Greengrass', 'f', NULL);

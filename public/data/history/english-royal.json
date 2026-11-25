@@ -132,7 +132,8 @@
             "id": "anne-boleyn",
             "name": "Anne Boleyn",
             "house": "Other families",
-            "sex": "f"
+            "sex": "f",
+            "born": "1501-00-00"
         },
         {
             "id": "anne-of-cleves",
@@ -145,19 +146,22 @@
             "id": "jane-seymour",
             "name": "Jane Seymour",
             "house": "Seymour",
-            "sex": "f"
+            "sex": "f",
+            "born": "1508-00-00"
         },
         {
             "id": "catherine-howard",
             "name": "Catherine Howard",
             "house": "Howard",
-            "sex": "f"
+            "sex": "f",
+            "born": "1524-00-00"
         },
         {
             "id": "catherine-parr",
             "name": "Catherine Parr",
             "house": "Other families",
-            "sex": "f"
+            "sex": "f",
+            "born": "1512-00-00"
         },
         {
             "id": "elizabeth-blount",
@@ -216,13 +220,15 @@
             "id": "ferdinand-v",
             "name": "Ferdinand V",
             "house": "Other families",
-            "sex": "m"
+            "sex": "m",
+            "born": "1452-03-10"
         },
         {
             "id": "isabella-of-castile",
             "name": "Isabella of Castile",
             "house": "Other families",
-            "sex": "f"
+            "sex": "f",
+            "born": "1451-04-22"
         },
         {
             "id": "john-ii",
@@ -261,13 +267,15 @@
             "id": "thomas-boleyn",
             "name": "Thomas Boleyn",
             "house": "Other families",
-            "sex": "m"
+            "sex": "m",
+            "born": "1477-00-00"
         },
         {
             "id": "elizabeth-howard",
             "name": "Elizabeth Howard",
             "house": "Howard",
-            "sex": "f"
+            "sex": "f",
+            "born": "1480-00-00"
         },
         {
             "id": "thomas-howard-2",
@@ -355,7 +363,8 @@
             "id": "louis-xii",
             "name": "Louis XII",
             "house": "Valois",
-            "sex": "m"
+            "sex": "m",
+            "born": "1462-06-27"
         },
         {
             "id": "catherine-willoughby",
@@ -563,7 +572,8 @@
             "id": "elizabeth-wydvill",
             "name": "Elizabeth Wydvill",
             "house": "Other families",
-            "sex": "f"
+            "sex": "f",
+            "born": "1437-00-00"
         },
         {
             "id": "arthur-plantagenet",
@@ -841,7 +851,8 @@
             "id": "jacqueline-de-luxembourg",
             "name": "Jacqueline de Luxembourg",
             "house": "Other families",
-            "sex": "f"
+            "sex": "f",
+            "born": "1415-00-00"
         },
         {
             "id": "peter-de-luxembourg",
@@ -853,7 +864,8 @@
             "id": "thomas-grey",
             "name": "Thomas Grey",
             "house": "Grey",
-            "sex": "m"
+            "sex": "m",
+            "born": "1455-00-00"
         },
         {
             "id": "anne-holand",
@@ -883,7 +895,8 @@
             "id": "cecily-bonville",
             "name": "Cecily Bonville",
             "house": "Other families",
-            "sex": "f"
+            "sex": "f",
+            "born": "1460-06-30"
         },
         {
             "id": "william-bonville",
@@ -989,19 +1002,22 @@
             "id": "eleanor-brandon",
             "name": "Eleanor Brandon",
             "house": "Other families",
-            "sex": "f"
+            "sex": "f",
+            "born": "1519-00-00"
         },
         {
             "id": "henry-clifford",
             "name": "Henry Clifford",
             "house": "Other families",
-            "sex": "m"
+            "sex": "m",
+            "born": "1517-00-00"
         },
         {
             "id": "margaret-clifford",
             "name": "Margaret Clifford",
             "house": "Other families",
-            "sex": "f"
+            "sex": "f",
+            "born": "1540-00-00"
         },
         {
             "id": "jane-grey",
@@ -1251,7 +1267,8 @@
             "id": "henry-herbert",
             "name": "Henry Herbert",
             "house": "Other families",
-            "sex": "m"
+            "sex": "m",
+            "born": "1538-00-00"
         },
         {
             "id": "frances-howard",
@@ -1317,7 +1334,8 @@
             "id": "margery-wentworth",
             "name": "Margery Wentworth",
             "house": "Other families",
-            "sex": "f"
+            "sex": "f",
+            "born": "1478-00-00"
         },
         {
             "id": "henry-wentworth",
@@ -1336,13 +1354,15 @@
             "id": "thomas-parr",
             "name": "Thomas Parr",
             "house": "Other families",
-            "sex": "m"
+            "sex": "m",
+            "born": "1478-00-00"
         },
         {
             "id": "maud-green",
             "name": "Maud Green",
             "house": "Other families",
-            "sex": "f"
+            "sex": "f",
+            "born": "1492-04-06"
         },
         {
             "id": "thomas-green",
@@ -1400,19 +1420,22 @@
             "id": "matthew-stuart",
             "name": "Matthew Stuart",
             "house": "Stuart",
-            "sex": "m"
+            "sex": "m",
+            "born": "1516-09-21"
         },
         {
             "id": "henry-stuart",
             "name": "Henry Stuart",
             "house": "Stuart",
-            "sex": "m"
+            "sex": "m",
+            "born": "1546-00-00"
         },
         {
             "id": "charles-stuart",
             "name": "Charles Stuart",
             "house": "Stuart",
-            "sex": "m"
+            "sex": "m",
+            "born": "1557-00-00"
         },
         {
             "id": "elizabeth-cavendish",
@@ -1430,7 +1453,8 @@
             "id": "arabella-stuart",
             "name": "Arabella Stuart",
             "house": "Stuart",
-            "sex": "f"
+            "sex": "f",
+            "born": "1575-11-10"
         },
         {
             "id": "william-seymour",
@@ -1541,7 +1565,8 @@
             "id": "henry-ii",
             "name": "Henry II",
             "house": "Valois",
-            "sex": "m"
+            "sex": "m",
+            "born": "1519-03-31"
         },
         {
             "id": "henry-of-valois",
@@ -1560,13 +1585,15 @@
             "id": "francis-i",
             "name": "Francis I",
             "house": "Valois",
-            "sex": "m"
+            "sex": "m",
+            "born": "1494-09-12"
         },
         {
             "id": "mary-of-lorraine",
             "name": "Mary of Lorraine",
             "house": "Other families",
-            "sex": "f"
+            "sex": "f",
+            "born": "1515-11-22"
         },
         {
             "id": "louis-of-orleans",
@@ -1599,13 +1626,15 @@
             "id": "francis-ii",
             "name": "Francis II",
             "house": "Valois",
-            "sex": "m"
+            "sex": "m",
+            "born": "1544-01-19"
         },
         {
             "id": "catherine-de-medicis",
             "name": "Catherine de Medicis",
             "house": "Other families",
-            "sex": "f"
+            "sex": "f",
+            "born": "1519-04-13"
         },
         {
             "id": "james-stuart",
@@ -1624,13 +1653,15 @@
             "id": "anne-of-oldenburg",
             "name": "Anne of Oldenburg",
             "house": "Other families",
-            "sex": "f"
+            "sex": "f",
+            "born": "1574-12-12"
         },
         {
             "id": "mary-boleyn",
             "name": "Mary Boleyn",
             "house": "Other families",
-            "sex": "f"
+            "sex": "f",
+            "born": "1499-00-00"
         },
         {
             "id": "william-carey",
@@ -1688,13 +1719,15 @@
             "id": "philip-ii",
             "name": "Philip II",
             "house": "Other families",
-            "sex": "m"
+            "sex": "m",
+            "born": "1527-00-00"
         },
         {
             "id": "guilford-dudley",
             "name": "Guilford Dudley",
             "house": "Other families",
-            "sex": "m"
+            "sex": "m",
+            "born": "1535-00-00"
         },
         {
             "id": "margaret-kyme",
@@ -1705,32 +1738,15 @@
     ],
     "families": [
         {
-            "parents": [
-                "henry-vii",
-                "elizabeth-plantagenet"
-            ],
-            "children": [
-                "arthur-tudor",
-                "margaret-tudor",
-                "henry-viii",
-                "mary-tudor",
-                "edmund-tudor-2"
-            ]
+            "parents": ["henry-vii", "elizabeth-plantagenet"],
+            "children": ["arthur-tudor", "margaret-tudor", "henry-viii", "mary-tudor", "edmund-tudor-2"]
         },
         {
-            "parents": [
-                "edmund-tudor",
-                "margaret-beaufort"
-            ],
-            "children": [
-                "henry-vii"
-            ]
+            "parents": ["edmund-tudor", "margaret-beaufort"],
+            "children": ["henry-vii"]
         },
         {
-            "parents": [
-                "edward-iv",
-                "elizabeth-wydvill"
-            ],
+            "parents": ["edward-iv", "elizabeth-wydvill"],
             "children": [
                 "elizabeth-plantagenet",
                 "cecily-plantagenet",
@@ -1741,1145 +1757,563 @@
             ]
         },
         {
-            "parents": [
-                "john-de-la-pole",
-                "margaret-beaufort"
-            ],
+            "parents": ["john-de-la-pole", "margaret-beaufort"],
             "children": []
         },
         {
-            "parents": [
-                "henry-stafford",
-                "margaret-beaufort"
-            ],
+            "parents": ["henry-stafford", "margaret-beaufort"],
             "children": []
         },
         {
-            "parents": [
-                "thomas-stanley",
-                "margaret-beaufort"
-            ],
+            "parents": ["thomas-stanley", "margaret-beaufort"],
             "children": []
         },
         {
-            "parents": [
-                "john-beaufort",
-                "margaret-beauchamp"
-            ],
-            "children": [
-                "margaret-beaufort"
-            ]
+            "parents": ["john-beaufort", "margaret-beauchamp"],
+            "children": ["margaret-beaufort"]
         },
         {
-            "parents": [
-                "oliver-st-john",
-                "margaret-beauchamp"
-            ],
+            "parents": ["oliver-st-john", "margaret-beauchamp"],
             "children": []
         },
         {
-            "parents": [
-                "john-beauchamp"
-            ],
-            "children": [
-                "margaret-beauchamp"
-            ]
+            "parents": ["john-beauchamp"],
+            "children": ["margaret-beauchamp"]
         },
         {
-            "parents": [
-                "humphrey-stafford"
-            ],
-            "children": [
-                "henry-stafford"
-            ]
+            "parents": ["humphrey-stafford"],
+            "children": ["henry-stafford"]
         },
         {
-            "parents": [
-                "thomas-stanley",
-                "eleanor-neville"
-            ],
-            "children": [
-                "george-stanley"
-            ]
+            "parents": ["thomas-stanley", "eleanor-neville"],
+            "children": ["george-stanley"]
         },
         {
-            "parents": [
-                "henry-viii",
-                "catherine-of-aragon"
-            ],
-            "children": [
-                "henry-tudor",
-                "unnamed-son-tudor",
-                "mary-i"
-            ]
+            "parents": ["henry-viii", "catherine-of-aragon"],
+            "children": ["henry-tudor", "unnamed-son-tudor", "mary-i"]
         },
         {
-            "parents": [
-                "henry-viii",
-                "anne-boleyn"
-            ],
-            "children": [
-                "elizabeth-i"
-            ]
+            "parents": ["henry-viii", "anne-boleyn"],
+            "children": ["elizabeth-i"]
         },
         {
-            "parents": [
-                "henry-viii",
-                "jane-seymour"
-            ],
-            "children": [
-                "edward-vi"
-            ]
+            "parents": ["henry-viii", "jane-seymour"],
+            "children": ["edward-vi"]
         },
         {
-            "parents": [
-                "henry-viii",
-                "anne-of-cleves"
-            ],
+            "parents": ["henry-viii", "anne-of-cleves"],
             "children": []
         },
         {
-            "parents": [
-                "henry-viii",
-                "catherine-howard"
-            ],
+            "parents": ["henry-viii", "catherine-howard"],
             "children": []
         },
         {
-            "parents": [
-                "henry-viii",
-                "catherine-parr"
-            ],
+            "parents": ["henry-viii", "catherine-parr"],
             "children": []
         },
         {
-            "parents": [
-                "henry-viii",
-                "elizabeth-blount"
-            ],
-            "children": [
-                "henry-fitzroy"
-            ]
+            "parents": ["henry-viii", "elizabeth-blount"],
+            "children": ["henry-fitzroy"]
         },
         {
-            "parents": [
-                "arthur-tudor",
-                "catherine-of-aragon"
-            ],
+            "parents": ["arthur-tudor", "catherine-of-aragon"],
             "children": []
         },
         {
-            "parents": [
-                "ferdinand-v",
-                "isabella-of-castile"
-            ],
-            "children": [
-                "catherine-of-aragon"
-            ]
+            "parents": ["ferdinand-v", "isabella-of-castile"],
+            "children": ["catherine-of-aragon"]
         },
         {
-            "parents": [
-                "thomas-boleyn",
-                "elizabeth-howard"
-            ],
-            "children": [
-                "anne-boleyn",
-                "mary-boleyn"
-            ]
+            "parents": ["thomas-boleyn", "elizabeth-howard"],
+            "children": ["anne-boleyn", "mary-boleyn"]
         },
         {
-            "parents": [
-                "john-seymour",
-                "margery-wentworth"
-            ],
-            "children": [
-                "jane-seymour",
-                "edward-seymour-2",
-                "thomas-seymour"
-            ]
+            "parents": ["john-seymour", "margery-wentworth"],
+            "children": ["jane-seymour", "edward-seymour-2", "thomas-seymour"]
         },
         {
-            "parents": [
-                "edmund-howard"
-            ],
-            "children": [
-                "catherine-howard"
-            ]
+            "parents": ["edmund-howard"],
+            "children": ["catherine-howard"]
         },
         {
-            "parents": [
-                "edward-burgh",
-                "catherine-parr"
-            ],
+            "parents": ["edward-burgh", "catherine-parr"],
             "children": []
         },
         {
-            "parents": [
-                "john-neville-2",
-                "catherine-parr"
-            ],
+            "parents": ["john-neville-2", "catherine-parr"],
             "children": []
         },
         {
-            "parents": [
-                "thomas-seymour",
-                "catherine-parr"
-            ],
+            "parents": ["thomas-seymour", "catherine-parr"],
             "children": []
         },
         {
-            "parents": [
-                "thomas-parr",
-                "maud-green"
-            ],
-            "children": [
-                "catherine-parr"
-            ]
+            "parents": ["thomas-parr", "maud-green"],
+            "children": ["catherine-parr"]
         },
         {
-            "parents": [
-                "henry-fitzroy",
-                "mary-howard"
-            ],
+            "parents": ["henry-fitzroy", "mary-howard"],
             "children": []
         },
         {
-            "parents": [
-                "thomas-howard",
-                "elizabeth-stafford"
-            ],
-            "children": [
-                "mary-howard",
-                "thomas-howard-3"
-            ]
+            "parents": ["thomas-howard", "elizabeth-stafford"],
+            "children": ["mary-howard", "thomas-howard-3"]
         },
         {
-            "parents": [
-                "thomas-howard",
-                "anne-plantagenet"
-            ],
-            "children": [
-                "unnamed-son-howard"
-            ]
+            "parents": ["thomas-howard", "anne-plantagenet"],
+            "children": ["unnamed-son-howard"]
         },
         {
-            "parents": [
-                "thomas-howard-2",
-                "elizabeth-tylney"
-            ],
-            "children": [
-                "elizabeth-howard",
-                "thomas-howard",
-                "edmund-howard"
-            ]
+            "parents": ["thomas-howard-2", "elizabeth-tylney"],
+            "children": ["elizabeth-howard", "thomas-howard", "edmund-howard"]
         },
         {
-            "parents": [
-                "edward-stafford",
-                "eleanor-percy"
-            ],
-            "children": [
-                "elizabeth-stafford"
-            ]
+            "parents": ["edward-stafford", "eleanor-percy"],
+            "children": ["elizabeth-stafford"]
         },
         {
-            "parents": [
-                "john-ii"
-            ],
-            "children": [
-                "isabella-of-castile"
-            ]
+            "parents": ["john-ii"],
+            "children": ["isabella-of-castile"]
         },
         {
-            "parents": [
-                "thomas-howard-2",
-                "agnes-tylney"
-            ],
-            "children": [
-                "dorothy-howard",
-                "william-howard"
-            ]
+            "parents": ["thomas-howard-2", "agnes-tylney"],
+            "children": ["dorothy-howard", "william-howard"]
         },
         {
-            "parents": [
-                "louis-xii",
-                "mary-tudor"
-            ],
+            "parents": ["louis-xii", "mary-tudor"],
             "children": []
         },
         {
-            "parents": [
-                "charles-brandon",
-                "mary-tudor"
-            ],
-            "children": [
-                "henry-brandon",
-                "frances-brandon",
-                "eleanor-brandon"
-            ]
+            "parents": ["charles-brandon", "mary-tudor"],
+            "children": ["henry-brandon", "frances-brandon", "eleanor-brandon"]
         },
         {
-            "parents": [
-                "charles-brandon",
-                "anne-browne"
-            ],
+            "parents": ["charles-brandon", "anne-browne"],
             "children": []
         },
         {
-            "parents": [
-                "charles-brandon",
-                "margaret-neville"
-            ],
+            "parents": ["charles-brandon", "margaret-neville"],
             "children": []
         },
         {
-            "parents": [
-                "charles-brandon",
-                "catherine-willoughby"
-            ],
+            "parents": ["charles-brandon", "catherine-willoughby"],
             "children": []
         },
         {
-            "parents": [
-                "william-brandon",
-                "elizabeth-bruyn"
-            ],
-            "children": [
-                "charles-brandon"
-            ]
+            "parents": ["william-brandon", "elizabeth-bruyn"],
+            "children": ["charles-brandon"]
         },
         {
-            "parents": [
-                "henry-bruyn"
-            ],
-            "children": [
-                "elizabeth-bruyn"
-            ]
+            "parents": ["henry-bruyn"],
+            "children": ["elizabeth-bruyn"]
         },
         {
-            "parents": [
-                "anthony-browne"
-            ],
-            "children": [
-                "anne-browne"
-            ]
+            "parents": ["anthony-browne"],
+            "children": ["anne-browne"]
         },
         {
-            "parents": [
-                "john-mortimer",
-                "margaret-neville"
-            ],
+            "parents": ["john-mortimer", "margaret-neville"],
             "children": []
         },
         {
-            "parents": [
-                "john-neville",
-                "isabella-ingaldesthorpe"
-            ],
-            "children": [
-                "margaret-neville"
-            ]
+            "parents": ["john-neville", "isabella-ingaldesthorpe"],
+            "children": ["margaret-neville"]
         },
         {
-            "parents": [
-                "edmund-ingaldesthorpe"
-            ],
-            "children": [
-                "isabella-ingaldesthorpe"
-            ]
+            "parents": ["edmund-ingaldesthorpe"],
+            "children": ["isabella-ingaldesthorpe"]
         },
         {
-            "parents": [
-                "richard-bertie",
-                "catherine-willoughby"
-            ],
+            "parents": ["richard-bertie", "catherine-willoughby"],
             "children": []
         },
         {
-            "parents": [
-                "william-willoughby",
-                "mary-de-salinas"
-            ],
-            "children": [
-                "catherine-willoughby"
-            ]
+            "parents": ["william-willoughby", "mary-de-salinas"],
+            "children": ["catherine-willoughby"]
         },
         {
-            "parents": [
-                "archibald-douglas",
-                "margaret-hepburn"
-            ],
+            "parents": ["archibald-douglas", "margaret-hepburn"],
             "children": []
         },
         {
-            "parents": [
-                "archibald-douglas",
-                "margaret-tudor"
-            ],
-            "children": [
-                "margaret-douglas"
-            ]
+            "parents": ["archibald-douglas", "margaret-tudor"],
+            "children": ["margaret-douglas"]
         },
         {
-            "parents": [
-                "archibald-douglas",
-                "margaret-maxwell"
-            ],
+            "parents": ["archibald-douglas", "margaret-maxwell"],
             "children": []
         },
         {
-            "parents": [
-                "george-douglas",
-                "elizabeth-drummond"
-            ],
-            "children": [
-                "archibald-douglas"
-            ]
+            "parents": ["george-douglas", "elizabeth-drummond"],
+            "children": ["archibald-douglas"]
         },
         {
-            "parents": [
-                "david-fleming",
-                "elizabeth-drummond"
-            ],
+            "parents": ["david-fleming", "elizabeth-drummond"],
             "children": []
         },
         {
-            "parents": [
-                "john-drummond"
-            ],
-            "children": [
-                "elizabeth-drummond"
-            ]
+            "parents": ["john-drummond"],
+            "children": ["elizabeth-drummond"]
         },
         {
-            "parents": [
-                "patrick-hepburn",
-                "janet-douglas"
-            ],
-            "children": [
-                "margaret-hepburn"
-            ]
+            "parents": ["patrick-hepburn", "janet-douglas"],
+            "children": ["margaret-hepburn"]
         },
         {
-            "parents": [
-                "james-douglas"
-            ],
-            "children": [
-                "janet-douglas"
-            ]
+            "parents": ["james-douglas"],
+            "children": ["janet-douglas"]
         },
         {
-            "parents": [
-                "henry-stewart",
-                "margaret-tudor"
-            ],
+            "parents": ["henry-stewart", "margaret-tudor"],
             "children": []
         },
         {
-            "parents": [
-                "william-baillie",
-                "margaret-maxwell"
-            ],
+            "parents": ["william-baillie", "margaret-maxwell"],
             "children": []
         },
         {
-            "parents": [
-                "robert-maxwell",
-                "janet-douglas-2"
-            ],
-            "children": [
-                "margaret-maxwell"
-            ]
+            "parents": ["robert-maxwell", "janet-douglas-2"],
+            "children": ["margaret-maxwell"]
         },
         {
-            "parents": [
-                "william-douglas"
-            ],
-            "children": [
-                "janet-douglas-2"
-            ]
+            "parents": ["william-douglas"],
+            "children": ["janet-douglas-2"]
         },
         {
-            "parents": [
-                "henry-stewart",
-                "unnamed-daughter-leslie"
-            ],
+            "parents": ["henry-stewart", "unnamed-daughter-leslie"],
             "children": []
         },
         {
-            "parents": [
-                "henry-stewart",
-                "janet-stewart"
-            ],
+            "parents": ["henry-stewart", "janet-stewart"],
             "children": []
         },
         {
-            "parents": [
-                "andrew-stewart",
-                "margaret-kennedy"
-            ],
-            "children": [
-                "henry-stewart"
-            ]
+            "parents": ["andrew-stewart", "margaret-kennedy"],
+            "children": ["henry-stewart"]
         },
         {
-            "parents": [
-                "john-kennedy"
-            ],
-            "children": [
-                "margaret-kennedy",
-                "janet-kennedy"
-            ]
+            "parents": ["john-kennedy"],
+            "children": ["margaret-kennedy", "janet-kennedy"]
         },
         {
-            "parents": [
-                "alexander-gordon",
-                "janet-stewart"
-            ],
+            "parents": ["alexander-gordon", "janet-stewart"],
             "children": []
         },
         {
-            "parents": [
-                "hugh-kennedy",
-                "janet-stewart"
-            ],
+            "parents": ["hugh-kennedy", "janet-stewart"],
             "children": []
         },
         {
-            "parents": [
-                "patrick-ruthven",
-                "janet-stewart"
-            ],
+            "parents": ["patrick-ruthven", "janet-stewart"],
             "children": []
         },
         {
-            "parents": [
-                "james-gray",
-                "janet-stewart"
-            ],
+            "parents": ["james-gray", "janet-stewart"],
             "children": []
         },
         {
-            "parents": [
-                "john-stewart",
-                "janet-campbell"
-            ],
-            "children": [
-                "janet-stewart"
-            ]
+            "parents": ["john-stewart", "janet-campbell"],
+            "children": ["janet-stewart"]
         },
         {
-            "parents": [
-                "archibald-campbell"
-            ],
-            "children": [
-                "janet-campbell"
-            ]
+            "parents": ["archibald-campbell"],
+            "children": ["janet-campbell"]
         },
         {
-            "parents": [
-                "edward-iv"
-            ],
-            "children": [
-                "arthur-plantagenet"
-            ]
+            "parents": ["edward-iv"],
+            "children": ["arthur-plantagenet"]
         },
         {
-            "parents": [
-                "john-grey",
-                "elizabeth-wydvill"
-            ],
-            "children": [
-                "thomas-grey"
-            ]
+            "parents": ["john-grey", "elizabeth-wydvill"],
+            "children": ["thomas-grey"]
         },
         {
-            "parents": [
-                "richard-wydvill",
-                "jacqueline-de-luxembourg"
-            ],
-            "children": [
-                "elizabeth-wydvill",
-                "richard-wydvill-2",
-                "jacquette-wydvill"
-            ]
+            "parents": ["richard-wydvill", "jacqueline-de-luxembourg"],
+            "children": ["elizabeth-wydvill", "richard-wydvill-2", "jacquette-wydvill"]
         },
         {
-            "parents": [
-                "arthur-plantagenet",
-                "elizabeth-grey"
-            ],
+            "parents": ["arthur-plantagenet", "elizabeth-grey"],
             "children": []
         },
         {
-            "parents": [
-                "arthur-plantagenet",
-                "honor-grenville"
-            ],
+            "parents": ["arthur-plantagenet", "honor-grenville"],
             "children": []
         },
         {
-            "parents": [
-                "edmund-dudley",
-                "elizabeth-grey"
-            ],
+            "parents": ["edmund-dudley", "elizabeth-grey"],
             "children": []
         },
         {
-            "parents": [
-                "edward-grey",
-                "elizabeth-talbot"
-            ],
-            "children": [
-                "elizabeth-grey"
-            ]
+            "parents": ["edward-grey", "elizabeth-talbot"],
+            "children": ["elizabeth-grey"]
         },
         {
-            "parents": [
-                "john-basset",
-                "honor-grenville"
-            ],
+            "parents": ["john-basset", "honor-grenville"],
             "children": []
         },
         {
-            "parents": [
-                "thomas-grenville",
-                "isabella-gilbert"
-            ],
-            "children": [
-                "honor-grenville"
-            ]
+            "parents": ["thomas-grenville", "isabella-gilbert"],
+            "children": ["honor-grenville"]
         },
         {
-            "parents": [
-                "otes-gilbert"
-            ],
-            "children": [
-                "isabella-gilbert"
-            ]
+            "parents": ["otes-gilbert"],
+            "children": ["isabella-gilbert"]
         },
         {
-            "parents": [
-                "ralph-scrope",
-                "cecily-plantagenet"
-            ],
+            "parents": ["ralph-scrope", "cecily-plantagenet"],
             "children": []
         },
         {
-            "parents": [
-                "john-welles",
-                "cecily-plantagenet"
-            ],
-            "children": [
-                "elizabeth-welles",
-                "anne-welles"
-            ]
+            "parents": ["john-welles", "cecily-plantagenet"],
+            "children": ["elizabeth-welles", "anne-welles"]
         },
         {
-            "parents": [
-                "thomas-kyme",
-                "cecily-plantagenet"
-            ],
-            "children": [
-                "margaret-kyme"
-            ]
+            "parents": ["thomas-kyme", "cecily-plantagenet"],
+            "children": ["margaret-kyme"]
         },
         {
-            "parents": [
-                "richard-plantagenet",
-                "anne-mowbray"
-            ],
+            "parents": ["richard-plantagenet", "anne-mowbray"],
             "children": []
         },
         {
-            "parents": [
-                "john-mowbray",
-                "elizabeth-talbot-2"
-            ],
-            "children": [
-                "anne-mowbray"
-            ]
+            "parents": ["john-mowbray", "elizabeth-talbot-2"],
+            "children": ["anne-mowbray"]
         },
         {
-            "parents": [
-                "john-talbot"
-            ],
-            "children": [
-                "elizabeth-talbot-2"
-            ]
+            "parents": ["john-talbot"],
+            "children": ["elizabeth-talbot-2"]
         },
         {
-            "parents": [
-                "humphrey-bourchier",
-                "elizabeth-tylney"
-            ],
-            "children": [
-                "john-bourchier"
-            ]
+            "parents": ["humphrey-bourchier", "elizabeth-tylney"],
+            "children": ["john-bourchier"]
         },
         {
-            "parents": [
-                "frederick-tylney",
-                "elizabeth-cheney"
-            ],
-            "children": [
-                "elizabeth-tylney"
-            ]
+            "parents": ["frederick-tylney", "elizabeth-cheney"],
+            "children": ["elizabeth-tylney"]
         },
         {
-            "parents": [
-                "lawrence-cheney",
-                "elizabeth-cokayne"
-            ],
-            "children": [
-                "elizabeth-cheney"
-            ]
+            "parents": ["lawrence-cheney", "elizabeth-cokayne"],
+            "children": ["elizabeth-cheney"]
         },
         {
-            "parents": [
-                "john-cokayne"
-            ],
-            "children": [
-                "elizabeth-cokayne"
-            ]
+            "parents": ["john-cokayne"],
+            "children": ["elizabeth-cokayne"]
         },
         {
-            "parents": [
-                "hugh-tylney",
-                "unnamed-daughter-tailboys"
-            ],
-            "children": [
-                "agnes-tylney",
-                "philip-tylney"
-            ]
+            "parents": ["hugh-tylney", "unnamed-daughter-tailboys"],
+            "children": ["agnes-tylney", "philip-tylney"]
         },
         {
-            "parents": [
-                "walter-tailboys"
-            ],
-            "children": [
-                "unnamed-daughter-tailboys"
-            ]
+            "parents": ["walter-tailboys"],
+            "children": ["unnamed-daughter-tailboys"]
         },
         {
-            "parents": [
-                "henry-percy"
-            ],
-            "children": [
-                "eleanor-percy",
-                "anne-percy"
-            ]
+            "parents": ["henry-percy"],
+            "children": ["eleanor-percy", "anne-percy"]
         },
         {
-            "parents": [
-                "peter-de-luxembourg"
-            ],
-            "children": [
-                "jacqueline-de-luxembourg"
-            ]
+            "parents": ["peter-de-luxembourg"],
+            "children": ["jacqueline-de-luxembourg"]
         },
         {
-            "parents": [
-                "thomas-grey",
-                "anne-holand"
-            ],
+            "parents": ["thomas-grey", "anne-holand"],
             "children": []
         },
         {
-            "parents": [
-                "thomas-grey",
-                "cecily-bonville"
-            ],
-            "children": [
-                "thomas-grey-2"
-            ]
+            "parents": ["thomas-grey", "cecily-bonville"],
+            "children": ["thomas-grey-2"]
         },
         {
-            "parents": [
-                "henry-holand",
-                "anne-plantagenet-2"
-            ],
-            "children": [
-                "anne-holand"
-            ]
+            "parents": ["henry-holand", "anne-plantagenet-2"],
+            "children": ["anne-holand"]
         },
         {
-            "parents": [
-                "richard-plantagenet-2"
-            ],
-            "children": [
-                "anne-plantagenet-2"
-            ]
+            "parents": ["richard-plantagenet-2"],
+            "children": ["anne-plantagenet-2"]
         },
         {
-            "parents": [
-                "henry-stafford-2",
-                "cecily-bonville"
-            ],
+            "parents": ["henry-stafford-2", "cecily-bonville"],
             "children": []
         },
         {
-            "parents": [
-                "william-bonville",
-                "catherine-neville"
-            ],
-            "children": [
-                "cecily-bonville"
-            ]
+            "parents": ["william-bonville", "catherine-neville"],
+            "children": ["cecily-bonville"]
         },
         {
-            "parents": [
-                "henry-grey",
-                "frances-brandon"
-            ],
-            "children": [
-                "jane-grey",
-                "catherine-grey",
-                "mary-grey"
-            ]
+            "parents": ["henry-grey", "frances-brandon"],
+            "children": ["jane-grey", "catherine-grey", "mary-grey"]
         },
         {
-            "parents": [
-                "adrian-stokes",
-                "frances-brandon"
-            ],
+            "parents": ["adrian-stokes", "frances-brandon"],
             "children": []
         },
         {
-            "parents": [
-                "thomas-grey-2",
-                "margaret-wotton"
-            ],
-            "children": [
-                "henry-grey"
-            ]
+            "parents": ["thomas-grey-2", "margaret-wotton"],
+            "children": ["henry-grey"]
         },
         {
-            "parents": [
-                "william-medley",
-                "margaret-wotton"
-            ],
+            "parents": ["william-medley", "margaret-wotton"],
             "children": []
         },
         {
-            "parents": [
-                "robert-wotton",
-                "anne-belknap"
-            ],
-            "children": [
-                "margaret-wotton"
-            ]
+            "parents": ["robert-wotton", "anne-belknap"],
+            "children": ["margaret-wotton"]
         },
         {
-            "parents": [
-                "henry-belknap"
-            ],
-            "children": [
-                "anne-belknap"
-            ]
+            "parents": ["henry-belknap"],
+            "children": ["anne-belknap"]
         },
         {
-            "parents": [
-                "henry-grey",
-                "catherine-fitzalan"
-            ],
+            "parents": ["henry-grey", "catherine-fitzalan"],
             "children": []
         },
         {
-            "parents": [
-                "william-fitzalan",
-                "anne-percy"
-            ],
-            "children": [
-                "catherine-fitzalan"
-            ]
+            "parents": ["william-fitzalan", "anne-percy"],
+            "children": ["catherine-fitzalan"]
         },
         {
-            "parents": [
-                "henry-clifford",
-                "eleanor-brandon"
-            ],
-            "children": [
-                "margaret-clifford"
-            ]
+            "parents": ["henry-clifford", "eleanor-brandon"],
+            "children": ["margaret-clifford"]
         },
         {
-            "parents": [
-                "henry-clifford",
-                "anne-dacre"
-            ],
+            "parents": ["henry-clifford", "anne-dacre"],
             "children": []
         },
         {
-            "parents": [
-                "henry-stanley",
-                "margaret-clifford"
-            ],
+            "parents": ["henry-stanley", "margaret-clifford"],
             "children": []
         },
         {
-            "parents": [
-                "william-dacre",
-                "elizabeth-talbot-3"
-            ],
-            "children": [
-                "anne-dacre"
-            ]
+            "parents": ["william-dacre", "elizabeth-talbot-3"],
+            "children": ["anne-dacre"]
         },
         {
-            "parents": [
-                "george-talbot"
-            ],
-            "children": [
-                "elizabeth-talbot-3"
-            ]
+            "parents": ["george-talbot"],
+            "children": ["elizabeth-talbot-3"]
         },
         {
-            "parents": [
-                "richard-neville",
-                "alice-montagu"
-            ],
-            "children": [
-                "eleanor-neville"
-            ]
+            "parents": ["richard-neville", "alice-montagu"],
+            "children": ["eleanor-neville"]
         },
         {
-            "parents": [
-                "thomas-montagu"
-            ],
-            "children": [
-                "alice-montagu"
-            ]
+            "parents": ["thomas-montagu"],
+            "children": ["alice-montagu"]
         },
         {
-            "parents": [
-                "george-stanley",
-                "joan-le-strange"
-            ],
-            "children": [
-                "thomas-stanley-2"
-            ]
+            "parents": ["george-stanley", "joan-le-strange"],
+            "children": ["thomas-stanley-2"]
         },
         {
-            "parents": [
-                "john-le-strange",
-                "jacquette-wydvill"
-            ],
-            "children": [
-                "joan-le-strange"
-            ]
+            "parents": ["john-le-strange", "jacquette-wydvill"],
+            "children": ["joan-le-strange"]
         },
         {
-            "parents": [
-                "thomas-stanley-2",
-                "anne-hastings"
-            ],
-            "children": [
-                "edward-stanley"
-            ]
+            "parents": ["thomas-stanley-2", "anne-hastings"],
+            "children": ["edward-stanley"]
         },
         {
-            "parents": [
-                "edward-hastings",
-                "mary-hungerford"
-            ],
-            "children": [
-                "anne-hastings"
-            ]
+            "parents": ["edward-hastings", "mary-hungerford"],
+            "children": ["anne-hastings"]
         },
         {
-            "parents": [
-                "thomas-hungerford"
-            ],
-            "children": [
-                "mary-hungerford"
-            ]
+            "parents": ["thomas-hungerford"],
+            "children": ["mary-hungerford"]
         },
         {
-            "parents": [
-                "edward-stanley",
-                "dorothy-howard"
-            ],
-            "children": [
-                "henry-stanley"
-            ]
+            "parents": ["edward-stanley", "dorothy-howard"],
+            "children": ["henry-stanley"]
         },
         {
-            "parents": [
-                "edward-stanley",
-                "margaret-barlow"
-            ],
+            "parents": ["edward-stanley", "margaret-barlow"],
             "children": []
         },
         {
-            "parents": [
-                "edward-stanley",
-                "mary-cotton"
-            ],
+            "parents": ["edward-stanley", "mary-cotton"],
             "children": []
         },
         {
-            "parents": [
-                "ellis-barlow",
-                "anne-reddish"
-            ],
-            "children": [
-                "margaret-barlow"
-            ]
+            "parents": ["ellis-barlow", "anne-reddish"],
+            "children": ["margaret-barlow"]
         },
         {
-            "parents": [
-                "otes-reddish"
-            ],
-            "children": [
-                "anne-reddish"
-            ]
+            "parents": ["otes-reddish"],
+            "children": ["anne-reddish"]
         },
         {
-            "parents": [
-                "henry-grey-2",
-                "mary-cotton"
-            ],
+            "parents": ["henry-grey-2", "mary-cotton"],
             "children": []
         },
         {
-            "parents": [
-                "george-cotton",
-                "mary-onley"
-            ],
-            "children": [
-                "mary-cotton"
-            ]
+            "parents": ["george-cotton", "mary-onley"],
+            "children": ["mary-cotton"]
         },
         {
-            "parents": [
-                "john-onley"
-            ],
-            "children": [
-                "mary-onley"
-            ]
+            "parents": ["john-onley"],
+            "children": ["mary-onley"]
         },
         {
-            "parents": [
-                "henry-herbert",
-                "catherine-grey"
-            ],
+            "parents": ["henry-herbert", "catherine-grey"],
             "children": []
         },
         {
-            "parents": [
-                "edward-seymour",
-                "catherine-grey"
-            ],
+            "parents": ["edward-seymour", "catherine-grey"],
             "children": []
         },
         {
-            "parents": [
-                "thomas-keyes",
-                "mary-grey"
-            ],
+            "parents": ["thomas-keyes", "mary-grey"],
             "children": []
         },
         {
-            "parents": [
-                "edward-seymour",
-                "frances-howard"
-            ],
+            "parents": ["edward-seymour", "frances-howard"],
             "children": []
         },
         {
-            "parents": [
-                "edward-seymour",
-                "frances-howard-2"
-            ],
+            "parents": ["edward-seymour", "frances-howard-2"],
             "children": []
         },
         {
-            "parents": [
-                "edward-seymour-2",
-                "anne-stanhope"
-            ],
-            "children": [
-                "edward-seymour"
-            ]
+            "parents": ["edward-seymour-2", "anne-stanhope"],
+            "children": ["edward-seymour"]
         },
         {
-            "parents": [
-                "william-howard",
-                "margaret-gamage"
-            ],
-            "children": [
-                "frances-howard"
-            ]
+            "parents": ["william-howard", "margaret-gamage"],
+            "children": ["frances-howard"]
         },
         {
-            "parents": [
-                "thomas-gamage"
-            ],
-            "children": [
-                "margaret-gamage"
-            ]
+            "parents": ["thomas-gamage"],
+            "children": ["margaret-gamage"]
         },
         {
-            "parents": [
-                "henry-pranell",
-                "frances-howard-2"
-            ],
+            "parents": ["henry-pranell", "frances-howard-2"],
             "children": []
         },
         {
-            "parents": [
-                "ludovic-stuart",
-                "frances-howard-2"
-            ],
+            "parents": ["ludovic-stuart", "frances-howard-2"],
             "children": []
         },
         {
-            "parents": [
-                "thomas-howard-3",
-                "mabel-burton"
-            ],
-            "children": [
-                "frances-howard-2"
-            ]
+            "parents": ["thomas-howard-3", "mabel-burton"],
+            "children": ["frances-howard-2"]
         },
         {
-            "parents": [
-                "nicholas-burton"
-            ],
-            "children": [
-                "mabel-burton"
-            ]
+            "parents": ["nicholas-burton"],
+            "children": ["mabel-burton"]
         },
         {
-            "parents": [
-                "henry-wentworth"
-            ],
-            "children": [
-                "margery-wentworth"
-            ]
+            "parents": ["henry-wentworth"],
+            "children": ["margery-wentworth"]
         },
         {
-            "parents": [
-                "thomas-green"
-            ],
-            "children": [
-                "maud-green"
-            ]
+            "parents": ["thomas-green"],
+            "children": ["maud-green"]
         },
         {
-            "parents": [
-                "gilbert-gray"
-            ],
-            "children": [
-                "james-gray"
-            ]
+            "parents": ["gilbert-gray"],
+            "children": ["james-gray"]
         },
         {
-            "parents": [
-                "james-stewart-2",
-                "margaret-tudor"
-            ],
+            "parents": ["james-stewart-2", "margaret-tudor"],
             "children": [
                 "james-stewart",
                 "unnamed-daughter-stewart",
@@ -2890,258 +2324,131 @@
             ]
         },
         {
-            "parents": [
-                "matthew-stuart",
-                "margaret-douglas"
-            ],
-            "children": [
-                "henry-stuart",
-                "charles-stuart"
-            ]
+            "parents": ["matthew-stuart", "margaret-douglas"],
+            "children": ["henry-stuart", "charles-stuart"]
         },
         {
-            "parents": [
-                "charles-stuart",
-                "elizabeth-cavendish"
-            ],
-            "children": [
-                "arabella-stuart"
-            ]
+            "parents": ["charles-stuart", "elizabeth-cavendish"],
+            "children": ["arabella-stuart"]
         },
         {
-            "parents": [
-                "william-cavendish"
-            ],
-            "children": [
-                "elizabeth-cavendish"
-            ]
+            "parents": ["william-cavendish"],
+            "children": ["elizabeth-cavendish"]
         },
         {
-            "parents": [
-                "william-seymour",
-                "arabella-stuart"
-            ],
+            "parents": ["william-seymour", "arabella-stuart"],
             "children": []
         },
         {
-            "parents": [
-                "james-stewart-2",
-                "margaret-boyd"
-            ],
-            "children": [
-                "alexander-stewart-2",
-                "catherine-stewart"
-            ]
+            "parents": ["james-stewart-2", "margaret-boyd"],
+            "children": ["alexander-stewart-2", "catherine-stewart"]
         },
         {
-            "parents": [
-                "james-douglas-2",
-                "catherine-stewart"
-            ],
+            "parents": ["james-douglas-2", "catherine-stewart"],
             "children": []
         },
         {
-            "parents": [
-                "james-stewart-2",
-                "janet-kennedy"
-            ],
-            "children": [
-                "james-stewart-4"
-            ]
+            "parents": ["james-stewart-2", "janet-kennedy"],
+            "children": ["james-stewart-4"]
         },
         {
-            "parents": [
-                "james-stewart-4",
-                "elizabeth-campbell"
-            ],
+            "parents": ["james-stewart-4", "elizabeth-campbell"],
             "children": []
         },
         {
-            "parents": [
-                "colin-campbell"
-            ],
-            "children": [
-                "elizabeth-campbell"
-            ]
+            "parents": ["colin-campbell"],
+            "children": ["elizabeth-campbell"]
         },
         {
-            "parents": [
-                "james-stewart-2",
-                "margaret-drummond"
-            ],
-            "children": [
-                "margaret-stewart"
-            ]
+            "parents": ["james-stewart-2", "margaret-drummond"],
+            "children": ["margaret-stewart"]
         },
         {
-            "parents": [
-                "john-gordon",
-                "margaret-stewart"
-            ],
+            "parents": ["john-gordon", "margaret-stewart"],
             "children": []
         },
         {
-            "parents": [
-                "john-drummond-2",
-                "margaret-stewart"
-            ],
+            "parents": ["john-drummond-2", "margaret-stewart"],
             "children": []
         },
         {
-            "parents": [
-                "james-stewart-2",
-                "isabella-stewart"
-            ],
-            "children": [
-                "janet-stewart-2"
-            ]
+            "parents": ["james-stewart-2", "isabella-stewart"],
+            "children": ["janet-stewart-2"]
         },
         {
-            "parents": [
-                "james-stewart-5"
-            ],
-            "children": [
-                "isabella-stewart"
-            ]
+            "parents": ["james-stewart-5"],
+            "children": ["isabella-stewart"]
         },
         {
-            "parents": [
-                "malcolm-fleming",
-                "janet-stewart-2"
-            ],
+            "parents": ["malcolm-fleming", "janet-stewart-2"],
             "children": []
         },
         {
-            "parents": [
-                "henry-ii",
-                "janet-stewart-2"
-            ],
-            "children": [
-                "henry-of-valois"
-            ]
+            "parents": ["henry-ii", "janet-stewart-2"],
+            "children": ["henry-of-valois"]
         },
         {
-            "parents": [
-                "james-stewart-3",
-                "madeleine-of-valois"
-            ],
+            "parents": ["james-stewart-3", "madeleine-of-valois"],
             "children": []
         },
         {
-            "parents": [
-                "francis-i"
-            ],
-            "children": [
-                "madeleine-of-valois"
-            ]
+            "parents": ["francis-i"],
+            "children": ["madeleine-of-valois"]
         },
         {
-            "parents": [
-                "james-stewart-3",
-                "mary-of-lorraine"
-            ],
-            "children": [
-                "james-stewart-6",
-                "arthur-stewart-2",
-                "mary-stewart"
-            ]
+            "parents": ["james-stewart-3", "mary-of-lorraine"],
+            "children": ["james-stewart-6", "arthur-stewart-2", "mary-stewart"]
         },
         {
-            "parents": [
-                "louis-of-orleans",
-                "mary-of-lorraine"
-            ],
+            "parents": ["louis-of-orleans", "mary-of-lorraine"],
             "children": []
         },
         {
-            "parents": [
-                "francis-ii",
-                "mary-stewart"
-            ],
+            "parents": ["francis-ii", "mary-stewart"],
             "children": []
         },
         {
-            "parents": [
-                "henry-ii",
-                "catherine-de-medicis"
-            ],
-            "children": [
-                "francis-ii"
-            ]
+            "parents": ["henry-ii", "catherine-de-medicis"],
+            "children": ["francis-ii"]
         },
         {
-            "parents": [
-                "henry-stuart",
-                "mary-stewart"
-            ],
-            "children": [
-                "james-stuart"
-            ]
+            "parents": ["henry-stuart", "mary-stewart"],
+            "children": ["james-stuart"]
         },
         {
-            "parents": [
-                "james-hepburn",
-                "mary-stewart"
-            ],
+            "parents": ["james-hepburn", "mary-stewart"],
             "children": []
         },
         {
-            "parents": [
-                "james-stuart",
-                "anne-of-oldenburg"
-            ],
+            "parents": ["james-stuart", "anne-of-oldenburg"],
             "children": []
         },
         {
-            "parents": [
-                "william-carey",
-                "mary-boleyn"
-            ],
+            "parents": ["william-carey", "mary-boleyn"],
             "children": []
         },
         {
-            "parents": [
-                "william-stafford",
-                "mary-boleyn"
-            ],
+            "parents": ["william-stafford", "mary-boleyn"],
             "children": []
         },
         {
-            "parents": [
-                "henry-viii",
-                "mary-boleyn"
-            ],
-            "children": [
-                "henry-carey",
-                "catherine-carey"
-            ]
+            "parents": ["henry-viii", "mary-boleyn"],
+            "children": ["henry-carey", "catherine-carey"]
         },
         {
-            "parents": [
-                "francis-knollys",
-                "catherine-carey"
-            ],
+            "parents": ["francis-knollys", "catherine-carey"],
             "children": []
         },
         {
-            "parents": [
-                "henry-carey",
-                "anne-morgan"
-            ],
+            "parents": ["henry-carey", "anne-morgan"],
             "children": []
         },
         {
-            "parents": [
-                "philip-ii",
-                "mary-i"
-            ],
+            "parents": ["philip-ii", "mary-i"],
             "children": []
         },
         {
-            "parents": [
-                "guilford-dudley",
-                "jane-grey"
-            ],
+            "parents": ["guilford-dudley", "jane-grey"],
             "children": []
         }
     ]

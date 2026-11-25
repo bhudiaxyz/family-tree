@@ -1862,10 +1862,10 @@ INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('english-royal', 'mary-i', 'Mary I', 'Tudor', 'f', '1516-02-18');
 -- Howard (12)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('english-royal', 'catherine-howard', 'Catherine Howard', 'Howard', 'f', NULL),
+    ('english-royal', 'catherine-howard', 'Catherine Howard', 'Howard', 'f', '1524-00-00'),
     ('english-royal', 'mary-howard', 'Mary Howard', 'Howard', 'f', NULL),
     ('english-royal', 'thomas-howard', 'Thomas Howard', 'Howard', 'm', '1473-00-00'),
-    ('english-royal', 'elizabeth-howard', 'Elizabeth Howard', 'Howard', 'f', NULL),
+    ('english-royal', 'elizabeth-howard', 'Elizabeth Howard', 'Howard', 'f', '1480-00-00'),
     ('english-royal', 'thomas-howard-2', 'Thomas Howard', 'Howard', 'm', '1443-00-00'),
     ('english-royal', 'unnamed-son-howard', '(unnamed son) Howard', 'Howard', 'm', NULL),
     ('english-royal', 'dorothy-howard', 'Dorothy Howard', 'Howard', 'f', NULL),
@@ -1891,7 +1891,7 @@ INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('english-royal', 'elizabeth-grey', 'Elizabeth Grey', 'Grey', 'f', NULL),
     ('english-royal', 'edward-grey', 'Edward Grey', 'Grey', 'm', NULL),
     ('english-royal', 'john-grey', 'John Grey', 'Grey', 'm', NULL),
-    ('english-royal', 'thomas-grey', 'Thomas Grey', 'Grey', 'm', NULL),
+    ('english-royal', 'thomas-grey', 'Thomas Grey', 'Grey', 'm', '1455-00-00'),
     ('english-royal', 'thomas-grey-2', 'Thomas Grey', 'Grey', 'm', '1477-06-22'),
     ('english-royal', 'henry-grey', 'Henry Grey', 'Grey', 'm', '1517-01-17'),
     ('english-royal', 'jane-grey', 'Jane Grey', 'Grey', 'f', '1537-10-00'),
@@ -1918,7 +1918,7 @@ INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('english-royal', 'william-stafford', 'William Stafford', 'Stafford', 'm', NULL);
 -- Seymour (6)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('english-royal', 'jane-seymour', 'Jane Seymour', 'Seymour', 'f', NULL),
+    ('english-royal', 'jane-seymour', 'Jane Seymour', 'Seymour', 'f', '1508-00-00'),
     ('english-royal', 'john-seymour', 'John Seymour', 'Seymour', 'm', NULL),
     ('english-royal', 'edward-seymour', 'Edward Seymour', 'Seymour', 'm', '1537-10-12'),
     ('english-royal', 'edward-seymour-2', 'Edward Seymour', 'Seymour', 'm', '1500-00-00'),
@@ -1934,19 +1934,19 @@ INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('english-royal', 'john-neville-2', 'John Neville', 'Neville', 'm', NULL);
 -- Valois (6)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('english-royal', 'louis-xii', 'Louis XII', 'Valois', 'm', NULL),
-    ('english-royal', 'henry-ii', 'Henry II', 'Valois', 'm', NULL),
+    ('english-royal', 'louis-xii', 'Louis XII', 'Valois', 'm', '1462-06-27'),
+    ('english-royal', 'henry-ii', 'Henry II', 'Valois', 'm', '1519-03-31'),
     ('english-royal', 'henry-of-valois', 'Henry of Valois', 'Valois', 'm', NULL),
     ('english-royal', 'madeleine-of-valois', 'Madeleine of Valois', 'Valois', 'f', '1520-08-00'),
-    ('english-royal', 'francis-i', 'Francis I', 'Valois', 'm', NULL),
-    ('english-royal', 'francis-ii', 'Francis II', 'Valois', 'm', NULL);
+    ('english-royal', 'francis-i', 'Francis I', 'Valois', 'm', '1494-09-12'),
+    ('english-royal', 'francis-ii', 'Francis II', 'Valois', 'm', '1544-01-19');
 -- Stuart (6)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('english-royal', 'ludovic-stuart', 'Ludovic Stuart', 'Stuart', 'm', NULL),
-    ('english-royal', 'matthew-stuart', 'Matthew Stuart', 'Stuart', 'm', NULL),
-    ('english-royal', 'henry-stuart', 'Henry Stuart', 'Stuart', 'm', NULL),
-    ('english-royal', 'charles-stuart', 'Charles Stuart', 'Stuart', 'm', NULL),
-    ('english-royal', 'arabella-stuart', 'Arabella Stuart', 'Stuart', 'f', NULL),
+    ('english-royal', 'matthew-stuart', 'Matthew Stuart', 'Stuart', 'm', '1516-09-21'),
+    ('english-royal', 'henry-stuart', 'Henry Stuart', 'Stuart', 'm', '1546-00-00'),
+    ('english-royal', 'charles-stuart', 'Charles Stuart', 'Stuart', 'm', '1557-00-00'),
+    ('english-royal', 'arabella-stuart', 'Arabella Stuart', 'Stuart', 'f', '1575-11-10'),
     ('english-royal', 'james-stuart', 'James Stuart', 'Stuart', 'm', '1566-06-19');
 -- Stanley (5)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
@@ -1964,15 +1964,15 @@ INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('english-royal', 'oliver-st-john', 'Oliver St John', 'Other families', 'm', NULL),
     ('english-royal', 'john-beauchamp', 'John Beauchamp', 'Other families', 'm', NULL),
     ('english-royal', 'catherine-of-aragon', 'Catherine of Aragon', 'Other families', 'f', '1485-12-05'),
-    ('english-royal', 'anne-boleyn', 'Anne Boleyn', 'Other families', 'f', NULL),
+    ('english-royal', 'anne-boleyn', 'Anne Boleyn', 'Other families', 'f', '1501-00-00'),
     ('english-royal', 'anne-of-cleves', 'Anne of Cleves', 'Other families', 'f', '1515-09-22'),
-    ('english-royal', 'catherine-parr', 'Catherine Parr', 'Other families', 'f', NULL),
+    ('english-royal', 'catherine-parr', 'Catherine Parr', 'Other families', 'f', '1512-00-00'),
     ('english-royal', 'elizabeth-blount', 'Elizabeth Blount', 'Other families', 'f', NULL),
     ('english-royal', 'henry-fitzroy', 'Henry Fitzroy', 'Other families', 'm', '1519-00-00'),
-    ('english-royal', 'ferdinand-v', 'Ferdinand V', 'Other families', 'm', NULL),
-    ('english-royal', 'isabella-of-castile', 'Isabella of Castile', 'Other families', 'f', NULL),
+    ('english-royal', 'ferdinand-v', 'Ferdinand V', 'Other families', 'm', '1452-03-10'),
+    ('english-royal', 'isabella-of-castile', 'Isabella of Castile', 'Other families', 'f', '1451-04-22'),
     ('english-royal', 'john-ii', 'John II', 'Other families', 'm', NULL),
-    ('english-royal', 'thomas-boleyn', 'Thomas Boleyn', 'Other families', 'm', NULL),
+    ('english-royal', 'thomas-boleyn', 'Thomas Boleyn', 'Other families', 'm', '1477-00-00'),
     ('english-royal', 'charles-brandon', 'Charles Brandon', 'Other families', 'm', '1484-00-00'),
     ('english-royal', 'william-brandon', 'William Brandon', 'Other families', 'm', NULL),
     ('english-royal', 'elizabeth-bruyn', 'Elizabeth Bruyn', 'Other families', 'f', NULL),
@@ -2003,7 +2003,7 @@ INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('english-royal', 'archibald-campbell', 'Archibald Campbell', 'Other families', 'm', NULL),
     ('english-royal', 'patrick-ruthven', 'Patrick Ruthven', 'Other families', 'm', NULL),
     ('english-royal', 'james-gray', 'James Gray', 'Other families', 'm', NULL),
-    ('english-royal', 'elizabeth-wydvill', 'Elizabeth Wydvill', 'Other families', 'f', NULL),
+    ('english-royal', 'elizabeth-wydvill', 'Elizabeth Wydvill', 'Other families', 'f', '1437-00-00'),
     ('english-royal', 'elizabeth-talbot', 'Elizabeth Talbot', 'Other families', 'f', NULL),
     ('english-royal', 'edmund-dudley', 'Edmund Dudley', 'Other families', 'm', '1470-00-00'),
     ('english-royal', 'honor-grenville', 'Honor Grenville', 'Other families', 'f', NULL),
@@ -2037,11 +2037,11 @@ INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('english-royal', 'eleanor-percy', 'Eleanor Percy', 'Other families', 'f', NULL),
     ('english-royal', 'henry-percy', 'Henry Percy', 'Other families', 'm', NULL),
     ('english-royal', 'richard-wydvill-2', 'Richard Wydvill', 'Other families', 'm', NULL),
-    ('english-royal', 'jacqueline-de-luxembourg', 'Jacqueline de Luxembourg', 'Other families', 'f', NULL),
+    ('english-royal', 'jacqueline-de-luxembourg', 'Jacqueline de Luxembourg', 'Other families', 'f', '1415-00-00'),
     ('english-royal', 'peter-de-luxembourg', 'Peter de Luxembourg', 'Other families', 'm', NULL),
     ('english-royal', 'anne-holand', 'Anne Holand', 'Other families', 'f', NULL),
     ('english-royal', 'henry-holand', 'Henry Holand', 'Other families', 'm', NULL),
-    ('english-royal', 'cecily-bonville', 'Cecily Bonville', 'Other families', 'f', NULL),
+    ('english-royal', 'cecily-bonville', 'Cecily Bonville', 'Other families', 'f', '1460-06-30'),
     ('english-royal', 'william-bonville', 'William Bonville', 'Other families', 'm', NULL),
     ('english-royal', 'henry-brandon', 'Henry Brandon', 'Other families', 'm', '1516-03-11'),
     ('english-royal', 'frances-brandon', 'Frances Brandon', 'Other families', 'f', '1517-07-16'),
@@ -2054,9 +2054,9 @@ INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('english-royal', 'catherine-fitzalan', 'Catherine FitzAlan', 'Other families', 'f', NULL),
     ('english-royal', 'william-fitzalan', 'William FitzAlan', 'Other families', 'm', NULL),
     ('english-royal', 'anne-percy', 'Anne Percy', 'Other families', 'f', NULL),
-    ('english-royal', 'eleanor-brandon', 'Eleanor Brandon', 'Other families', 'f', NULL),
-    ('english-royal', 'henry-clifford', 'Henry Clifford', 'Other families', 'm', NULL),
-    ('english-royal', 'margaret-clifford', 'Margaret Clifford', 'Other families', 'f', NULL),
+    ('english-royal', 'eleanor-brandon', 'Eleanor Brandon', 'Other families', 'f', '1519-00-00'),
+    ('english-royal', 'henry-clifford', 'Henry Clifford', 'Other families', 'm', '1517-00-00'),
+    ('english-royal', 'margaret-clifford', 'Margaret Clifford', 'Other families', 'f', '1540-00-00'),
     ('english-royal', 'anne-dacre', 'Anne Dacre', 'Other families', 'f', NULL),
     ('english-royal', 'william-dacre', 'William Dacre', 'Other families', 'm', NULL),
     ('english-royal', 'elizabeth-talbot-3', 'Elizabeth Talbot', 'Other families', 'f', NULL),
@@ -2080,16 +2080,16 @@ INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('english-royal', 'john-onley', 'John Onley', 'Other families', 'm', NULL),
     ('english-royal', 'thomas-keyes', 'Thomas Keyes', 'Other families', 'm', NULL),
     ('english-royal', 'anne-stanhope', 'Anne Stanhope', 'Other families', 'f', NULL),
-    ('english-royal', 'henry-herbert', 'Henry Herbert', 'Other families', 'm', NULL),
+    ('english-royal', 'henry-herbert', 'Henry Herbert', 'Other families', 'm', '1538-00-00'),
     ('english-royal', 'margaret-gamage', 'Margaret Gamage', 'Other families', 'f', NULL),
     ('english-royal', 'thomas-gamage', 'Thomas Gamage', 'Other families', 'm', NULL),
     ('english-royal', 'henry-pranell', 'Henry Pranell', 'Other families', 'm', NULL),
     ('english-royal', 'mabel-burton', 'Mabel Burton', 'Other families', 'f', NULL),
     ('english-royal', 'nicholas-burton', 'Nicholas Burton', 'Other families', 'm', NULL),
-    ('english-royal', 'margery-wentworth', 'Margery Wentworth', 'Other families', 'f', NULL),
+    ('english-royal', 'margery-wentworth', 'Margery Wentworth', 'Other families', 'f', '1478-00-00'),
     ('english-royal', 'henry-wentworth', 'Henry Wentworth', 'Other families', 'm', NULL),
-    ('english-royal', 'thomas-parr', 'Thomas Parr', 'Other families', 'm', NULL),
-    ('english-royal', 'maud-green', 'Maud Green', 'Other families', 'f', NULL),
+    ('english-royal', 'thomas-parr', 'Thomas Parr', 'Other families', 'm', '1478-00-00'),
+    ('english-royal', 'maud-green', 'Maud Green', 'Other families', 'f', '1492-04-06'),
     ('english-royal', 'thomas-green', 'Thomas Green', 'Other families', 'm', NULL),
     ('english-royal', 'edward-burgh', 'Edward Burgh', 'Other families', 'm', NULL),
     ('english-royal', 'gilbert-gray', 'Gilbert Gray', 'Other families', 'm', NULL),
@@ -2103,19 +2103,19 @@ INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('english-royal', 'john-gordon', 'John Gordon', 'Other families', 'm', NULL),
     ('english-royal', 'john-drummond-2', 'John Drummond', 'Other families', 'm', NULL),
     ('english-royal', 'malcolm-fleming', 'Malcolm Fleming', 'Other families', 'm', NULL),
-    ('english-royal', 'mary-of-lorraine', 'Mary of Lorraine', 'Other families', 'f', NULL),
+    ('english-royal', 'mary-of-lorraine', 'Mary of Lorraine', 'Other families', 'f', '1515-11-22'),
     ('english-royal', 'louis-of-orleans', 'Louis of Orleans', 'Other families', 'm', NULL),
-    ('english-royal', 'catherine-de-medicis', 'Catherine de Medicis', 'Other families', 'f', NULL),
+    ('english-royal', 'catherine-de-medicis', 'Catherine de Medicis', 'Other families', 'f', '1519-04-13'),
     ('english-royal', 'james-hepburn', 'James Hepburn', 'Other families', 'm', NULL),
-    ('english-royal', 'anne-of-oldenburg', 'Anne of Oldenburg', 'Other families', 'f', NULL),
-    ('english-royal', 'mary-boleyn', 'Mary Boleyn', 'Other families', 'f', NULL),
+    ('english-royal', 'anne-of-oldenburg', 'Anne of Oldenburg', 'Other families', 'f', '1574-12-12'),
+    ('english-royal', 'mary-boleyn', 'Mary Boleyn', 'Other families', 'f', '1499-00-00'),
     ('english-royal', 'william-carey', 'William Carey', 'Other families', 'm', NULL),
     ('english-royal', 'henry-carey', 'Henry Carey', 'Other families', 'm', '1526-03-04'),
     ('english-royal', 'catherine-carey', 'Catherine Carey', 'Other families', 'f', '1524-00-00'),
     ('english-royal', 'francis-knollys', 'Francis Knollys', 'Other families', 'm', NULL),
     ('english-royal', 'anne-morgan', 'Anne Morgan', 'Other families', 'f', NULL),
-    ('english-royal', 'philip-ii', 'Philip II', 'Other families', 'm', NULL),
-    ('english-royal', 'guilford-dudley', 'Guilford Dudley', 'Other families', 'm', NULL),
+    ('english-royal', 'philip-ii', 'Philip II', 'Other families', 'm', '1527-00-00'),
+    ('english-royal', 'guilford-dudley', 'Guilford Dudley', 'Other families', 'm', '1535-00-00'),
     ('english-royal', 'margaret-kyme', 'Margaret Kyme', 'Other families', 'f', NULL);
 
 -- ── Families (175, each followed by its members) ───────────────────────────────────────────────
@@ -8734,18 +8734,18 @@ INSERT INTO house (saga_id, name, color) VALUES
 -- ── People (32, grouped by house) ──────────────────────────────────────────────────────────────
 -- Nehru (16)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('nehru-gandhi', 'gangadhar-nehru', 'Gangadhar Nehru', 'Nehru', 'm', NULL),
+    ('nehru-gandhi', 'gangadhar-nehru', 'Gangadhar Nehru', 'Nehru', 'm', '1827-00-00'),
     ('nehru-gandhi', 'bansi-dhar-nehru', 'Bansi Dhar Nehru', 'Nehru', 'm', NULL),
-    ('nehru-gandhi', 'nandlal-nehru', 'Nandlal Nehru', 'Nehru', 'm', NULL),
+    ('nehru-gandhi', 'nandlal-nehru', 'Nandlal Nehru', 'Nehru', 'm', '1845-00-00'),
     ('nehru-gandhi', 'motilal-nehru', 'Motilal Nehru', 'Nehru', 'm', '1861-05-06'),
     ('nehru-gandhi', 'shyamlal-nehru', 'Shyamlal Nehru', 'Nehru', 'm', NULL),
-    ('nehru-gandhi', 'uma-nehru', 'Uma Nehru', 'Nehru', 'f', NULL),
-    ('nehru-gandhi', 'shyam-kumari-nehru', 'Shyam Kumari Nehru', 'Nehru', 'f', NULL),
-    ('nehru-gandhi', 'arun-nehru', 'Arun Nehru', 'Nehru', 'm', NULL),
-    ('nehru-gandhi', 'brijlal-nehru', 'Brijlal Nehru', 'Nehru', 'm', NULL),
+    ('nehru-gandhi', 'uma-nehru', 'Uma Nehru', 'Nehru', 'f', '1884-03-08'),
+    ('nehru-gandhi', 'shyam-kumari-nehru', 'Shyam Kumari Nehru', 'Nehru', 'f', '1904-00-00'),
+    ('nehru-gandhi', 'arun-nehru', 'Arun Nehru', 'Nehru', 'm', '1944-04-24'),
+    ('nehru-gandhi', 'brijlal-nehru', 'Brijlal Nehru', 'Nehru', 'm', '1884-05-05'),
     ('nehru-gandhi', 'rameshwari-raina', 'Rameshwari Raina', 'Nehru', 'f', '1886-00-00'),
     ('nehru-gandhi', 'braj-kumar-nehru', 'Braj Kumar Nehru', 'Nehru', 'm', '1909-09-04'),
-    ('nehru-gandhi', 'swarup-rani', 'Swarup Rani', 'Nehru', 'f', NULL),
+    ('nehru-gandhi', 'swarup-rani', 'Swarup Rani', 'Nehru', 'f', '1868-00-00'),
     ('nehru-gandhi', 'jawaharlal-nehru', 'Jawaharlal Nehru', 'Nehru', 'm', '1889-11-14'),
     ('nehru-gandhi', 'vijaya-lakshmi-nehru', 'Vijaya Lakshmi Nehru', 'Nehru', 'f', '1900-00-00'),
     ('nehru-gandhi', 'krishna-nehru', 'Krishna Nehru', 'Nehru', 'f', '1907-00-00'),
@@ -8760,15 +8760,15 @@ INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('nehru-gandhi', 'feroze-varun-gandhi', 'Feroze Varun Gandhi', 'Gandhi', 'm', '1980-03-13');
 -- Pandit (4)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('nehru-gandhi', 'ranjit-sitaram-pandit', 'Ranjit Sitaram Pandit', 'Pandit', 'm', NULL),
+    ('nehru-gandhi', 'ranjit-sitaram-pandit', 'Ranjit Sitaram Pandit', 'Pandit', 'm', '1893-09-00'),
     ('nehru-gandhi', 'nayantara-sahgal', 'Nayantara Sahgal', 'Pandit', 'f', '1927-00-00'),
-    ('nehru-gandhi', 'chandralekha-mehta', 'Chandralekha Mehta', 'Pandit', 'f', NULL),
-    ('nehru-gandhi', 'rita-dar', 'Rita Dar', 'Pandit', 'f', NULL);
+    ('nehru-gandhi', 'chandralekha-mehta', 'Chandralekha Mehta', 'Pandit', 'f', '1924-00-00'),
+    ('nehru-gandhi', 'rita-dar', 'Rita Dar', 'Pandit', 'f', '1929-00-00');
 -- Hutheesing (3)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('nehru-gandhi', 'gunottam-hutheesing', 'Gunottam Hutheesing', 'Hutheesing', 'm', NULL),
-    ('nehru-gandhi', 'harsha-hutheesing', 'Harsha Hutheesing', 'Hutheesing', 'm', NULL),
-    ('nehru-gandhi', 'ajit-hutheesing', 'Ajit Hutheesing', 'Hutheesing', 'm', NULL);
+    ('nehru-gandhi', 'harsha-hutheesing', 'Harsha Hutheesing', 'Hutheesing', 'm', '1935-00-00'),
+    ('nehru-gandhi', 'ajit-hutheesing', 'Ajit Hutheesing', 'Hutheesing', 'm', '1936-03-04');
 -- Kaul (1)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('nehru-gandhi', 'kamala-kaul', 'Kamala Kaul', 'Kaul', 'f', '1899-00-00');

@@ -1,0 +1,15 @@
+{
+    "_about": "Birth dates (born, YYYY-MM-DD, 00 for an unknown month or day) for people the GEDCOM file leaves undated, keyed by person id. Applied by scripts/gedcom-to-saga.mts on import, only where the file has no date. Found by web search (Wikipedia, Wikidata). Bansi Dhar Nehru, Shyamlal Nehru and Gunottam Hutheesing: none found.",
+    "gangadhar-nehru": "1827-00-00",
+    "nandlal-nehru": "1845-00-00",
+    "swarup-rani": "1868-00-00",
+    "uma-nehru": "1884-03-08",
+    "shyam-kumari-nehru": "1904-00-00",
+    "brijlal-nehru": "1884-05-05",
+    "arun-nehru": "1944-04-24",
+    "ranjit-sitaram-pandit": "1893-09-00",
+    "chandralekha-mehta": "1924-00-00",
+    "rita-dar": "1929-00-00",
+    "harsha-hutheesing": "1935-00-00",
+    "ajit-hutheesing": "1936-03-04"
+}

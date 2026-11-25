@@ -229,6 +229,18 @@ const people = Object.entries(tree.people).map(([gid, p]) => ({
     sex: p.sex,
     ...(p.born ? { born: p.born } : {}), // YYYY-MM-DD from BIRT (or CHR/BAPM) DATE, where the file has one
 }));
+// Birth dates found elsewhere (scripts/gedcom-born/<id>.json, keyed by person id), for people the file leaves undated;
+// kept apart so re-importing doesn't lose them. Every key must be a person in the import, and a date in the file wins.
+const bornFile = new URL(`./gedcom-born/${id}.json`, import.meta.url);
+if (fs.existsSync(bornFile)) {
+    const extra = JSON.parse(fs.readFileSync(bornFile, "utf8")) as Record<string, string>;
+    for (const [pid, born] of Object.entries(extra)) {
+        if (pid.startsWith("_")) continue; // "_about": where the dates came from
+        const person = people.find((p) => p.id === pid);
+        if (!person) throw new Error(`gedcom-born/${id}.json: no person "${pid}" in this import`);
+        if (!person.born) Object.assign(person, { born });
+    }
+}
 // People the source records with no relatives at all (e.g. the Norse file links 19 people it never defines, leaving
 // figures like Skuld and Gefjun with nobody). They are real figures, so keep them, each in a one-person family: the
 // model's way of saying "no known relatives", which keeps them visible and satisfies "everyone is in a family".

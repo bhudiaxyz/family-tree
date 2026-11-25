@@ -276,6 +276,7 @@ function alignSiblings(t: Tree, gen: Map<string, number>, kidsOf: Map<string, st
  * exactly as it was. Greedy and bounded (ERA_PASSES), so it always ends.
  */
 const ERA_PASSES = 6;
+const ERA_EXTRA_ROWS = 2; // rows the era pass may add to the tree's height
 function alignEras(t: Tree, gen: Map<string, number>, kidsOf: Map<string, string[]>): void {
     const decade = new Map<string, number>();
     for (const [id, p] of Object.entries(t.people)) {
@@ -321,10 +322,19 @@ function alignEras(t: Tree, gen: Map<string, number>, kidsOf: Map<string, string
         return group;
     };
 
-    let best = eraSplits();
-    const couplesBefore = splitCouples();
+    // What a move must improve: same-decade pairs on different rows, with a couple reunited worth COUPLE_WEIGHT of
+    // them, so the pass prefers moves that also bring partners together. Couples may never get worse than they are
+    // at that point (checked per move, not only against the start). With more Tudor dates, taking any move that
+    // grouped decades (couples merely no worse than at the start) left 11 couples split where 6 had been.
+    const COUPLE_WEIGHT = 8;
+    const score = () => eraSplits() + COUPLE_WEIGHT * splitCouples();
+    let best = score();
+    let couplesNow = splitCouples();
     const setsBefore = splitSets();
-    for (let pass = 0; pass < ERA_PASSES && best > 0; pass++) {
+    // And the tree may grow by at most ERA_EXTRA_ROWS: unbounded, many small moves stretched the Tudors from 9 rows to 19 (two extra rows let them keep 6 couples split rather than 8).
+    const height = () => Math.max(...gen.values()) - Math.min(...gen.values());
+    const heightLimit = height() + ERA_EXTRA_ROWS;
+    for (let pass = 0; pass < ERA_PASSES && eraSplits() > 0; pass++) {
         let moved = false;
         for (const who of dated) {
             // Rows where others of this decade sit, most of them first.
@@ -338,9 +348,17 @@ function alignEras(t: Tree, gen: Map<string, number>, kidsOf: Map<string, string
                 if (!delta) break; // already with most of their decade
                 const group = groupOf(who);
                 for (const g of group) gen.set(g, gen.get(g)! + delta);
-                const now = eraSplits();
-                if (now < best && descentHolds() && splitCouples() <= couplesBefore && splitSets() <= setsBefore) {
+                const now = score();
+                const couples = splitCouples();
+                if (
+                    now < best &&
+                    descentHolds() &&
+                    couples <= couplesNow &&
+                    splitSets() <= setsBefore &&
+                    height() <= heightLimit
+                ) {
                     best = now;
+                    couplesNow = couples;
                     moved = true;
                     break;
                 }

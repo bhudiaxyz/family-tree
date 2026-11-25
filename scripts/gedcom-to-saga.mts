@@ -227,6 +227,7 @@ const people = Object.entries(tree.people).map(([gid, p]) => ({
     name: displayName(gid, p.sex),
     house: houseOf(p.house),
     sex: p.sex,
+    ...(p.born ? { born: p.born } : {}), // YYYY-MM-DD from BIRT (or CHR/BAPM) DATE, where the file has one
 }));
 // People the source records with no relatives at all (e.g. the Norse file links 19 people it never defines, leaving
 // figures like Skuld and Gefjun with nobody). They are real figures, so keep them, each in a one-person family: the

@@ -24,7 +24,7 @@ import { readIndex, readSaga, treeById } from "./data.mts";
 const INTERMARRIED = new Set(["roman-gods", "bible"]);
 
 const LIMITS: Record<SiblingMode, { siblingSets: number; couples: number }> = {
-    together: { siblingSets: 1, couples: 38 }, // the one split set: a Roman sibling the descent repair must move
+    together: { siblingSets: 1, couples: 33 }, // the one split set: a Roman sibling the descent repair must move
     apart: { siblingSets: 19, couples: 35 },
 };
 
@@ -129,9 +129,9 @@ for (const mode of ["together", "apart"] as const) {
 
 // Fewer crossing lines: the starting order along each row (rowOrder) sweeps whole blocks (brothers and sisters with
 // the partners beside them) by where their relatives sit. Ratchet: lower it when the order improves, never raise it.
-// 777 crossings across every saga before the sweeps and family chaining; 299 after.
+// 777 crossings across every saga before the sweeps and family chaining; 299 after; 267 with the era pass.
 {
-    const MAX_CROSSINGS = 299;
+    const MAX_CROSSINGS = 267;
     let total = 0;
     for (const e of readIndex()) {
         const t = treeById(e.id);
@@ -157,4 +157,43 @@ for (const mode of ["together", "apart"] as const) {
     }
     assert.ok(total <= MAX_CROSSINGS, `${total} crossing lines across every saga (at most ${MAX_CROSSINGS})`);
     console.log(`ok  row order: ${total} crossing lines across every saga; brothers and sisters never split`);
+}
+
+// Eras: where birth dates are recorded, people born in the same decade share a row where the family structure allows
+// (alignEras). Undated sagas must lay out exactly as without the pass; dated ones are held as ratchets (same-decade
+// pairs left on different rows; lower them when alignment improves, never raise them).
+{
+    const ERA_LIMITS: Record<string, number> = { "english-royal": 40, "nehru-gandhi": 1 };
+    const strip = (t: Tree): Tree => ({
+        ...t,
+        people: Object.fromEntries(Object.entries(t.people).map(([id, { born: _, ...p }]) => [id, p])),
+    });
+    for (const e of readIndex()) {
+        const t = treeById(e.id);
+        const g = generations(t);
+        const dated = Object.entries(t.people).filter(([, p]) => p.born);
+        if (!dated.length) {
+            const plain = generations(strip(t));
+            assert.ok(
+                [...g].every(([id, row]) => plain.get(id) === row),
+                `${e.id}: no dates, layout unchanged`
+            );
+            continue;
+        }
+        const decade = (born: string) => Math.floor(Number(born.slice(0, 4)) / 10);
+        let split = 0;
+        for (let i = 0; i < dated.length; i++)
+            for (let j = i + 1; j < dated.length; j++)
+                if (
+                    decade(dated[i][1].born!) === decade(dated[j][1].born!) &&
+                    g.get(dated[i][0]) !== g.get(dated[j][0])
+                )
+                    split++;
+        assert.ok(split <= (ERA_LIMITS[e.id] ?? 0), `${e.id}: ${split} same-decade pairs on different rows`);
+        for (const f of t.families)
+            for (const p of f.parents)
+                for (const c of f.children) assert.ok(g.get(c)! > g.get(p)!, `${e.id}: ${c} below their parent ${p}`);
+        console.log(`ok  eras ${t.title}: ${dated.length} dated people, ${split} same-decade pairs on different rows`);
+    }
+    console.log("ok  eras: sagas without birth dates lay out exactly as before");
 }

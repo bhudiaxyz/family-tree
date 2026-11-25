@@ -10,6 +10,7 @@
 // hosts their controls. Panel element ids must match index.html.
 
 import { fitPeople, fitTree } from "../render/camera.ts";
+import { bornText } from "../data/schema.ts";
 import { ancestry, birthFamily, descendantCount, namesakes, relatives, siblingsOf } from "../tree/family.ts";
 import { generationOf, nodeById, setRelativeTags } from "../graph/graph.ts";
 import { labelAll } from "../tree/relationship.ts";
@@ -101,7 +102,11 @@ function fillPanel(id: string) {
     const tree = state.tree!;
     const p = tree.people[id];
     panelName.textContent = p.name;
-    panelHouse.textContent = p.house;
+    // The house, and the birth date where the data has one ("born 28 Jun 1491").
+    panelHouse.replaceChildren(
+        p.house,
+        ...(p.born ? [el("span", { className: "panel-born", textContent: ` · born ${bornText(p.born)}` })] : [])
+    );
     panelHouse.style.color = tree.houseColors[p.house] ?? "";
     panelList.replaceChildren(...relatives(tree, id).flatMap(([label, ids]) => relativeRow(label, ids)));
     showTrail(id);

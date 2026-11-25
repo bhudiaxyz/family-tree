@@ -274,6 +274,12 @@ header {
     letter-spacing: 0.1em;
     text-transform: uppercase;
 }
+/* The birth date after the house name: plain case, in the soft ink, so the house colour still leads. */
+#panel-house .panel-born {
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--ink-soft);
+}
 #panel dl {
     display: grid;
     grid-template-columns: max-content 1fr;

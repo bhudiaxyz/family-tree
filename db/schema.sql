@@ -39,6 +39,8 @@ CREATE TABLE person (
     name    TEXT NOT NULL,
     house   TEXT NOT NULL,
     sex     TEXT NOT NULL CHECK (sex IN ('m', 'f')),
+    -- YYYY-MM-DD, 00 for an unknown month or day ("1430-00-00" is about 1430); NULL when not recorded.
+    born    TEXT CHECK (born IS NULL OR length(born) = 10),
     PRIMARY KEY (saga_id, id),
     FOREIGN KEY (saga_id) REFERENCES saga(id) ON DELETE CASCADE,
     FOREIGN KEY (saga_id, house) REFERENCES house(saga_id, name)

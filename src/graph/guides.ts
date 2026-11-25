@@ -1,4 +1,5 @@
-// Row guides: a faint line at each row's height, and a "Row n" button pinned to the left edge of the screen at it.
+// Row guides: a faint line at each row's height, and a label button pinned to the left edge of the screen at it:
+// the row's birth era ("1460s") where its people's dates are recorded, else "Row n".
 //
 // What it does: setGuides() rebuilds the lines and the buttons in #gen-labels (index.html); stepGuides() moves each
 // button every frame to where its row projects on screen, hiding rows that are off screen or seen edge-on.
@@ -43,7 +44,10 @@ const raws: number[] = [];
 const LABEL_H = 16; // px a label needs before the next one
 
 /** Rebuild the guides for generations 0…rows, at the heights given by `y`. */
-export function setGuides(rows: number, y: (g: number) => number): void {
+/** A row's birth era, where its people's dates are recorded: the label ("1460s") and the span ("1440s–1470s"). */
+export type RowEra = { label: string; span: string } | null;
+
+export function setGuides(rows: number, y: (g: number) => number, eras: RowEra[] = []): void {
     for (const c of guides.children) if (c instanceof THREE.LineSegments) c.geometry.dispose();
     guides.clear();
     rowY = [];
@@ -63,10 +67,11 @@ export function setGuides(rows: number, y: (g: number) => number): void {
     }
     // Buttons, so a row can be jumped to with a click, a tap or the keyboard (see onRowPicked).
     rowLabels = rowY.map((_, g) => {
-        // "Row", not "Generation": a row is a layout level, and someone who married into another generation sits on
-        // their partner's row (Ginny is on row 3 with Harry, though she's generation 2 with her brothers).
-        const b = Object.assign(document.createElement("button"), { textContent: `Row ${g + 1}` });
-        b.title = `Go to row ${g + 1} (Page Up / Page Down step between rows)`;
+        // Where the row's people have birth dates, its era ("1460s"); otherwise "Row n". Not "Generation": a row is a
+        // layout level, and someone who married into another generation can sit on their partner's row.
+        const era = eras[g];
+        const b = Object.assign(document.createElement("button"), { textContent: era ? era.label : `Row ${g + 1}` });
+        b.title = `${era ? `Row ${g + 1}: born ${era.span}. ` : ""}Go to row ${g + 1} (Page Up / Page Down step between rows)`;
         b.onclick = () => rowPicked?.(g);
         return b;
     });

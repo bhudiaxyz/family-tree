@@ -142,7 +142,7 @@ sagas.forEach((s, position) => {
 
     // People, grouped by house in house order, each group with its own heading comment.
     out.push(...section("People", `${s.people.length}, grouped by house`));
-    const cols = ["saga_id", "id", "name", "house", "sex"];
+    const cols = ["saga_id", "id", "name", "house", "sex", "born"];
     for (const h of s.houses) {
         const members = s.people.filter((p) => p.house === h.name);
         if (!members.length) continue;
@@ -151,7 +151,7 @@ sagas.forEach((s, position) => {
             ...insert(
                 "person",
                 cols,
-                members.map((p) => [id, q(p.id), q(p.name), q(p.house), q(p.sex)])
+                members.map((p) => [id, q(p.id), q(p.name), q(p.house), q(p.sex), p.born ? q(p.born) : "NULL"])
             )
         );
     }

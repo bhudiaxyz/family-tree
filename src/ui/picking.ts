@@ -14,6 +14,7 @@
 import * as THREE from "three";
 import { drawnZ, endId, graph, isShown, type Link, type Node, setHoverLink } from "../graph/graph.ts";
 import { relate } from "../tree/relationship.ts";
+import { bornText } from "../data/schema.ts";
 import { camera, controls, renderer } from "../render/scene.ts";
 import { $, el, refreshHighlight, relatePanel, state } from "./state.ts";
 import { setHouse } from "./legend.ts";
@@ -154,7 +155,10 @@ function showCard(id: string, x: number, y: number) {
         const p = tree.people[id];
         const rel = selected && selected !== id ? relate(tree, id, selected) : null;
         const name = el("strong", { textContent: p.name });
-        const house = el("span", { className: "card-house", textContent: p.house });
+        const house = el("span", {
+            className: "card-house",
+            textContent: p.born ? `${p.house} · born ${bornText(p.born)}` : p.house,
+        });
         house.style.color = tree.houseColors[p.house] ?? "";
         const parts: (string | globalThis.Node)[] = [name, house];
         if (rel?.label) {

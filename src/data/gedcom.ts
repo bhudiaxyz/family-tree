@@ -61,6 +61,34 @@ function parseName(indi: Rec): { name: string; surname: string } {
     return { name: name || surname || "Unknown", surname };
 }
 
+const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+/**
+ * A GEDCOM date as YYYY-MM-DD, 00 for an unknown month or day, or null if it has no year. "28 JAN 1456/1457" (old
+ * and new style) takes the later year; qualifiers (ABT, EST, CAL, BEF, AFT, BET … AND, FROM … TO) are dropped and the
+ * first date used: for grouping by decade, "about 1430" is 1430. Dates BC aren't supported (none in the samples).
+ */
+export function isoDate(value: string): string | null {
+    const words = value
+        .toUpperCase()
+        .replace(/[(),.]/g, " ")
+        .split(/\s+/)
+        .filter(Boolean);
+    let day = 0;
+    let month = 0;
+    for (const w of words) {
+        const year = /^(\d{1,4})(?:\/(\d{1,4}))?$/.exec(w);
+        if (year && (w.length >= 3 || day || month)) {
+            // "1456/1457": the later year; "1456/57": the later year's last digits replace the first's.
+            const [a, b] = [year[1], year[2]];
+            const y = b ? Number(a.slice(0, a.length - b.length) + b) : Number(a);
+            return `${String(y).padStart(4, "0")}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+        }
+        if (/^\d{1,2}$/.test(w) && +w >= 1 && +w <= 31 && !day) day = +w;
+        else if (MONTHS.includes(w.slice(0, 3)) && !month) month = MONTHS.indexOf(w.slice(0, 3)) + 1;
+    }
+    return null;
+}
+
 /** Parse GEDCOM text into a Tree. Throws only if there are no individuals at all. */
 export function parseGedcom(text: string, title = "Imported family"): GedcomResult {
     const records = toRecords(parseLines(text));
@@ -75,7 +103,12 @@ export function parseGedcom(text: string, title = "Imported family"): GedcomResu
         const sexTag = sub(r, "SEX")?.line.value.toUpperCase();
         // The app needs m/f for labels (father/mother…). Unknown sex defaults to "m" and is reported.
         if (sexTag !== "M" && sexTag !== "F") warnings.push(`${name}: sex not recorded as M or F, shown as male`);
-        people[id] = { name, house: surname || "Unknown", sex: sexTag === "F" ? "f" : "m" };
+        // Born: the birth date, else the christening or baptism date (often all a parish register has).
+        const dated = ["BIRT", "CHR", "BAPM"]
+            .map((t) => sub(r, t) && sub(sub(r, t)!, "DATE")?.line.value)
+            .find(Boolean);
+        const born = dated ? isoDate(dated) : null;
+        people[id] = { name, house: surname || "Unknown", sex: sexTag === "F" ? "f" : "m", ...(born ? { born } : {}) };
         idOf.set(r.line.xref!, id);
     }
     if (!Object.keys(people).length) throw new Error("No individuals (INDI records) found: is this a GEDCOM file?");

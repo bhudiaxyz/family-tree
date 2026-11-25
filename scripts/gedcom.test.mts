@@ -176,3 +176,22 @@ console.log("ok  GEDCOM import: 5.5.1, GEDCOM 7, adoption (PEDI, _FREL, FAMC), m
     assert.equal(new Set(colours).size, n, "no two houses share a colour");
     console.log(`ok  GEDCOM import: ${n} surnames, ${new Set(colours).size} distinct house colours`);
 }
+
+// Birth dates as YYYY-MM-DD (00 for an unknown part): old/new style years, qualifiers and partial dates.
+{
+    const { isoDate } = await import("../src/data/gedcom.ts");
+    const cases: [string, string | null][] = [
+        ["28 Jan 1456/1457", "1457-01-28"],
+        ["11 Feb 1465", "1465-02-11"],
+        ["ABT 1430", "1430-00-00"],
+        ["BET 1430 AND 1435", "1430-00-00"],
+        ["JAN 1500", "1500-01-00"],
+        ["1456/57", "1457-00-00"],
+        ["0925", "0925-00-00"],
+        ["UNKNOWN", null],
+    ];
+    for (const [d, want] of cases) assert.equal(isoDate(d), want, d);
+    const { tree } = parseGedcom("0 HEAD\n0 @I1@ INDI\n1 NAME A /B/\n1 CHR\n2 DATE 3 MAR 1600\n0 TRLR");
+    assert.equal(tree.people.I1.born, "1600-03-03", "christening date when there's no birth");
+    console.log("ok  GEDCOM import: birth dates as YYYY-MM-DD (old/new style, qualifiers, partial, christening)");
+}

@@ -9,10 +9,11 @@
 // Usage: generations(tree, mode) is called by graph/graph.ts showTree() and by scripts/generations.test.mts, which
 // covers it. The order along each row is row-order.ts's. No three.js or DOM imports.
 // Notes: priorities, highest first: descent always holds (every parent strictly above every child, even in a cyclic or
-// densely intermarried tree); then the chosen mode's grouping; then the other preference only where it fits. The
+// densely intermarried tree); then the chosen mode's grouping; then the other preference only where it fits; then,
+// only where birth dates are recorded, the same decade on the same row (alignEras). The
 // alignment passes are greedy and bounded (5 or 8 passes), so they always end but may leave some splits.
 
-import type { Tree } from "../data/schema.ts";
+import { bornYear, type Tree } from "../data/schema.ts";
 
 /**
  * Which rule wins when siblings and couples can't both share a row (someone married into another generation):
@@ -106,6 +107,7 @@ export function generations(t: Tree, mode: SiblingMode = "together"): Map<string
     }
     if (mode === "together") alignSpouses(t, gen, kidsOf, ready);
     else alignSiblings(t, gen, kidsOf);
+    alignEras(t, gen, kidsOf); // where birth dates are recorded: the same decade on the same row
     return gen;
 }
 
@@ -258,6 +260,97 @@ function alignSiblings(t: Tree, gen: Map<string, number>, kidsOf: Map<string, st
                     }
                     for (const g of group) gen.set(g, gen.get(g)! - delta); // undo
                 }
+        if (!moved) break;
+    }
+    const min = Math.min(...gen.values());
+    if (min) for (const [id, g] of gen) gen.set(id, g - min); // keep the oldest row at 0
+}
+
+/**
+ * Eras, where birth dates are recorded: people born in the same decade (the 1480s, the 1490s…) share a row where they
+ * can. For each dated person on a different row from others of their decade, try moving their group to that row: their
+ * brothers and sisters and the partners beside them, and every descendant with theirs, so nothing inside the group
+ * changes shape. A move is kept only if fewer same-decade pairs end up on different rows, every parent stays above
+ * every child, and no more sibling sets or couples are split than before: generations still come first, and dates
+ * only choose between rows the family structure allows. A tree with no dates (most sagas) scores 0 and is left
+ * exactly as it was. Greedy and bounded (ERA_PASSES), so it always ends.
+ */
+const ERA_PASSES = 6;
+function alignEras(t: Tree, gen: Map<string, number>, kidsOf: Map<string, string[]>): void {
+    const decade = new Map<string, number>();
+    for (const [id, p] of Object.entries(t.people)) {
+        const y = bornYear(p);
+        if (y !== null && gen.has(id)) decade.set(id, Math.floor(y / 10));
+    }
+    const dated = [...decade.keys()];
+    // Same-decade pairs on different rows: what this pass reduces.
+    const eraSplits = () => {
+        let n = 0;
+        for (let i = 0; i < dated.length; i++)
+            for (let j = i + 1; j < dated.length; j++)
+                if (decade.get(dated[i]) === decade.get(dated[j]) && gen.get(dated[i]) !== gen.get(dated[j])) n++;
+        return n;
+    };
+    if (eraSplits() === 0) return;
+
+    const parentsOf = new Map<string, string[]>([...kidsOf.keys()].map((id) => [id, []]));
+    for (const [p, kids] of kidsOf) for (const c of kids) parentsOf.get(c)!.push(p);
+    const spousesOf = new Map<string, string[]>([...kidsOf.keys()].map((id) => [id, []]));
+    const couples = t.families.filter((f) => f.parents.length === 2).map((f) => f.parents as [string, string]);
+    for (const [a, b] of couples) (spousesOf.get(a)!.push(b), spousesOf.get(b)!.push(a));
+    const sets = t.families.filter((f) => f.children.length > 1).map((f) => f.children.filter((c) => gen.has(c)));
+    const siblingsOf = new Map<string, string[]>([...kidsOf.keys()].map((id) => [id, []]));
+    for (const set of sets) for (const c of set) siblingsOf.get(c)!.push(...set);
+    const splitCouples = () => couples.filter(([a, b]) => gen.get(a) !== gen.get(b)).length;
+    const splitSets = () => sets.reduce((n, set) => n + new Set(set.map((c) => gen.get(c))).size - 1, 0);
+    const descentHolds = () => [...kidsOf].every(([p, kids]) => kids.every((c) => gen.get(c)! > gen.get(p)!));
+
+    // A person's group: brothers and sisters and the partners on their row, and (withDescendants) every descendant with
+    // theirs. Both are tried, the smaller first: a person with no recorded parents can sit far above their own
+    // generation (James IV of Scotland, placed by his long Stewart line, sat alone on the Tudors' top row) while their
+    // descendants are already level with theirs, so only they should move.
+    const groupOf = (who: string, withDescendants: boolean) => {
+        const group = new Set<string>();
+        const todo = [who];
+        for (let x = todo.pop(); x !== undefined; x = todo.pop()) {
+            if (group.has(x)) continue;
+            group.add(x);
+            const row = gen.get(x)!;
+            todo.push(...siblingsOf.get(x)!, ...spousesOf.get(x)!.filter((s) => gen.get(s) === row));
+            if (withDescendants) todo.push(...kidsOf.get(x)!);
+        }
+        return group;
+    };
+
+    let best = eraSplits();
+    const couplesBefore = splitCouples();
+    const setsBefore = splitSets();
+    for (let pass = 0; pass < ERA_PASSES && best > 0; pass++) {
+        let moved = false;
+        for (const who of dated) {
+            // Rows where others of this decade sit, most of them first.
+            const rows = new Map<number, number>();
+            for (const o of dated)
+                if (o !== who && decade.get(o) === decade.get(who))
+                    rows.set(gen.get(o)!, (rows.get(gen.get(o)!) ?? 0) + 1);
+            const targets = [...rows].sort((a, b) => b[1] - a[1]).map(([r]) => r);
+            for (const to of targets) {
+                const delta = to - gen.get(who)!;
+                if (!delta) break; // already with most of their decade
+                for (const withDescendants of [false, true]) {
+                    const group = groupOf(who, withDescendants);
+                    for (const g of group) gen.set(g, gen.get(g)! + delta);
+                    const now = eraSplits();
+                    if (now < best && descentHolds() && splitCouples() <= couplesBefore && splitSets() <= setsBefore) {
+                        best = now;
+                        moved = true;
+                        break;
+                    }
+                    for (const g of group) gen.set(g, gen.get(g)! - delta); // undo
+                }
+                if (moved) break;
+            }
+        }
         if (!moved) break;
     }
     const min = Math.min(...gen.values());

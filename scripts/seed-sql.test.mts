@@ -50,9 +50,9 @@ for (const { id } of index) {
         },
         notes: all("SELECT note FROM saga_note WHERE saga_id = ? ORDER BY position", id).map((r) => r.note as string),
         houses: all("SELECT name, color FROM house WHERE saga_id = ? ORDER BY rowid", id) as SagaRecord["houses"],
-        people: all(
-            "SELECT id, name, house, sex FROM person WHERE saga_id = ? ORDER BY rowid",
-            id
+        // born is NULL where not recorded; the JSON leaves the field out then.
+        people: all("SELECT id, name, house, sex, born FROM person WHERE saga_id = ? ORDER BY rowid", id).map(
+            ({ born, ...p }) => ({ ...p, ...(born === null ? {} : { born }) })
         ) as SagaRecord["people"],
         families: all("SELECT id, adoptive FROM family WHERE saga_id = ? ORDER BY rowid", id).map((r) => ({
             id: r.id as string,

@@ -14,7 +14,7 @@
 // stepGraph matters: highlight fades set opacity targets that fadeLabels/declutter/stepNames then combine for labels.
 
 import type * as THREE from "three";
-import type { Tree } from "../data/schema.ts";
+import { bornYear, type Tree } from "../data/schema.ts";
 import { childLabel, parentLabel } from "../tree/family.ts";
 import { generations, type SiblingMode } from "../tree/generations.ts";
 import { rowOrder } from "../tree/row-order.ts";
@@ -23,7 +23,7 @@ import { type Link, type Node } from "./graph-types.ts";
 import { drawnZ, stepFlat } from "./flat.ts";
 import { elbowLinks, laneOffset, linkResolution } from "./links.ts";
 import { setCouples, setFamilies, setSiblingGroups, setUnions } from "./forces.ts";
-import { setGuides, stepGuides } from "./guides.ts";
+import { type RowEra, setGuides, stepGuides } from "./guides.ts";
 import { clearFocus, stepFades } from "./highlight.ts";
 import { declutter, fadeLabels, stepNames } from "./names.ts";
 import { setSiblings, siblings, updateSiblings } from "./siblings.ts";
@@ -127,7 +127,7 @@ export function showTree(t: Tree, mode: SiblingMode = "together"): void {
         )
     );
     setSiblings(t, byId, pairs);
-    setGuides(rows, y);
+    setGuides(rows, y, rowEras(t, gen, rows));
     markLayoutRunning();
     graph.graphData({ nodes, links });
     clearFocus();
@@ -188,4 +188,25 @@ export function stepGraph(
     declutter(camera, viewW, viewH, now);
     stepNames(dt);
     stepGuides(camera, target, viewH);
+}
+
+/**
+ * Each row's birth era, from the people on it whose dates are recorded: the label is the decade of the middle birth
+ * year ("1460s"); the span runs over the middle 60% (so one outlier doesn't stretch it), as decades ("1440s–1470s").
+ * Null for a row with no dates, which keeps its "Row n" label (as does every row of an undated saga).
+ */
+function rowEras(t: Tree, gen: Map<string, number>, rows: number): RowEra[] {
+    const years: number[][] = Array.from({ length: rows + 1 }, () => []);
+    for (const [id, p] of Object.entries(t.people)) {
+        const y = bornYear(p);
+        if (y !== null && gen.has(id)) years[gen.get(id)!].push(y);
+    }
+    const decade = (y: number) => `${Math.floor(y / 10) * 10}s`;
+    return years.map((ys) => {
+        if (!ys.length) return null;
+        ys.sort((a, b) => a - b);
+        const at = (q: number) => ys[Math.round(q * (ys.length - 1))];
+        const [lo, hi] = [decade(at(0.2)), decade(at(0.8))];
+        return { label: decade(at(0.5)), span: lo === hi ? lo : `${lo}–${hi}` };
+    });
 }

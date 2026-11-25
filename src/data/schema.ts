@@ -47,7 +47,11 @@ export type SagaRecord = {
     source: { work: string; medium: string; author: string; canon: string; genre: string; covers: string };
     notes: string[];
     houses: { name: string; color: string }[];
-    people: { id: string; name: string; house: string; sex: "m" | "f" }[];
+    /**
+     * `born` is optional: an ISO date, `YYYY-MM-DD`, with `00` for an unknown month or day (`1430-00-00` is "about
+     * 1430"). Where it's known, people born in the same decade share a row (tree/generations.ts, alignEras).
+     */
+    people: { id: string; name: string; house: string; sex: "m" | "f"; born?: string }[];
     families: { id: string; adoptive: boolean }[];
     members: { family: string; person: string; role: "parent" | "child" }[];
 };
@@ -58,7 +62,7 @@ export type SagaRecord = {
 export type Tree = {
     title: string;
     author: string;
-    people: Record<string, { name: string; house: string; sex: "m" | "f" }>;
+    people: Record<string, { name: string; house: string; sex: "m" | "f"; born?: string }>;
     families: { parents: string[]; children: string[]; adoptive?: boolean }[];
     houseColors: Record<string, string>;
 };
@@ -101,8 +105,11 @@ export function expandSaga(file: SagaFile): SagaRecord {
     const where = (i: number) => `${file.id}: family ${i + 1}`;
     const people = new Set(file.people.map((p) => p.id));
     if (people.size !== file.people.length) throw new Error(`${file.id}: duplicate person id`);
-    for (const p of file.people)
+    for (const p of file.people) {
         if (!(p.house in file.houses)) throw new Error(`${file.id}: ${p.id} is in unknown house "${p.house}"`);
+        if (p.born !== undefined && !isBorn(p.born))
+            throw new Error(`${file.id}: ${p.id} has born "${p.born}" (want YYYY-MM-DD, 00 for an unknown part)`);
+    }
     const families: SagaRecord["families"] = [];
     const members: SagaRecord["members"] = [];
     file.families.forEach((f, i) => {
@@ -131,6 +138,22 @@ export function expandSaga(file: SagaFile): SagaRecord {
         members,
     };
 }
+
+/** A `born` value: `YYYY-MM-DD`, month 00–12 and day 00–31, where 00 means unknown. */
+export const isBorn = (s: string): boolean => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+    return !!m && +m[2] <= 12 && +m[3] <= 31;
+};
+
+/** A `born` date for people to read: "28 Jan 1457", "Jan 1500" or "1430", leaving out the parts that are unknown. */
+export function bornText(born: string): string {
+    const [y, m, d] = born.split("-").map(Number);
+    const month = m ? ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][m - 1] : "";
+    return [m && d ? d : "", month, y].filter(Boolean).join(" ");
+}
+
+/** The year someone was born, if recorded (`born` is YYYY-MM-DD). */
+export const bornYear = (p: { born?: string }): number | null => (p.born ? Number(p.born.slice(0, 4)) : null);
 
 /** The reverse of expandSaga, for tools that build a normalised record (the GEDCOM importer, the conversion). */
 export function compactSaga(s: SagaRecord): SagaFile {

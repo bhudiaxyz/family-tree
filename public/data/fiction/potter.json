@@ -10,7 +10,7 @@
         "covers": "Potter, Evans/Dursley, Weasley, Black/Tonks/Lupin and Malfoy families, through the epilogue children."
     },
     "notes": [
-        "Birth dates (born) are from the Harry Potter Wiki (harrypotter.fandom.com, in English, French and German), Wikipedia and the Harry Potter Lexicon, mostly citing Pottermore; 00 marks an unknown month or day. Some are estimates there (Dudley's day, Andromeda between 1951 and 1955, Fleur c. 1976–77, Victoire 2000–2002). The next generation's years are worked out from when they start at Hogwarts (the 2017 epilogue, Cursed Child). Fleamont, Euphemia, Petunia, Vernon, Druella, Ted Tonks, Astoria and James Sirius are left undated: no confirmed date was found."
+        "Birth dates (born) are from the Harry Potter Wiki (harrypotter.fandom.com, in English, French, German and Portuguese), Wikipedia and the Harry Potter Lexicon, mostly citing Pottermore; 00 marks an unknown month or day. Some are estimates or bounds there: Dudley's day, Andromeda and Ted Tonks between 1951 and 1955, Fleur c. 1976–77, Victoire 2000–2002, Druella c. 1926–27, Astoria c. 1982, and Fleamont (on or before 1909), Petunia and Vernon (in or before 1959) recorded at the latest year given. The next generation's years are worked out from when they start at Hogwarts (the 2017 epilogue, Cursed Child). Euphemia and James Sirius are left undated: no confirmed date was found."
     ],
     "houses": {
         "Potter": "#b8342f",
@@ -32,7 +32,8 @@
             "id": "fleamont",
             "name": "Fleamont Potter",
             "house": "Potter",
-            "sex": "m"
+            "sex": "m",
+            "born": "1909-00-00"
         },
         {
             "id": "euphemia",
@@ -58,13 +59,15 @@
             "id": "petunia",
             "name": "Petunia Dursley",
             "house": "Evans",
-            "sex": "f"
+            "sex": "f",
+            "born": "1959-00-00"
         },
         {
             "id": "vernon",
             "name": "Vernon Dursley",
             "house": "Dursley",
-            "sex": "m"
+            "sex": "m",
+            "born": "1959-00-00"
         },
         {
             "id": "dudley",
@@ -209,7 +212,8 @@
             "id": "druella",
             "name": "Druella Rosier",
             "house": "Rosier",
-            "sex": "f"
+            "sex": "f",
+            "born": "1926-00-00"
         },
         {
             "id": "bellatrix",
@@ -236,7 +240,8 @@
             "id": "ted",
             "name": "Ted Tonks",
             "house": "Tonks",
-            "sex": "m"
+            "sex": "m",
+            "born": "1953-00-00"
         },
         {
             "id": "tonks",
@@ -305,7 +310,8 @@
             "id": "astoria",
             "name": "Astoria Greengrass",
             "house": "Greengrass",
-            "sex": "f"
+            "sex": "f",
+            "born": "1982-00-00"
         },
         {
             "id": "scorpius",

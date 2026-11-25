@@ -1035,7 +1035,7 @@ INSERT INTO saga (id, category, position, title, work, medium, author, canon, ge
 
 -- ── Notes (modelling choices and where sources disagree) ───────────────────────────────────────
 INSERT INTO saga_note (saga_id, position, note) VALUES
-    ('potter', 0, 'Birth dates (born) are from the Harry Potter Wiki (harrypotter.fandom.com, in English, French and German), Wikipedia and the Harry Potter Lexicon, mostly citing Pottermore; 00 marks an unknown month or day. Some are estimates there (Dudley''s day, Andromeda between 1951 and 1955, Fleur c. 1976–77, Victoire 2000–2002). The next generation''s years are worked out from when they start at Hogwarts (the 2017 epilogue, Cursed Child). Fleamont, Euphemia, Petunia, Vernon, Druella, Ted Tonks, Astoria and James Sirius are left undated: no confirmed date was found.');
+    ('potter', 0, 'Birth dates (born) are from the Harry Potter Wiki (harrypotter.fandom.com, in English, French, German and Portuguese), Wikipedia and the Harry Potter Lexicon, mostly citing Pottermore; 00 marks an unknown month or day. Some are estimates or bounds there: Dudley''s day, Andromeda and Ted Tonks between 1951 and 1955, Fleur c. 1976–77, Victoire 2000–2002, Druella c. 1926–27, Astoria c. 1982, and Fleamont (on or before 1909), Petunia and Vernon (in or before 1959) recorded at the latest year given. The next generation''s years are worked out from when they start at Hogwarts (the 2017 epilogue, Cursed Child). Euphemia and James Sirius are left undated: no confirmed date was found.');
 
 -- ── Houses (13) ────────────────────────────────────────────────────────────────────────────────
 INSERT INTO house (saga_id, name, color) VALUES
@@ -1056,7 +1056,7 @@ INSERT INTO house (saga_id, name, color) VALUES
 -- ── People (42, grouped by house) ──────────────────────────────────────────────────────────────
 -- Potter (7)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('potter', 'fleamont', 'Fleamont Potter', 'Potter', 'm', NULL),
+    ('potter', 'fleamont', 'Fleamont Potter', 'Potter', 'm', '1909-00-00'),
     ('potter', 'euphemia', 'Euphemia Potter', 'Potter', 'f', NULL),
     ('potter', 'james', 'James Potter', 'Potter', 'm', '1960-03-27'),
     ('potter', 'harry', 'Harry Potter', 'Potter', 'm', '1980-07-31'),
@@ -1066,10 +1066,10 @@ INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
 -- Evans (2)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('potter', 'lily', 'Lily Evans', 'Evans', 'f', '1960-01-30'),
-    ('potter', 'petunia', 'Petunia Dursley', 'Evans', 'f', NULL);
+    ('potter', 'petunia', 'Petunia Dursley', 'Evans', 'f', '1959-00-00');
 -- Dursley (2)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('potter', 'vernon', 'Vernon Dursley', 'Dursley', 'm', NULL),
+    ('potter', 'vernon', 'Vernon Dursley', 'Dursley', 'm', '1959-00-00'),
     ('potter', 'dudley', 'Dudley Dursley', 'Dursley', 'm', '1980-06-23');
 -- Weasley (11)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
@@ -1105,7 +1105,7 @@ INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('potter', 'regulus', 'Regulus Black', 'Black', 'm', '1961-00-00');
 -- Tonks (2)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('potter', 'ted', 'Ted Tonks', 'Tonks', 'm', NULL),
+    ('potter', 'ted', 'Ted Tonks', 'Tonks', 'm', '1953-00-00'),
     ('potter', 'tonks', 'Nymphadora Tonks', 'Tonks', 'f', '1973-00-00');
 -- Lupin (2)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
@@ -1118,10 +1118,10 @@ INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
     ('potter', 'scorpius', 'Scorpius Malfoy', 'Malfoy', 'm', '2006-00-00');
 -- Greengrass (1)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('potter', 'astoria', 'Astoria Greengrass', 'Greengrass', 'f', NULL);
+    ('potter', 'astoria', 'Astoria Greengrass', 'Greengrass', 'f', '1982-00-00');
 -- Rosier (1)
 INSERT INTO person (saga_id, id, name, house, sex, born) VALUES
-    ('potter', 'druella', 'Druella Rosier', 'Rosier', 'f', NULL);
+    ('potter', 'druella', 'Druella Rosier', 'Rosier', 'f', '1926-00-00');
 
 -- ── Families (13, each followed by its members) ────────────────────────────────────────────────
 -- potter-f1: Fleamont Potter + Euphemia Potter → James Potter

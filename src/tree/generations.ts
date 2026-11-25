@@ -305,19 +305,18 @@ function alignEras(t: Tree, gen: Map<string, number>, kidsOf: Map<string, string
     const splitSets = () => sets.reduce((n, set) => n + new Set(set.map((c) => gen.get(c))).size - 1, 0);
     const descentHolds = () => [...kidsOf].every(([p, kids]) => kids.every((c) => gen.get(c)! > gen.get(p)!));
 
-    // A person's group: brothers and sisters and the partners on their row, and (withDescendants) every descendant with
-    // theirs. Both are tried, the smaller first: a person with no recorded parents can sit far above their own
-    // generation (James IV of Scotland, placed by his long Stewart line, sat alone on the Tudors' top row) while their
-    // descendants are already level with theirs, so only they should move.
-    const groupOf = (who: string, withDescendants: boolean) => {
+    // A person's group: brothers and sisters and the partners on their row, then every descendant with theirs. (A
+    // person held high by one child's long line can't move: James IV of Scotland stays on the Tudors' top row, above
+    // his 1470s peers, because his daughter Janet's descendants pin her, and moving her would part her from her
+    // husband. Rows with too few dates to speak for them keep "Row n" labels: graph/graph.ts rowEras.)
+    const groupOf = (who: string) => {
         const group = new Set<string>();
         const todo = [who];
         for (let x = todo.pop(); x !== undefined; x = todo.pop()) {
             if (group.has(x)) continue;
             group.add(x);
             const row = gen.get(x)!;
-            todo.push(...siblingsOf.get(x)!, ...spousesOf.get(x)!.filter((s) => gen.get(s) === row));
-            if (withDescendants) todo.push(...kidsOf.get(x)!);
+            todo.push(...siblingsOf.get(x)!, ...kidsOf.get(x)!, ...spousesOf.get(x)!.filter((s) => gen.get(s) === row));
         }
         return group;
     };
@@ -337,18 +336,15 @@ function alignEras(t: Tree, gen: Map<string, number>, kidsOf: Map<string, string
             for (const to of targets) {
                 const delta = to - gen.get(who)!;
                 if (!delta) break; // already with most of their decade
-                for (const withDescendants of [false, true]) {
-                    const group = groupOf(who, withDescendants);
-                    for (const g of group) gen.set(g, gen.get(g)! + delta);
-                    const now = eraSplits();
-                    if (now < best && descentHolds() && splitCouples() <= couplesBefore && splitSets() <= setsBefore) {
-                        best = now;
-                        moved = true;
-                        break;
-                    }
-                    for (const g of group) gen.set(g, gen.get(g)! - delta); // undo
+                const group = groupOf(who);
+                for (const g of group) gen.set(g, gen.get(g)! + delta);
+                const now = eraSplits();
+                if (now < best && descentHolds() && splitCouples() <= couplesBefore && splitSets() <= setsBefore) {
+                    best = now;
+                    moved = true;
+                    break;
                 }
-                if (moved) break;
+                for (const g of group) gen.set(g, gen.get(g)! - delta); // undo
             }
         }
         if (!moved) break;

@@ -190,20 +190,28 @@ export function stepGraph(
     stepGuides(camera, target, viewH);
 }
 
+const ERA_SHARE = 0.2; // a row is labelled with its era only if at least this share of its people are dated
+
 /**
  * Each row's birth era, from the people on it whose dates are recorded: the label is the decade of the middle birth
  * year ("1460s"); the span runs over the middle 60% (so one outlier doesn't stretch it), as decades ("1440s–1470s").
- * Null for a row with no dates, which keeps its "Row n" label (as does every row of an undated saga).
+ * Null for a row with no dates, or too few (under ERA_SHARE of its people), which keeps its "Row n" label (as does every
+ * row of an undated saga).
  */
 function rowEras(t: Tree, gen: Map<string, number>, rows: number): RowEra[] {
     const years: number[][] = Array.from({ length: rows + 1 }, () => []);
+    const people = new Array<number>(rows + 1).fill(0);
     for (const [id, p] of Object.entries(t.people)) {
+        if (!gen.has(id)) continue;
+        people[gen.get(id)!]++;
         const y = bornYear(p);
-        if (y !== null && gen.has(id)) years[gen.get(id)!].push(y);
+        if (y !== null) years[gen.get(id)!].push(y);
     }
     const decade = (y: number) => `${Math.floor(y / 10) * 10}s`;
-    return years.map((ys) => {
-        if (!ys.length) return null;
+    return years.map((ys, row) => {
+        // Only where enough of the row is dated to speak for it: one lone date (James IV, the only dated person on the
+        // Tudors' top row) labelled a whole row of his elders "1470s".
+        if (!ys.length || ys.length < ERA_SHARE * people[row]) return null;
         ys.sort((a, b) => a - b);
         const at = (q: number) => ys[Math.round(q * (ys.length - 1))];
         const [lo, hi] = [decade(at(0.2)), decade(at(0.8))];

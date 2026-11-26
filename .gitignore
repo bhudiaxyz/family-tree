@@ -16,9 +16,6 @@ _swim_tmp.mjs
 # Local captures, references, and binary artwork
 shots/
 ref_images/
-*.png
-*.jpg
-*.jpeg
 *.webp
 *.avif
 *.gif
@@ -47,6 +44,7 @@ ref_images/
 *.md
 !README.md
 !DESIGN.md
+!CONTRIBUTING.md
 
 # Local environment and logs
 .env
@@ -63,3 +61,7 @@ pnpm-debug.log*
 test-results/
 playwright-report/
 blob-report/
+
+# Project icons (generated from public/icons/icon.svg)
+!public/icons/*.svg
+!public/icons/*.png
